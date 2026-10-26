@@ -6,7 +6,7 @@
       "sprite": "road-tile-wagon",
       "laid": "along",
       "subject": "A dry rutted dirt wagon road surface: packed tan and ochre earth (light sand-tan #d1bc8f to warm khaki #c2ac7d) with darker umber hollows, scuffed by ox hooves and wheels running in every direction, scattered small pebbles and grit, a few cracks, faint scattered wisps of dry straw.",
-      "candidate": 1,
+      "candidate": 8,
       "crop": null,
       "target": [
         198,
@@ -20,13 +20,8 @@
       "sprite": "road-tile-street",
       "laid": "flat",
       "subject": "The trampled packed-earth street of a small frontier town: hard smooth light-tan clay (#d1bc8f) worn by feet, hooves and cart wheels, with faint overlapping hoofprints and footprints, a little loose grey grit, a few scattered small stones and wisps of trodden straw, subtle paler and darker patches.",
-      "candidate": 4,
-      "crop": [
-        0,
-        160,
-        864,
-        1024
-      ],
+      "candidate": 8,
+      "crop": null,
       "target": [
         204,
         186,
@@ -53,7 +48,7 @@
       "sprite": "road-tile-verge",
       "laid": "flat",
       "subject": "The worn grassy verge beside a dirt road: short trampled sage and olive-green prairie grass (#9fbe73, #8fa865) thinned by wheels and hooves, with many small patches of bare tan earth (#c2ac7d) showing through, dry yellowed blades and tiny clover.",
-      "candidate": 2,
+      "candidate": 1,
       "crop": null,
       "target": [
         166,

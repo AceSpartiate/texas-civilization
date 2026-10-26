@@ -180,6 +180,14 @@ on the four chosen. Check on the map at the students' zooms, against the 10-13 *
 - If the 4B tiles are worse than the 9B ones at play size, the fallback is the old flat strokes (remove the sheet). They
   never go back to 9B.
 
+### Batch 0 done (2026-10-26, branch `standins-1025`, not released)
+
+Repainted with klein 4B ([ART_DELIVERY_2026-10-26-ROAD-TILES-4B.md](ART_DELIVERY_2026-10-26-ROAD-TILES-4B.md)): wagon s8, street s8,
+path s1, verge s1 of eight candidates each (seeds 1-4 the bake-off's klein 4B reference edits, reused; 5-8 text alone). 16 GPU
+jobs at ~4 s each. `generate.py` is on `tx_workflows`, the delivery's text says what `finish.py` does (quilting), the 9B raw
+paintings are deleted from the tree, `tests/art-licence.test.mjs` passes and was proved by injection. Measured speed for the
+summary: ~4-8 s a picture warm, so the table's estimates stand as upper bounds.
+
 ---
 
 ## Batch 1: the rider scenes' backdrops (request 2026-10-05, E40-E44) and the courtship yards (E19)

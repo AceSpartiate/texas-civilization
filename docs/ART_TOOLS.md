@@ -16,11 +16,12 @@ output reaches a shipped pixel.
 **FLUX.2 klein 9B is refused** (FLUX Non-Commercial License v2.1: §1(c) excludes revenue-generating use, §4(a) forbids
 commercial or production use). It is the shared toolkit's default, so a Texas job never calls the toolkit's painting
 scripts directly (`batch_run.py`, `crop_edit.py`, `workflows.edit`/`text_to_image` with their default `model`). It goes
-through the Texas builder, `scripts/local-art/tx_workflows.py`, which can select only FLUX.2 klein 4B fp8 (A) or
-HiDream-O1-Image fp8_scaled (B) and refuses any other loader. `scripts/local-art/licence_check.py <png|folder>` reads the
+through the Texas builder, `scripts/local-art/tx_workflows.py`, which can select only FLUX.2 klein 4B fp8 (the owner's pick,
+2026-10-26; HiDream-O1, the bake-off's B, was removed from the machine on 2026-10-25 and can no longer be selected) and refuses
+any other loader. `scripts/local-art/licence_check.py <png|folder>` reads the
 workflow ComfyUI embeds in each output PNG and refuses any picture made by anything else, or with no workflow in it (it
 refuses the four 2026-10-13 9B road paintings from their own files). Z-Image Turbo is licence-allowed below but is not
-selectable by the builder (owner's bake-off brief, 2026-10-25: a Texas job selects A or B).
+selectable by the builder (owner's bake-off brief, 2026-10-25, and pick, 2026-10-26: klein 4B).
 
 ## Painting models
 

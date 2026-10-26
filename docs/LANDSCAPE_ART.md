@@ -12,7 +12,8 @@ Checks: real-map Gonzales browser rendering and phone width pass. Existing simul
 
 Owner, 2026-10-13: *"use our new image generation setup to improve roads."* The roads, the town streets and squares, and a
 family's paths and yard are now laid in four painted tiles - the first art in the library from the owner's local pipeline
-(ComfyUI + FLUX.2 klein 9B; see [ART_DELIVERY_2026-10-13-ROAD-TILES.md](ART_DELIVERY_2026-10-13-ROAD-TILES.md)). So the
+(ComfyUI + FLUX.2 klein: painted with klein 9B on 2026-10-13, [ART_DELIVERY_2026-10-13-ROAD-TILES.md](ART_DELIVERY_2026-10-13-ROAD-TILES.md), and
+repainted with klein 4B on 2026-10-26, whose licence allows the game to be sold, [ART_DELIVERY_2026-10-26-ROAD-TILES-4B.md](ART_DELIVERY_2026-10-26-ROAD-TILES-4B.md)). So the
 paragraph above is no longer the whole truth: the verge, the dirt, the packed street and the trodden path are a raster now,
 with recorded prompts and provenance; the geometry they are laid along, the widths and the crossings are unchanged.
 

@@ -1,8 +1,8 @@
 // The painted ground a road, a town's street and a family's path are laid in (owner, 2026-10-13: "use our new image generation
 // setup to improve roads").
 //
-// Four tiles painted with the owner's local pipeline (ComfyUI + FLUX.2 klein; scripts/road-art/) and delivered on one sheet,
-// `ground-roads` (scripts/art-deliveries/road-textures-2026-10-13.mjs): the wagon road's rutted dirt, the town street's packed
+// Four tiles painted with the owner's local pipeline (ComfyUI + FLUX.2 klein 4B, repainted 2026-10-26; scripts/road-art/) and delivered on one sheet,
+// `ground-roads` (scripts/art-deliveries/local-ground-roads-2026-10-26.mjs): the wagon road's rutted dirt, the town street's packed
 // earth, the trodden path and the worn grass verge either side of a road. Two kinds of tile:
 //
 //   - **laid flat** (the street, the verge): no direction in them, seamless both ways, filled as a pattern pinned to the world's

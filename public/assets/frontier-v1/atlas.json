@@ -26854,6 +26854,64 @@
         ]
       }
     },
+    "ground-roads": {
+      "image": "atlases/ground-roads.png",
+      "width": 1536,
+      "height": 1536,
+      "bytes": 1774179,
+      "sha256": "ad23430034575c9f07d61b6e7e658f4a9046b11f1a3a1e3c0d6dc9939d1877b8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.555556,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              126,
+              642
+            ],
+            "columns": [
+              [
+                126,
+                642
+              ],
+              [
+                894,
+                1410
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              894,
+              1410
+            ],
+            "columns": [
+              [
+                126,
+                642
+              ],
+              [
+                894,
+                1410
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "marsh-edge": {
       "image": "atlases/marsh-edge.png",
       "width": 2172,
@@ -32086,64 +32144,6 @@
               [
                 695,
                 1196
-              ]
-            ]
-          }
-        ]
-      }
-    },
-    "ground-roads": {
-      "image": "atlases/ground-roads.png",
-      "width": 1536,
-      "height": 1536,
-      "bytes": 1953906,
-      "sha256": "8f11afc18367f3163c9241ccce1e7d23403574b8cb2cca94a4fdea9c7e49bc5f",
-      "alpha": {
-        "threshold": 24,
-        "transparentFraction": 0.555556,
-        "cornerAlpha": [
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      "layout": {
-        "rows": 2,
-        "columns": 2,
-        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
-        "measuredRows": [
-          {
-            "row": 1,
-            "yRange": [
-              126,
-              642
-            ],
-            "columns": [
-              [
-                126,
-                642
-              ],
-              [
-                894,
-                1410
-              ]
-            ]
-          },
-          {
-            "row": 2,
-            "yRange": [
-              894,
-              1410
-            ],
-            "columns": [
-              [
-                126,
-                642
-              ],
-              [
-                894,
-                1410
               ]
             ]
           }
@@ -119495,6 +119495,102 @@
         "retainedFraction": 1
       }
     },
+    "road-tile-wagon": {
+      "sheet": "ground-roads",
+      "x": 126,
+      "y": 126,
+      "w": 516,
+      "h": 516,
+      "anchorX": 0.499,
+      "anchorY": 0.9283,
+      "label": "road tile wagon",
+      "kind": "ground-roads",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          128,
+          128,
+          512,
+          512
+        ],
+        "visiblePixels": 262144,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "road-tile-street": {
+      "sheet": "ground-roads",
+      "x": 894,
+      "y": 126,
+      "w": 516,
+      "h": 516,
+      "anchorX": 0.499,
+      "anchorY": 0.9283,
+      "label": "road tile street",
+      "kind": "ground-roads",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          896,
+          128,
+          512,
+          512
+        ],
+        "visiblePixels": 262144,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "road-tile-path": {
+      "sheet": "ground-roads",
+      "x": 126,
+      "y": 894,
+      "w": 516,
+      "h": 516,
+      "anchorX": 0.499,
+      "anchorY": 0.9283,
+      "label": "road tile path",
+      "kind": "ground-roads",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          128,
+          896,
+          512,
+          512
+        ],
+        "visiblePixels": 262144,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "road-tile-verge": {
+      "sheet": "ground-roads",
+      "x": 894,
+      "y": 894,
+      "w": 516,
+      "h": 516,
+      "anchorX": 0.499,
+      "anchorY": 0.9283,
+      "label": "road tile verge",
+      "kind": "ground-roads",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          896,
+          896,
+          512,
+          512
+        ],
+        "visiblePixels": 262144,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
     "marsh-edge-dense-1": {
       "sheet": "marsh-edge",
       "x": 130,
@@ -134229,102 +134325,6 @@
           323
         ],
         "visiblePixels": 70761,
-        "trimmedPixels": 0,
-        "retainedFraction": 1
-      }
-    },
-    "road-tile-wagon": {
-      "sheet": "ground-roads",
-      "x": 126,
-      "y": 126,
-      "w": 516,
-      "h": 516,
-      "anchorX": 0.499,
-      "anchorY": 0.9283,
-      "label": "road tile wagon",
-      "kind": "ground-roads",
-      "row": 1,
-      "column": 1,
-      "audit": {
-        "sourceBounds": [
-          128,
-          128,
-          512,
-          512
-        ],
-        "visiblePixels": 262144,
-        "trimmedPixels": 0,
-        "retainedFraction": 1
-      }
-    },
-    "road-tile-street": {
-      "sheet": "ground-roads",
-      "x": 894,
-      "y": 126,
-      "w": 516,
-      "h": 516,
-      "anchorX": 0.499,
-      "anchorY": 0.9283,
-      "label": "road tile street",
-      "kind": "ground-roads",
-      "row": 1,
-      "column": 2,
-      "audit": {
-        "sourceBounds": [
-          896,
-          128,
-          512,
-          512
-        ],
-        "visiblePixels": 262144,
-        "trimmedPixels": 0,
-        "retainedFraction": 1
-      }
-    },
-    "road-tile-path": {
-      "sheet": "ground-roads",
-      "x": 126,
-      "y": 894,
-      "w": 516,
-      "h": 516,
-      "anchorX": 0.499,
-      "anchorY": 0.9283,
-      "label": "road tile path",
-      "kind": "ground-roads",
-      "row": 2,
-      "column": 1,
-      "audit": {
-        "sourceBounds": [
-          128,
-          896,
-          512,
-          512
-        ],
-        "visiblePixels": 262144,
-        "trimmedPixels": 0,
-        "retainedFraction": 1
-      }
-    },
-    "road-tile-verge": {
-      "sheet": "ground-roads",
-      "x": 894,
-      "y": 894,
-      "w": 516,
-      "h": 516,
-      "anchorX": 0.499,
-      "anchorY": 0.9283,
-      "label": "road tile verge",
-      "kind": "ground-roads",
-      "row": 2,
-      "column": 2,
-      "audit": {
-        "sourceBounds": [
-          896,
-          896,
-          512,
-          512
-        ],
-        "visiblePixels": 262144,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

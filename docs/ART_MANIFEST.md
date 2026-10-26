@@ -313,6 +313,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-wagon-passenger | 6 | 1024 × 1536 | 2003734 |
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
+| ground-roads | 4 | 1536 × 1536 | 1774179 |
 | marsh-edge | 8 | 2172 × 724 | 1222516 |
 | marsh-wading | 8 | 1774 × 887 | 1112271 |
 | military-camp-life | 16 | 1254 × 1254 | 1457813 |
@@ -370,7 +371,6 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
 | ferry-flatboat | 3 | 1254 × 1254 | 203701 |
 | steamboat-moored | 4 | 1254 × 1254 | 799173 |
-| ground-roads | 4 | 1536 × 1536 | 1953906 |
 | house-roof-joins | 3 | 1448 × 1086 | 1332934 |
 | interior-saddlebag | 1 | 1860 × 846 | 1858682 |
 | people-sj-camp-cast1 | 16 | 1254 × 1254 | 821534 |
@@ -3398,6 +3398,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | live-oak-mott-dense-2 | live-oak-mott | live-oak-mott-dense-wind |
 | live-oak-mott-open-1 | live-oak-mott | live-oak-mott-open-wind |
 | live-oak-mott-open-2 | live-oak-mott | live-oak-mott-open-wind |
+| road-tile-wagon | ground-roads | State artwork; no motion required |
+| road-tile-street | ground-roads | State artwork; no motion required |
+| road-tile-path | ground-roads | State artwork; no motion required |
+| road-tile-verge | ground-roads | State artwork; no motion required |
 | marsh-edge-dense-1 | marsh-edge | marsh-edge-dense |
 | marsh-edge-dense-2 | marsh-edge | marsh-edge-dense |
 | marsh-edge-dense-3 | marsh-edge | marsh-edge-dense |
@@ -3993,10 +3997,6 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored-2 | steamboat-moored | steamboat-moored |
 | steamboat-moored-3 | steamboat-moored | steamboat-gangplank |
 | steamboat-moored-4 | steamboat-moored | steamboat-cotton-moored |
-| road-tile-wagon | ground-roads | State artwork; no motion required |
-| road-tile-street | ground-roads | State artwork; no motion required |
-| road-tile-path | ground-roads | State artwork; no motion required |
-| road-tile-verge | ground-roads | State artwork; no motion required |
 | house-roof-join | house-roof-joins | house-roof-join |
 | house-roof-join-partial | house-roof-joins | house-roof-join-partial |
 | house-roof-join-chimney | house-roof-joins | house-roof-join-chimney |

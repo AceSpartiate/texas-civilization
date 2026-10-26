@@ -1,14 +1,13 @@
 """The only ComfyUI workflows a Texas Civilization art job may run (plan: docs/ART_PLAN_LOCAL_2026-10-25.md §0.2).
 
 The owner may sell this game, so every painted pixel comes from a model whose licence allows commercial use
-(docs/ART_TOOLS.md). Two painting models are allowed, and nothing else can be selected here:
+(docs/ART_TOOLS.md). One painting model is allowed (the owner's pick, 2026-10-26), and nothing else can be selected here:
 
     'klein4b'     A: FLUX.2 klein 4B fp8 (Apache-2.0), its Qwen3-4B fp8-mixed text encoder and the FLUX.2 VAE.
                      Built from the shared toolkit's klein templates (E:/VN-Tools/asset-toolkit/workflows.py), with the
                      model pinned to 4B: the toolkit's default is klein 9B, which is non-commercial and refused.
-    'hidream-o1'  B: HiDream-O1-Image full, fp8_scaled (MIT). One checkpoint holds the model, its text encoder and
-                     its decoder. Built from ComfyUI's own template (E:/Ollama/comfyui/workflows/image_hidream_o1.json)
-                     with the Gemma prompt-refine branch left out (it is off in the template too).
+    ('hidream-o1' was the 2026-10-25 bake-off's B, HiDream-O1-Image fp8_scaled (MIT). It lost and was removed from the
+     machine; its builder below is the bake-off's record and is no longer in BUILDERS, and its checkpoint is not allowed.)
 
     from tx_workflows import build, assert_allowed
     wf = build('klein4b', prompt, refs=[uploaded names], width=1024, height=1024, seed=1, prefix='x')
@@ -39,7 +38,6 @@ ALLOWED_FILES = {
     ('UNETLoader', 'unet_name'): {KLEIN4B},
     ('CLIPLoader', 'clip_name'): {QWEN4B, QWEN4B_FULL},
     ('VAELoader', 'vae_name'): {FLUX2_VAE},
-    ('CheckpointLoaderSimple', 'ckpt_name'): {HIDREAM},
 }
 # Nodes that would bring another model's output into a picture: the template's Gemma prompt rewriter.
 REFUSED_CLASSES = {'TextGenerate'}
@@ -144,7 +142,10 @@ def hidream_o1(prompt, refs=(), width=2048, height=2048, seed=0, steps=40, cfg=5
     return wf
 
 
-BUILDERS = {'klein4b': klein4b, 'hidream-o1': hidream_o1}
+# HiDream-O1 lost the 2026-10-25 bake-off and was removed from this machine the same day (~/.claude/LOCAL_AI.md); the owner
+# picked klein 4B on 2026-10-26. Its builder is kept above for the bake-off's record but can no longer be selected, and its
+# checkpoint is no longer an allowed file, so licence_check.py refuses a HiDream picture too.
+BUILDERS = {'klein4b': klein4b}
 
 
 def build(model, prompt, **kw):

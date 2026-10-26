@@ -1,9 +1,9 @@
-"""Turn the chosen road candidates (scripts/road-art/generate.py) into the game's seamless tiles and their sheet (2026-10-13).
+"""Turn the chosen road candidates (scripts/road-art/generate.py) into the game's seamless tiles and their sheet (2026-10-13; the klein 4B repaint, 2026-10-26).
 
     python scripts/road-art/finish.py <work_dir> [<raw_dir>]     CPU only: seam, colour, size to 512, pack, the 3x3 check
 
 Reads <raw_dir>/<texture>-s<seed>_00001_.png (default <work_dir>/raw), the chosen candidate of each
-(scripts/road-art/textures.json; the four as painted are kept in docs/art-sources/ground-roads-2026-10-13/raw/), and writes
+(scripts/road-art/textures.json; the four as painted are kept in docs/art-sources/ground-roads-2026-10-26/raw/), and writes
 <work_dir>/final/: each tile at 1024 (`<texture>-1024.png`) and 512, `ground-roads.png` and `tiling-3x3.png`. Deterministic:
 the same raw paintings make the same sheet.
 
@@ -21,7 +21,7 @@ How a tile is made seamless, from the painting's own pixels and nothing else:
 A tile laid along a road (`along`: the ruts, the trodden line) only has to repeat down its length, so it is rolled down only,
 and the band is cut from the same columns, so the ruts run straight through it. A tile laid flat is done down and then across.
 
-Tried first and rejected, 2026-10-13: repainting the seam with a FLUX.2 klein reference edit of the rolled tile (4 seeds, two
+Tried first and rejected, 2026-10-13: repainting the seam with a FLUX.2 klein (9B) reference edit of the rolled tile (4 seeds, two
 passes through the GPU lease). Shown the seam, the edit kept the line; shown it blurred, it kept the blur. A reference edit
 holds to its reference, which is what it is for.
 

@@ -1,5 +1,23 @@
 # Claude handoff — Astra foundation
 
+## Stand-ins replaced with the local pipeline on FLUX.2 klein 4B, batches 0-6 — 2026-10-26 (branch `standins-1025`, not released)
+
+The owner picked FLUX.2 klein 4B fp8 (Apache-2.0) after the [bake-off](docs/ART_BAKEOFF_2026-10-25.md) and said start on the
+RTX 4080. Batches of docs/ART_PLAN_LOCAL_2026-10-25.md, one commit each, in the owner's order (0, 1, 2, 3, 4, 5, the tool parts,
+then batch 6 as an 8-job pilot only). Every painting is built by `scripts/local-art/tx_workflows.py` (klein 4B only; HiDream-O1
+is no longer selectable, as it was removed from the machine) and runs through the shared toolkit's lease; every candidate's
+own file is read by `scripts/local-art/licence_check.py`; `tests/art-licence.test.mjs` holds the registry to klein 4B.
+Pipeline art counts as finished art (owner, 2026-10-25): it closes its request and retires the stand-in; Astra's drawing wins if
+she later makes one. Each batch's rows, prompts, references, seeds and picks are in `scripts/local-art/records/`; the painter's
+review sheets and chosen paintings in `docs/art-sources/<group>-2026-10-26/`.
+
+- **Batch 0, the road tiles** ([delivery](docs/ART_DELIVERY_2026-10-26-ROAD-TILES-4B.md)). The klein 9B `ground-roads` tiles of
+  v2026.10.13.1 repainted with klein 4B: same names, sheet, wiring and finish. Picks wagon s8, street s8, path s1, verge s1 of
+  eight each (seeds 1-4 the bake-off's own klein 4B reference edits, 5-8 text alone, painted today). The 9B paintings are gone
+  from `docs/art-sources/`. At play size they read as the 9B ones did
+  ([roads-4b-compare.png](docs/evidence/roads-4b-compare.png)). 16 GPU jobs, ~4 s each on the 4060 Ti (Parsec tier, ComfyUI
+  already there); the lease waited 90 min behind another project's upscale.
+
 ## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, not released)
 
 Batch W of docs/ART_PLAN_LOCAL_2026-10-25.md: the drawings Astra delivered on 2026-10-11 and 10-12 that were in the library but
