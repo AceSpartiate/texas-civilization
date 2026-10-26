@@ -1,0 +1,3 @@
+{"roads": {"klein4b": {"road-wagon": [2, 3], "street-earth": [1, 2], "path-trodden": [2, 1], "road-verge": [1, 3]},
+           "hidream-o1": {"road-wagon": [3, 4], "street-earth": [3, 4], "path-trodden": [2, 4], "road-verge": [1, 3]}},
+ "scene": {"klein4b": [1, 3], "hidream-o1": [1, 3]}}

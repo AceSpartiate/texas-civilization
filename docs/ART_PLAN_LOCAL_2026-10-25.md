@@ -1,6 +1,8 @@
 # Replacing stand-ins with the local image pipeline: the plan (2026-10-25)
 
-**Status: approved by the owner on 2026-10-25 (see *Decisions*); batch W is done (no GPU). No GPU job has been run for it.** Another project holds both cards. Owner,
+**Status: approved by the owner on 2026-10-25 (see *Decisions*); batch W is done (no GPU). A model bake-off ran on
+2026-10-25 (klein 4B against HiDream-O1, [ART_BAKEOFF_2026-10-25.md](ART_BAKEOFF_2026-10-25.md)); the owner picks the model
+before batch 0 runs. `scripts/local-art/` (tx_workflows, licence_check, paint) exists from it.** Owner,
 2026-10-25: *"check the licence then start replacing stand-ins"* and *"repaint the road tiles first"*. This is step 1 of
 the asset-pipeline method: list every image, stage it on paper, and get the owner's OK before painting.
 

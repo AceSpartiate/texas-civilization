@@ -16,13 +16,18 @@ output reaches a shipped pixel.
 **FLUX.2 klein 9B is refused** (FLUX Non-Commercial License v2.1: §1(c) excludes revenue-generating use, §4(a) forbids
 commercial or production use). It is the shared toolkit's default, so a Texas job never calls the toolkit's painting
 scripts directly (`batch_run.py`, `crop_edit.py`, `workflows.edit`/`text_to_image` with their default `model`). It goes
-through the Texas builder that pins klein 4B (plan §0.2).
+through the Texas builder, `scripts/local-art/tx_workflows.py`, which can select only FLUX.2 klein 4B fp8 (A) or
+HiDream-O1-Image fp8_scaled (B) and refuses any other loader. `scripts/local-art/licence_check.py <png|folder>` reads the
+workflow ComfyUI embeds in each output PNG and refuses any picture made by anything else, or with no workflow in it (it
+refuses the four 2026-10-13 9B road paintings from their own files). Z-Image Turbo is licence-allowed below but is not
+selectable by the builder (owner's bake-off brief, 2026-10-25: a Texas job selects A or B).
 
 ## Painting models
 
 | Model | Source | Bytes | sha256 | Licence | Path | Use | Status |
 | --- | --- | ---: | --- | --- | --- | --- | --- |
 | FLUX.2 klein 4B fp8 | huggingface.co/black-forest-labs/FLUX.2-klein-4b-fp8 | 4,070,624,520 | `97ed34fe0567e436200f2faee3939b88f2b5d99f8af2a4dc16532c4245c0ccb6` (rechecked on disk 2026-10-25) | Apache-2.0 | `D:\VN-Tools\ComfyUI_windows_portable\ComfyUI\models\diffusion_models\flux-2-klein-4b-fp8.safetensors` | Painting from text and reference edits for every Texas job | **allowed**, owner-approved 2026-10-25 |
+| HiDream-O1-Image full, fp8_scaled | huggingface.co/Comfy-Org/HiDream-O1-Image | 8,067,535,296 | `05ad98bc4a94557697f31b839f6dbf6dba293a353d9e3c52eef7818b5802d206` (rechecked on disk 2026-10-25) | MIT | `D:\VN-Tools\ComfyUI_windows_portable\ComfyUI\models\checkpoints\hidream_o1_image_fp8_scaled.safetensors` | Painting from text, instruction edits from references (up to 10), skeleton/layout conditioning. One checkpoint: its own text encoder and decoder, no separate VAE. Native in ComfyUI 0.39 (template `E:\Ollama\comfyui\workflows\image_hidream_o1.json`); the full model, not Dev, for edits. The template's Gemma prompt-refine branch is not used | **allowed**, owner-approved 2026-10-25; in the bake-off ([ART_BAKEOFF_2026-10-25.md](ART_BAKEOFF_2026-10-25.md)) |
 | Qwen3 4B text encoder, fp8 mixed | huggingface.co/Comfy-Org/z_image_turbo (split files) | 5,631,994,051 | n/a | Apache-2.0 | `E:\VN-Tools\comfy_models\text_encoders\qwen_3_4b_fp8_mixed.safetensors` | klein 4B's text encoder (CLIPLoader type `flux2`) and Z-Image's (`lumina2`) | **allowed**. klein 4B with this file has not been run yet: the batch 0 smoke job proves it |
 | FLUX.2 VAE | huggingface.co/Comfy-Org/vae-text-encorder-for-flux-klein-4b | 336,211,292 | n/a | Apache-2.0 (Black Forest Labs' FLUX.2 VAE release; reread the model card before batch 0) | `D:\VN-Tools\ComfyUI_windows_portable\ComfyUI\models\vae\flux2-vae.safetensors` | klein 4B's VAE | **allowed** |
 | Z-Image Turbo bf16 + `z_image_ae` VAE | huggingface.co/Comfy-Org/z_image_turbo | 12,309,866,400 + 335,304,388 | n/a | Apache-2.0 | `E:\VN-Tools\comfy_models\{diffusion_models\z_image_turbo_bf16, vae\z_image_ae}.safetensors` | Plain text-to-image only (it has no reference edit) | **allowed** |
