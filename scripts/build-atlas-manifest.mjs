@@ -582,6 +582,14 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
     };
   });
 }
+// Whole opaque paintings (the local pipeline's backdrops, 2026-10-26: rider scenes, courtship yards, the hunter's fields) are
+// drawn to cover a screen (public/cutscene.js `drawCover`): each frame is the painting's exact rectangle, with no padding of
+// clear pixels to show as a hairline at the screen's edge, anchored at its foot's middle.
+const BACKDROP_SHEET = /^(scenes-local-|hunt-fields-local-)/;
+for (const f of Object.values(frames)) if (BACKDROP_SHEET.test(f.sheet)) {
+  const [x, y, w, h] = f.audit.sourceBounds;
+  Object.assign(f, { x, y, w, h, anchorX: 0.5, anchorY: 1, logicalHeight: h, backdrop: true });
+}
 // Rig parts have explicit painted sockets. All aliases retain exact source bounds; no raster edits.
 for(const [sheet,info] of Object.entries(sheets))if(sheet.startsWith('rig-')){
  const list=Object.values(frames).filter(f=>f.sheet===sheet);

@@ -12,9 +12,12 @@
 // The words go along the foot of the screen in the meeting's own strip (public/app.js `renderEncounter`, which paces them a line
 // at a time); this tells it when the rider has got down and the talk can begin (`ready`), and is told who is speaking (`speaker`).
 //
-// Backdrops. stand-in: docs/ART_REQUESTS.md, request 2026-10-05 - rider scenes' backdrops: until the painted backdrops are drawn,
-// the ground of each scene is the map's own ground at that spot (the flashback's `flashbackGround`, public/app.js), laid back
-// toward a painted sky as a field seen from where the people stand, with the library's buildings, tents and trees set on it.
+// Backdrops (request 2026-10-05 - rider scenes' backdrops, painted 2026-10-26 with the local pipeline, FLUX.2 klein 4B,
+// docs/ART_DELIVERY_2026-10-26-LOCAL-SCENES.md): each place away from home is one whole painting (`backdropOf`), drawn to
+// cover the scene and graded for the hour. The family's own yard by day is the map's own ground at that spot (the flashback's
+// `flashbackGround`, public/app.js), laid back toward a painted sky, with the family's house and field set on it; by night the
+// painted night yard with the house and field on it. A painting that has not loaded, and an Irish colony's town (none was
+// asked for), fall back to that assembly: the map's ground with the library's buildings, tents and trees set on it.
 import { clipInfo, drawClip, drawSprite, sampleClip, spriteFrame } from './art.js';
 import { clamp, clipFor, createStage, personHeight, placeCast, reducedMotion, skyTones } from './cutscene.js';
 import { castVariant } from './motion.js';
@@ -34,8 +37,9 @@ export const SCENE_PERSON = 0.24;
 export const COURIER_MAN = 190, COURIER_MOUNTED = 239;
 
 /**
- * The buildings of a town's street by who built it. stand-in: docs/ART_REQUESTS.md, request 2026-10-05 - rider scenes' backdrops,
- * items 1-2. ceiling: by who built the town, not each town's own buildings; a street painted for each researched town would undo it.
+ * The buildings of a town's street by who built it, set on the map's ground where no painted street is drawn (an Irish colony's
+ * town, or a painting not yet loaded). ceiling: by who built the town, not each town's own buildings, and so are the painted
+ * streets (`backdropOf`); a street painted for each researched town would undo it.
  */
 export const STREET = Object.freeze({
   gonzales: ['storehouse', 'shop-blacksmith', 'cabin-wide', 'shop-carpenter'],
@@ -55,8 +59,30 @@ const SIZE = Object.freeze({
 });
 const HOUSE_ART = Object.freeze({ 'round-log': 'house-round-log', 'hewn-log': 'house-hewn-log', 'dog-run': 'house-dog-run', jacal: 'house-jacal', saddlebag: 'house-round-log' });
 
-/** The pieces set on the ground of a setting: what, where across the screen (0 to 1), how far back (0 at the people, 1 the horizon). */
-export function piecesOf(setting) {
+/**
+ * The painted backdrop of a setting (sprite name), or null where the scene is assembled: the family's yard by day is its own
+ * house and field on the map's ground. Towns by who built them, as `STREET`; the road through timber where the spot has woods.
+ */
+export function backdropOf(setting) {
+  const kind = setting?.kind || 'road';
+  if (kind === 'home') return setting.light === 'night' ? 'scene-yard-night' : null;
+  if (kind === 'town') {
+    const id = setting.siteId || '';
+    return id === 'gonzales' ? 'scene-street-gonzales' : TEJANO_TOWNS.has(id) ? 'scene-street-tejano' : IRISH_TOWNS.has(id) ? null : 'scene-street-texian';
+  }
+  if (kind === 'camp') return 'scene-camp-volunteers';
+  if (kind === 'alamo') return 'scene-alamo-plaza';
+  if (kind === 'ford') return 'scene-ford';
+  return setting.woods ? 'scene-road-woods' : 'scene-road-prairie';
+}
+
+/**
+ * The pieces set on the ground of a setting: what, where across the screen (0 to 1), how far back (0 at the people, 1 the horizon).
+ * With its painted backdrop drawn (`painted`) a place away from home has none - the painting holds its buildings and trees - and
+ * the family's yard keeps its own house and field.
+ */
+export function piecesOf(setting, { painted = false } = {}) {
+  if (painted && (setting?.kind || 'road') !== 'home') return [];
   const pieces = [];
   const put = (name, x, back = 0.35, size = SIZE[name] || 1, flip = false) => pieces.push({ name, x, back, size, flip });
   const kind = setting?.kind || 'road';
@@ -77,15 +103,15 @@ export function piecesOf(setting) {
     const row = id === 'gonzales' ? STREET.gonzales : TEJANO_TOWNS.has(id) ? STREET.tejano : IRISH_TOWNS.has(id) ? STREET.irish : STREET.anglo;
     row.forEach((name, i) => put(name, row.length === 1 ? 0.5 : 0.08 + i * (0.84 / (row.length - 1)), 0.62));
   } else if (kind === 'camp') {
-    // stand-in: docs/ART_REQUESTS.md, request 2026-10-05 - rider scenes' backdrops, item 3: the library's tents and fire.
+    // Unpainted: the library's tents and fire.
     put('tent', 0.1, 0.55); put('tent', 0.3, 0.7); put('tent', 0.86, 0.6, undefined, true); put('tent', 0.68, 0.78);
     put('campfire', 0.5, 0.42); put('camp-cookpot-tripod', 0.56, 0.45);
     if (setting.woods) put('post-oak-large', 0.97, 0.85);
   } else if (kind === 'alamo') {
-    // stand-in: docs/ART_REQUESTS.md, request 2026-10-05 - rider scenes' backdrops, item 7: a corner of wall and the church.
+    // Unpainted: a corner of wall and the church.
     put('alamo-wall-corner', 0.16, 0.5); put('church-generic', 0.78, 0.7);
   } else if (kind === 'ford') {
-    // stand-in: docs/ART_REQUESTS.md, request 2026-10-05 - rider scenes' backdrops, items 4-5: the water painted, the library's trees.
+    // Unpainted: the water painted, the library's trees.
     put('cottonwood', 0.08, 0.78); put('cypress-bald-large', 0.92, 0.82, undefined, true);
   } else if (setting.woods) {
     put('post-oak-large', 0.06, 0.55); put('pecan-large', 0.2, 0.8); put('live-oak-large', 0.84, 0.7, undefined, true); put('post-oak-large', 0.97, 0.5);
@@ -154,7 +180,7 @@ export function createRiderScene({ root, hooks = {} }) {
   // ------------------------------------------------------------------ the ground
 
   /**
-   * The map's own ground at the spot, laid back toward the horizon (stand-in: request 2026-10-05 - rider scenes' backdrops): drawn
+   * The map's own ground at the spot, laid back toward the horizon (the family's yard by day, and any place unpainted): drawn
    * once from above as the flashback draws it, then laid down a band at a time, the far bands squeezed and widened and the near
    * ones opened out, so it reads as the field in front of the people. Kept until the scene or the screen's size changes.
    */
@@ -195,6 +221,8 @@ export function createRiderScene({ root, hooks = {} }) {
   function drawBackdrop(width, height) {
     const setting = data.scene.setting || {};
     const light = setting.light || 'noon';
+    const painted = backdropOf(setting), paintedFrame = painted && spriteFrame(painted);
+    if (paintedFrame && stage.drawCover(painted, paintedFrame, width, height)) return painted;
     const horizon = height * HORIZON;
     const sky = ctx.createLinearGradient(0, 0, 0, horizon + height * 0.05);
     const tones = skyTones(light);
@@ -231,10 +259,10 @@ export function createRiderScene({ root, hooks = {} }) {
   }
 
   /** The buildings, tents and trees set on the ground, far ones first. Returns the names drawn. */
-  function drawPieces(width, height, h) {
+  function drawPieces(width, height, h, backdrop) {
     const drawn = [];
     const groundY = height * SCENE_GROUND, horizon = height * HORIZON;
-    for (const piece of piecesOf(data.scene.setting).sort((a, b) => b.back - a.back)) {
+    for (const piece of piecesOf(data.scene.setting, { painted: !!backdrop && backdrop === backdropOf(data.scene.setting) }).sort((a, b) => b.back - a.back)) {
       if (!spriteFrame(piece.name)) continue;
       const y = groundY - (groundY - horizon) * piece.back;
       const scale = 1 - piece.back * 0.55;
@@ -333,7 +361,7 @@ export function createRiderScene({ root, hooks = {} }) {
     const elapsed = now - since;
     const h = personHeight(width, height, SCENE_PERSON);
     const backdrop = drawBackdrop(width, height);
-    const pieces = drawPieces(width, height, h);
+    const pieces = drawPieces(width, height, h, backdrop);
     const people = drawPeople(width, height, now);
     stage.grade(width, height, data.scene.setting?.light || 'noon', now);
     // Up out of black as he comes, and down into it once he has gone.

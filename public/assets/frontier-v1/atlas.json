@@ -26912,6 +26912,180 @@
         ]
       }
     },
+    "scenes-local-1": {
+      "image": "atlases/scenes-local-1.png",
+      "width": 2240,
+      "height": 1400,
+      "bytes": 4768867,
+      "sha256": "948914f84298b85bfbcda60349f1a6951568089ab1c1662f831783aa17a1daa6",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.338776,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              78,
+              622
+            ],
+            "columns": [
+              [
+                78,
+                1042
+              ],
+              [
+                1198,
+                2162
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              778,
+              1322
+            ],
+            "columns": [
+              [
+                78,
+                1042
+              ],
+              [
+                1198,
+                2162
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "scenes-local-2": {
+      "image": "atlases/scenes-local-2.png",
+      "width": 2240,
+      "height": 1400,
+      "bytes": 4614709,
+      "sha256": "3a69c016eb06c9bec0c38988da6e81cb2b5b4ce357c86ded58ae01f365864505",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.338776,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              78,
+              622
+            ],
+            "columns": [
+              [
+                78,
+                1042
+              ],
+              [
+                1198,
+                2162
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              778,
+              1322
+            ],
+            "columns": [
+              [
+                78,
+                1042
+              ],
+              [
+                1198,
+                2162
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "scenes-local-3": {
+      "image": "atlases/scenes-local-3.png",
+      "width": 2240,
+      "height": 1400,
+      "bytes": 4292950,
+      "sha256": "b52954e764b1547225ea31bb07082b48c44716af3abb05964d8003e0808e5046",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.338776,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              78,
+              622
+            ],
+            "columns": [
+              [
+                78,
+                1042
+              ],
+              [
+                1198,
+                2162
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              778,
+              1322
+            ],
+            "columns": [
+              [
+                78,
+                1042
+              ],
+              [
+                1198,
+                2162
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "marsh-edge": {
       "image": "atlases/marsh-edge.png",
       "width": 2172,
@@ -119590,6 +119764,318 @@
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
+    },
+    "scene-street-gonzales": {
+      "sheet": "scenes-local-1",
+      "x": 80,
+      "y": 80,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "scene street gonzales",
+      "kind": "scenes-local-1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          80,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "scene-street-texian": {
+      "sheet": "scenes-local-1",
+      "x": 1200,
+      "y": 80,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "scene street texian",
+      "kind": "scenes-local-1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1200,
+          80,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "scene-street-tejano": {
+      "sheet": "scenes-local-1",
+      "x": 80,
+      "y": 780,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "scene street tejano",
+      "kind": "scenes-local-1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          780,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "scene-camp-volunteers": {
+      "sheet": "scenes-local-1",
+      "x": 1200,
+      "y": 780,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "scene camp volunteers",
+      "kind": "scenes-local-1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1200,
+          780,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "scene-road-prairie": {
+      "sheet": "scenes-local-2",
+      "x": 80,
+      "y": 80,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "scene road prairie",
+      "kind": "scenes-local-2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          80,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "scene-road-woods": {
+      "sheet": "scenes-local-2",
+      "x": 1200,
+      "y": 80,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "scene road woods",
+      "kind": "scenes-local-2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1200,
+          80,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "scene-ford": {
+      "sheet": "scenes-local-2",
+      "x": 80,
+      "y": 780,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "scene ford",
+      "kind": "scenes-local-2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          780,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "scene-yard-night": {
+      "sheet": "scenes-local-2",
+      "x": 1200,
+      "y": 780,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "scene yard night",
+      "kind": "scenes-local-2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1200,
+          780,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "scene-alamo-plaza": {
+      "sheet": "scenes-local-3",
+      "x": 80,
+      "y": 80,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "scene alamo plaza",
+      "kind": "scenes-local-3",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          80,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "courtship-yard-morning": {
+      "sheet": "scenes-local-3",
+      "x": 1200,
+      "y": 80,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "courtship yard morning",
+      "kind": "scenes-local-3",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1200,
+          80,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "courtship-yard-noon": {
+      "sheet": "scenes-local-3",
+      "x": 80,
+      "y": 780,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "courtship yard noon",
+      "kind": "scenes-local-3",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          780,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
+    },
+    "courtship-yard-evening": {
+      "sheet": "scenes-local-3",
+      "x": 1200,
+      "y": 780,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "courtship yard evening",
+      "kind": "scenes-local-3",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1200,
+          780,
+          960,
+          540
+        ],
+        "visiblePixels": 518400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 540,
+      "backdrop": true
     },
     "marsh-edge-dense-1": {
       "sheet": "marsh-edge",

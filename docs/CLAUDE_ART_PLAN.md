@@ -12,9 +12,9 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | B — Children, babies and sickness | 20 | 7 | 12 | 2 |
 | C — Soldiers, battles and famous people | 13 | 1 | 7 | 11 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 25 | 2 | 9 | 6 |
-| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 19 | 4 | 10 | 10 |
+| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 13 | 2 | 9 | 16 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 20 | 1 | 8 | 20 |
-| **Total** | **130** | **23** | **64** | **49** |
+| **Total** | **124** | **21** | **63** | **55** |
 
 ## How a builder works
 
@@ -541,7 +541,7 @@ Skipped:
 
 ## E — Buildings, houses, towns, Béxar, the Alamo, interiors
 
-Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 19 to make, 10 skipped.
+Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 13 to make, 16 skipped.
 
 - [ ] **E1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 2 — **Claude stand-in in place** (`bexar-man-walk`, `bexar-man-walk-s`, `bexar-man-walk-n`, `bexar-man-idle-s`, `bexar-man-idle-e`, `bexar-man-idle-w`, `bexar-man-idle-n`, `bexar-man-listen-s`, `bexar-man-listen-n`, `bexar-man-speak`, `bexar-man-carry`, `bexar-girl-walk`, `bexar-girl-walk-s`, `bexar-girl-walk-n`, `bexar-girl-idle-s`, `bexar-girl-idle-e`, `bexar-girl-idle-w`, `bexar-girl-idle-n`, `bexar-girl-listen-s`, `bexar-girl-listen-n`, `bexar-girl-speak`, `bexar-girl-carry`, `bexar-boy-walk`, `bexar-boy-walk-s`, `bexar-boy-walk-n`, `bexar-boy-idle-s`, `bexar-boy-idle-e`, `bexar-boy-idle-w`, `bexar-boy-idle-n`, `bexar-boy-listen-s`, `bexar-boy-listen-n`, `bexar-boy-speak`, `bexar-boy-carry`); Astra's replaces it
   - **Deliver:** Tejano townspeople of Béxar - a man, a woman in a rebozo, a girl and a boy - each `walk`, `idle-s`, `carry` (loading a cart), `speak`, `listen`, in 1830s Béxar dress (`bexar-man-*`, `bexar-woman-*`, `bexar-girl-*`, `bexar-boy-*`); also the storming's townspeople of 1835 walking out of a house (request 2026-09-25 the storming of Béxar, item 6)
@@ -554,16 +554,6 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Frames:** 1 each. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable; drawn beside the cast at their heights
   - **Plugs into:** `FARM_ART` in `public/courtship.js`
   - **Stands in now:** Claude's `farm-neighbour-porch` and `farm-neighbour-ramada`, built on Astra's `cabin-wide` and `jacal-ramada` (Claude-drawn)
-- [ ] **E40** (priority 1) — [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops), items 1-2
-  - **Deliver:** `scene-street-gonzales`, `scene-street-texian` (an Anglo colonial town's street: log stores, a smithy, a tavern, a rail fence, a wagon track) and `scene-street-tejano` (a street of Béxar or Goliad: flat-roofed stone and adobe houses, jacales, a church front)
-  - **Frames:** 1 each. **Size:** 960×540, a whole painting the page draws to cover a scene, anchored at its foot; no people; the light graded by the page
-  - **Plugs into:** `piecesOf` and `drawBackdrop` in `public/rider-scene.js`
-  - **Stands in now:** the map's ground at the spot laid back to a painted sky, with the library's `storehouse`, `shop-*`, `cabin-wide`, `jacal-broad`, `town-mexican-river`, `church-generic` or `village-irish-colony` set behind the people (drawn in code (canvas or CSS))
-- [ ] **E41** (priority 1) — [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops), item 3
-  - **Deliver:** `scene-camp-volunteers` (the volunteers' camp: wagon-sheet tents and brush shelters, a fire with a kettle, rifles stacked, horses on a picket line, in the post oaks)
-  - **Frames:** 1. **Size:** 960×540, a whole painting the page draws to cover a scene, anchored at its foot; no people; the light graded by the page
-  - **Plugs into:** `piecesOf` in `public/rider-scene.js`
-  - **Stands in now:** the map's ground laid back, four `tent`s, the `campfire` and the `camp-cookpot-tripod` (drawn in code (canvas or CSS))
 - [ ] **E8** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 4 — **Claude stand-in in place** (`dancers-couple`, `fiddler-play`, `lantern-post`); Astra's replaces it
   - **Deliver:** `dancers-couple` (4), `fiddler-play` (2), `lantern-post` (a lantern on a post, lit)
   - **Frames:** 4, 2, 1. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372; the lantern as a prop
@@ -580,11 +570,6 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Frames:** 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
   - **Plugs into:** the wedding scene in `public/courtship.js`
   - **Stands in now:** Claude's `wedding-table` (Claude-drawn)
-- [ ] **E19** (priority 2) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 5 — **Claude stand-in in place** (`courtship-yard-morning`, `courtship-yard-noon`, `courtship-yard-evening`); Astra's replaces it
-  - **Deliver:** `courtship-yard-morning`, `courtship-yard-noon`, `courtship-yard-evening` (a farm yard with trees behind and sky above, no people, no buildings)
-  - **Frames:** 1 each. **Size:** 960×540, a whole painting the page draws to cover the scene, anchored at its foot
-  - **Plugs into:** `BACKDROP` in `public/courtship.js`
-  - **Stands in now:** Claude's three yards; without them the sky and ground painted in canvas (Claude-drawn)
 - [ ] **E20** (priority 2) — [Request 2026-09-29 — the homecoming's scenes](ART_REQUESTS.md#request-2026-09-29--the-homecomings-scenes), items 1-2 — **Claude stand-in in place** (`grave-marker`, `coins-and-paper`); Astra's replaces it
   - **Deliver:** `grave-marker` (a plain rounded-top wooden board about four feet high at the head of a low mound, wildflowers, no text, no symbol) and `coins-and-paper` (a short stack of silver coins and two loose, a folded bill of sale, a small leather purse, lying on a table top)
   - **Frames:** 1 each. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside; a grown person's height as its logical height, as the wedding's pieces
@@ -595,21 +580,6 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Frames:** 1. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable
   - **Plugs into:** the tent drawn at `world.land.tent` (`tentAt`) in `drawWorld`, `public/app.js`
   - **Stands in now:** the library's canvas `tent` (a pegged A-tent of new canvas) (Astra's library art reused)
-- [ ] **E42** (priority 2) — [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops), items 4-5
-  - **Deliver:** `scene-road-prairie` (a wagon road across open prairie), `scene-road-woods` (the same road through post oak and live oak timber) and `scene-ford` (a road going down a low bank to a ford across a creek, cottonwoods and cypress)
-  - **Frames:** 1 each. **Size:** 960×540, a whole painting the page draws to cover a scene, anchored at its foot; no people; the light graded by the page
-  - **Plugs into:** `drawBackdrop` and `piecesOf` in `public/rider-scene.js`
-  - **Stands in now:** the map's ground laid back with a road painted to the horizon, a painted tree line, water painted across a ford, and the library's `post-oak-large`, `live-oak-large`, `pecan-large`, `cottonwood`, `cypress-bald-large` (drawn in code (canvas or CSS))
-- [ ] **E43** (priority 2) — [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops), item 6
-  - **Deliver:** `scene-yard-night` (a farm yard by night, no house and no people: the ground before a cabin door under stars and a rising moon, a little lamplight)
-  - **Frames:** 1. **Size:** 960×540, a whole painting the page draws to cover a scene, anchored at its foot; no people; the light graded by the page
-  - **Plugs into:** `drawBackdrop` and `piecesOf` in `public/rider-scene.js`
-  - **Stands in now:** the map's ground at the family's land laid back, graded dark, with the house as it stands (or the tent and fire) and the field (drawn in code (canvas or CSS))
-- [ ] **E44** (priority 2) — [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops), item 7
-  - **Deliver:** `scene-alamo-plaza` (inside the Alamo's walls: the plaza, the long barrack, the church front beyond, men on the walls)
-  - **Frames:** 1. **Size:** 960×540, a whole painting the page draws to cover a scene, anchored at its foot; no people; the light graded by the page
-  - **Plugs into:** `piecesOf` and `drawRider` in `public/rider-scene.js`
-  - **Stands in now:** the map's ground laid back with `alamo-wall-corner` and `church-generic` set behind; Travis's runner the `courier-march` walk and a grown man of the cast standing (drawn in code (canvas or CSS))
 - [ ] **E10** (priority 3) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 4 — **Claude stand-in in place** (`plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`); Astra's replaces it
   - **Deliver:** `plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`
   - **Frames:** 1 each. **Size:** Map cutout as `public/place-art.js` gives the places past the box
@@ -654,6 +624,12 @@ Skipped:
 - ~~E7~~ [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar) — skipped: delivered 2026-10-03 (Astra's generic `house-loopholed`, closed, open, breached and cut away; actors inside it need occlusion masks and rooms, which is code); Claude's deleted
 - ~~E15~~ [Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen](ART_REQUESTS.md#request-2026-09-12-second--settling-in-houses-interiors-furnishings-and-people-whose-looks-can-be-chosen) — skipped: delivered 2026-10-07 (Astra's `home-tools`; Claude's deleted)
 - ~~E16~~ [Request 2026-09-16 — the shops of the towns](ART_REQUESTS.md#request-2026-09-16--the-shops-of-the-towns) — skipped: delivered 2026-09-26 (the `stand-in:` comment in sim/shops.mjs is stale)
+- ~~E19~~ [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): `courtship-yard-noon` and its morning and evening made from it; the yards Claude drew are retired
+- ~~E40~~ [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): the three painted streets, drawn by `backdropOf` in `public/rider-scene.js`; an Irish colony town keeps the assembled street (none was asked)
+- ~~E41~~ [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): `scene-camp-volunteers` (no horses: the painted camp has none)
+- ~~E42~~ [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): `scene-road-prairie`, `scene-road-woods`, `scene-ford` (the ford flagged: the road meets a gravel bar rather than visibly crossing)
+- ~~E43~~ [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): `scene-yard-night`, the house and field of the family still set on it
+- ~~E44~~ [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): `scene-alamo-plaza`, painted empty (owner, 2026-10-25: the page draws the men)
 - ~~ES6~~ [Request 2026-09-19 — the places past the box](ART_REQUESTS.md#request-2026-09-19--the-places-past-the-box) — skipped: delivered 2026-09-26
 - ~~ES7~~ [Request 2026-09-18 — the Alamo's faces seen from the south](ART_REQUESTS.md#request-2026-09-18--the-alamos-faces-seen-from-the-south) — skipped: delivered 2026-09-21
 

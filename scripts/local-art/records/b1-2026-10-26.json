@@ -1,0 +1,307 @@
+{
+ "batch": "b1",
+ "date": "2026-10-26",
+ "model": "FLUX.2 klein 4B fp8 (Apache-2.0)",
+ "rows": [
+  {
+   "name": "courtship-yard-morning",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly: the same yard, the same trees, the same ground and composition. Change only the light to early morning: low soft sunlight from the left, long cool shadows, a pale gold and blue sky with thin mist along the trees. No people, no text.",
+   "references": [
+    "output/local-2026-10-26/b1/raw/courtship-yard-noon/courtship-yard-noon-s6_00001_.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "courtship-yard-evening",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly: the same yard, the same trees, the same ground and composition. Change only the light to evening: warm low orange sunlight from the right, long shadows, a warm orange and rose sky over the trees. No people, no text.",
+   "references": [
+    "output/local-2026-10-26/b1/raw/courtship-yard-noon/courtship-yard-noon-s6_00001_.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "scene-ford-repair",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly: the same creek, trees, sky, light, brushwork and composition. Change only the road: the rutted dirt road runs down the near grassy bank into the creek and crosses it through the shallow water at a ford, its wheel ruts going into the water and coming up out of it on the far bank, the water rippling over a pale gravel bar where it crosses. No people, no animals, no wagons, no text.",
+   "references": [
+    "output/local-2026-10-26/b1/raw/scene-ford/scene-ford-s2_00001_.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "scene-street-gonzales",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of buildings: small log houses, a log store, an open smithy shed. Paint a new wide landscape picture: the main street of Gonzales, a small Anglo-American colonial town in Mexican Texas in 1835, on the east bank of the Guadalupe River, seen from eye level with the camera slightly raised. A wide rutted dirt wagon street runs away from the viewer up the middle of the picture toward the river. A few single-storey log cabins with shake roofs and stick-and-clay chimneys, a log store with a plank porch, and an open-sided blacksmith shed stand well apart along both sides of the street, set back behind split-rail fences, with post oaks and live oaks between them. Beyond the far end of the street the road goes down to the river, lined with tall pecans and cottonwoods. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty street and grass with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png",
+    "output/local-2026-10-26/b1/refs/board-scene-street-gonzales.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 8
+  },
+  {
+   "name": "scene-street-texian",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of buildings: log stores, a log cabin, an open smithy shed and a log tavern. Paint a new wide landscape picture: the main street of a small Anglo-American colonial town in Mexican Texas in 1835. A wide rutted dirt wagon track runs away from the viewer up the middle of the picture. On the left stand a log store with a plank porch and an open-sided blacksmith shed; on the right a two-storey log tavern with a roofed gallery along its front. A split-rail fence runs along the street, post oaks between the buildings, all set well back. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png",
+    "output/local-2026-10-26/b1/refs/board-scene-street-texian.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 6
+  },
+  {
+   "name": "scene-street-tejano",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of buildings: flat-roofed stone and adobe houses, a jacal of upright poles with a thatched roof and a brush ramada, and a plain stone mission church front. Paint a new wide landscape picture: a dusty street of a Mexican town in Texas in 1835. Flat-roofed whitewashed stone and adobe houses with small deep windows and wooden doors line both sides, set well back, with a jacal and its ramada among them. At the far end of the street stands a plain stone church front with a small bell gable. A few mesquite and pecan trees. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png",
+    "output/local-2026-10-26/b1/refs/board-scene-street-tejano.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 6
+  },
+  {
+   "name": "scene-camp-volunteers",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of things in it: wagon-sheet tents, a camp fire, an iron kettle on a tripod, post oaks. Paint a new wide landscape picture: a Texian volunteers' camp in the post oak woods in the autumn of 1835. A few wagon-sheet tents and brush lean-to shelters stand scattered among the post oaks at the left and the right, well back. A small camp fire with an iron kettle hung over it on a tripod burns on bare trodden ground in the middle distance. Long rifles stand stacked against a log. Saddles and bedrolls lie by the tents. No rows, no flag. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png",
+    "output/local-2026-10-26/b1/refs/board-scene-camp-volunteers.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 8
+  },
+  {
+   "name": "scene-road-prairie",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Paint a new wide landscape picture: a rutted dirt wagon road running from the near foreground straight across open rolling Texas prairie to the horizon, tall summer grass on both sides, a few far mottes of live oak. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 8
+  },
+  {
+   "name": "scene-road-woods",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of trees: post oak and live oak. Paint a new wide landscape picture: a rutted dirt wagon road running from the near foreground away into open post oak and live oak timber, the trees standing to the left and the right of the road and thickening into woods along the horizon, grass and leaf litter under them. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png",
+    "output/local-2026-10-26/b1/refs/board-scene-road-woods.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 6
+  },
+  {
+   "name": "scene-ford",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of trees: cottonwood and bald cypress. Paint a new wide landscape picture: a rutted dirt wagon road running from the near foreground down a low grassy bank to a shallow ford across a slow clear creek in the middle distance, the road coming up the far bank, tall cottonwoods and bald cypress along the far side of the water. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png",
+    "output/local-2026-10-26/b1/refs/board-scene-ford.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "scene-yard-night",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette and its detailed hand-painted brushwork and the look of its oaks and grass. Paint a new wide landscape picture at night: the open trodden ground of a frontier farm yard by night, as if standing before a cabin door, with no building in the picture. Bare packed earth and short grass, a rail fence and a chopping block far back, dark oaks along the horizon. A deep blue night sky full of stars, a full moon just rising low over the trees at the left, and a little warm lamplight falling across the ground from the right edge of the picture. Seen from eye level with the camera slightly raised; the horizon one third of the way down. The middle of the picture and the near foreground are open, empty ground. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 6
+  },
+  {
+   "name": "scene-alamo-plaza",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of buildings: the Alamo mission's limestone church front and its rubble-stone walls and doorways. Paint a new wide landscape picture: inside the walls of the Alamo mission at San Antonio de Béxar in 1836, an empty open plaza of bare trodden earth. Along the right side runs the long two-storey limestone barrack with plain doorways; along the left a low wall of flat-roofed adobe rooms; and beyond the plaza at the far right stands the roofless limestone church front with its carved doorway between columns, its top unfinished. Earthen ramps and the tops of the walls with nobody on them. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png",
+    "output/local-2026-10-26/b1/refs/board-scene-alamo-plaza.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 8
+  },
+  {
+   "name": "courtship-yard-noon",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Paint a new wide landscape picture: the open grassy yard of a frontier farm in Texas, seen from eye level with the camera slightly raised. Short trodden grass and bare earth in front, a few post oaks and a big live oak behind, the timber line along the horizon, and nothing built. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 6
+  }
+ ],
+ "flags": {
+  "scene-ford": "Neither the eight nor the one repair round (four) runs the road clearly through the water: the repair chosen (s4) brings the road down to a pale gravel bar across the creek, which reads as a shallow crossing at play size but not as wheel ruts into the water. Shipped (no hard fault); the owner may want it redrawn."
+ },
+ "jobs": 88,
+ "failedJobs": 0,
+ "gpuSeconds": 905.5,
+ "cards": [
+  "4060 Ti",
+  "4080"
+ ]
+}

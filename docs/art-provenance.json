@@ -6801,6 +6801,36 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/ground-roads.png",
       "postProcessing": "Each chosen 1024 candidate: its broad light and dark flattened; rolled half its size (down only for a tile laid along a way, both ways for a flat one); the seam left across the middle covered by a band cut from elsewhere in the same painting and joined along the line of least difference (image quilting), never blended and never touching the edges, so the tile repeats exactly; its mean moved to the roads' own colour with its spread kept at the share given; halved to 512 with Lanczos; packed one to a clear 768 cell. scripts/road-art/finish.py, CPU only.",
       "review": "Thirty-two candidates (four tiles, eight each) on one contact sheet, each beside its 3x3 repeat after the seam pass (contact-candidates.jpg); every candidate's model proved from its own file by scripts/local-art/licence_check.py; the chosen tiles checked repeated 3x3 (tiling-3x3.png) and on the map at the zooms students see, against the klein 9B tiles they replace (docs/evidence/roads-4b-compare.png)."
+    },
+    {
+      "sheet": "scenes-local-1",
+      "promptId": "frontier-v1/scenes-local-1",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "generatedSourcePath": "docs/art-sources/scenes-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/scenes-local-1.png",
+      "postProcessing": "Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract's 960x540; every one but the night yard moved toward Astra's oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B's lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.",
+      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
+    },
+    {
+      "sheet": "scenes-local-2",
+      "promptId": "frontier-v1/scenes-local-2",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "generatedSourcePath": "docs/art-sources/scenes-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/scenes-local-2.png",
+      "postProcessing": "Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract's 960x540; every one but the night yard moved toward Astra's oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B's lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.",
+      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
+    },
+    {
+      "sheet": "scenes-local-3",
+      "promptId": "frontier-v1/scenes-local-3",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "generatedSourcePath": "docs/art-sources/scenes-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/scenes-local-3.png",
+      "postProcessing": "Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract's 960x540; every one but the night yard moved toward Astra's oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B's lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.",
+      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
     }
   ],
   "rejectedAttempts": [

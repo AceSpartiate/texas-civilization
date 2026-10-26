@@ -29,8 +29,9 @@ export { clipFor, figureOf };
 export const FADE_MS = 1100, REDUCED_FADE_MS = 280, BETWEEN_MS = 2200, REDUCED_BETWEEN_MS = 1400;
 
 /**
- * The yard each scene stands in, by the light of its hour (sim/courtship.mjs `partOfDay`). stand-in: docs/ART_REQUESTS.md, request
- * 2026-09-29 - the lone parent's wedding, item 5; until a backdrop is drawn the sky and the ground are painted here (`paintYard`).
+ * The yard each scene stands in, by the light of its hour (sim/courtship.mjs `partOfDay`): one yard painted with the local
+ * pipeline at noon and its morning and evening made from it (2026-10-26, docs/ART_DELIVERY_2026-10-26-LOCAL-SCENES.md), so the
+ * three are one place. While a painting loads, the sky and the ground are painted here (`paintYard`).
  */
 export const BACKDROP = Object.freeze({ morning: 'courtship-yard-morning', noon: 'courtship-yard-noon', evening: 'courtship-yard-evening', night: 'courtship-yard-evening' });
 /**

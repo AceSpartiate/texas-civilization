@@ -13300,48 +13300,6 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's wedding-table"
     },
-    "courtship-yard-morning": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-29",
-      "module": "courtship-places",
-      "area": "places",
-      "sheet": "claude-courtship-yard-morning",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "prompt": "A farm yard to stand the lone parent's scenes in, at early morning: a pale clear sky warming to gold at the horizon, the low sun off to the left behind a soft glow, fresh green grass, soft shadows. A painting 960 by 540: the ground of the yard over the lower 58% (the horizon at y 228) - grass with a worn patch of bare earth in the middle where the people stand, a few wildflowers and pebbles - a line of oaks and pecans along a creek behind, the creek glinting through a gap at the left, a far blue line of woods, a rail fence far off at the right, a big live oak framing the near left and another the right; sky above. No people, no buildings, no text. Warm hand-drawn storybook style: flat shapes, thin dark olive-brown outlines on the trees and clouds, the moss, rust, cream and ochre palette.",
-      "source": "public/assets/claude-standins/svg/courtship-places/claude-courtship-yard-morning.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's courtship-yard-morning"
-    },
-    "courtship-yard-noon": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-29",
-      "module": "courtship-places",
-      "area": "places",
-      "sheet": "claude-courtship-yard-noon",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "prompt": "A farm yard to stand the lone parent's scenes in, at noon: a deep clear blue sky with a few white clouds, bright green grass and trees, the light high and the shadows short. A painting 960 by 540: the ground of the yard over the lower 58% (the horizon at y 228) - grass with a worn patch of bare earth in the middle where the people stand, a few wildflowers and pebbles - a line of oaks and pecans along a creek behind, the creek glinting through a gap at the left, a far blue line of woods, a rail fence far off at the right, a big live oak framing the near left and another the right; sky above. No people, no buildings, no text. Warm hand-drawn storybook style: flat shapes, thin dark olive-brown outlines on the trees and clouds, the moss, rust, cream and ochre palette.",
-      "source": "public/assets/claude-standins/svg/courtship-places/claude-courtship-yard-noon.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's courtship-yard-noon"
-    },
-    "courtship-yard-evening": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-29",
-      "module": "courtship-places",
-      "area": "places",
-      "sheet": "claude-courtship-yard-evening",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "prompt": "A farm yard to stand the lone parent's scenes in, at a warm golden evening: a sky from dusky violet overhead to orange and gold at the horizon, the low sun glowing behind the trees at the right, the grass and trees warmed gold, long shadows. A painting 960 by 540: the ground of the yard over the lower 58% (the horizon at y 228) - grass with a worn patch of bare earth in the middle where the people stand, a few wildflowers and pebbles - a line of oaks and pecans along a creek behind, the creek glinting through a gap at the left, a far blue line of woods, a rail fence far off at the right, a big live oak framing the near left and another the right; sky above. No people, no buildings, no text. Warm hand-drawn storybook style: flat shapes, thin dark olive-brown outlines on the trees and clouds, the moss, rust, cream and ochre palette.",
-      "source": "public/assets/claude-standins/svg/courtship-places/claude-courtship-yard-evening.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's courtship-yard-evening"
-    },
     "ana-esparza-walk-e-1": {
       "kind": "frame",
       "madeBy": "claude",

@@ -1,6 +1,6 @@
 {
   "proof": "npm run test:lone-parent",
-  "when": "2026-10-05T16:09:19.758Z",
+  "when": "2026-10-26T18:59:25.814Z",
   "pass": [
     "on the land, before the house site is chosen: the ability is there, says to choose the site first, and cannot be pressed",
     "on the land the ability waits, glowing (card-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Lucinda raise a house.\"",
@@ -10,7 +10,7 @@
     "the four scenes in order, 38 presses of Continue, 6 fades to and from black, every figure and building drawn",
     "home: 6 people, two parents on the panel, a round-log house standing, and the ability gone",
     "the family took his name - the page reads \"The Whitlow family\" - and Elias, the new husband, is its main person and principal",
-    "fades to black take 1114, 1111 ms; with less motion asked for, 297 ms - shorter, never a cut",
+    "fades to black take 1108, 1109 ms; with less motion asked for, 281 ms - shorter, never a cut",
     "no page errors on the student's, the other student's or the Host's page"
   ],
   "observed": {
@@ -38,8 +38,8 @@
       "glow": "card-glow",
       "shadow": "rgb(255, 243, 207) 0px 0px 0px 1px inset, rgba(194, 88, 44, ",
       "marker": {
-        "x": 691,
-        "y": 334,
+        "x": 697,
+        "y": 317,
         "r": 12
       },
       "icon": "drawn"
@@ -56,8 +56,8 @@
       "between": "Lucinda and the children walk to the nearest farm."
     },
     "fades": [
-      0.44,
-      0.59
+      0.4,
+      0.62
     ],
     "reload": {
       "scene": "second",
@@ -66,12 +66,12 @@
     "scenes": [
       {
         "id": "first",
-        "where": "The Salcedo farm, past the ford · Morning",
+        "where": "The Salcedo farm, past the ford · Evening",
         "lines": [
           {
             "step": 0,
             "who": "Cipriano Salcedo",
-            "said": "Good morning! You must be the new family on the creek. Come in, come in."
+            "said": "Good evening! You must be the new family on the creek. Come in, come in."
           },
           {
             "step": 1,
@@ -154,7 +154,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-morning",
+        "backdrop": "courtship-yard-evening",
         "buildings": [
           "jacal-ramada"
         ],
@@ -162,7 +162,7 @@
       },
       {
         "id": "second",
-        "where": "The Whitlow place, by the big pecan · Morning",
+        "where": "The Whitlow place, by the big pecan · Evening",
         "lines": [
           {
             "step": 0,
@@ -171,7 +171,7 @@
           },
           {
             "step": 1,
-            "who": "Lucinda Hollister",
+            "who": "Lucinda Whitlow",
             "said": "Then you know why we've come. I'm asking for a day's help with a house."
           },
           {
@@ -186,7 +186,7 @@
           },
           {
             "step": 4,
-            "who": "Lucinda Hollister",
+            "who": "Lucinda Whitlow",
             "said": "Then I hope she's right about you."
           },
           {
@@ -206,12 +206,12 @@
           },
           {
             "step": 8,
-            "who": "Micajah",
+            "who": "Micajah Whitlow",
             "said": "We'll come and help too. I can notch a log."
           },
           {
             "step": 9,
-            "who": "Orpha Hollister",
+            "who": "Orpha Whitlow",
             "said": "I like him."
           },
           {
@@ -286,7 +286,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-morning",
+        "backdrop": "courtship-yard-evening",
         "buildings": [
           "cabin-wide"
         ],
@@ -294,12 +294,12 @@
       },
       {
         "id": "wedding",
-        "where": "Your own land · Midday",
+        "where": "Your own land · Night",
         "lines": [
           {
             "step": 0,
             "who": "",
-            "said": "By midday a cabin stands where you camped."
+            "said": "By nightfall a cabin stands where you camped."
           },
           {
             "step": 1,
@@ -465,7 +465,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-noon",
+        "backdrop": "courtship-yard-evening",
         "buildings": [
           "house-round-log",
           "home-table"
@@ -567,7 +567,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-noon",
+        "backdrop": "courtship-yard-evening",
         "buildings": [
           "house-round-log"
         ],
@@ -618,11 +618,11 @@
     },
     "fadeMs": {
       "full": [
-        1114,
-        1111
+        1108,
+        1109
       ],
       "reduced": [
-        297
+        281
       ]
     }
   },

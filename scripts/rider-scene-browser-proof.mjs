@@ -6,12 +6,13 @@
 // Two Play Solo games on the real land:
 //
 //   A. At home. The family's rider with the cannon news reaches it at its own house. Opening the "!" plays the scene: the yard is
-//      the map's own ground at the family's land (stand-in for the backdrops), the family's own people who are near stand in it
+//      the map's own ground at the family's land (by day; its painted night yard by night), the family's own people who are near stand in it
 //      in their own looks, the rider rides in and gets down by his horse, and says his word. A question is asked by one of the
 //      people standing there (named on its button), the answer comes, the journal keeps it. Done: he gets up, rides on, the
 //      family says its last words, and the scene goes; the journal has the meeting.
 //   B. In town. One of the family stands in Gonzales's street when a rider sets out from it with the word: the scene is the
-//      town's street, with the town's own people in it beside the family's.
+//      town's painted street (`scene-street-gonzales`, the local pipeline's, 2026-10-26), with the town's own people in it
+//      beside the family's.
 //
 // Same computer only: headless Chrome with motion on, so the riding in and out is drawn. Run: npm run test:rider-scene
 import assert from 'node:assert/strict';
@@ -188,9 +189,11 @@ try {
     await shot(page, 'town');
     measured.town.drawn = scene.drawn; measured.town.pieces = scene.pieces; measured.town.place = scene.place;
     assert.match(scene.place, /^Gonzales · /);
-    assert.ok(scene.pieces.some(name => /^shop-|^storehouse$|^cabin-wide$/.test(name)), `the town's street has none of its buildings: ${scene.pieces}`);
+    measured.town.backdrop = scene.backdrop;
+    assert.equal(scene.backdrop, 'scene-street-gonzales', `the town's street is not its painted backdrop (${scene.backdrop})`);
+    assert.deepEqual(scene.pieces, [], `the painted street had the library's buildings set on it again: ${scene.pieces}`);
     assert.ok(scene.drawn.some(one => one.role === 'town' && one.drawn), 'the town\'s people are not drawn');
-    ok(`"${scene.place}": the street (${scene.pieces.join(', ')}), the family's ${scene.drawn.filter(one => one.role !== 'town').length} and the town's ${scene.drawn.filter(one => one.role === 'town').length} (${server.scene.cast.filter(one => one.role === 'town').map(one => app.state.world.entities[one.id]?.name).join(', ')})`);
+    ok(`"${scene.place}": the painted street (${scene.backdrop}), the family's ${scene.drawn.filter(one => one.role !== 'town').length} and the town's ${scene.drawn.filter(one => one.role === 'town').length} (${server.scene.cast.filter(one => one.role === 'town').map(one => app.state.world.entities[one.id]?.name).join(', ')})`);
     // Escape puts it away at once, and he is let go.
     await page.keyboard.press('Escape');
     await until('Escape letting him go', () => app.state.world.encounters[encounter.id].status === 'closed', 10000);

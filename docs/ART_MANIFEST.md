@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **6354 usable sprites, 447 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
+Generated from the shipped library: **6366 usable sprites, 450 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -314,6 +314,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
 | ground-roads | 4 | 1536 × 1536 | 1774179 |
+| scenes-local-1 | 4 | 2240 × 1400 | 4768867 |
+| scenes-local-2 | 4 | 2240 × 1400 | 4614709 |
+| scenes-local-3 | 4 | 2240 × 1400 | 4292950 |
 | marsh-edge | 8 | 2172 × 724 | 1222516 |
 | marsh-wading | 8 | 1774 × 887 | 1112271 |
 | military-camp-life | 16 | 1254 × 1254 | 1457813 |
@@ -3402,6 +3405,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | road-tile-street | ground-roads | State artwork; no motion required |
 | road-tile-path | ground-roads | State artwork; no motion required |
 | road-tile-verge | ground-roads | State artwork; no motion required |
+| scene-street-gonzales | scenes-local-1 | State artwork; no motion required |
+| scene-street-texian | scenes-local-1 | State artwork; no motion required |
+| scene-street-tejano | scenes-local-1 | State artwork; no motion required |
+| scene-camp-volunteers | scenes-local-1 | State artwork; no motion required |
+| scene-road-prairie | scenes-local-2 | State artwork; no motion required |
+| scene-road-woods | scenes-local-2 | State artwork; no motion required |
+| scene-ford | scenes-local-2 | State artwork; no motion required |
+| scene-yard-night | scenes-local-2 | State artwork; no motion required |
+| scene-alamo-plaza | scenes-local-3 | State artwork; no motion required |
+| courtship-yard-morning | scenes-local-3 | State artwork; no motion required |
+| courtship-yard-noon | scenes-local-3 | State artwork; no motion required |
+| courtship-yard-evening | scenes-local-3 | State artwork; no motion required |
 | marsh-edge-dense-1 | marsh-edge | marsh-edge-dense |
 | marsh-edge-dense-2 | marsh-edge | marsh-edge-dense |
 | marsh-edge-dense-3 | marsh-edge | marsh-edge-dense |

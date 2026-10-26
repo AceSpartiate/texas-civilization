@@ -21,6 +21,7 @@
 //
 // Temporary, like every Claude frame: Astra's frame of the same name replaces each the moment it is registered.
 import { readFileSync } from 'node:fs';
+import { retire } from '../kit/retire.mjs';
 import { LINE, tone } from '../kit/style.mjs';
 import { Ink, f2, add, ellipse, blob, curve, capsule, poly } from '../kit/svg.mjs';
 import { buildingFrame, MATERIAL, rand } from '../kit/oblique.mjs';
@@ -446,7 +447,7 @@ const YARD_WORDS = {
 };
 
 // ----------------------------------------------------------------------------------------------------------- sheets
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-courtship-farms': { cell: { w: 1080, h: 560 }, columns: 1, request: REQUEST,
     replaceWith: 'item 3: building contract, corner-on three-quarter view, anchored at the base centre, drawn beside the cast at their heights',
     frames: [
@@ -464,6 +465,9 @@ export const SHEETS = {
     frames: [{ name: `courtship-yard-${time}`, height: 3, compare: [['rust-idle-e', 1], ['teal-idle-e', 1]], draw: () => yard(time),
       prompt: `A farm yard to stand the lone parent's scenes in, at ${YARD_WORDS[time]}. A painting 960 by 540: the ground of the yard over the lower 58% (the horizon at y 228) - grass with a worn patch of bare earth in the middle where the people stand, a few wildflowers and pebbles - a line of oaks and pecans along a creek behind, the creek glinting through a gap at the left, a far blue line of woods, a rail fence far off at the right, a big live oak framing the near left and another the right; sky above. No people, no buildings, no text. Warm hand-drawn storybook style: flat shapes, thin dark olive-brown outlines on the trees and clouds, the moss, rust, cream and ochre palette.` }] }])),
 };
+// The yards were painted with the local pipeline on 2026-10-26 (batch 1 of docs/ART_PLAN_LOCAL_2026-10-25.md); pipeline art counts
+// as finished art (owner, 2026-10-25), so Claude's yards are retired. The drawing code above is no longer called for them.
+export const { SHEETS } = retire(ALL_SHEETS, {}, ['courtship-yard-*']);
 export const CLIPS = {};
 
 /** A drawing made in a cell of its own size set into the sheet's cell: centred across it, its ground 10 px above the cell's foot. */

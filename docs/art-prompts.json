@@ -7180,6 +7180,197 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/ground-roads.png",
       "postProcessing": "Each chosen 1024 candidate: its broad light and dark flattened; rolled half its size (down only for a tile laid along a way, both ways for a flat one); the seam left across the middle covered by a band cut from elsewhere in the same painting and joined along the line of least difference (image quilting), never blended and never touching the edges, so the tile repeats exactly; its mean moved to the roads' own colour with its spread kept at the share given; halved to 512 with Lanczos; packed one to a clear 768 cell. scripts/road-art/finish.py, CPU only.",
       "review": "Thirty-two candidates (four tiles, eight each) on one contact sheet, each beside its 3x3 repeat after the seam pass (contact-candidates.jpg); every candidate's model proved from its own file by scripts/local-art/licence_check.py; the chosen tiles checked repeated 3x3 (tiling-3x3.png) and on the map at the zooms students see, against the klein 9B tiles they replace (docs/evidence/roads-4b-compare.png)."
+    },
+    {
+      "sheet": "scenes-local-1",
+      "promptId": "frontier-v1/scenes-local-1",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "scene-street-gonzales (seed 8 of 5, 6, 7, 8; 1360x768; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png, output/local-2026-10-26/b1/refs/board-scene-street-gonzales.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of buildings: small log houses, a log store, an open smithy shed. Paint a new wide landscape picture: the main street of Gonzales, a small Anglo-American colonial town in Mexican Texas in 1835, on the east bank of the Guadalupe River, seen from eye level with the camera slightly raised. A wide rutted dirt wagon street runs away from the viewer up the middle of the picture toward the river. A few single-storey log cabins with shake roofs and stick-and-clay chimneys, a log store with a plank porch, and an open-sided blacksmith shed stand well apart along both sides of the street, set back behind split-rail fences, with post oaks and live oaks between them. Beyond the far end of the street the road goes down to the river, lined with tall pecans and cottonwoods. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty street and grass with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.\n\nscene-street-texian (seed 6 of 1, 2, 3, 4, 5, 6, 7, 8; 1360x768; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png, output/local-2026-10-26/b1/refs/board-scene-street-texian.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of buildings: log stores, a log cabin, an open smithy shed and a log tavern. Paint a new wide landscape picture: the main street of a small Anglo-American colonial town in Mexican Texas in 1835. A wide rutted dirt wagon track runs away from the viewer up the middle of the picture. On the left stand a log store with a plank porch and an open-sided blacksmith shed; on the right a two-storey log tavern with a roofed gallery along its front. A split-rail fence runs along the street, post oaks between the buildings, all set well back. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.\n\nscene-street-tejano (seed 6 of 1, 2, 3, 4, 5, 6, 7, 8; 1360x768; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png, output/local-2026-10-26/b1/refs/board-scene-street-tejano.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of buildings: flat-roofed stone and adobe houses, a jacal of upright poles with a thatched roof and a brush ramada, and a plain stone mission church front. Paint a new wide landscape picture: a dusty street of a Mexican town in Texas in 1835. Flat-roofed whitewashed stone and adobe houses with small deep windows and wooden doors line both sides, set well back, with a jacal and its ramada among them. At the far end of the street stands a plain stone church front with a small bell gable. A few mesquite and pecan trees. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.\n\nscene-camp-volunteers (seed 8 of 1, 2, 3, 4, 5, 6, 7, 8; 1360x768; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png, output/local-2026-10-26/b1/refs/board-scene-camp-volunteers.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of things in it: wagon-sheet tents, a camp fire, an iron kettle on a tripod, post oaks. Paint a new wide landscape picture: a Texian volunteers' camp in the post oak woods in the autumn of 1835. A few wagon-sheet tents and brush lean-to shelters stand scattered among the post oaks at the left and the right, well back. A small camp fire with an iron kettle hung over it on a tripod burns on bare trodden ground in the middle distance. Long rifles stand stacked against a log. Saddles and bedrolls lie by the tents. No rows, no flag. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "scene-street-gonzales",
+          "chosen": 8,
+          "seeds": [
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "scene-street-texian",
+          "chosen": 6,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "scene-street-tejano",
+          "chosen": 6,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "scene-camp-volunteers",
+          "chosen": 8,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/scenes-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/scenes-local-1.png",
+      "postProcessing": "Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract's 960x540; every one but the night yard moved toward Astra's oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B's lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.",
+      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
+    },
+    {
+      "sheet": "scenes-local-2",
+      "promptId": "frontier-v1/scenes-local-2",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "scene-road-prairie (seed 8 of 1, 2, 3, 4, 5, 6, 7, 8; 1360x768; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Paint a new wide landscape picture: a rutted dirt wagon road running from the near foreground straight across open rolling Texas prairie to the horizon, tall summer grass on both sides, a few far mottes of live oak. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.\n\nscene-road-woods (seed 6 of 1, 2, 3, 4, 5, 6, 7, 8; 1360x768; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png, output/local-2026-10-26/b1/refs/board-scene-road-woods.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of trees: post oak and live oak. Paint a new wide landscape picture: a rutted dirt wagon road running from the near foreground away into open post oak and live oak timber, the trees standing to the left and the right of the road and thickening into woods along the horizon, grass and leaf litter under them. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.\n\nscene-ford (seed 4 of 1, 2, 3, 4; 1360x768; references: output/local-2026-10-26/b1/raw/scene-ford/scene-ford-s2_00001_.png): Keep this painting exactly: the same creek, trees, sky, light, brushwork and composition. Change only the road: the rutted dirt road runs down the near grassy bank into the creek and crosses it through the shallow water at a ford, its wheel ruts going into the water and coming up out of it on the far bank, the water rippling over a pale gravel bar where it crosses. No people, no animals, no wagons, no text.\n\nscene-yard-night (seed 6 of 1, 2, 3, 4, 5, 6, 7, 8; 1360x768; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png): Image 1 is the style reference: match its palette and its detailed hand-painted brushwork and the look of its oaks and grass. Paint a new wide landscape picture at night: the open trodden ground of a frontier farm yard by night, as if standing before a cabin door, with no building in the picture. Bare packed earth and short grass, a rail fence and a chopping block far back, dark oaks along the horizon. A deep blue night sky full of stars, a full moon just rising low over the trees at the left, and a little warm lamplight falling across the ground from the right edge of the picture. Seen from eye level with the camera slightly raised; the horizon one third of the way down. The middle of the picture and the near foreground are open, empty ground. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no building, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "scene-road-prairie",
+          "chosen": 8,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "scene-road-woods",
+          "chosen": 6,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "scene-ford",
+          "chosen": 4,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "scene-yard-night",
+          "chosen": 6,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/scenes-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/scenes-local-2.png",
+      "postProcessing": "Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract's 960x540; every one but the night yard moved toward Astra's oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B's lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.",
+      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
+    },
+    {
+      "sheet": "scenes-local-3",
+      "promptId": "frontier-v1/scenes-local-3",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "scene-alamo-plaza (seed 8 of 1, 2, 3, 4, 5, 6, 7, 8; 1360x768; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png, output/local-2026-10-26/b1/refs/board-scene-alamo-plaza.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of buildings: the Alamo mission's limestone church front and its rubble-stone walls and doorways. Paint a new wide landscape picture: inside the walls of the Alamo mission at San Antonio de Béxar in 1836, an empty open plaza of bare trodden earth. Along the right side runs the long two-storey limestone barrack with plain doorways; along the left a low wall of flat-roofed adobe rooms; and beyond the plaza at the far right stands the roofless limestone church front with its carved doorway between columns, its top unfinished. Earthen ramps and the tops of the walls with nobody on them. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.\n\ncourtship-yard-morning (seed 4 of 1, 2, 3, 4; 1360x768; references: output/local-2026-10-26/b1/raw/courtship-yard-noon/courtship-yard-noon-s6_00001_.png): Keep this painting exactly: the same yard, the same trees, the same ground and composition. Change only the light to early morning: low soft sunlight from the left, long cool shadows, a pale gold and blue sky with thin mist along the trees. No people, no text.\n\ncourtship-yard-noon (seed 6 of 1, 2, 3, 4, 5, 6, 7, 8; 1360x768; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Paint a new wide landscape picture: the open grassy yard of a frontier farm in Texas, seen from eye level with the camera slightly raised. Short trodden grass and bare earth in front, a few post oaks and a big live oak behind, the timber line along the horizon, and nothing built. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.\n\ncourtship-yard-evening (seed 1 of 1, 2, 3, 4; 1360x768; references: output/local-2026-10-26/b1/raw/courtship-yard-noon/courtship-yard-noon-s6_00001_.png): Keep this painting exactly: the same yard, the same trees, the same ground and composition. Change only the light to evening: warm low orange sunlight from the right, long shadows, a warm orange and rose sky over the trees. No people, no text.",
+      "candidates": [
+        {
+          "sprite": "scene-alamo-plaza",
+          "chosen": 8,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "courtship-yard-morning",
+          "chosen": 4,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "courtship-yard-noon",
+          "chosen": 6,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "courtship-yard-evening",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/scenes-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/scenes-local-3.png",
+      "postProcessing": "Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract's 960x540; every one but the night yard moved toward Astra's oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B's lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.",
+      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
     }
   ]
 }

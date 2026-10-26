@@ -224,6 +224,12 @@ courtship yards are *asked for by name* already.
 
 **Jobs:** 9 × 8 + 8 (noon yard) + 2 × 4 (its edits) + ≤12 repairs, about 100-108.
 
+### Batch 1 done (2026-10-26, branch `standins-1025`, not released)
+
+All twelve painted and wired ([ART_DELIVERY_2026-10-26-LOCAL-SCENES.md](ART_DELIVERY_2026-10-26-LOCAL-SCENES.md)): 88 GPU jobs (plus the
+bake-off's four Gonzales streets), one repair round (the ford, flagged), colour moved toward Astra's landscape. `backdropOf` in
+`public/rider-scene.js`; Claude's courtship yards retired; E19 and E40-E44 closed.
+
 ---
 
 ## Batch 2: the homestead

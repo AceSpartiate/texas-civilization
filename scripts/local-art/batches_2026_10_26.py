@@ -144,6 +144,21 @@ B1_EDITS = {   # the yard's morning and evening: reference edits of the chosen n
 }
 
 
+# The one repair each item may have (method step 8): the ford's eight all ran the road beside the creek, none through it.
+B1_REPAIRS = {
+    'scene-ford-repair': ('scene-ford', 'Keep this painting exactly: the same creek, trees, sky, light, brushwork and composition. '
+                          'Change only the road: the rutted dirt road runs down the near grassy bank into the creek and crosses '
+                          'it through the shallow water at a ford, its wheel ruts going into the water and coming up out of it '
+                          'on the far bank, the water rippling over a pale gravel bar where it crosses. No people, no animals, '
+                          'no wagons, no text.', 4),
+}
+
+
+def made_from(name, picks):
+    """The row a sprite was cut from: its repair where one was chosen (picks.json names `<name>-repair`), else itself."""
+    return f'{name}-repair' if f'{name}-repair' in picks else name
+
+
 def b1_prompt(item):
     if item['name'] == 'scene-street-gonzales':
         sys.path.insert(0, HERE)
@@ -170,11 +185,12 @@ def rows_b1(stage):
     d = os.path.join(WORK, 'b1')
     refs = os.path.join(d, 'refs')
     rows = []
-    if stage == 'edits':   # needs picks.json's courtship-yard-noon
+    if stage == 'edits':   # needs picks.json's courtship-yard-noon, and each repaired item's first pick
         picks = json.load(open(os.path.join(d, 'picks.json'), encoding='utf8'))
         noon = os.path.join(d, 'raw', 'courtship-yard-noon', f"courtship-yard-noon-s{picks['courtship-yard-noon']}_00001_.png")
         for name, prompt in B1_EDITS.items():
             rows.append({'name': name, 'model': 'klein4b', 'prompt': prompt, 'refs': [noon], 'width': 1360, 'height': 768, 'seeds': [1, 2, 3, 4]})
+        rows += edit_rows('b1', B1_REPAIRS, picks, size=(1360, 768))
     else:
         for item in B1:
             r = [os.path.join(refs, LANDSCAPE)] + ([os.path.join(refs, f"board-{item['name']}.png")] if item['board'] else [])
@@ -277,7 +293,8 @@ def finish_b1():
     for sheet, names in B1_SHEETS.items():
         cells = []
         for n in names:
-            raw = os.path.join(d, 'raw', n, f'{n}-s{picks[n]}_00001_.png')
+            row = made_from(n, picks)
+            raw = os.path.join(d, 'raw', row, f'{row}-s{picks[row]}_00001_.png')
             shutil.copy(raw, os.path.join(src, 'raw'))
             im = scene_cut(raw)
             if n != 'scene-yard-night':
@@ -292,7 +309,7 @@ def finish_b1():
 
 
 BATCHES = {'b1': {'refs': refs_b1, 'rows': rows_b1, 'finish': finish_b1,
-                  'sheet': lambda: contact('b1', [b['name'] for b in B1] + list(B1_EDITS), show=scene_cut)}}
+                  'sheet': lambda: contact('b1', [b['name'] for b in B1] + list(B1_EDITS) + list(B1_REPAIRS), show=scene_cut)}}
 
 
 # --- sprites on a plain ground, keyed out on the CPU (batches 2, 4, 5 and the tool parts) -------------------------------
@@ -307,30 +324,39 @@ def sprite_prompt(subject, view='the same three-quarter view from above'):
             f'palette and its {view}. Use it only for style, not for its objects. Paint one new object in that style: ' + subject + SPRITE_TAIL)
 
 
-def key_out(im, thresh=34, feather=1.0):
-    """The plain ground a sprite was painted on, taken out: flood-filled from the picture's edges over colours within `thresh`
-    of the ground's own (its border's median), so a pale shirt inside a dark outline is never cut. A soft edge of `feather` px."""
+def key_out(im, thresh=34, feather=1.0, hole=0):
+    """The plain ground a sprite was painted on, taken out (CPU). Flood-filled from the picture's edges over the ground's own
+    colour (within `thresh` of its border's median) and over any grey shadow cast on it (neutral, no lighter than the ground,
+    not dark enough to be an outline), so a pale shirt or a grey stone inside a dark outline is never cut; then any hole of the
+    plain ground itself (within `hole`, the painted ground is flat to 3 levels) enclosed by the object, as between a fence's
+    rails. A soft edge of `feather` px."""
     from PIL import ImageFilter
     rgb = im.convert('RGB')
     a = np.asarray(rgb).astype(np.int16)
     border = np.concatenate([a[0], a[-1], a[:, 0], a[:, -1]])
     ground = np.median(border, 0)
-    probe = rgb.copy()
-    sentinel = (255, 0, 255)
-    W, H = probe.size
-    step = 32
+    d = np.abs(a - ground).max(2)
+    lum, spread = a.mean(2), a.max(2) - a.min(2)
+    shadow = (spread < 14) & (lum <= ground.mean() + 25) & (lum > 120)
+    walk = Image.fromarray(np.where((d < thresh) | shadow, 255, 0).astype(np.uint8)).copy()   # a copy: PIL fills an array-backed image in vain
+    W, H = walk.size
+    step = 16
     seeds = ([(x, 0) for x in range(0, W, step)] + [(x, H - 1) for x in range(0, W, step)]
              + [(0, y) for y in range(0, H, step)] + [(W - 1, y) for y in range(0, H, step)])
     for xy in seeds:
-        px = np.asarray(probe.getpixel(xy)).astype(np.int16)
-        if tuple(int(v) for v in px) != sentinel and np.abs(px - ground).max() < thresh:
-            ImageDraw.floodfill(probe, xy, sentinel, thresh=thresh)
-    bg = np.all(np.asarray(probe) == np.array(sentinel), axis=2)
+        if walk.getpixel(xy) == 255:
+            ImageDraw.floodfill(walk, xy, 128)
+    bg = (np.asarray(walk) == 128) | (d < hole)
     alpha = Image.fromarray(np.where(bg, 0, 255).astype(np.uint8))
     alpha = alpha.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(feather))   # off the ground's fringe
     out = rgb.convert('RGBA')
     out.putalpha(alpha)
     return out
+
+
+# Sprites with holes of the plain ground enclosed by them (a kettle's bail, a fence's rails), keyed there too. Not the tent:
+# its canvas is painted the ground's own grey in places.
+HOLES = {'wash-kettle-1': 8, 'wash-kettle-2': 8, 'wash-line': 8}
 
 
 def trim(im, size):
@@ -451,9 +477,10 @@ def finish_sprites(batch, sheets, picks, src_name, cell=(512, 512), fit=(440, 44
     for sheet, names in sheets.items():
         cells = []
         for n in names:
-            raw = os.path.join(d, 'raw', n, f'{n}-s{picks[n]}_00001_.png')
+            row = made_from(n, picks)
+            raw = os.path.join(d, 'raw', row, f'{row}-s{picks[row]}_00001_.png')
             shutil.copy(raw, os.path.join(src, 'raw'))
-            k = trim(key_out(Image.open(raw)), (sizes or {}).get(n, fit))
+            k = trim(key_out(Image.open(raw), hole=HOLES.get(n, 0)), (sizes or {}).get(n, fit))
             k.save(os.path.join(final, f'{n}.png'))
             cells.append(k)
         pack(cells, os.path.join(ATL, f'{sheet}.png'), cell, 2 if len(names) in (4, 6) else 1 if len(names) == 1 else 4)
@@ -541,7 +568,8 @@ def finish_b3():
     for sheet, names in B3_SHEETS.items():
         cells = []
         for n in names:
-            raw = os.path.join(d, 'raw', n, f'{n}-s{picks[n]}_00001_.png')
+            row = made_from(n, picks)
+            raw = os.path.join(d, 'raw', row, f'{row}-s{picks[row]}_00001_.png')
             shutil.copy(raw, os.path.join(src, 'raw'))
             im = colour_toward(field_cut(raw), ref, B1_MATCH)
             im.save(os.path.join(final, f'{n}.png'))

@@ -1028,8 +1028,8 @@
       "image": "/assets/claude-standins/claude-courtship-farms.png",
       "width": 1080,
       "height": 1120,
-      "bytes": 935900,
-      "sha256": "851e95f47fc2223a828311897a2d13ce667cc035985e6ee5ce635805245f1fa9",
+      "bytes": 935902,
+      "sha256": "c6e8e90b6e32b427a672b0624ce09dc11580651c6688a2be48e9317871da6a3e",
       "madeBy": "claude",
       "module": "courtship-places",
       "request": "Request 2026-09-29 — the lone parent's wedding",
@@ -1058,63 +1058,6 @@
         "cell": {
           "w": 560,
           "h": 330
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-courtship-yard-morning": {
-      "image": "/assets/claude-standins/claude-courtship-yard-morning.png",
-      "width": 960,
-      "height": 540,
-      "bytes": 214311,
-      "sha256": "31c7a01207a3591b2a5b0d01536811e0e24374ee22aec37c8f4b5bc1bfd61ba9",
-      "madeBy": "claude",
-      "module": "courtship-places",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 960,
-          "h": 540
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-courtship-yard-noon": {
-      "image": "/assets/claude-standins/claude-courtship-yard-noon.png",
-      "width": 960,
-      "height": 540,
-      "bytes": 195861,
-      "sha256": "3aa05ccb10e6c30968102970d2591254e39833d5adedbfb2e546f92c345e0c58",
-      "madeBy": "claude",
-      "module": "courtship-places",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 960,
-          "h": 540
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-courtship-yard-evening": {
-      "image": "/assets/claude-standins/claude-courtship-yard-evening.png",
-      "width": 960,
-      "height": 540,
-      "bytes": 213565,
-      "sha256": "3593d0fda49749992b9ed0e8a9e3022a2b7f92d019388d37e61ec3bf1ffa2ace",
-      "madeBy": "claude",
-      "module": "courtship-places",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 960,
-          "h": 540
         },
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
@@ -13435,60 +13378,6 @@
       "source": "svg/courtship-places/claude-wedding-table.svg",
       "label": "wedding table",
       "kind": "claude-courtship-table"
-    },
-    "courtship-yard-morning": {
-      "sheet": "claude-courtship-yard-morning",
-      "x": 0,
-      "y": 0,
-      "w": 960,
-      "h": 540,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "logicalHeight": 540,
-      "backdrop": true,
-      "madeBy": "claude",
-      "module": "courtship-places",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "replaceWith": "courtship-yard-morning: item 5: 960 by 540, a painted yard with no people and no buildings, drawn to cover the scene",
-      "source": "svg/courtship-places/claude-courtship-yard-morning.svg",
-      "label": "courtship yard morning",
-      "kind": "claude-courtship-yard-morning"
-    },
-    "courtship-yard-noon": {
-      "sheet": "claude-courtship-yard-noon",
-      "x": 0,
-      "y": 0,
-      "w": 960,
-      "h": 540,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "logicalHeight": 540,
-      "backdrop": true,
-      "madeBy": "claude",
-      "module": "courtship-places",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "replaceWith": "courtship-yard-noon: item 5: 960 by 540, a painted yard with no people and no buildings, drawn to cover the scene",
-      "source": "svg/courtship-places/claude-courtship-yard-noon.svg",
-      "label": "courtship yard noon",
-      "kind": "claude-courtship-yard-noon"
-    },
-    "courtship-yard-evening": {
-      "sheet": "claude-courtship-yard-evening",
-      "x": 0,
-      "y": 0,
-      "w": 960,
-      "h": 540,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "logicalHeight": 540,
-      "backdrop": true,
-      "madeBy": "claude",
-      "module": "courtship-places",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "replaceWith": "courtship-yard-evening: item 5: 960 by 540, a painted yard with no people and no buildings, drawn to cover the scene",
-      "source": "svg/courtship-places/claude-courtship-yard-evening.svg",
-      "label": "courtship yard evening",
-      "kind": "claude-courtship-yard-evening"
     },
     "ana-esparza-walk-e-1": {
       "sheet": "claude-ana-esparza",

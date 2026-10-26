@@ -4,8 +4,8 @@
     "the rider rides into the family's own yard (riding-in, mounted-courier-e); the ground is the map's at the family's land",
     "\"At home · Afternoon\": 8 of the family in their own looks (ochre-idle-e, father-straw-idle-e, rust-woman-idle-e, teal-idle-e, ochre-idle-e, youth-boy-idle-e, youth-boy-idle-e, youth-girl-idle-e), the tent, campfire behind them, the rider by his horse",
     "Moses asks \"How many of them are there?\", and the rider answers; the family's record keeps it",
-    "Done: he gets up and rides on, \"Ride safe. / I mean to. / Back to work, all of you. Worry never hoed a row.\", and the scene goes",
-    "\"Gonzales · Midday\": the street (storehouse, shop-blacksmith, cabin-wide, shop-carpenter), the family's 1 and the town's 3 (Rafael Cantú, Tobias Rhine, Josiah Pike)",
+    "Done: he gets up and rides on, \"Thank you for stopping. / Good day to you. / Back to work, all of you. Worry never hoed a row.\", and the scene goes",
+    "\"Gonzales · Midday\": the painted street (scene-street-gonzales), the family's 1 and the town's 3 (Rafael Cantú, Tobias Rhine, Josiah Pike)",
     "Escape puts the scene away at once and lets him go",
     "no page errors"
   ],
@@ -139,7 +139,7 @@
       ],
       "rider": {
         "state": "speaking",
-        "sprite": "courier-onfoot-3",
+        "sprite": "courier-onfoot-4",
         "x": 867,
         "y": 430
       },
@@ -152,8 +152,8 @@
         "answer": "I would not guess at it if I had seen them, and I did not see them. Ned Falk said more than a handful and would put no number to it either."
       },
       "closing": [
-        "Ride safe.",
-        "I mean to.",
+        "Thank you for stopping.",
+        "Good day to you.",
         "Back to work, all of you. Worry never hoed a row."
       ]
     },
@@ -220,13 +220,9 @@
           "drawn": true
         }
       ],
-      "pieces": [
-        "storehouse",
-        "shop-blacksmith",
-        "cabin-wide",
-        "shop-carpenter"
-      ],
-      "place": "Gonzales · Midday"
+      "pieces": [],
+      "place": "Gonzales · Midday",
+      "backdrop": "scene-street-gonzales"
     }
   }
 }

@@ -17,6 +17,16 @@ review sheets and chosen paintings in `docs/art-sources/<group>-2026-10-26/`.
   from `docs/art-sources/`. At play size they read as the 9B ones did
   ([roads-4b-compare.png](docs/evidence/roads-4b-compare.png)). 16 GPU jobs, ~4 s each on the 4060 Ti (Parsec tier, ComfyUI
   already there); the lease waited 90 min behind another project's upscale.
+- **Batch 1, the rider scenes' backdrops and the courtship yards** ([delivery](docs/ART_DELIVERY_2026-10-26-LOCAL-SCENES.md)).
+  Nine `scene-*` paintings and the three `courtship-yard-*` (one noon yard, its morning and evening edited from it), 960x540,
+  colour moved toward Astra's landscape as the bake-off advised. `backdropOf` in `public/rider-scene.js` draws a place's
+  painting to cover the scene and sets none of the library's buildings or trees on it; the family's yard by day stays its own
+  ground, house and field, by night the painted night yard with its house on it; Irish colony towns keep the assembled street.
+  Opaque paintings are framed to their exact rectangle (`BACKDROP_SHEET`, build-atlas-manifest). Claude's yards retired; E19,
+  E40-E44 closed. **Flagged:** `scene-ford` (the road meets a gravel bar rather than visibly crossing, after the one repair
+  round). 88 jobs, 906 s (76 on the 4060 Ti while the owner was on Parsec, 12 on the 4080 after his game). Proofs:
+  test:rider-scene (now asserts the painted street) and test:lone-parent pass;
+  [scenes-local-compare.png](docs/evidence/scenes-local-compare.png).
 
 ## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, not released)
 

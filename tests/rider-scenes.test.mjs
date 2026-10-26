@@ -22,7 +22,7 @@ import { closeRunner } from '../sim/alamo-runner.mjs';
 import { sendExpress } from '../sim/expresses.mjs';
 import { partOfDay } from '../sim/courtship.mjs';
 import { CALENDAR_SCALE, calendarMinutes, dateOf } from '../sim/clock.mjs';
-import { STREET, piecesOf } from '../public/rider-scene.js';
+import { STREET, backdropOf, piecesOf } from '../public/rider-scene.js';
 import { placeCast } from '../public/cutscene.js';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
@@ -350,4 +350,27 @@ test('the page sets each place with its own pieces and stands the family on the 
   assert.ok(at('boy').y > at('mother').y && at('keeper').y < at('mother').y, 'the child is not in front or the keeper not behind');
   assert.ok(at('boy').h < h && at('keeper').h < h);
   assert.equal(places[0].id, 'keeper', 'the one behind is not drawn first');
+});
+
+
+test("each place away from home is its painted backdrop, and with it drawn only the family's yard keeps its pieces", () => {
+  // The local pipeline's paintings (2026-10-26, docs/ART_DELIVERY_2026-10-26-LOCAL-SCENES.md), by the place's kind and its town.
+  assert.equal(backdropOf({ kind: 'town', siteId: 'gonzales' }), 'scene-street-gonzales');
+  assert.equal(backdropOf({ kind: 'town', siteId: 'bexar' }), 'scene-street-tejano');
+  assert.equal(backdropOf({ kind: 'town', siteId: 'goliad' }), 'scene-street-tejano');
+  assert.equal(backdropOf({ kind: 'town', siteId: 'san-felipe' }), 'scene-street-texian');
+  assert.equal(backdropOf({ kind: 'town', siteId: 'san-patricio' }), null, "an Irish colony's town has no painting and keeps its assembled street");
+  assert.equal(backdropOf({ kind: 'camp' }), 'scene-camp-volunteers');
+  assert.equal(backdropOf({ kind: 'alamo' }), 'scene-alamo-plaza');
+  assert.equal(backdropOf({ kind: 'ford' }), 'scene-ford');
+  assert.equal(backdropOf({ kind: 'road' }), 'scene-road-prairie');
+  assert.equal(backdropOf({ kind: 'road', woods: true }), 'scene-road-woods');
+  assert.equal(backdropOf({ kind: 'home', light: 'noon' }), null, "the family's yard by day is its own ground, house and field");
+  assert.equal(backdropOf({ kind: 'home', light: 'night' }), 'scene-yard-night');
+  // The painting holds the place's buildings and trees: none are set on it twice. The yard's own house still stands on the night yard.
+  for (const setting of [{ kind: 'town', siteId: 'gonzales' }, { kind: 'camp', woods: true }, { kind: 'ford' }, { kind: 'alamo' }, { kind: 'road', woods: true }]) {
+    assert.deepEqual(piecesOf(setting, { painted: true }), [], `${setting.kind} set pieces on its painting`);
+    assert.ok(piecesOf(setting).length, `${setting.kind} has no pieces to fall back on`);
+  }
+  assert.ok(piecesOf({ kind: 'home', light: 'night', house: { shelter: 'house', layout: 'dog-run' } }, { painted: true }).some(piece => piece.name === 'house-dog-run'));
 });
