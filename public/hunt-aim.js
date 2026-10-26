@@ -13,10 +13,14 @@
 // the keyboard (the arrow keys move the sights, Shift slowly; Space or Enter fires; Escape lets it go). With the page asking for less
 // motion the animal does not bound, runs slower and stands longer, the sights wander slower, and nothing kicks or flashes (`calm`).
 //
-// stand-in: docs/ART_REQUESTS.md, request 2026-10-02 "the hunter's first-person field" - the field (sky, timber, brush, prairie) and
-// the rifle over the shoulder are drawn here by the page. The animals are Astra's own wildlife clips, at the size of the field.
+// The field (timber, brush or open prairie, summer and winter) and the long rifle over the shoulder are paintings of the local
+// pipeline (request 2026-10-02 "the hunter's first-person field", 2026-10-26, docs/ART_DELIVERY_2026-10-26-LOCAL-HUNT.md): the field
+// behind the animal is the painting (`fieldSprite`), the cover nearest the hunter stays drawn here over the animal's edges and feet
+// (the painting is opaque, so it cannot be cut into layers), and the rifle is the painted one turned on its muzzle. While a painting
+// loads, the page's own strokes. The animals are Astra's own wildlife clips, at the size of the field.
 import { VIEW, LEAD_MS, aimPath, animalAt, swayAt, judgeShot } from '/sim/hunt-aim.mjs';
-import { drawClip, loadArt } from '/art.js';
+import { drawClip, drawSprite, loadArt, spriteFrame, spriteReady } from '/art.js';
+import { RIFLE, fieldSprite, seasonOf } from '/hunt-art.js';
 import { SIGHTED } from '/family-panel.js';
 
 /** Where each quarry's clips are, so the sheet is asked for the moment the field opens. */
@@ -41,8 +45,7 @@ const wereOf = quarry => (quarry === 'waterfowl' ? 'were' : 'was');
  * dead; spring and summer green; the fall golden (`HIST-TEX-264`'s lean deer and fat turkeys are the same months).
  */
 function palette(sight) {
-  const month = Number.isFinite(sight?.month) ? sight.month : 8;
-  const season = [11, 0, 1].includes(month) ? 'winter' : [9, 10].includes(month) ? 'fall' : [2, 3, 4].includes(month) ? 'spring' : 'summer';
+  const season = seasonOf(sight);
   const sky = sight?.sky || 'fair';
   const grey = ['rain', 'storm', 'norther'].includes(sky);
   const leaf = { winter: ['#7a6d5c', '#5f5446', '#8b7e6b'], fall: ['#8a7a3a', '#9c6a2c', '#6f6a34'], spring: ['#5f8a3e', '#4d7535', '#77994a'], summer: ['#4f6f33', '#3f5c2b', '#62803f'] }[season];
@@ -54,29 +57,44 @@ function palette(sight) {
   };
 }
 
+/** The painted field, drawn to cover the canvas about the field's box; the weather's haze over it. True when drawn. */
+function paintPainted(ctx, W, H, box, sight, look) {
+  const name = fieldSprite(sight);
+  if (!spriteReady(name)) return false;
+  const frame = spriteFrame(name), tall = Math.max(H, W / (frame.w / frame.h));
+  if (!(drawSprite(ctx, name, box.x + VIEW.w * box.s / 2, box.y + VIEW.h * box.s / 2, tall, { anchor: [0.5, 0.5] }) > 0)) return false;
+  // Rain, a storm or a norther greys it; fog hazes it (the painting is of a clear day).
+  if (look.haze > 0.12) { ctx.fillStyle = `rgba(214,216,212,${(look.haze * 0.9).toFixed(3)})`; ctx.fillRect(0, 0, W, H); }
+  return true;
+}
+
 /** The field behind the animal, drawn once a size: sky, the far ground, the cover the hunter is waiting in, and the ground. */
 function paintField(ctx, W, H, box, sight) {
   const { x: ox, y: oy, s } = box, look = palette(sight), random = generator(`${sight?.seed}:field`), cover = sight?.cover || 'timber';
   const X = u => ox + u * s, Y = v => oy + v * s;
   const horizon = Y(VIEW.horizon);
-  const sky = ctx.createLinearGradient(0, 0, 0, horizon);
-  sky.addColorStop(0, look.skyTop); sky.addColorStop(1, look.skyLow);
-  ctx.fillStyle = sky; ctx.fillRect(0, 0, W, horizon + 2);
-  // The far ground: low hills or the line of distant timber, hazed by the air between.
-  ctx.fillStyle = look.far;
-  ctx.beginPath(); ctx.moveTo(0, horizon);
-  for (let u = -1; u <= VIEW.w + 1; u += 0.5) ctx.lineTo(X(u), horizon - s * (0.25 + 0.2 * Math.sin(u * 0.7 + random() * 0.6)));
-  ctx.lineTo(W, horizon); ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath(); ctx.fill();
-  // The ground, from the horizon down to the hunter's feet.
-  const ground = ctx.createLinearGradient(0, horizon, 0, H);
-  ground.addColorStop(0, look.grass[1]); ground.addColorStop(0.5, look.grass[0]); ground.addColorStop(1, look.grass[2]);
-  ctx.fillStyle = ground; ctx.fillRect(0, horizon, W, H - horizon);
-  // Water where the fowl are: a strip of the creek or the bay under the far bank.
+  const painted = paintPainted(ctx, W, H, box, sight, look);
+  if (!painted) {
+    const sky = ctx.createLinearGradient(0, 0, 0, horizon);
+    sky.addColorStop(0, look.skyTop); sky.addColorStop(1, look.skyLow);
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, W, horizon + 2);
+    // The far ground: low hills or the line of distant timber, hazed by the air between.
+    ctx.fillStyle = look.far;
+    ctx.beginPath(); ctx.moveTo(0, horizon);
+    for (let u = -1; u <= VIEW.w + 1; u += 0.5) ctx.lineTo(X(u), horizon - s * (0.25 + 0.2 * Math.sin(u * 0.7 + random() * 0.6)));
+    ctx.lineTo(W, horizon); ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath(); ctx.fill();
+    // The ground, from the horizon down to the hunter's feet.
+    const ground = ctx.createLinearGradient(0, horizon, 0, H);
+    ground.addColorStop(0, look.grass[1]); ground.addColorStop(0.5, look.grass[0]); ground.addColorStop(1, look.grass[2]);
+    ctx.fillStyle = ground; ctx.fillRect(0, horizon, W, H - horizon);
+  }
+  // Water where the fowl are: a strip of the creek or the bay under the far bank, on the painting too (none is painted).
   if (sight?.quarry === 'waterfowl') {
     const water = ctx.createLinearGradient(0, horizon, 0, horizon + s * 0.9);
     water.addColorStop(0, '#9fb5bd'); water.addColorStop(1, '#6f8d97');
     ctx.fillStyle = water; ctx.fillRect(0, horizon + s * 0.05, W, s * 0.85);
   }
+  if (painted) return;
   // The far cover along the horizon: the timber's crowns, the brush's low tops, or a few mottes out on the prairie.
   const crown = (x, y, r, tone) => { ctx.fillStyle = tone; ctx.beginPath(); ctx.ellipse(x, y, r, r * 0.8, 0, 0, Math.PI * 2); ctx.fill(); };
   const tones = look.leaf;
@@ -183,7 +201,8 @@ export function mountHuntAim({ send, sound = () => {}, reducedMotion = { matches
 
   /** The cached layers for this size: the field behind, and the cover in front. */
   function layersFor(box) {
-    const ratio = Math.min(2, devicePixelRatio || 1), key = `${box.W}x${box.H}@${ratio}:${aim.sight.seed}`;
+    // Painted again once the field's painting has come (asked for by `spriteReady`), so it is not kept as the strokes.
+    const ratio = Math.min(2, devicePixelRatio || 1), key = `${box.W}x${box.H}@${ratio}:${aim.sight.seed}:${spriteReady(fieldSprite(aim.sight))}`;
     if (layers?.key === key) return layers;
     const make = paint => {
       const layer = document.createElement('canvas');
@@ -192,6 +211,7 @@ export function mountHuntAim({ send, sound = () => {}, reducedMotion = { matches
       return layer;
     };
     layers = { key, back: make(paintField), near: make(paintNear) };
+    evidence.field = spriteReady(fieldSprite(aim.sight)) ? fieldSprite(aim.sight) : null;
     return layers;
   }
 
@@ -386,6 +406,19 @@ export function mountHuntAim({ send, sound = () => {}, reducedMotion = { matches
     ctx.stroke();
   }
 
+  /** The painted rifle with its muzzle at (tx, ty) and its butt toward (bx, by). False while it loads. */
+  function drawPaintedRifle(tx, ty, bx, by) {
+    if (!spriteReady('hunt-rifle')) return false;
+    const frame = spriteFrame('hunt-rifle');
+    const sx = (RIFLE.butt[0] - RIFLE.muzzle[0]) * frame.w, sy = (RIFLE.butt[1] - RIFLE.muzzle[1]) * frame.h;
+    const k = Math.hypot(bx - tx, by - ty) / Math.hypot(sx, sy), turn = Math.atan2(by - ty, bx - tx) - Math.atan2(sy, sx);
+    ctx.save();
+    ctx.translate(tx, ty); ctx.rotate(turn);
+    const drawn = drawSprite(ctx, 'hunt-rifle', 0, 0, (frame.logicalHeight || frame.h) * k, { anchor: RIFLE.muzzle }) > 0;
+    ctx.restore();
+    return drawn;
+  }
+
   /** The long rifle seen over the hunter's shoulder, its muzzle on the sights, and the bead where the ball will go. */
   function drawRifle(box, t) {
     const path = aim.path, fired = aim.fired && !aim.fired.hold ? aim.fired : null;
@@ -400,17 +433,23 @@ export function mountHuntAim({ send, sound = () => {}, reducedMotion = { matches
     evidence.sights = { x: +((mx - box.x) / box.s).toFixed(3), y: +((my - box.y) / box.s).toFixed(3) };
     const bx = box.W * 0.64, by = box.H + box.s * 0.6, wide = box.s * 0.42, tip = Math.max(3, box.s * 0.06);
     const ang = Math.atan2(my - by, mx - bx), nx = -Math.sin(ang), ny = Math.cos(ang);
-    // The stock and the lock, low at the right, in the cherry and iron of a Kentucky rifle.
-    ctx.fillStyle = '#5a3420';
-    ctx.beginPath(); ctx.moveTo(bx + nx * wide * 1.6, by + ny * wide * 1.6); ctx.lineTo(bx - nx * wide * 1.6, by - ny * wide * 1.6);
-    ctx.lineTo(bx - nx * wide * 0.8 + Math.cos(ang) * box.s * 1.6, by - ny * wide * 0.8 + Math.sin(ang) * box.s * 1.6);
-    ctx.lineTo(bx + nx * wide * 0.8 + Math.cos(ang) * box.s * 1.6, by + ny * wide * 0.8 + Math.sin(ang) * box.s * 1.6); ctx.closePath(); ctx.fill();
-    // The barrel, browned iron, narrowing to the muzzle on the sights.
-    const steel = ctx.createLinearGradient(bx - nx * wide, by - ny * wide, bx + nx * wide, by + ny * wide);
-    steel.addColorStop(0, '#2b2622'); steel.addColorStop(0.45, '#6d655c'); steel.addColorStop(1, '#231f1b');
-    ctx.fillStyle = steel;
-    ctx.beginPath(); ctx.moveTo(bx + nx * wide * 0.55, by + ny * wide * 0.55); ctx.lineTo(mx + nx * tip, my + box.s * 0.14 + ny * tip);
-    ctx.lineTo(mx - nx * tip, my + box.s * 0.14 - ny * tip); ctx.lineTo(bx - nx * wide * 0.55, by - ny * wide * 0.55); ctx.closePath(); ctx.fill();
+    // The painted rifle (2026-10-26), turned on its muzzle so the muzzle is on the sights and the butt where the stroked stock's
+    // base was (`RIFLE`); the strokes below while it loads.
+    evidence.rifle = drawPaintedRifle(mx, my + box.s * 0.14, bx, by) ? 'painted' : 'strokes';
+    if (evidence.rifle === 'strokes') drawStrokedRifle();
+    function drawStrokedRifle() {
+      // The stock and the lock, low at the right, in the cherry and iron of a Kentucky rifle.
+      ctx.fillStyle = '#5a3420';
+      ctx.beginPath(); ctx.moveTo(bx + nx * wide * 1.6, by + ny * wide * 1.6); ctx.lineTo(bx - nx * wide * 1.6, by - ny * wide * 1.6);
+      ctx.lineTo(bx - nx * wide * 0.8 + Math.cos(ang) * box.s * 1.6, by - ny * wide * 0.8 + Math.sin(ang) * box.s * 1.6);
+      ctx.lineTo(bx + nx * wide * 0.8 + Math.cos(ang) * box.s * 1.6, by + ny * wide * 0.8 + Math.sin(ang) * box.s * 1.6); ctx.closePath(); ctx.fill();
+      // The barrel, browned iron, narrowing to the muzzle on the sights.
+      const steel = ctx.createLinearGradient(bx - nx * wide, by - ny * wide, bx + nx * wide, by + ny * wide);
+      steel.addColorStop(0, '#2b2622'); steel.addColorStop(0.45, '#6d655c'); steel.addColorStop(1, '#231f1b');
+      ctx.fillStyle = steel;
+      ctx.beginPath(); ctx.moveTo(bx + nx * wide * 0.55, by + ny * wide * 0.55); ctx.lineTo(mx + nx * tip, my + box.s * 0.14 + ny * tip);
+      ctx.lineTo(mx - nx * tip, my + box.s * 0.14 - ny * tip); ctx.lineTo(bx - nx * wide * 0.55, by - ny * wide * 0.55); ctx.closePath(); ctx.fill();
+    }
     // The front sight: a brass bead on a blade at the muzzle, and a pale ring round where it points so a student can see it on dark timber.
     ctx.fillStyle = '#d8b25a'; ctx.beginPath(); ctx.arc(mx, my, Math.max(3, box.s * 0.055), 0, Math.PI * 2); ctx.fill();
     ctx.strokeStyle = '#2a2014'; ctx.lineWidth = 1.5; ctx.stroke();

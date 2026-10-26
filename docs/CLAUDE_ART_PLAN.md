@@ -13,8 +13,8 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | C — Soldiers, battles and famous people | 13 | 1 | 7 | 11 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 25 | 2 | 9 | 6 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 11 | 2 | 9 | 18 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 19 | 1 | 8 | 21 |
-| **Total** | **120** | **20** | **62** | **59** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 18 | 1 | 8 | 22 |
+| **Total** | **119** | **20** | **62** | **60** |
 
 ## How a builder works
 
@@ -625,7 +625,7 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 19 to make, 21 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 18 to make, 22 skipped.
 
 - [ ] **F16** (priority 1) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 6 — **Claude stand-in in place** (`icon-ask-neighbours`); Astra's replaces it
   - **Deliver:** `icon-ask-neighbours` (a parent and a child walking up a track toward a neighbour's cabin with smoke from its chimney)
@@ -642,11 +642,6 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 6-8 frames, looping. **Size:** Readable at 30-160 px, anchored at the foot of the column
   - **Plugs into:** the `fires` in `drawWorld`, `public/app.js` (`window.__firesDrawn`)
   - **Stands in now:** the library's `smoke-rise` drawn three to four figures tall; a painted grey plume (Astra's library art reused)
-- [ ] **F17** (priority 2) — [Request 2026-10-02 — the hunter's first-person field](ART_REQUESTS.md#request-2026-10-02--the-hunters-first-person-field), items 1 and 2
-  - **Deliver:** `hunt-field-timber`, `hunt-field-brush`, `hunt-field-open` (each in summer and `-winter`; the far ground and the cover, eye height, no animal) and `hunt-rifle` (the long rifle seen over the hunter's shoulder, stock and lock low at the right, the muzzle and front sight free to be turned toward the aim)
-  - **Frames:** 6 backdrops; 1 rifle. **Size:** Backdrop: 1600×900, opaque, the horizon at 51% of the height, the middle third clear of trunks; rifle: transparent, pivot at the muzzle
-  - **Plugs into:** `paintField`, `paintNear` and `drawRifle` in `public/hunt-aim.js`
-  - **Stands in now:** the field and the rifle painted in canvas (sky, crowns, trunks, brush and grass; a browned barrel and a cherry stock) (drawn in code (canvas or CSS))
 - [ ] **F30** (priority 2) — [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather), item 2
   - **Deliver:** `icon-pitch-tent` (a wagon sheet tent going up: a person pegging down one side)
   - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
@@ -734,6 +729,7 @@ Skipped:
 - ~~F13~~ [Request 2026-09-19 — Béxar's fields and acequias](ART_REQUESTS.md#request-2026-09-19--béxars-fields-and-acequias) — skipped: delivered 2026-09-21; the layout is research and code
 - ~~F14~~ [Request 2026-09-21 — the guided start's marks](ART_REQUESTS.md#request-2026-09-21--the-guided-starts-marks) — skipped: delivered 2026-10-07 (Astra's four lesson marks, wired into the bar and the pips; dormant while the guided start is off, 2026-09-28)
 - ~~F15~~ [Request 2026-09-28 — the garden — WITHDRAWN 2026-09-28](ART_REQUESTS.md#request-2026-09-28--the-garden--withdrawn-2026-09-28) — skipped: withdrawn 2026-09-28 (crops no longer follow the seasons)
+- ~~F17~~ [Request 2026-10-02 — the hunter's first-person field](ART_REQUESTS.md#request-2026-10-02--the-hunters-first-person-field) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 3): the three fields summer and winter (the winters repaired once: they came back under snow) and `hunt-rifle`, drawn by `public/hunt-aim.js` (`fieldSprite`, `RIFLE`); the cover nearest the hunter stays drawn in canvas, as planned
 - ~~F35~~ [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 2): `garden-beds` and `garden-beds-winter` (an edit of the summer beds), asked for by name in `drawGarden`
 - ~~FS8~~ [Request 2026-09-20 — the launcher's remaining plates — Delivered 2026-09-20](ART_REQUESTS.md#request-2026-09-20--the-launchers-remaining-plates--delivered-2026-09-20) — skipped: delivered 2026-09-20
 - ~~FS9~~ [Request 2026-09-19 — the logs fetched from the timber](ART_REQUESTS.md#request-2026-09-19--the-logs-fetched-from-the-timber) — skipped: delivered (`icons-family-service.png`)

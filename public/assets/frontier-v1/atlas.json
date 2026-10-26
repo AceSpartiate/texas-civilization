@@ -27045,6 +27045,175 @@
         ]
       }
     },
+    "hunt-fields-local-1": {
+      "image": "atlases/hunt-fields-local-1.png",
+      "width": 3680,
+      "height": 2200,
+      "bytes": 12023286,
+      "sha256": "57ffcfd2d1704ca48f9786e029c55afa653ad75d6a5ab30d99553ed9f563788b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.288538,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              98,
+              1002
+            ],
+            "columns": [
+              [
+                118,
+                1722
+              ],
+              [
+                1958,
+                3562
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              1198,
+              2102
+            ],
+            "columns": [
+              [
+                118,
+                1722
+              ],
+              [
+                1958,
+                3562
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "hunt-fields-local-2": {
+      "image": "atlases/hunt-fields-local-2.png",
+      "width": 1840,
+      "height": 1100,
+      "bytes": 2768009,
+      "sha256": "550d3a923c1e2b14a554cde7053d19cfcdaa4bb5f773280714f85d49c9722099",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.288538,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              98,
+              1002
+            ],
+            "columns": [
+              [
+                118,
+                1722
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "hunt-fields-local-3": {
+      "image": "atlases/hunt-fields-local-3.png",
+      "width": 1840,
+      "height": 1100,
+      "bytes": 2655810,
+      "sha256": "69e88e8f62e390005cb2e798442291c5bbc9271b120488fce8e5736c50257b04",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.288538,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              98,
+              1002
+            ],
+            "columns": [
+              [
+                118,
+                1722
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "hunt-rifle-local": {
+      "image": "atlases/hunt-rifle-local.png",
+      "width": 1100,
+      "height": 1100,
+      "bytes": 272583,
+      "sha256": "1fcd95b8cbe6997cef3e9db36b6fffc3757887de117650c379a76d4217500823",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.906987,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              99,
+              1001
+            ],
+            "columns": [
+              [
+                143,
+                956
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "scenes-local-1": {
       "image": "atlases/scenes-local-1.png",
       "width": 2240,
@@ -120140,6 +120309,186 @@
           264
         ],
         "visiblePixels": 66006,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "hunt-field-timber": {
+      "sheet": "hunt-fields-local-1",
+      "x": 120,
+      "y": 100,
+      "w": 1600,
+      "h": 900,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "hunt field timber",
+      "kind": "hunt-fields-local-1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          120,
+          100,
+          1600,
+          900
+        ],
+        "visiblePixels": 1440000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 900,
+      "backdrop": true
+    },
+    "hunt-field-timber-winter": {
+      "sheet": "hunt-fields-local-1",
+      "x": 1960,
+      "y": 100,
+      "w": 1600,
+      "h": 900,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "hunt field timber winter",
+      "kind": "hunt-fields-local-1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1960,
+          100,
+          1600,
+          900
+        ],
+        "visiblePixels": 1440000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 900,
+      "backdrop": true
+    },
+    "hunt-field-brush": {
+      "sheet": "hunt-fields-local-1",
+      "x": 120,
+      "y": 1200,
+      "w": 1600,
+      "h": 900,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "hunt field brush",
+      "kind": "hunt-fields-local-1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          120,
+          1200,
+          1600,
+          900
+        ],
+        "visiblePixels": 1440000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 900,
+      "backdrop": true
+    },
+    "hunt-field-brush-winter": {
+      "sheet": "hunt-fields-local-1",
+      "x": 1960,
+      "y": 1200,
+      "w": 1600,
+      "h": 900,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "hunt field brush winter",
+      "kind": "hunt-fields-local-1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1960,
+          1200,
+          1600,
+          900
+        ],
+        "visiblePixels": 1440000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 900,
+      "backdrop": true
+    },
+    "hunt-field-open": {
+      "sheet": "hunt-fields-local-2",
+      "x": 120,
+      "y": 100,
+      "w": 1600,
+      "h": 900,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "hunt field open",
+      "kind": "hunt-fields-local-2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          120,
+          100,
+          1600,
+          900
+        ],
+        "visiblePixels": 1440000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 900,
+      "backdrop": true
+    },
+    "hunt-field-open-winter": {
+      "sheet": "hunt-fields-local-3",
+      "x": 120,
+      "y": 100,
+      "w": 1600,
+      "h": 900,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "label": "hunt field open winter",
+      "kind": "hunt-fields-local-3",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          120,
+          100,
+          1600,
+          900
+        ],
+        "visiblePixels": 1440000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "logicalHeight": 900,
+      "backdrop": true
+    },
+    "hunt-rifle": {
+      "sheet": "hunt-rifle-local",
+      "x": 143,
+      "y": 99,
+      "w": 813,
+      "h": 902,
+      "anchorX": 0.8911,
+      "anchorY": 0.929,
+      "label": "hunt rifle",
+      "kind": "hunt-rifle-local",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          145,
+          101,
+          809,
+          898
+        ],
+        "visiblePixels": 109500,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

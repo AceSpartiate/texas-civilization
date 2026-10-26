@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **6376 usable sprites, 452 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
+Generated from the shipped library: **6383 usable sprites, 456 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -307,7 +307,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | horse-herds | 8 | 1774 × 887 | 1516208 |
 | house-construction-complete | 8 | 1774 × 887 | 1134794 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
-| house-back-views | 6 | 1448 × 1086 | 819294 |
+| house-back-views | 6 | 1448 × 1086 | 787018 |
 | house-end-views | 4 | 1536 × 1024 | 2128992 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | infant-wagon-passenger | 6 | 1024 × 1536 | 2003734 |
@@ -316,6 +316,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ground-roads | 4 | 1536 × 1536 | 1774179 |
 | homestead-local-1 | 6 | 1024 × 1536 | 1308207 |
 | homestead-local-2 | 4 | 1024 × 1024 | 572804 |
+| hunt-fields-local-1 | 4 | 3680 × 2200 | 12023286 |
+| hunt-fields-local-2 | 1 | 1840 × 1100 | 2768009 |
+| hunt-fields-local-3 | 1 | 1840 × 1100 | 2655810 |
+| hunt-rifle-local | 1 | 1100 × 1100 | 272583 |
 | scenes-local-1 | 4 | 2240 × 1400 | 4768867 |
 | scenes-local-2 | 4 | 2240 × 1400 | 4614709 |
 | scenes-local-3 | 4 | 2240 × 1400 | 4292950 |
@@ -3417,6 +3421,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wood-pile-2 | homestead-local-2 | State artwork; no motion required |
 | wood-pile-3 | homestead-local-2 | State artwork; no motion required |
 | wood-pile-4 | homestead-local-2 | State artwork; no motion required |
+| hunt-field-timber | hunt-fields-local-1 | State artwork; no motion required |
+| hunt-field-timber-winter | hunt-fields-local-1 | State artwork; no motion required |
+| hunt-field-brush | hunt-fields-local-1 | State artwork; no motion required |
+| hunt-field-brush-winter | hunt-fields-local-1 | State artwork; no motion required |
+| hunt-field-open | hunt-fields-local-2 | State artwork; no motion required |
+| hunt-field-open-winter | hunt-fields-local-3 | State artwork; no motion required |
+| hunt-rifle | hunt-rifle-local | State artwork; no motion required |
 | scene-street-gonzales | scenes-local-1 | State artwork; no motion required |
 | scene-street-texian | scenes-local-1 | State artwork; no motion required |
 | scene-street-tejano | scenes-local-1 | State artwork; no motion required |

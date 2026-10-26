@@ -272,6 +272,11 @@ layer when the sprite has loaded. Its `near` layer, the trunks and grass in fron
 painting is opaque, so it cannot be split into layers). `drawRifle` draws the sprite rotated about its muzzle pivot.
 Proof: the hunt browser proof, with its existing pictures.
 
+### Batch 3 done (2026-10-26, branch `standins-1025`, not released)
+
+[ART_DELIVERY_2026-10-26-LOCAL-HUNT.md](ART_DELIVERY_2026-10-26-LOCAL-HUNT.md): six fields and the rifle, 52 jobs, one repair round
+(the winters came back snowy). F17 closed.
+
 ---
 
 ## Batch 4: icons and marks the page now strokes

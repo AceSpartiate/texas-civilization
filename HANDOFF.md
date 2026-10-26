@@ -35,6 +35,12 @@ review sheets and chosen paintings in `docs/art-sources/<group>-2026-10-26/`.
   whole" rule and its `ceiling:` are gone and a two-pen house takes the rear only for the pen that needs it. Her round low walls
   were left (their courses fan; `ceiling:`). Sprites are painted on a flat grey ground and keyed on the CPU (`key_out`). 50 jobs.
   test:yard-layout passes; [homestead-local-compare.png](docs/evidence/homestead-local-compare.png).
+- **Batch 3, the hunter's view** ([delivery](docs/ART_DELIVERY_2026-10-26-LOCAL-HUNT.md)). `hunt-field-timber/-brush/-open` summer
+  and winter and `hunt-rifle`. public/hunt-aim.js draws the painting for the sighting's cover and season (`fieldSprite`,
+  public/hunt-art.js, a new module served by server/app.mjs), weather-greyed, with the waterfowl's water on it; the cover nearest
+  the hunter stays canvas; the rifle is turned on its muzzle onto the sights (`RIFLE`). One repair: the timber and brush winters
+  came back snowy and were redone dry. 52 jobs (12 on the 4060 Ti during the owner's game). test:hunt-aim passes;
+  [hunt-local-compare.png](docs/evidence/hunt-local-compare.png).
 
 ## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, not released)
 

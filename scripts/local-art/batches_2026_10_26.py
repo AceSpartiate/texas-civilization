@@ -582,9 +582,10 @@ def field_cut(path):
     return Image.open(path).convert('RGB').resize((1600, 900), Image.LANCZOS)
 
 
-B3_SHEETS = {   # three fields a sheet would not divide by the grid; two sheets of four: summer and winter of each, then the last
+B3_SHEETS = {   # the atlas build reads a sheet of 1, 4 or 6 as 1 or 2 columns: four on the first, then one a sheet
     'hunt-fields-local-1': ['hunt-field-timber', 'hunt-field-timber-winter', 'hunt-field-brush', 'hunt-field-brush-winter'],
-    'hunt-fields-local-2': ['hunt-field-open', 'hunt-field-open-winter'],
+    'hunt-fields-local-2': ['hunt-field-open'],
+    'hunt-fields-local-3': ['hunt-field-open-winter'],
 }
 
 

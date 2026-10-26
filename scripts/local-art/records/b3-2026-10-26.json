@@ -1,0 +1,204 @@
+{
+ "batch": "b3",
+ "date": "2026-10-26",
+ "model": "FLUX.2 klein 4B fp8 (Apache-2.0)",
+ "rows": [
+  {
+   "name": "hunt-field-timber-winter",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly: the same place, the same trees, ground, horizon and composition. Change only the season to winter: the oak crowns bare grey branches (live oaks stay dark green), the grass dead buff and tan, a pale cold winter sky. No animals, no people, no text.",
+   "references": [
+    "output/local-2026-10-26/b3/raw/hunt-field-timber/hunt-field-timber-s5_00001_.png"
+   ],
+   "size": [
+    1792,
+    1008
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "hunt-field-brush-winter",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly: the same place, the same trees, ground, horizon and composition. Change only the season to winter: the oak crowns bare grey branches (live oaks stay dark green), the grass dead buff and tan, a pale cold winter sky. No animals, no people, no text.",
+   "references": [
+    "output/local-2026-10-26/b3/raw/hunt-field-brush/hunt-field-brush-s8_00001_.png"
+   ],
+   "size": [
+    1792,
+    1008
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "hunt-field-open-winter",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly: the same place, the same trees, ground, horizon and composition. Change only the season to winter: the oak crowns bare grey branches (live oaks stay dark green), the grass dead buff and tan, a pale cold winter sky. No animals, no people, no text.",
+   "references": [
+    "output/local-2026-10-26/b3/raw/hunt-field-open/hunt-field-open-s2_00001_.png"
+   ],
+   "size": [
+    1792,
+    1008
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "hunt-field-timber",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of trees: post oak and live oak. Paint a new wide landscape picture: the edge of a clearing in open post oak and live oak timber in Texas in summer, seen from just inside the trees: grass and leaf litter on the ground, big oak trunks and their crowns standing in the left and right thirds, the far side of the clearing a line of timber along the horizon. Seen from a standing hunter's eye height, looking straight ahead and level. The horizon runs straight across the picture exactly halfway down. The middle third of the picture, left to right, is open ground and sky with no tree trunk in it, where an animal could cross; any trees stand in the left and right thirds. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No animals, no people, no rifle, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png",
+    "output/local-2026-10-26/b3/refs/board-hunt-field-timber.png"
+   ],
+   "size": [
+    1792,
+    1008
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 5
+  },
+  {
+   "name": "hunt-field-brush",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of brush: mesquite. Paint a new wide landscape picture: low brush country in Texas in summer: clumps of mesquite and prickly pear scattered over dry grass out to a flat horizon, a few taller mesquites at the left and the right. Seen from a standing hunter's eye height, looking straight ahead and level. The horizon runs straight across the picture exactly halfway down. The middle third of the picture, left to right, is open ground and sky with no tree trunk in it, where an animal could cross; any trees stand in the left and right thirds. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No animals, no people, no rifle, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png",
+    "output/local-2026-10-26/b3/refs/board-hunt-field-brush.png"
+   ],
+   "size": [
+    1792,
+    1008
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 8
+  },
+  {
+   "name": "hunt-field-open",
+   "stage": "main",
+   "prompt": "Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Paint a new wide landscape picture: open rolling Texas prairie in summer, tall grass out to a long low horizon, two or three far mottes of live oak small on the horizon, a big sky. Seen from a standing hunter's eye height, looking straight ahead and level. The horizon runs straight across the picture exactly halfway down. The middle third of the picture, left to right, is open ground and sky with no tree trunk in it, where an animal could cross; any trees stand in the left and right thirds. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No animals, no people, no rifle, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png"
+   ],
+   "size": [
+    1792,
+    1008
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "hunt-rifle",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: a long Kentucky flintlock rifle seen in first person from behind the shooter's right shoulder, as if the viewer is aiming it: the curly maple stock with its brass butt plate and the iron flintlock large and close at the lower right, the long dark octagonal iron barrel running straight diagonally up and to the upper left, narrowing in perspective to the muzzle with a small brass front sight bead free at the upper left end. No hands, no person. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b3/refs/board-hunt-rifle.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 7
+  },
+  {
+   "name": "hunt-field-timber-winter-repair",
+   "stage": "repair",
+   "prompt": "Keep this painting exactly: the same place, the same trees, ground, horizon and composition. Change only the season to a dry Texas winter, with no snow and no frost anywhere: the post oak and mesquite crowns bare grey-brown branches with a few dead brown leaves, the live oaks still dark green, the grass dead buff and tan, the ground dry, a pale clear winter sky. No animals, no people, no text.",
+   "references": [
+    "output/local-2026-10-26/b3/raw/hunt-field-timber/hunt-field-timber-s5_00001_.png"
+   ],
+   "size": [
+    1792,
+    1008
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "hunt-field-brush-winter-repair",
+   "stage": "repair",
+   "prompt": "Keep this painting exactly: the same place, the same trees, ground, horizon and composition. Change only the season to a dry Texas winter, with no snow and no frost anywhere: the post oak and mesquite crowns bare grey-brown branches with a few dead brown leaves, the live oaks still dark green, the grass dead buff and tan, the ground dry, a pale clear winter sky. No animals, no people, no text.",
+   "references": [
+    "output/local-2026-10-26/b3/raw/hunt-field-brush/hunt-field-brush-s8_00001_.png"
+   ],
+   "size": [
+    1792,
+    1008
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  }
+ ],
+ "flags": {},
+ "jobs": 52,
+ "failedJobs": 0,
+ "gpuSeconds": 413.9,
+ "cards": [
+  "4060 Ti",
+  "4080"
+ ]
+}

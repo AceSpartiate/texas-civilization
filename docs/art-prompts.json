@@ -7507,6 +7507,144 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/homestead-local-2.png",
       "postProcessing": "Painted at 1024x1024 on a flat pale grey ground; the ground and any grey shadow on it keyed out on the CPU by a flood fill from the edges (scripts/local-art/batches_2026_10_26.py `key_out`; the kettle also inside its bail); cut to the sprite and fitted to 440 px; the kettle's two frames and the four piles each cut at one scale, which the atlas build gives one logical height; packed one to a clear 512 cell. The winter beds, the kettle's second frame and the three smaller piles are reference edits of the chosen summer beds, kettle and forty-log pile, so each set is one thing.",
       "review": "Eight candidates of the tent, the beds and the pile, four of the kettle and the line, and four of each edit (two of the kettle's), keyed on a mid green-grey on contact sheets (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size. In the game: docs/evidence/homestead-local-compare.png and the yard-layout proof (each drawn inside its own footprint)."
+    },
+    {
+      "sheet": "hunt-fields-local-1",
+      "promptId": "frontier-v1/hunt-fields-local-1",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "hunt-field-timber (seed 5 of 1, 2, 3, 4, 5, 6, 7, 8; 1792x1008; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png, output/local-2026-10-26/b3/refs/board-hunt-field-timber.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of trees: post oak and live oak. Paint a new wide landscape picture: the edge of a clearing in open post oak and live oak timber in Texas in summer, seen from just inside the trees: grass and leaf litter on the ground, big oak trunks and their crowns standing in the left and right thirds, the far side of the clearing a line of timber along the horizon. Seen from a standing hunter's eye height, looking straight ahead and level. The horizon runs straight across the picture exactly halfway down. The middle third of the picture, left to right, is open ground and sky with no tree trunk in it, where an animal could cross; any trees stand in the left and right thirds. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No animals, no people, no rifle, no text, no signature, no watermark.\n\nhunt-field-timber-winter (seed 3 of 1, 2, 3, 4; 1792x1008; references: output/local-2026-10-26/b3/raw/hunt-field-timber/hunt-field-timber-s5_00001_.png): Keep this painting exactly: the same place, the same trees, ground, horizon and composition. Change only the season to a dry Texas winter, with no snow and no frost anywhere: the post oak and mesquite crowns bare grey-brown branches with a few dead brown leaves, the live oaks still dark green, the grass dead buff and tan, the ground dry, a pale clear winter sky. No animals, no people, no text.\n\nhunt-field-brush (seed 8 of 1, 2, 3, 4, 5, 6, 7, 8; 1792x1008; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png, output/local-2026-10-26/b3/refs/board-hunt-field-brush.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Image 2 shows the kind of brush: mesquite. Paint a new wide landscape picture: low brush country in Texas in summer: clumps of mesquite and prickly pear scattered over dry grass out to a flat horizon, a few taller mesquites at the left and the right. Seen from a standing hunter's eye height, looking straight ahead and level. The horizon runs straight across the picture exactly halfway down. The middle third of the picture, left to right, is open ground and sky with no tree trunk in it, where an animal could cross; any trees stand in the left and right thirds. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No animals, no people, no rifle, no text, no signature, no watermark.\n\nhunt-field-brush-winter (seed 2 of 1, 2, 3, 4; 1792x1008; references: output/local-2026-10-26/b3/raw/hunt-field-brush/hunt-field-brush-s8_00001_.png): Keep this painting exactly: the same place, the same trees, ground, horizon and composition. Change only the season to a dry Texas winter, with no snow and no frost anywhere: the post oak and mesquite crowns bare grey-brown branches with a few dead brown leaves, the live oaks still dark green, the grass dead buff and tan, the ground dry, a pale clear winter sky. No animals, no people, no text.",
+      "candidates": [
+        {
+          "sprite": "hunt-field-timber",
+          "chosen": 5,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "hunt-field-timber-winter",
+          "chosen": 3,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "hunt-field-brush",
+          "chosen": 8,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "hunt-field-brush-winter",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/hunt-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/hunt-fields-local-1.png",
+      "postProcessing": "The fields painted at 1792x1008 and Lanczos-scaled to the contract's 1600x900, moved toward Astra's oil landscape by colour as the rider scenes were (spread halfway, mean a sixth), each opaque painting in a clear 1840x1100 cell; the winters are reference edits of the chosen summers. The rifle painted on a flat grey ground, keyed out on the CPU, fitted to 900 px in a clear 1100 cell. scripts/local-art/batches_2026_10_26.py `finish b3`.",
+      "review": "Eight of each field and of the rifle, four of each winter edit and one repair round (four each) for the timber and brush winters, which first came back under snow; contact sheets (contact.jpg, contact-edits.jpg, contact-repair.jpg, contact-rifle.jpg); every candidate licence-checked from its own file; picks looked at full size. In the game: docs/evidence/hunt-local-compare.png and npm run test:hunt-aim."
+    },
+    {
+      "sheet": "hunt-fields-local-2",
+      "promptId": "frontier-v1/hunt-fields-local-2",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "hunt-field-open (seed 2 of 1, 2, 3, 4, 5, 6, 7, 8; 1792x1008; references: output/local-2026-10-26/b1/refs/ref-astra-landscape.png): Image 1 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Paint a new wide landscape picture: open rolling Texas prairie in summer, tall grass out to a long low horizon, two or three far mottes of live oak small on the horizon, a big sky. Seen from a standing hunter's eye height, looking straight ahead and level. The horizon runs straight across the picture exactly halfway down. The middle third of the picture, left to right, is open ground and sky with no tree trunk in it, where an animal could cross; any trees stand in the left and right thirds. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No animals, no people, no rifle, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "hunt-field-open",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/hunt-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/hunt-fields-local-2.png",
+      "postProcessing": "The fields painted at 1792x1008 and Lanczos-scaled to the contract's 1600x900, moved toward Astra's oil landscape by colour as the rider scenes were (spread halfway, mean a sixth), each opaque painting in a clear 1840x1100 cell; the winters are reference edits of the chosen summers. The rifle painted on a flat grey ground, keyed out on the CPU, fitted to 900 px in a clear 1100 cell. scripts/local-art/batches_2026_10_26.py `finish b3`.",
+      "review": "Eight of each field and of the rifle, four of each winter edit and one repair round (four each) for the timber and brush winters, which first came back under snow; contact sheets (contact.jpg, contact-edits.jpg, contact-repair.jpg, contact-rifle.jpg); every candidate licence-checked from its own file; picks looked at full size. In the game: docs/evidence/hunt-local-compare.png and npm run test:hunt-aim."
+    },
+    {
+      "sheet": "hunt-fields-local-3",
+      "promptId": "frontier-v1/hunt-fields-local-3",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "hunt-field-open-winter (seed 2 of 1, 2, 3, 4; 1792x1008; references: output/local-2026-10-26/b3/raw/hunt-field-open/hunt-field-open-s2_00001_.png): Keep this painting exactly: the same place, the same trees, ground, horizon and composition. Change only the season to winter: the oak crowns bare grey branches (live oaks stay dark green), the grass dead buff and tan, a pale cold winter sky. No animals, no people, no text.",
+      "candidates": [
+        {
+          "sprite": "hunt-field-open-winter",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/hunt-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/hunt-fields-local-3.png",
+      "postProcessing": "The fields painted at 1792x1008 and Lanczos-scaled to the contract's 1600x900, moved toward Astra's oil landscape by colour as the rider scenes were (spread halfway, mean a sixth), each opaque painting in a clear 1840x1100 cell; the winters are reference edits of the chosen summers. The rifle painted on a flat grey ground, keyed out on the CPU, fitted to 900 px in a clear 1100 cell. scripts/local-art/batches_2026_10_26.py `finish b3`.",
+      "review": "Eight of each field and of the rifle, four of each winter edit and one repair round (four each) for the timber and brush winters, which first came back under snow; contact sheets (contact.jpg, contact-edits.jpg, contact-repair.jpg, contact-rifle.jpg); every candidate licence-checked from its own file; picks looked at full size. In the game: docs/evidence/hunt-local-compare.png and npm run test:hunt-aim."
+    },
+    {
+      "sheet": "hunt-rifle-local",
+      "promptId": "frontier-v1/hunt-rifle-local",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "hunt-rifle (seed 7 of 1, 2, 3, 4, 5, 6, 7, 8; 1024x1024; references: output/local-2026-10-26/b3/refs/board-hunt-rifle.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: a long Kentucky flintlock rifle seen in first person from behind the shooter's right shoulder, as if the viewer is aiming it: the curly maple stock with its brass butt plate and the iron flintlock large and close at the lower right, the long dark octagonal iron barrel running straight diagonally up and to the upper left, narrowing in perspective to the muzzle with a small brass front sight bead free at the upper left end. No hands, no person. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "hunt-rifle",
+          "chosen": 7,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/hunt-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/hunt-rifle-local.png",
+      "postProcessing": "The fields painted at 1792x1008 and Lanczos-scaled to the contract's 1600x900, moved toward Astra's oil landscape by colour as the rider scenes were (spread halfway, mean a sixth), each opaque painting in a clear 1840x1100 cell; the winters are reference edits of the chosen summers. The rifle painted on a flat grey ground, keyed out on the CPU, fitted to 900 px in a clear 1100 cell. scripts/local-art/batches_2026_10_26.py `finish b3`.",
+      "review": "Eight of each field and of the rifle, four of each winter edit and one repair round (four each) for the timber and brush winters, which first came back under snow; contact sheets (contact.jpg, contact-edits.jpg, contact-repair.jpg, contact-rifle.jpg); every candidate licence-checked from its own file; picks looked at full size. In the game: docs/evidence/hunt-local-compare.png and npm run test:hunt-aim."
     }
   ]
 }
