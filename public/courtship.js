@@ -35,8 +35,8 @@ export const FADE_MS = 1100, REDUCED_FADE_MS = 280, BETWEEN_MS = 2200, REDUCED_B
  */
 export const BACKDROP = Object.freeze({ morning: 'courtship-yard-morning', noon: 'courtship-yard-noon', evening: 'courtship-yard-evening', night: 'courtship-yard-evening' });
 /**
- * Each neighbour's farmstead, and the family's own house. stand-in: docs/ART_REQUESTS.md, request 2026-09-29 - the lone parent's
- * wedding, item 3; the library's `cabin-wide` and `jacal-ramada` are drawn until the farmsteads are.
+ * Each neighbour's farmstead, and the family's own house: the local pipeline's farmsteads (2026-10-26); the library's `cabin-wide`
+ * and `jacal-ramada` while their sheet loads.
  */
 export const FARM_ART = Object.freeze({ porch: ['farm-neighbour-porch', 'cabin-wide'], ramada: ['farm-neighbour-ramada', 'jacal-ramada'] });
 /**

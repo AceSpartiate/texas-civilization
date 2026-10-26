@@ -722,6 +722,22 @@ B4_REPAIRS = [
 ]
 
 
+# The one repair each (method step 8): the stick horse came back a real horse; the hoop, copying the board's play icon, with a
+# hobby horse; the bill of sale and the coins with writing on them (text).
+B5_REPAIRS = [
+    icon('icon-child-stick-horse-repair', ['icon-child-water', 'icon-child-birds'], 'a small boy playing at riding: he runs astride '
+         'a toy hobby horse, a plain wooden pole with a small carved wooden horse head on its top end, held between his legs, the '
+         'other end of the pole trailing on the ground behind him. A toy on a stick, not a real horse.'),
+    icon('icon-child-hoop-repair', ['icon-child-water', 'icon-child-birds'], 'a small girl in a dress running beside a big plain '
+         'wooden hoop as tall as her waist, rolling it along the ground with a short stick in her hand. Nothing else.'),
+    {'name': 'coins-and-paper-repair', 'board': ['bucket', 'home-table'], 'seeds': 4,
+     'prompt': sprite_prompt('a short stack of plain smooth silver coins with two loose plain coins beside it, a folded sheet of '
+                             'blank cream paper and a small brown leather drawstring purse, lying together. The coins are smooth with '
+                             'no faces, no numbers and no letters; the paper is completely blank, with no writing, no lines and no '
+                             'marks of any kind.')},
+]
+
+
 def rows_icons(batch, items, repairs=()):
     def go(stage):
         write_rows(batch, stage, sprite_rows(batch, repairs if stage == 'repair' else items))
@@ -743,17 +759,18 @@ B4_SHEETS = {   # sixteen icons, then the last icon with three marks, then four 
     'icons-family-local-2': [b['name'] for b in B4[16:20]],
     'marks-local-1': [b['name'] for b in B4[20:24]],
 }
-B5_SHEETS = {
-    'icons-family-local-3': [b['name'] for b in B5[:16]],
-    'icons-family-local-4': [b['name'] for b in B5[16:24]],
+B5_SHEETS = {   # the stick horse not shipped (flagged); the atlas build reads 1, 4, 6 or 16 a sheet
+    'icons-family-local-3': [b['name'] for b in B5[1:17]],
+    'icons-family-local-4': [b['name'] for b in B5[17:23]],
+    'marks-local-2': ['mark-sick'],
     'homecoming-local-1': ['farm-neighbour-porch', 'farm-neighbour-ramada', 'grave-marker', 'coins-and-paper'],
 }
 BATCHES['b4'] = {'refs': lambda: refs_boards('b4', B4 + B4_REPAIRS, bg=(236, 228, 208)), 'rows': rows_icons('b4', B4, B4_REPAIRS),
                  'finish': lambda: finish_icons('b4', B4_SHEETS, 'icons-local'),
                  'sheet': lambda: keyed_contact('b4', [b['name'] for b in B4])}
-BATCHES['b5'] = {'refs': lambda: refs_boards('b5', B5, bg=(236, 228, 208)), 'rows': rows_icons('b5', B5),
+BATCHES['b5'] = {'refs': lambda: refs_boards('b5', B5 + B5_REPAIRS, bg=(236, 228, 208)), 'rows': rows_icons('b5', B5, B5_REPAIRS),
                  'finish': lambda: finish_icons('b5', B5_SHEETS, 'icons-local-claude',
-                                                {'farm-neighbour-porch': (480, 480), 'farm-neighbour-ramada': (480, 480),
+                                                {'farm-neighbour-porch': (370, 370), 'farm-neighbour-ramada': (370, 370),
                                                  'grave-marker': (300, 300), 'coins-and-paper': (300, 300)}),
                  'sheet': lambda: keyed_contact('b5', [b['name'] for b in B5])}
 

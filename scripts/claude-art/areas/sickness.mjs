@@ -15,6 +15,7 @@ import { POSES } from '../kit/poses.mjs';
 import { drawSickRest, drawBaby, figureIn, CHILD_SCALE } from '../kit/little.mjs';
 import { iconFrame, ground, wagon, tent, tone, LINE, PALETTE, ellipse, blob, curve, capsule, poly, add } from '../kit/icon-bits.mjs';
 import { Ink, frameSvg } from '../kit/svg.mjs';
+import { retire } from '../kit/retire.mjs';
 
 export const AREA = 'children';
 export const DATE = '2026-09-28';
@@ -80,7 +81,7 @@ const ICONS = [
 // The nurse faces the bed: drawn east-facing by the rig, so the icon mirrors her group (her light then comes from the upper
 // right; at 38 px nothing shows of it). ceiling: a west-facing rig view would keep the light.
 
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-sick-rest': { cell: { w: 400, h: 400 }, columns: 6, request: REQUEST, replaceWith: 'item 3: -sick-rest, 1 frame, -s and -e, the figure\'s own logical height and foot baseline; infant-sick wrapped and lying', frames: [...restFrames, infantSick] },
   'claude-mark-sick': { cell: 96, columns: 1, request: REQUEST, replaceWith: 'item 1: 96 by 96, transparent, no text, the panel\'s mark style, readable at 22 px on a portrait\'s corner',
     frames: [{ name: 'mark-sick', compare: [['icon-tend-sick', 0.25]], height: 0.25, prompt: 'The sick badge in the family panel\'s mark style (a round stamped token like mark-need, with a darker rim below and a lit rim upper left): sage blue, not the orange of a need or the rust of a hurt, with a folded cream wool blanket with a rust stripe and a tin cup with a wisp of steam on it. Reads as "sick" at 22 CSS px on a portrait\'s corner. No text.', draw: markSick }] },
@@ -96,3 +97,6 @@ export const CLIPS = {
   ])),
   'infant-sick': { frames: [{ sprite: 'infant-sick-1', duration: 3400 }], motion: 'breathe', direction: 'east; west by mirroring', prompt: 'The baby sick, swaddled on its quilt with a cool cloth on its brow, breathing slowly.' },
 };
+// Painted with the local pipeline on 2026-10-26 (batch 5 of docs/ART_PLAN_LOCAL_2026-10-25.md); pipeline art counts as finished
+// art (owner, 2026-10-25), so Claude's are retired. The drawing code above is no longer called for them.
+export const { SHEETS } = retire(ALL_SHEETS, {}, ['mark-sick', 'icon-rest-road', 'icon-camp-apart', 'icon-nurse-home']);

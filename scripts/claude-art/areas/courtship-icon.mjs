@@ -9,6 +9,7 @@ import { frameOf, drawPerson } from '../kit/rig.mjs';
 import { POSES } from '../kit/poses.mjs';
 import { figureIn } from '../kit/little.mjs';
 import { iconFrame, cabin, tone, LINE, ellipse, blob, curve, poly } from '../kit/icon-bits.mjs';
+import { retire } from '../kit/retire.mjs';
 
 export const AREA = 'land';
 export const DATE = '2026-09-29';
@@ -40,10 +41,13 @@ function askNeighbours(ink) {
   figureIn(ink, 'child', CHILD.base, CHILD.s, inner => drawPerson(inner, 'girl', { ...c, hands: { ...c.hands, far: rigAt(CHILD) } }));
 }
 
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-courtship-icon': { cell: 128, columns: 1, request: REQUEST,
     replaceWith: 'item 6: one frame in the family icon atlas, 128 by 128, a single silhouette with a thin dark outline, reading at 34-38 CSS px and dimmed to 40%',
     frames: [{ name: 'icon-ask-neighbours', height: 0.5, compare: [['icon-build-house', 0.5], ['icon-child-help', 0.5]], prompt: `${PROMPT} ${STYLE} (${REQUEST}.)`,
       draw: () => iconFrame('icon-ask-neighbours', PROMPT, askNeighbours) }] },
 };
 export const CLIPS = {};
+// Painted with the local pipeline on 2026-10-26 (batch 5 of docs/ART_PLAN_LOCAL_2026-10-25.md); pipeline art counts as finished
+// art (owner, 2026-10-25), so Claude's are retired. The drawing code above is no longer called for them.
+export const { SHEETS } = retire(ALL_SHEETS, {}, ['icon-ask-neighbours']);

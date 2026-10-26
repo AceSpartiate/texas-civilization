@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **6407 usable sprites, 459 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
+Generated from the shipped library: **6434 usable sprites, 463 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -313,6 +313,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-wagon-passenger | 6 | 1024 × 1536 | 2003734 |
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
+| icons-family-local-3 | 16 | 1536 × 1536 | 1452763 |
+| icons-family-local-4 | 6 | 768 × 1152 | 566616 |
+| marks-local-2 | 1 | 384 × 384 | 147117 |
+| homecoming-local-1 | 4 | 768 × 768 | 529982 |
 | ground-roads | 4 | 1536 × 1536 | 1774179 |
 | homestead-local-1 | 6 | 1024 × 1536 | 1308207 |
 | homestead-local-2 | 4 | 1024 × 1024 | 572804 |
@@ -3410,6 +3414,33 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | live-oak-mott-dense-2 | live-oak-mott | live-oak-mott-dense-wind |
 | live-oak-mott-open-1 | live-oak-mott | live-oak-mott-open-wind |
 | live-oak-mott-open-2 | live-oak-mott | live-oak-mott-open-wind |
+| icon-child-doll | icons-family-local-3 | State artwork; no motion required |
+| icon-child-tag | icons-family-local-3 | State artwork; no motion required |
+| icon-child-hide | icons-family-local-3 | State artwork; no motion required |
+| icon-child-cart | icons-family-local-3 | State artwork; no motion required |
+| icon-child-hoop | icons-family-local-3 | State artwork; no motion required |
+| icon-child-marbles | icons-family-local-3 | State artwork; no motion required |
+| icon-child-hens | icons-family-local-3 | State artwork; no motion required |
+| icon-flee-hide | icons-family-local-3 | State artwork; no motion required |
+| icon-flee-bundle | icons-family-local-3 | State artwork; no motion required |
+| icon-flee-cow | icons-family-local-3 | State artwork; no motion required |
+| icon-road-lookout | icons-family-local-3 | State artwork; no motion required |
+| icon-road-sing | icons-family-local-3 | State artwork; no motion required |
+| icon-road-little-ones | icons-family-local-3 | State artwork; no motion required |
+| icon-camp-fire | icons-family-local-3 | State artwork; no motion required |
+| icon-ferry-help | icons-family-local-3 | State artwork; no motion required |
+| icon-share-food | icons-family-local-3 | State artwork; no motion required |
+| icon-ford-carry | icons-family-local-4 | State artwork; no motion required |
+| icon-child-help | icons-family-local-4 | State artwork; no motion required |
+| icon-ask-neighbours | icons-family-local-4 | State artwork; no motion required |
+| icon-rest-road | icons-family-local-4 | State artwork; no motion required |
+| icon-camp-apart | icons-family-local-4 | State artwork; no motion required |
+| icon-nurse-home | icons-family-local-4 | State artwork; no motion required |
+| mark-sick | marks-local-2 | State artwork; no motion required |
+| farm-neighbour-porch | homecoming-local-1 | State artwork; no motion required |
+| farm-neighbour-ramada | homecoming-local-1 | State artwork; no motion required |
+| grave-marker | homecoming-local-1 | State artwork; no motion required |
+| coins-and-paper | homecoming-local-1 | State artwork; no motion required |
 | road-tile-wagon | ground-roads | State artwork; no motion required |
 | road-tile-street | ground-roads | State artwork; no motion required |
 | road-tile-path | ground-roads | State artwork; no motion required |

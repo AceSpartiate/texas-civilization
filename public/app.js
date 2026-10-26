@@ -6767,9 +6767,8 @@ function panelRow(id) {
   // mark-need, mark-need-rider, mark-main, mark-idle and mark-auto of the same names replace them when registered.
   const star = panelMark('span', '★', 'panel-star', 'mark-main'), idleMark = panelMark('span', 'idle', 'panel-idle-mark', 'mark-idle');
   // The sick badge (sim/disease.mjs, docs/DISEASE.md §3.10): shown while the server says the person is sick.
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sick badge" - `mark-sick` is Claude-drawn today ("Claude-drawn
-  // stand-ins (replace with Astra's)"); without its sheet, the road's nursing picture (`icon-tend-sick`, or its drawn glyph) in a
-  // small disc. Astra's `mark-sick` replaces Claude's when registered (`paintSickMark`).
+  // `mark-sick` is the local pipeline's (2026-10-26); without its sheet, the road's nursing picture (`icon-tend-sick`, or its drawn
+  // glyph) in a small disc (`paintSickMark`).
   const sickMark = element('span', '', 'panel-sick-mark');
   const sickCanvas = document.createElement('canvas');
   sickCanvas.width = sickCanvas.height = 48;

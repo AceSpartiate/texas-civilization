@@ -47,6 +47,13 @@ review sheets and chosen paintings in `docs/art-sources/<group>-2026-10-26/`.
   house's two cues are drawn into the cue's canvas (`CUE_MARKS`). Coins with numerals refused (text). **Flagged** after one
   repair each: `icon-work-garden` is a spade (no candidate painted a hoe), `icon-camp-hunt`'s tracks are paw prints. 104 jobs.
   test:custom-work passes; [icons-local-compare.png](docs/evidence/icons-local-compare.png).
+- **Batch 5, Claude-drawn stand-ins** ([delivery](docs/ART_DELIVERY_2026-10-26-LOCAL-CLAUDE-ICONS.md)). 23 icons, `mark-sick`, the two
+  farmsteads, the grave marker and the coins, all asked for by name; Claude's of those names retired (five area modules). The
+  farmsteads, marker and coins get a person-height logical height in the atlas build (the first proof drew the jacal a third of its
+  size). **Flagged:** `icon-child-stick-horse` not shipped (a real horse every time, after one repair; Claude's stays, B9 open for it
+  alone); the hoop's hoop is tall; the ferry icon is hands on a rope. First rounds wrote on the bill of sale and coins (text,
+  refused). 132 jobs; two timed out when the arbiter's poll stalled 20 min as the owner's game began (repainted).
+  test:lone-parent and test:flashback pass; [claude-icons-local-compare.png](docs/evidence/claude-icons-local-compare.png).
 
 ## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, not released)
 

@@ -467,7 +467,8 @@ const ALL_SHEETS = {
 };
 // The yards were painted with the local pipeline on 2026-10-26 (batch 1 of docs/ART_PLAN_LOCAL_2026-10-25.md); pipeline art counts
 // as finished art (owner, 2026-10-25), so Claude's yards are retired. The drawing code above is no longer called for them.
-export const { SHEETS } = retire(ALL_SHEETS, {}, ['courtship-yard-*']);
+// The neighbours' farmsteads followed on 2026-10-26 (batch 5).
+export const { SHEETS } = retire(ALL_SHEETS, {}, ['courtship-yard-*', 'farm-neighbour-*']);
 export const CLIPS = {};
 
 /** A drawing made in a cell of its own size set into the sheet's cell: centred across it, its ground 10 px above the cell's foot. */

@@ -3,8 +3,8 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 459,
-    "sprites": 6407,
+    "sheets": 463,
+    "sprites": 6434,
     "clips": 2102,
     "poseCycles": 1693,
     "rigs": 4
@@ -26864,6 +26864,300 @@
               [
                 917,
                 1759
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "icons-family-local-3": {
+      "image": "atlases/icons-family-local-3.png",
+      "width": 1536,
+      "height": 1536,
+      "bytes": 1452763,
+      "sha256": "b0a47dcc979d20fe9a73227fd1f1c3fa1d6011047ead2b0051e9472001ad24d5",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.761143,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              43,
+              344
+            ],
+            "columns": [
+              [
+                112,
+                271
+              ],
+              [
+                425,
+                727
+              ],
+              [
+                809,
+                1112
+              ],
+              [
+                1192,
+                1496
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              448,
+              703
+            ],
+            "columns": [
+              [
+                40,
+                344
+              ],
+              [
+                424,
+                728
+              ],
+              [
+                808,
+                1112
+              ],
+              [
+                1192,
+                1496
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              808,
+              1112
+            ],
+            "columns": [
+              [
+                41,
+                342
+              ],
+              [
+                424,
+                727
+              ],
+              [
+                809,
+                1111
+              ],
+              [
+                1231,
+                1457
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              1192,
+              1496
+            ],
+            "columns": [
+              [
+                41,
+                344
+              ],
+              [
+                446,
+                705
+              ],
+              [
+                808,
+                1112
+              ],
+              [
+                1193,
+                1495
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "icons-family-local-4": {
+      "image": "atlases/icons-family-local-4.png",
+      "width": 768,
+      "height": 1152,
+      "bytes": 566616,
+      "sha256": "caeca394881d0ca9f425635356dcf67b568bb4b1665bbaea2f3db78265804509",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.746972,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              48,
+              335
+            ],
+            "columns": [
+              [
+                40,
+                344
+              ],
+              [
+                424,
+                727
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              446,
+              714
+            ],
+            "columns": [
+              [
+                40,
+                343
+              ],
+              [
+                425,
+                728
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              867,
+              1052
+            ],
+            "columns": [
+              [
+                41,
+                343
+              ],
+              [
+                424,
+                727
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "marks-local-2": {
+      "image": "atlases/marks-local-2.png",
+      "width": 384,
+      "height": 384,
+      "bytes": 147117,
+      "sha256": "16d2ce5be61ae514b1ad2795e5a25b5a0d31401e2301607330c8f153c7a5a74d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.470405,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              34,
+              350
+            ],
+            "columns": [
+              [
+                30,
+                354
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "homecoming-local-1": {
+      "image": "atlases/homecoming-local-1.png",
+      "width": 768,
+      "height": 768,
+      "bytes": 529982,
+      "sha256": "862c51a65310da9928791272cbe45095d14e2100917c7b48bd06348c7aed0bc6",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.649623,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              55,
+              329
+            ],
+            "columns": [
+              [
+                5,
+                379
+              ],
+              [
+                389,
+                763
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              424,
+              728
+            ],
+            "columns": [
+              [
+                55,
+                328
+              ],
+              [
+                424,
+                727
               ]
             ]
           }
@@ -147132,6 +147426,874 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/live-oak-mott"
+    },
+    "icon-child-doll": {
+      "sheet": "icons-family-local-3",
+      "x": 112,
+      "y": 43,
+      "w": 159,
+      "h": 301,
+      "anchorX": 0.5252,
+      "anchorY": 0.9402,
+      "label": "icon child doll",
+      "kind": "icons-family-local-3",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          114,
+          45,
+          155,
+          297
+        ],
+        "visiblePixels": 29452,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-child-tag": {
+      "sheet": "icons-family-local-3",
+      "x": 425,
+      "y": 90,
+      "w": 302,
+      "h": 203,
+      "anchorX": 0.4967,
+      "anchorY": 0.9261,
+      "label": "icon child tag",
+      "kind": "icons-family-local-3",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          427,
+          92,
+          298,
+          199
+        ],
+        "visiblePixels": 24105,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-child-hide": {
+      "sheet": "icons-family-local-3",
+      "x": 809,
+      "y": 107,
+      "w": 303,
+      "h": 170,
+      "anchorX": 0.495,
+      "anchorY": 0.9294,
+      "label": "icon child hide",
+      "kind": "icons-family-local-3",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          811,
+          109,
+          299,
+          166
+        ],
+        "visiblePixels": 27548,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-child-cart": {
+      "sheet": "icons-family-local-3",
+      "x": 1192,
+      "y": 98,
+      "w": 304,
+      "h": 188,
+      "anchorX": 0.5066,
+      "anchorY": 0.9255,
+      "label": "icon child cart",
+      "kind": "icons-family-local-3",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1194,
+          100,
+          300,
+          184
+        ],
+        "visiblePixels": 41596,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-child-hoop": {
+      "sheet": "icons-family-local-3",
+      "x": 40,
+      "y": 448,
+      "w": 304,
+      "h": 255,
+      "anchorX": 0.5,
+      "anchorY": 0.9333,
+      "label": "icon child hoop",
+      "kind": "icons-family-local-3",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          450,
+          300,
+          251
+        ],
+        "visiblePixels": 40399,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-child-marbles": {
+      "sheet": "icons-family-local-3",
+      "x": 424,
+      "y": 475,
+      "w": 304,
+      "h": 201,
+      "anchorX": 0.5033,
+      "anchorY": 0.9254,
+      "label": "icon child marbles",
+      "kind": "icons-family-local-3",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          477,
+          300,
+          197
+        ],
+        "visiblePixels": 41822,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-child-hens": {
+      "sheet": "icons-family-local-3",
+      "x": 808,
+      "y": 489,
+      "w": 304,
+      "h": 173,
+      "anchorX": 0.5033,
+      "anchorY": 0.9249,
+      "label": "icon child hens",
+      "kind": "icons-family-local-3",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          810,
+          491,
+          300,
+          169
+        ],
+        "visiblePixels": 31899,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-flee-hide": {
+      "sheet": "icons-family-local-3",
+      "x": 1192,
+      "y": 472,
+      "w": 304,
+      "h": 206,
+      "anchorX": 0.5329,
+      "anchorY": 0.9272,
+      "label": "icon flee hide",
+      "kind": "icons-family-local-3",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1194,
+          474,
+          300,
+          202
+        ],
+        "visiblePixels": 36561,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-flee-bundle": {
+      "sheet": "icons-family-local-3",
+      "x": 41,
+      "y": 808,
+      "w": 301,
+      "h": 304,
+      "anchorX": 0.5,
+      "anchorY": 0.9276,
+      "label": "icon flee bundle",
+      "kind": "icons-family-local-3",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          810,
+          297,
+          300
+        ],
+        "visiblePixels": 59218,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-flee-cow": {
+      "sheet": "icons-family-local-3",
+      "x": 424,
+      "y": 872,
+      "w": 303,
+      "h": 176,
+      "anchorX": 0.5165,
+      "anchorY": 0.9261,
+      "label": "icon flee cow",
+      "kind": "icons-family-local-3",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          874,
+          299,
+          172
+        ],
+        "visiblePixels": 33211,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-road-lookout": {
+      "sheet": "icons-family-local-3",
+      "x": 809,
+      "y": 839,
+      "w": 302,
+      "h": 242,
+      "anchorX": 0.5116,
+      "anchorY": 0.9298,
+      "label": "icon road lookout",
+      "kind": "icons-family-local-3",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          811,
+          841,
+          298,
+          238
+        ],
+        "visiblePixels": 23847,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-road-sing": {
+      "sheet": "icons-family-local-3",
+      "x": 1231,
+      "y": 809,
+      "w": 226,
+      "h": 303,
+      "anchorX": 0.4668,
+      "anchorY": 0.9505,
+      "label": "icon road sing",
+      "kind": "icons-family-local-3",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1233,
+          811,
+          222,
+          299
+        ],
+        "visiblePixels": 31766,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-road-little-ones": {
+      "sheet": "icons-family-local-3",
+      "x": 41,
+      "y": 1203,
+      "w": 303,
+      "h": 281,
+      "anchorX": 0.4967,
+      "anchorY": 0.9288,
+      "label": "icon road little ones",
+      "kind": "icons-family-local-3",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          1205,
+          299,
+          277
+        ],
+        "visiblePixels": 43468,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-camp-fire": {
+      "sheet": "icons-family-local-3",
+      "x": 446,
+      "y": 1192,
+      "w": 259,
+      "h": 304,
+      "anchorX": 0.4981,
+      "anchorY": 0.9276,
+      "label": "icon camp fire",
+      "kind": "icons-family-local-3",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          448,
+          1194,
+          255,
+          300
+        ],
+        "visiblePixels": 29110,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-ferry-help": {
+      "sheet": "icons-family-local-3",
+      "x": 808,
+      "y": 1267,
+      "w": 304,
+      "h": 154,
+      "anchorX": 0.5329,
+      "anchorY": 0.9351,
+      "label": "icon ferry help",
+      "kind": "icons-family-local-3",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          810,
+          1269,
+          300,
+          150
+        ],
+        "visiblePixels": 26164,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-share-food": {
+      "sheet": "icons-family-local-3",
+      "x": 1193,
+      "y": 1266,
+      "w": 302,
+      "h": 155,
+      "anchorX": 0.3212,
+      "anchorY": 0.929,
+      "label": "icon share food",
+      "kind": "icons-family-local-3",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1195,
+          1268,
+          298,
+          151
+        ],
+        "visiblePixels": 26200,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-3"
+    },
+    "icon-ford-carry": {
+      "sheet": "icons-family-local-4",
+      "x": 40,
+      "y": 48,
+      "w": 304,
+      "h": 287,
+      "anchorX": 0.4868,
+      "anchorY": 0.9268,
+      "label": "icon ford carry",
+      "kind": "icons-family-local-4",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          50,
+          300,
+          283
+        ],
+        "visiblePixels": 32427,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-4.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-4"
+    },
+    "icon-child-help": {
+      "sheet": "icons-family-local-4",
+      "x": 424,
+      "y": 96,
+      "w": 303,
+      "h": 192,
+      "anchorX": 0.4439,
+      "anchorY": 0.9271,
+      "label": "icon child help",
+      "kind": "icons-family-local-4",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          98,
+          299,
+          188
+        ],
+        "visiblePixels": 36543,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-4.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-4"
+    },
+    "icon-ask-neighbours": {
+      "sheet": "icons-family-local-4",
+      "x": 40,
+      "y": 446,
+      "w": 303,
+      "h": 268,
+      "anchorX": 0.5677,
+      "anchorY": 0.9291,
+      "label": "icon ask neighbours",
+      "kind": "icons-family-local-4",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          448,
+          299,
+          264
+        ],
+        "visiblePixels": 48130,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-4.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-4"
+    },
+    "icon-rest-road": {
+      "sheet": "icons-family-local-4",
+      "x": 425,
+      "y": 470,
+      "w": 303,
+      "h": 210,
+      "anchorX": 0.5446,
+      "anchorY": 0.9286,
+      "label": "icon rest road",
+      "kind": "icons-family-local-4",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          427,
+          472,
+          299,
+          206
+        ],
+        "visiblePixels": 43470,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-4.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-4"
+    },
+    "icon-camp-apart": {
+      "sheet": "icons-family-local-4",
+      "x": 41,
+      "y": 892,
+      "w": 302,
+      "h": 136,
+      "anchorX": 0.4669,
+      "anchorY": 0.9265,
+      "label": "icon camp apart",
+      "kind": "icons-family-local-4",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          894,
+          298,
+          132
+        ],
+        "visiblePixels": 21516,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-4.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-4"
+    },
+    "icon-nurse-home": {
+      "sheet": "icons-family-local-4",
+      "x": 424,
+      "y": 867,
+      "w": 303,
+      "h": 185,
+      "anchorX": 0.5066,
+      "anchorY": 0.9297,
+      "label": "icon nurse home",
+      "kind": "icons-family-local-4",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          869,
+          299,
+          181
+        ],
+        "visiblePixels": 37056,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-4.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-4"
+    },
+    "mark-sick": {
+      "sheet": "marks-local-2",
+      "x": 30,
+      "y": 34,
+      "w": 324,
+      "h": 316,
+      "anchorX": 0.4985,
+      "anchorY": 0.9272,
+      "label": "mark sick",
+      "kind": "marks-local-2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          32,
+          36,
+          320,
+          312
+        ],
+        "visiblePixels": 77499,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/marks-local-2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/marks-local-2"
+    },
+    "farm-neighbour-porch": {
+      "sheet": "homecoming-local-1",
+      "x": 5,
+      "y": 55,
+      "w": 374,
+      "h": 274,
+      "anchorX": 0.5762,
+      "anchorY": 0.927,
+      "logicalHeight": 117,
+      "label": "farm neighbour porch",
+      "kind": "homecoming-local-1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          7,
+          57,
+          370,
+          270
+        ],
+        "visiblePixels": 67222,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homecoming-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homecoming-local-1"
+    },
+    "farm-neighbour-ramada": {
+      "sheet": "homecoming-local-1",
+      "x": 389,
+      "y": 72,
+      "w": 374,
+      "h": 240,
+      "anchorX": 0.5909,
+      "anchorY": 0.9292,
+      "logicalHeight": 114,
+      "label": "farm neighbour ramada",
+      "kind": "homecoming-local-1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          391,
+          74,
+          370,
+          236
+        ],
+        "visiblePixels": 56794,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homecoming-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homecoming-local-1"
+    },
+    "grave-marker": {
+      "sheet": "homecoming-local-1",
+      "x": 55,
+      "y": 424,
+      "w": 273,
+      "h": 304,
+      "anchorX": 0.5201,
+      "anchorY": 0.9309,
+      "logicalHeight": 405,
+      "label": "grave marker",
+      "kind": "homecoming-local-1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          57,
+          426,
+          269,
+          300
+        ],
+        "visiblePixels": 42498,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homecoming-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homecoming-local-1"
+    },
+    "coins-and-paper": {
+      "sheet": "homecoming-local-1",
+      "x": 424,
+      "y": 449,
+      "w": 303,
+      "h": 253,
+      "anchorX": 0.736,
+      "anchorY": 0.9289,
+      "logicalHeight": 2108,
+      "label": "coins and paper",
+      "kind": "homecoming-local-1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          451,
+          299,
+          249
+        ],
+        "visiblePixels": 36667,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homecoming-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homecoming-local-1"
     },
     "road-tile-wagon": {
       "sheet": "ground-roads",
@@ -342432,7 +343594,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 459,
+    "sourceCount": 463,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

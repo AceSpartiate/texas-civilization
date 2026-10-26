@@ -533,6 +533,10 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
     // The local pipeline's wood piles and the wash kettle's two frames (2026-10-26): each packed at one scale, drawn at one height.
     if (sheet === 'homestead-local-2') return tallest(placed);
     if (sheet === 'homestead-local-1' && frame.row === 2) return tallest(placed.filter(p => p.row === 2));
+    // The local pipeline's farmsteads, grave marker and coins (2026-10-26) are asked for at a grown person's height, as Claude's
+    // were (public/courtship.js `SCALE` 1; public/flashback.js `person`): each one's logical height is that person's, so the
+    // building stands as tall as Astra's cabin and jacal beside the cast, the marker to a man's chest and the coins on the table.
+    if (sheet === 'homecoming-local-1') return Math.round(heightOf(frame) / { 'farm-neighbour-porch': 2.35, 'farm-neighbour-ramada': 2.1, 'grave-marker': 0.75, 'coins-and-paper': 0.12 }[name]);
     if (sheet === 'joe-poses' || sheet === 'joe-story-actions') return tallest(placed);
     if (sheet === 'wagon-rig') return name !== 'wagon-wheel' ? heightOf(placed[0]) : undefined;
     // Astra's 2026-10-04 sheets: the bank actions at the height of their two standing rows; each smith at the height of his own

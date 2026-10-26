@@ -12,6 +12,7 @@
 // Sized as the lone parent's scenes' pieces are: `logicalHeight` 300 is a grown person's height at the frame's own scale, so the
 // page draws each with the height it gives a person and it stands at its true size beside them. Temporary, like every Claude frame:
 // Astra's frame of the same name replaces each the moment it is registered.
+import { retire } from '../kit/retire.mjs';
 export const AREA = 'places';
 export const DATE = '2026-09-29';
 const REQUEST = 'Request 2026-09-29 — the homecoming\'s scenes';
@@ -65,7 +66,7 @@ function coinsAndPaper() {
   return { svg, anchorX: 0.5, anchorY: +((ground) / H).toFixed(4), logicalHeight: 300 };
 }
 
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-homecoming-marker': { cell: { w: 300, h: 300 }, columns: 1, request: REQUEST,
     replaceWith: 'item 1: prop contract, transparent, anchored at its base, a person\'s height as its logical height',
     frames: [{ name: 'grave-marker', height: 0.45, compare: [['rust-idle-e', 1], ['home-table', 0.68]], draw: graveMarker,
@@ -76,3 +77,6 @@ export const SHEETS = {
       prompt: 'What a family counts at the table after the war: a short stack of silver reales and two loose coins, a folded sheet of paper (a bill of sale) with lines of handwriting too small to read, and a small drawstring leather purse, lying together on a table top. At the scale of a person seated at the table; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no legible text.' }] },
 };
 export const CLIPS = {};
+// Painted with the local pipeline on 2026-10-26 (batch 5 of docs/ART_PLAN_LOCAL_2026-10-25.md); pipeline art counts as finished
+// art (owner, 2026-10-25), so Claude's are retired. The drawing code above is no longer called for them.
+export const { SHEETS } = retire(ALL_SHEETS, {}, ['grave-marker', 'coins-and-paper']);

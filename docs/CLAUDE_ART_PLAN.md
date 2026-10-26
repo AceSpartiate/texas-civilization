@@ -9,12 +9,12 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 32 | 7 | 17 | 1 |
-| B — Children, babies and sickness | 19 | 6 | 12 | 3 |
+| B — Children, babies and sickness | 15 | 4 | 8 | 7 |
 | C — Soldiers, battles and famous people | 11 | 1 | 7 | 13 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 25 | 2 | 9 | 6 |
-| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 11 | 2 | 9 | 18 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 11 | 1 | 8 | 29 |
-| **Total** | **109** | **19** | **62** | **70** |
+| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 9 | 1 | 7 | 20 |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 0 | 7 | 30 |
+| **Total** | **102** | **15** | **55** | **77** |
 
 ## How a builder works
 
@@ -203,7 +203,7 @@ Skipped:
 
 ## B — Children, babies and sickness
 
-Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 19 to make, 3 skipped.
+Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 15 to make, 7 skipped.
 
 - [ ] **B1** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `girl-scatter`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `boy-scatter`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`, `smallchild-scatter`)
   - **Deliver:** for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)
@@ -220,16 +220,6 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 2 and 4 frames. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `littleClip` (`aside.kind === 'baby'`) in `public/motion.js`; `carriedAt` in `drawWorld`, `public/app.js`
   - **Stands in now:** the harvest carry with the infant drawn at her side; a carried baby drawn at the carrier's hip (Astra's library art reused)
-- [ ] **B4** (priority 1) — [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down), item 1 — **Claude stand-in held back: Astra has drawn the subject** (the sick mark), so the page draws hers (`mark-sick`)
-  - **Deliver:** `mark-sick` (a folded blanket and a cup, or a cool cloth, in the panel's mark style)
-  - **Frames:** 1. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
-  - **Plugs into:** `.panel-sick-mark` in `panelRow`, `public/app.js`
-  - **Stands in now:** the road's nursing icon `icon-tend-sick` in a cream disc (Astra's library art reused)
-- [ ] **B5** (priority 1) — [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down), item 2 — **Claude stand-in in place** (`icon-camp-apart`, `icon-nurse-home`); Astra's replaces it; **Claude stand-in held back: Astra has drawn the subject** (rest), so the page draws hers (`icon-rest-road`)
-  - **Deliver:** `icon-rest-road` (the wagon stopped, somebody lying under a blanket), `icon-camp-apart` (a camp up a bank away from a crowd of tents), `icon-nurse-home` (somebody by a bed in a cabin with a cup)
-  - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40% (the request says 64 px; deliver at 128 as the other icons)
-  - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
-  - **Stands in now:** `icon-rest`, `icon-tend-sick` and a stroked glyph (Astra's library art reused)
 - [ ] **B17** (priority 1) — [Request 2026-10-03 — the children's own actions](ART_REQUESTS.md#request-2026-10-03--the-childrens-own-actions), items 1 and 2 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`)
   - **Deliver:** `<child>-play` (running, skipping, a hoop or ball, 4, east, `-n`, `-s`) and `<child>-play-sit` (sitting at play indoors, 2, east), for `boy`, `girl` and `smallchild`
   - **Frames:** 4 + 2 frames each. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -250,21 +240,11 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 1 frame, south and east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `restingSick` and `grownClip` in `public/motion.js`
   - **Stands in now:** the delivered `-injured-rest` pose, as the hurt are; a sick baby as it is (Astra's library art reused)
-- [ ] **B9** (priority 2) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 5 — **Claude stand-in in place** (`icon-child-stick-horse`, `icon-child-doll`, `icon-child-tag`, `icon-child-hide`, `icon-child-cart`, `icon-child-hoop`, `icon-child-marbles`, `icon-child-hens`, `icon-flee-hide`, `icon-flee-bundle`, `icon-road-lookout`, `icon-road-sing`, `icon-road-little-ones`, `icon-camp-fire`, `icon-ferry-help`, `icon-share-food`, `icon-ford-carry`); Astra's replaces it
-  - **Deliver:** `icon-child-stick-horse`, `icon-child-doll`, `icon-child-tag`, `icon-child-hide`, `icon-child-cart`, `icon-child-hoop`, `icon-child-marbles`, `icon-child-hens`; the Scrape's `icon-flee-hide`, `icon-flee-bundle`, `icon-road-lookout`, `icon-road-sing`, `icon-road-little-ones`, `icon-camp-fire`, `icon-ferry-help`, `icon-share-food`, `icon-ford-carry` (a child reads as a child; nothing holds an edge or a gun)
-  - **Frames:** 17 icons. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
+- [ ] **B9** (priority 2) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 5 — **Claude stand-in in place** (`icon-child-stick-horse`); Astra's replaces it
+  - **Deliver:** `icon-child-stick-horse` (a child riding a toy horse on a stick; a child reads as a child). The other sixteen of the item were painted by the local pipeline on 2026-10-26 (batch 5); its stick horse came back a real horse every time and was not shipped
+  - **Frames:** 1 icon. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
   - **Plugs into:** `PANEL_ICONS` and `LITTLE_GLYPHS` in `public/family-panel.js`
-  - **Stands in now:** stroked glyphs drawn in code (drawn in code (canvas or CSS))
-- [ ] **B10** (priority 2) — [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help), item 1 — **Claude stand-in in place** (`icon-child-help`); Astra's replaces it
-  - **Deliver:** `icon-child-help` (a child running along a track toward a neighbour's cabin, an arm out)
-  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40% (the request says 48 px; deliver at 128 as the others)
-  - **Plugs into:** `PANEL_ICONS['child-help']` in `public/family-panel.js`
-  - **Stands in now:** a stroked glyph: a running figure and a house (drawn in code (canvas or CSS))
-- [ ] **B11** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 1 (icon) — **Claude stand-in in place** (`icon-flee-cow`); Astra's replaces it
-  - **Deliver:** `icon-flee-cow` (a child leading the family's milk cow on a rope)
-  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
-  - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
-  - **Stands in now:** a stroked glyph (drawn in code (canvas or CSS))
+  - **Stands in now:** Claude's `icon-child-stick-horse`; under it the stroked glyph (Claude-drawn)
 - [ ] **B14** (priority 2) — [Request 2026-10-02 — a grown person carrying a child of two to five on the road](ART_REQUESTS.md#request-2026-10-02--a-grown-person-carrying-a-child-of-two-to-five-on-the-road), item 1
   - **Deliver:** for each of the eight cast figures: `-carry-child-walk` (a child of two to five carried on the hip or the back, walking, 4, east, and `-n`/`-s`)
   - **Frames:** 4 frames, east, `-n`, `-s`. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -302,6 +282,10 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Stands in now:** the kindling's gathering (`gather`) and the water's pails (`water`) (Astra's library art reused)
 
 Skipped:
+- ~~B4~~ [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `mark-sick`, asked for by name in `drawMark`; the drawn mark Claude made is retired
+- ~~B5~~ [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `icon-rest-road`, `icon-camp-apart`, `icon-nurse-home`; the icons Claude drew are retired
+- ~~B10~~ [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `icon-child-help`
+- ~~B11~~ [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `icon-flee-cow`
 - ~~B13~~ [Request 2026-09-30 — the hunger mark and the food gauge's sack](ART_REQUESTS.md#request-2026-09-30--the-hunger-mark-and-the-food-gauges-sack) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `mark-hunger` and `mark-food`, handed to the style sheet by `public/painted-marks.js` in place of its masks
 - ~~B12~~ [Request 2026-09-12 — families that look like who they are, and a rider who gets down](ART_REQUESTS.md#request-2026-09-12--families-that-look-like-who-they-are-and-a-rider-who-gets-down) — skipped: covered by B1, B6, B7 and B8; the scaling rule stays
 - ~~BS1~~ [Request 2026-09-21 — the children's icons](ART_REQUESTS.md#request-2026-09-21--the-childrens-icons) — skipped: delivered 2026-09-22 (`icons-children.png`)
@@ -527,7 +511,7 @@ Skipped:
 
 ## E — Buildings, houses, towns, Béxar, the Alamo, interiors
 
-Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 11 to make, 18 skipped.
+Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 9 to make, 20 skipped.
 
 - [ ] **E1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 2 — **Claude stand-in in place** (`bexar-man-walk`, `bexar-man-walk-s`, `bexar-man-walk-n`, `bexar-man-idle-s`, `bexar-man-idle-e`, `bexar-man-idle-w`, `bexar-man-idle-n`, `bexar-man-listen-s`, `bexar-man-listen-n`, `bexar-man-speak`, `bexar-man-carry`, `bexar-girl-walk`, `bexar-girl-walk-s`, `bexar-girl-walk-n`, `bexar-girl-idle-s`, `bexar-girl-idle-e`, `bexar-girl-idle-w`, `bexar-girl-idle-n`, `bexar-girl-listen-s`, `bexar-girl-listen-n`, `bexar-girl-speak`, `bexar-girl-carry`, `bexar-boy-walk`, `bexar-boy-walk-s`, `bexar-boy-walk-n`, `bexar-boy-idle-s`, `bexar-boy-idle-e`, `bexar-boy-idle-w`, `bexar-boy-idle-n`, `bexar-boy-listen-s`, `bexar-boy-listen-n`, `bexar-boy-speak`, `bexar-boy-carry`); Astra's replaces it
   - **Deliver:** Tejano townspeople of Béxar - a man, a woman in a rebozo, a girl and a boy - each `walk`, `idle-s`, `carry` (loading a cart), `speak`, `listen`, in 1830s Béxar dress (`bexar-man-*`, `bexar-woman-*`, `bexar-girl-*`, `bexar-boy-*`); also the storming's townspeople of 1835 walking out of a house (request 2026-09-25 the storming of Béxar, item 6)
@@ -535,11 +519,6 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Plugs into:** `BEXAR_CAST` in `sim/town-scenes.mjs` (`figure`); `TOWNSFOLK` in `public/battle-view.js`
   - **Stands in now:** the colonists' cast figures (`ochre`, `teal`, `elder`, `indigo`, `blue`, `blue-girl`, `girl`, `boy`); `rust-woman`, `indigo`, `elder`, `smallchild` leaving a house (Astra's library art reused)
   - **Research first:** Béxar dress, 1835-36: rebozo, short jacket, sombrero; original interpretations
-- [ ] **E17** (priority 1) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 3 — **Claude stand-in held back: Astra has drawn the subject** (cabin, jacal with a ramada), so the page draws hers (`farm-neighbour-porch`, `farm-neighbour-ramada`)
-  - **Deliver:** `farm-neighbour-porch` (a log cabin with a roofed porch, its door open, a bench and bucket, a rail fence, a chopping block) and `farm-neighbour-ramada` (a thatched jacal with a brush ramada, an olla hung from its beam, a picket corral)
-  - **Frames:** 1 each. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable; drawn beside the cast at their heights
-  - **Plugs into:** `FARM_ART` in `public/courtship.js`
-  - **Stands in now:** Claude's `farm-neighbour-porch` and `farm-neighbour-ramada`, built on Astra's `cabin-wide` and `jacal-ramada` (Claude-drawn)
 - [ ] **E8** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 4 — **Claude stand-in in place** (`dancers-couple`, `fiddler-play`, `lantern-post`); Astra's replaces it
   - **Deliver:** `dancers-couple` (4), `fiddler-play` (2), `lantern-post` (a lantern on a post, lit)
   - **Frames:** 4, 2, 1. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372; the lantern as a prop
@@ -556,11 +535,6 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Frames:** 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
   - **Plugs into:** the wedding scene in `public/courtship.js`
   - **Stands in now:** Claude's `wedding-table` (Claude-drawn)
-- [ ] **E20** (priority 2) — [Request 2026-09-29 — the homecoming's scenes](ART_REQUESTS.md#request-2026-09-29--the-homecomings-scenes), items 1-2 — **Claude stand-in in place** (`grave-marker`, `coins-and-paper`); Astra's replaces it
-  - **Deliver:** `grave-marker` (a plain rounded-top wooden board about four feet high at the head of a low mound, wildflowers, no text, no symbol) and `coins-and-paper` (a short stack of silver coins and two loose, a folded bill of sale, a small leather purse, lying on a table top)
-  - **Frames:** 1 each. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside; a grown person's height as its logical height, as the wedding's pieces
-  - **Plugs into:** `marker` and `coins` in `drawYard`, `public/flashback.js`
-  - **Stands in now:** Claude's `grave-marker` and `coins-and-paper`; without them drawn in canvas (`marker`, `coins`) (Claude-drawn)
 - [ ] **E10** (priority 3) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 4 — **Claude stand-in in place** (`plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`); Astra's replaces it
   - **Deliver:** `plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`
   - **Frames:** 1 each. **Size:** Map cutout as `public/place-art.js` gives the places past the box
@@ -600,6 +574,8 @@ Skipped:
 - ~~E7~~ [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar) — skipped: delivered 2026-10-03 (Astra's generic `house-loopholed`, closed, open, breached and cut away; actors inside it need occlusion masks and rooms, which is code); Claude's deleted
 - ~~E15~~ [Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen](ART_REQUESTS.md#request-2026-09-12-second--settling-in-houses-interiors-furnishings-and-people-whose-looks-can-be-chosen) — skipped: delivered 2026-10-07 (Astra's `home-tools`; Claude's deleted)
 - ~~E16~~ [Request 2026-09-16 — the shops of the towns](ART_REQUESTS.md#request-2026-09-16--the-shops-of-the-towns) — skipped: delivered 2026-09-26 (the `stand-in:` comment in sim/shops.mjs is stale)
+- ~~E20~~ [Request 2026-09-29 — the homecoming's scenes](ART_REQUESTS.md#request-2026-09-29--the-homecomings-scenes) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `grave-marker` and `coins-and-paper` (the paper blank, the coins plain, after one repair round: the first round wrote on them)
+- ~~E17~~ [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `farm-neighbour-porch` and `farm-neighbour-ramada`, by name in `FARM_ART`
 - ~~E19~~ [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): `courtship-yard-noon` and its morning and evening made from it; the yards Claude drew are retired
 - ~~E40~~ [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): the three painted streets, drawn by `backdropOf` in `public/rider-scene.js`; an Irish colony town keeps the assembled street (none was asked)
 - ~~E41~~ [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): `scene-camp-volunteers` (no horses: the painted camp has none)
@@ -613,13 +589,8 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 11 to make, 29 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 10 to make, 30 skipped.
 
-- [ ] **F16** (priority 1) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 6 — **Claude stand-in in place** (`icon-ask-neighbours`); Astra's replaces it
-  - **Deliver:** `icon-ask-neighbours` (a parent and a child walking up a track toward a neighbour's cabin with smoke from its chimney)
-  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
-  - **Plugs into:** the special button (`#ask-neighbours` in `public/app.js`)
-  - **Stands in now:** Claude's `icon-ask-neighbours`; without it a stroked glyph on the special button (Claude-drawn)
 - [ ] **F3** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 15 — **Claude stand-in in place** (`tree-fall`, `fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple`); Astra's replaces it
   - **Deliver:** `fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple` (3 frames each, played from the strike) and `tree-fall` (4 frames: a hardwood leaning, going over, down, a bounce)
   - **Frames:** 3 each; 4. **Size:** Effect: 3 frames on the ground anchor of the work, one played from the strike
@@ -682,6 +653,7 @@ Skipped:
 - ~~F13~~ [Request 2026-09-19 — Béxar's fields and acequias](ART_REQUESTS.md#request-2026-09-19--béxars-fields-and-acequias) — skipped: delivered 2026-09-21; the layout is research and code
 - ~~F14~~ [Request 2026-09-21 — the guided start's marks](ART_REQUESTS.md#request-2026-09-21--the-guided-starts-marks) — skipped: delivered 2026-10-07 (Astra's four lesson marks, wired into the bar and the pips; dormant while the guided start is off, 2026-09-28)
 - ~~F15~~ [Request 2026-09-28 — the garden — WITHDRAWN 2026-09-28](ART_REQUESTS.md#request-2026-09-28--the-garden--withdrawn-2026-09-28) — skipped: withdrawn 2026-09-28 (crops no longer follow the seasons)
+- ~~F16~~ [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `icon-ask-neighbours`
 - ~~F17~~ [Request 2026-10-02 — the hunter's first-person field](ART_REQUESTS.md#request-2026-10-02--the-hunters-first-person-field) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 3): the three fields summer and winter (the winters repaired once: they came back under snow) and `hunt-rifle`, drawn by `public/hunt-aim.js` (`fieldSprite`, `RIFLE`); the cover nearest the hunter stays drawn in canvas, as planned
 - ~~F30~~ [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `icon-pitch-tent` (the tent and its mallet; no hand painted)
 - ~~F31~~ [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `mark-shelter-house` and `mark-shelter-tent`, by `public/painted-marks.js`; under the wagon keeps its drawn mark

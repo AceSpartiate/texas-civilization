@@ -328,6 +328,11 @@ own (`public/art.js`, `public/art-subjects.js`). Retire each Claude frame with `
 **Jobs:** 24 × 4 + 16 + 8 = 120, plus ≤8 repairs = 128. (`house-floor` and `house-loft` move to batch W, where Astra's
 layers replace them.)
 
+### Batch 5 done (2026-10-26, branch `standins-1025`, not released)
+
+[ART_DELIVERY_2026-10-26-LOCAL-CLAUDE-ICONS.md](ART_DELIVERY_2026-10-26-LOCAL-CLAUDE-ICONS.md): 27 painted and wired, Claude's retired;
+the stick horse not shipped (flagged). 132 jobs.
+
 ---
 
 ## Batch 6: pilot, editing Astra's own frames (go or no-go after 8 jobs)

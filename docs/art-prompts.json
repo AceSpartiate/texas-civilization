@@ -7924,6 +7924,336 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/marks-local-1.png",
       "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (or her three panel marks), the ground keyed out on the CPU (scripts/local-art/batches_2026_10_26.py `key_out`), cut to the sprite and fitted to her icon size (300 px; marks 320), packed one to a clear 384 cell.",
       "review": "Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints). In the game: docs/evidence/icons-local-compare.png."
+    },
+    {
+      "sheet": "icons-family-local-3",
+      "promptId": "frontier-v1/icons-family-local-3",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "icon-child-doll (seed 3 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-child-doll.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a homemade corn-husk doll in a little dress and a red kerchief. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-child-tag (seed 4 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-child-tag.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small boy running after a small girl, playing tag. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-child-hide (seed 3 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-child-hide.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small girl peeking out from behind a fallen log, hiding. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-child-cart (seed 3 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-child-cart.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small wooden toy cart with two solid wooden wheels and a pull handle. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-child-hoop (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-child-hoop-repair.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small girl in a dress running beside a big plain wooden hoop as tall as her waist, rolling it along the ground with a short stick in her hand. Nothing else. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-child-marbles (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-child-marbles.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a ring drawn in the dirt with a few coloured clay marbles in it. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-child-hens (seed 3 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-child-hens.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: two farm hens pecking at scattered corn. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-flee-hide (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-flee-hide.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small wooden chest of the family's goods half buried in a hole in the earth by a river bank. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-flee-bundle (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-flee-bundle.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a bundle of belongings tied up in a red checked cloth with its corners knotted on top. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-flee-cow (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-flee-cow.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small girl leading a brown milk cow by a rope. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-road-lookout (seed 3 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-road-lookout.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small boy standing on a wagon road shading his eyes with his hand, looking far ahead. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-road-sing (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-road-sing.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small girl walking and singing, two musical notes in the air beside her. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-road-little-ones (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-road-little-ones.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: an older girl holding the hand of a smaller child, walking. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-camp-fire (seed 4 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-camp-fire.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small camp fire of crossed sticks burning in slanting rain. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-ferry-help (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-ferry-help.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: two hands pulling hand over hand on a thick ferry rope above river water. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-share-food (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-share-food.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: one hand passing a round loaf of bread to another hand. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "icon-child-doll",
+          "chosen": 3,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-child-tag",
+          "chosen": 4,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-child-hide",
+          "chosen": 3,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-child-cart",
+          "chosen": 3,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-child-hoop",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-child-marbles",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-child-hens",
+          "chosen": 3,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-flee-hide",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-flee-bundle",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-flee-cow",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-road-lookout",
+          "chosen": 3,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-road-sing",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-road-little-ones",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-camp-fire",
+          "chosen": 4,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-ferry-help",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-share-food",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/icons-local-claude-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-local-3.png",
+      "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (her panel marks for the sick mark; her cabin, porch and jacals for the farmsteads; her bucket, rail and table for the props), keyed out on the CPU, fitted to her icon size (300 px; the mark 320; the farmsteads 370) and packed one to a clear 384 cell. Claude's icon of each subject was the subject sketch: what it shows, never how.",
+      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time)."
+    },
+    {
+      "sheet": "icons-family-local-4",
+      "promptId": "frontier-v1/icons-family-local-4",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "icon-ford-carry (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-ford-carry.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a man wading through a river carrying a small child on his shoulders. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-child-help (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-child-help.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small boy running along a track toward a neighbour's log cabin, one arm held out. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-ask-neighbours (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-ask-neighbours.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a father and a small child walking up a track toward a neighbour's log cabin with smoke from its chimney. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-rest-road (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-rest-road.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a covered wagon stopped by the road and somebody lying on the ground beside it under a blanket. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-camp-apart (seed 3 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-camp-apart.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: one small tent up on a green rise, well apart from a crowd of tents below. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.\n\nicon-nurse-home (seed 4 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-icon-nurse-home.png): Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a woman sitting beside a bed in a log cabin holding a cup to somebody lying in it. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "icon-ford-carry",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-child-help",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-ask-neighbours",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-rest-road",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-camp-apart",
+          "chosen": 3,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "icon-nurse-home",
+          "chosen": 4,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/icons-local-claude-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-local-4.png",
+      "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (her panel marks for the sick mark; her cabin, porch and jacals for the farmsteads; her bucket, rail and table for the props), keyed out on the CPU, fitted to her icon size (300 px; the mark 320; the farmsteads 370) and packed one to a clear 384 cell. Claude's icon of each subject was the subject sketch: what it shows, never how.",
+      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time)."
+    },
+    {
+      "sheet": "marks-local-2",
+      "promptId": "frontier-v1/marks-local-2",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "mark-sick (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-mark-sick.png): Image 1 shows this game's small round marks. Match their style exactly: a round badge with a thick dark ink outline and a cream rim, its disc filled with one flat painted colour, holding one simple bold pictogram that reads at a very small size. Paint one new mark in that style: a folded blanket with a tin cup on it, on a pale blue disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "mark-sick",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/icons-local-claude-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/marks-local-2.png",
+      "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (her panel marks for the sick mark; her cabin, porch and jacals for the farmsteads; her bucket, rail and table for the props), keyed out on the CPU, fitted to her icon size (300 px; the mark 320; the farmsteads 370) and packed one to a clear 384 cell. Claude's icon of each subject was the subject sketch: what it shows, never how.",
+      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time)."
+    },
+    {
+      "sheet": "homecoming-local-1",
+      "promptId": "frontier-v1/homecoming-local-1",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "farm-neighbour-porch (seed 7 of 1, 2, 3, 4, 5, 6, 7, 8; 1024x1024; references: output/local-2026-10-26/b5/refs/board-farm-neighbour-porch.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a frontier family's one-room log cabin with a shake roof and a stick-and-clay chimney, a roofed porch across its front with its plank door standing open, a bench and a wooden bucket on the porch, a short split-rail fence and a chopping block with an axe in it beside it, seen corner-on. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\nfarm-neighbour-ramada (seed 7 of 1, 2, 3, 4, 5, 6, 7, 8; 1024x1024; references: output/local-2026-10-26/b5/refs/board-farm-neighbour-ramada.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a Tejano family's jacal of upright poles plastered with mud under a thick thatched roof, a brush ramada shading its front with a clay olla hung from its beam, and a small corral of upright pickets beside it, seen corner-on. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\ngrave-marker (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-grave-marker.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a plain wooden grave marker: a flat board with a rounded top standing upright at the head of a low mound of earth with a few wildflowers on it. The board is blank, no writing, no cross, no symbol. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\ncoins-and-paper (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b5/refs/board-coins-and-paper-repair.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a short stack of plain smooth silver coins with two loose plain coins beside it, a folded sheet of blank cream paper and a small brown leather drawstring purse, lying together. The coins are smooth with no faces, no numbers and no letters; the paper is completely blank, with no writing, no lines and no marks of any kind. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "farm-neighbour-porch",
+          "chosen": 7,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "farm-neighbour-ramada",
+          "chosen": 7,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "grave-marker",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "coins-and-paper",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/icons-local-claude-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/homecoming-local-1.png",
+      "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (her panel marks for the sick mark; her cabin, porch and jacals for the farmsteads; her bucket, rail and table for the props), keyed out on the CPU, fitted to her icon size (300 px; the mark 320; the farmsteads 370) and packed one to a clear 384 cell. Claude's icon of each subject was the subject sketch: what it shows, never how.",
+      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time)."
     }
   ]
 }

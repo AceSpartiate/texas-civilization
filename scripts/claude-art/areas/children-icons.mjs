@@ -10,6 +10,7 @@ import { frameOf, drawPerson } from '../kit/rig.mjs';
 import { POSES } from '../kit/poses.mjs';
 import { CHILD_POSES, drawChildPose, figureIn, doll, at } from '../kit/little.mjs';
 import { iconFrame, ground, logSide, cabin, hen, kernelsOn, milkCow, flames, hand, rain, note, chest, tone, LINE, PALETTE, ellipse, blob, curve, capsule, poly, add } from '../kit/icon-bits.mjs';
+import { retire } from '../kit/retire.mjs';
 
 export const AREA = 'children';
 export const DATE = '2026-09-28';
@@ -104,7 +105,10 @@ const ICONS = [
       figureIn(ink, 'girl', [104, 119], 0.72, inner => drawPerson(inner, 'girl', { ...p, hands: { ...p.hands, far: at(F, -12, -14) } })); }],
 ];
 
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-children-icons': { cell: 128, columns: 6, request: PLAY, replaceWith: 'item 5 (and the requests named in each frame\'s provenance): one frame in the family icon atlas, 128 by 128, a single silhouette with a thin dark outline, reading at 34-38 CSS px and dimmed to 40%',
     frames: ICONS.map(([name, request, prompt, draw]) => ({ name, height: 0.5, compare: [['icon-child-play', 0.5], ['icon-child-water', 0.5]], prompt: `${prompt} ${STYLE} (${request}.)`, draw: () => iconFrame(name, prompt, draw) })) },
 };
+// Painted with the local pipeline on 2026-10-26 (batch 5 of docs/ART_PLAN_LOCAL_2026-10-25.md); pipeline art counts as finished
+// art (owner, 2026-10-25), so Claude's are retired. The drawing code above is no longer called for them.
+export const { SHEETS } = retire(ALL_SHEETS, {}, ['icon-child-doll', 'icon-child-tag', 'icon-child-hide', 'icon-child-cart', 'icon-child-hoop', 'icon-child-marbles', 'icon-child-hens', 'icon-flee-*', 'icon-road-*', 'icon-camp-fire', 'icon-ferry-help', 'icon-share-food', 'icon-ford-carry', 'icon-child-help']);

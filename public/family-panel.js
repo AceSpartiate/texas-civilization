@@ -170,9 +170,8 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['join-army', { sprite: 'icon-enlist-auxiliary' }],
   // The road's chores (sim/road.mjs, docs/ROAD_EAST.md) have registered `icon-<key>` frames; glyphs are load fallbacks.
   ['hunt-road', { glyph: 'hunt-road' }], ['tend-sick', { glyph: 'tend-sick' }], ['trade-crossing', { glyph: 'trade-crossing' }],
-  // Sickness (sim/disease.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sickness icons" - `icon-rest-road`,
-  // `icon-nurse-home` and `icon-camp-apart` are Claude-drawn today ("Claude-drawn stand-ins", taken first by `drawIcon`); without
-  // their sheet, the rest order's picture, the road's nursing and a drawn glyph. Astra's of the same names replace Claude's.
+  // Sickness (sim/disease.mjs): `icon-rest-road`, `icon-nurse-home` and `icon-camp-apart` (the local pipeline's, 2026-10-26, taken
+  // first by `drawIcon`); while their sheet loads, the rest order's picture, the road's nursing and a drawn glyph.
   ['rest-road', { sprite: 'icon-rest' }], ['nurse-home', { sprite: 'icon-tend-sick', glyph: 'tend-sick' }], ['camp-apart', { glyph: 'camp-apart' }],
   // Fetching logs from the timber uses registered `icon-fetch-logs`; the glyph is a load fallback.
   ['fetch-logs', { glyph: 'fetch-logs' }],
@@ -198,11 +197,12 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['child-play', { sprite: 'icon-child-play' }], ['child-kindling', { sprite: 'icon-child-kindling' }],
   ['child-birds', { sprite: 'icon-child-birds' }], ['child-eggs', { sprite: 'icon-child-eggs' }],
   ['child-water', { sprite: 'icon-child-water' }], ['child-mind', { sprite: 'icon-child-mind' }],
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children's play and the Scrape's work. Claude-drawn `icon-<key>` frames
-  // today ("Claude-drawn stand-ins"), the stroked glyphs under them until a sheet loads; Astra's replace them with no change here.
+  // Children's play and the Scrape's work: the local pipeline's `icon-<key>` frames (2026-10-26), but for the stick horse.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children's play and the Scrape's work: `icon-child-stick-horse` is still
+  // Claude-drawn ("Claude-drawn stand-ins"). The stroked glyphs show while a sheet loads; Astra's replace them with no change here.
   ...['child-stick-horse', 'child-doll', 'child-tag', 'child-hide', 'child-cart', 'child-hoop', 'child-marbles', 'child-hens',
     'flee-hide', 'flee-bundle', 'flee-cow', 'road-lookout', 'road-sing', 'road-little-ones', 'camp-fire', 'ferry-help', 'share-food', 'ford-carry',
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - the oldest child going for help (sim/acting.mjs).
+    // The oldest child going for help (sim/acting.mjs): `icon-child-help`, the local pipeline's.
     'child-help',
     // The tent (sim/shelter.mjs) and the house's work (sim/housework.mjs): `icon-pitch-tent`, `icon-keep-house`, `icon-work-garden`,
     // `icon-wash-clothes` (painted 2026-10-26); the stroked glyphs while their sheet loads.
@@ -1037,7 +1037,7 @@ function drawGlyph(ctx, glyph, size) {
     ctx.fillRect(38, 22, 6, 7);
     ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(6, 42); ctx.lineTo(44, 42); ctx.stroke();
   } else if (glyph === 'camp-apart') {
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sickness icons". Three tents crowded on the bank below, and one
+    // While the painted icon loads: three tents crowded on the bank below, and one
     // up the stream on its own, with the water between: the family's camp moved away from the crowd (sim/disease.mjs).
     ctx.strokeStyle = '#41556b'; ctx.lineWidth = 2.5;
     ctx.beginPath(); ctx.moveTo(4, 44); ctx.quadraticCurveTo(20, 36, 30, 28); ctx.quadraticCurveTo(38, 20, 44, 18); ctx.stroke();
@@ -1251,7 +1251,7 @@ const LITTLE_GLYPHS = Object.freeze({
   // Water, and a grown one wading with a small one on their back.
   // A child running, an arm out, toward a house with its door open.
   'child-help': ctx => { dot(ctx, 12, 14, 4); line(ctx, [12, 18], [14, 30], [8, 42]); line(ctx, [14, 30], [20, 40]); line(ctx, [13, 22], [24, 18]); ctx.beginPath(); ctx.moveTo(28, 26); ctx.lineTo(37, 16); ctx.lineTo(46, 26); ctx.closePath(); ctx.fill(); ctx.fillRect(30, 26, 14, 16); ctx.fillStyle = '#e9dcb8'; ctx.fillRect(35, 32, 5, 10); },
-  // The women's own work (stand-in: docs/ART_REQUESTS.md, request 2026-10-03, items 1-3): a pot over the fire; a sprout over three
+  // The women's own work, drawn while their painted icons load (2026-10-26): a pot over the fire; a sprout over three
   // rows; a tub with a shirt over its rim and the battling stick.
   'keep-house': ctx => { line(ctx, [10, 14], [24, 6], [38, 14]); ctx.beginPath(); ctx.ellipse(24, 26, 10, 8, 0, 0, Math.PI * 2); ctx.fill(); line(ctx, [12, 20], [36, 20]); line(ctx, [14, 40], [20, 34], [24, 40], [28, 34], [34, 40]); line(ctx, [8, 44], [40, 44]); },
   'work-garden': ctx => { for (const y of [30, 37, 44]) line(ctx, [6, y], [42, y]); line(ctx, [24, 28], [24, 12]); ctx.beginPath(); ctx.ellipse(18, 14, 6, 3, -0.5, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.ellipse(30, 10, 6, 3, 0.5, 0, Math.PI * 2); ctx.fill(); },

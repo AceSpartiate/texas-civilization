@@ -321,9 +321,9 @@ function drawRoutes(ctx, prepared, beat, local) {
 /**
  * The homecoming's scenes after the story's minute (sim/flashback.mjs `epilogue`; owner, 2026-09-29, D10): the family in its own
  * yard, drawn large as the lone parent's scenes are (public/courtship.js), with Astra's figures and furniture - her cast in their
- * delivered poses, her cabins, the burned cabin, the house going up, her table, the elder for the land agent. What she has not
- * drawn is Claude's stand-in art: the wooden marker (`grave-marker`) and the coin and paper on the table (`coins-and-paper`),
- * each drawn in canvas until its sheet has come. stand-in: docs/ART_REQUESTS.md, request 2026-09-29 - the homecoming's scenes.
+ * delivered poses, her cabins, the burned cabin, the house going up, her table, the elder for the land agent. The wooden marker
+ * (`grave-marker`) and the coin and paper on the table (`coins-and-paper`) are the local pipeline's (2026-10-26), each drawn in
+ * canvas while its sheet loads.
  */
 const YARD_LIGHT = Object.freeze({ morning: ['#b9d3dc', '#f3e2bd'], noon: ['#a8c8d8', '#e6e3cf'], evening: ['#e7a86e', '#f6d59a'] });
 /** A grown person's drawn height in the yard, and where the ground they stand on is. */
@@ -393,7 +393,7 @@ function yardPerson(ctx, person, x, y, h, pose, face, t, { paused = true } = {})
 function marker(ctx, x, y, person) {
   if (drawSprite(ctx, 'grave-marker', x, y, person)) return;
   const h = person * 0.75;
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-29 - the homecoming's scenes, item 1 (the wooden marker), until the sheet loads.
+  // The wooden marker drawn in canvas while its sheet loads.
   ctx.save();
   ctx.fillStyle = '#7b6247';
   ctx.beginPath(); ctx.ellipse(x, y - h * 0.03, h * 0.34, h * 0.08, 0, Math.PI, 0); ctx.fill();
@@ -407,7 +407,7 @@ function marker(ctx, x, y, person) {
 function coins(ctx, x, y, person) {
   if (drawSprite(ctx, 'coins-and-paper', x, y, person)) return;
   const h = person * 0.22;
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-29 - the homecoming's scenes, item 2 (the coin and the bill of sale), until the sheet loads.
+  // The coin and the bill of sale drawn in canvas while their sheet loads.
   ctx.save();
   ctx.fillStyle = '#f2ead3'; ctx.strokeStyle = '#8c7248'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(x - h * 0.9, y - h * 0.1); ctx.lineTo(x - h * 0.1, y - h * 0.22); ctx.lineTo(x + h * 0.05, y); ctx.lineTo(x - h * 0.75, y + h * 0.1); ctx.closePath(); ctx.fill(); ctx.stroke();

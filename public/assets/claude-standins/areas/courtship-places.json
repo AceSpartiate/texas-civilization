@@ -3,31 +3,12 @@
   "area": "places",
   "date": "2026-09-29",
   "sheets": {
-    "claude-courtship-farms": {
-      "image": "/assets/claude-standins/claude-courtship-farms.png",
-      "width": 1080,
-      "height": 1120,
-      "bytes": 935902,
-      "sha256": "c6e8e90b6e32b427a672b0624ce09dc11580651c6688a2be48e9317871da6a3e",
-      "madeBy": "claude",
-      "module": "courtship-places",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "layout": {
-        "rows": 2,
-        "columns": 1,
-        "cell": {
-          "w": 1080,
-          "h": 560
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-courtship-table": {
       "image": "/assets/claude-standins/claude-courtship-table.png",
       "width": 560,
       "height": 330,
-      "bytes": 84262,
-      "sha256": "5bf7f67ed1c002a102ae122ebdccbbe9ab5cfd1266e03bece40b0959a5bf88fa",
+      "bytes": 84258,
+      "sha256": "7c0faadb888a06c00cae284545c63e6330137ff4fc576cdb1cbb1ab0d5471cd4",
       "madeBy": "claude",
       "module": "courtship-places",
       "request": "Request 2026-09-29 — the lone parent's wedding",
@@ -43,40 +24,6 @@
     }
   },
   "frames": {
-    "farm-neighbour-porch": {
-      "sheet": "claude-courtship-farms",
-      "x": 0,
-      "y": 0,
-      "w": 1080,
-      "h": 560,
-      "anchorX": 0.5494,
-      "anchorY": 0.9822,
-      "logicalHeight": 129,
-      "madeBy": "claude",
-      "module": "courtship-places",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "replaceWith": "farm-neighbour-porch: item 3: building contract, corner-on three-quarter view, anchored at the base centre, drawn beside the cast at their heights",
-      "source": "svg/courtship-places/claude-farm-neighbour-porch.svg",
-      "label": "farm neighbour porch",
-      "kind": "claude-courtship-farms"
-    },
-    "farm-neighbour-ramada": {
-      "sheet": "claude-courtship-farms",
-      "x": 0,
-      "y": 560,
-      "w": 1080,
-      "h": 560,
-      "anchorX": 0.4194,
-      "anchorY": 0.9821,
-      "logicalHeight": 139,
-      "madeBy": "claude",
-      "module": "courtship-places",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "replaceWith": "farm-neighbour-ramada: item 3: building contract, corner-on three-quarter view, anchored at the base centre, drawn beside the cast at their heights",
-      "source": "svg/courtship-places/claude-farm-neighbour-ramada.svg",
-      "label": "farm neighbour ramada",
-      "kind": "claude-courtship-farms"
-    },
     "wedding-table": {
       "sheet": "claude-courtship-table",
       "x": 0,
@@ -97,34 +44,6 @@
   },
   "clips": {},
   "provenance": {
-    "farm-neighbour-porch": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-29",
-      "module": "courtship-places",
-      "area": "places",
-      "sheet": "claude-courtship-farms",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "prompt": "The first neighbours' farmstead, a family's home: a log cabin with a shingle roof and a stone chimney (Astra's own cabin-wide, her pixels), a roofed porch across its whole front on four round posts with a plank floor a foot up and a step down from the door, the roof laid in the same shingles; the door standing open on the dark of the room, a plank bench under the left window and a water bucket by the door (her home-bench and bucket); her split-rail fence zigzagging off to the left; a chopping block with the axe bitten into it and split sticks by it in the yard at the right; a thread of smoke from the chimney. Front square to the camera with the right end and roof showing, as her building sheets; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no people, no text.",
-      "source": "public/assets/claude-standins/svg/courtship-places/claude-farm-neighbour-porch.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's farm-neighbour-porch"
-    },
-    "farm-neighbour-ramada": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-29",
-      "module": "courtship-places",
-      "area": "places",
-      "sheet": "claude-courtship-farms",
-      "request": "Request 2026-09-29 — the lone parent's wedding",
-      "prompt": "The second neighbours' farmstead, a family's home and a different one: a jacal of upright posts and mud with a thatched roof and a brush ramada giving shade before it (Astra's own jacal-ramada, her pixels), a round red clay olla hung in a rope sling from the ramada's front beam and sweating, her plank bench in the ramada's shade, her iron pot on a tripod over a small fire in the yard to the left, and at the right a small corral of pickets set close with a pole lashed along each side, a hollow-log trough inside and a pole laid across the gate. Front square to the camera, as her building sheets; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no people, no text.",
-      "source": "public/assets/claude-standins/svg/courtship-places/claude-farm-neighbour-ramada.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's farm-neighbour-ramada"
-    },
     "wedding-table": {
       "kind": "frame",
       "madeBy": "claude",

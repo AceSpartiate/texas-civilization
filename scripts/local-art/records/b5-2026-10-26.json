@@ -1,0 +1,616 @@
+{
+ "batch": "b5",
+ "date": "2026-10-26",
+ "model": "FLUX.2 klein 4B fp8 (Apache-2.0)",
+ "rows": [
+  {
+   "name": "icon-child-stick-horse",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small boy riding a stick horse, a horse's head carved on a long stick between his legs. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-stick-horse.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": null
+  },
+  {
+   "name": "icon-child-doll",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a homemade corn-husk doll in a little dress and a red kerchief. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-doll.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "icon-child-tag",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small boy running after a small girl, playing tag. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-tag.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "icon-child-hide",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small girl peeking out from behind a fallen log, hiding. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-hide.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "icon-child-cart",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small wooden toy cart with two solid wooden wheels and a pull handle. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-cart.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "icon-child-hoop",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small girl rolling a wooden hoop with a stick. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-hoop.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": null
+  },
+  {
+   "name": "icon-child-marbles",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a ring drawn in the dirt with a few coloured clay marbles in it. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-marbles.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-child-hens",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: two farm hens pecking at scattered corn. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-hens.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "icon-flee-hide",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small wooden chest of the family's goods half buried in a hole in the earth by a river bank. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-flee-hide.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "icon-flee-bundle",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a bundle of belongings tied up in a red checked cloth with its corners knotted on top. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-flee-bundle.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "icon-flee-cow",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small girl leading a brown milk cow by a rope. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-flee-cow.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-road-lookout",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small boy standing on a wagon road shading his eyes with his hand, looking far ahead. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-road-lookout.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "icon-road-sing",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small girl walking and singing, two musical notes in the air beside her. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-road-sing.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-road-little-ones",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: an older girl holding the hand of a smaller child, walking. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-road-little-ones.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-camp-fire",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small camp fire of crossed sticks burning in slanting rain. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-camp-fire.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "icon-ferry-help",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: two hands pulling hand over hand on a thick ferry rope above river water. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-ferry-help.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-share-food",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: one hand passing a round loaf of bread to another hand. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-share-food.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-ford-carry",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a man wading through a river carrying a small child on his shoulders. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-ford-carry.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-child-help",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small boy running along a track toward a neighbour's log cabin, one arm held out. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-help.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-ask-neighbours",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a father and a small child walking up a track toward a neighbour's log cabin with smoke from its chimney. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-ask-neighbours.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "icon-rest-road",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a covered wagon stopped by the road and somebody lying on the ground beside it under a blanket. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-rest-road.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "icon-camp-apart",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: one small tent up on a green rise, well apart from a crowd of tents below. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-camp-apart.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "icon-nurse-home",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a woman sitting beside a bed in a log cabin holding a cup to somebody lying in it. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-nurse-home.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "mark-sick",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's small round marks. Match their style exactly: a round badge with a thick dark ink outline and a cream rim, its disc filled with one flat painted colour, holding one simple bold pictogram that reads at a very small size. Paint one new mark in that style: a folded blanket with a tin cup on it, on a pale blue disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-mark-sick.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "farm-neighbour-porch",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a frontier family's one-room log cabin with a shake roof and a stick-and-clay chimney, a roofed porch across its front with its plank door standing open, a bench and a wooden bucket on the porch, a short split-rail fence and a chopping block with an axe in it beside it, seen corner-on. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-farm-neighbour-porch.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 7
+  },
+  {
+   "name": "farm-neighbour-ramada",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a Tejano family's jacal of upright poles plastered with mud under a thick thatched roof, a brush ramada shading its front with a clay olla hung from its beam, and a small corral of upright pickets beside it, seen corner-on. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-farm-neighbour-ramada.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 7
+  },
+  {
+   "name": "grave-marker",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a plain wooden grave marker: a flat board with a rounded top standing upright at the head of a low mound of earth with a few wildflowers on it. The board is blank, no writing, no cross, no symbol. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-grave-marker.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "coins-and-paper",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a short stack of old silver coins with two loose coins beside it, a folded paper bill of sale and a small brown leather drawstring purse, lying together. The paper is blank. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-coins-and-paper.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": null
+  },
+  {
+   "name": "icon-child-stick-horse-repair",
+   "stage": "repair",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small boy playing at riding: he runs astride a toy hobby horse, a plain wooden pole with a small carved wooden horse head on its top end, held between his legs, the other end of the pole trailing on the ground behind him. A toy on a stick, not a real horse. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-stick-horse-repair.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": null
+  },
+  {
+   "name": "icon-child-hoop-repair",
+   "stage": "repair",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small girl in a dress running beside a big plain wooden hoop as tall as her waist, rolling it along the ground with a short stick in her hand. Nothing else. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-icon-child-hoop-repair.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "coins-and-paper-repair",
+   "stage": "repair",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a short stack of plain smooth silver coins with two loose plain coins beside it, a folded sheet of blank cream paper and a small brown leather drawstring purse, lying together. The coins are smooth with no faces, no numbers and no letters; the paper is completely blank, with no writing, no lines and no marks of any kind. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b5/refs/board-coins-and-paper-repair.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  }
+ ],
+ "flags": {
+  "icon-child-stick-horse": "Not shipped: all four, and all four of the one repair round (told a toy on a stick, not a real horse), painted a boy riding a horse or a rocking horse. Claude's stick horse stays in use; it wants Astra or a redraw.",
+  "icon-child-hoop": "Shipped the repair's s2 (the first round copied a hobby horse from the board's play icon): the hoop is painted taller than the girl.",
+  "icon-ferry-help": "Shipped s1: two hands on the ferry's rope over the water; the other three passed a coin hand to hand instead (the rope only behind)."
+ },
+ "jobs": 132,
+ "failedJobs": 2,
+ "gpuSeconds": 2250.6,
+ "cards": [
+  "4060 Ti",
+  "4080"
+ ]
+}
