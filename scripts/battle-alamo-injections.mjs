@@ -76,13 +76,26 @@ const UNIT = [
     test: VIEW, expect: 'the storming\'s card goes up over the quiet reminder that somebody is inside, and not over a question' },
   // Astra's parapet riflemen (wired 2026-10-25): the waist on the wall's top, out over its own wall, and drawn at all.
   { name: 'the parapet man stands on the wall\'s line, not its top', file: 'public/battle-view.js',
-    from: 'size = figurePx * PARAPET_SIZE; dy = -lift;', to: 'size = figurePx * PARAPET_SIZE; dy = 0;',
+    from: 'size = ownSize; dy = -lift;', to: 'size = ownSize; dy = 0;',
     test: VIEW, expect: 'the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall' },
   { name: 'every wall\'s man faces east over the parapet', file: 'public/battle-view.js',
     from: 'const lift = parapetLift(parapetFeet(battle, side, kind), camera), heading = mountedHeading(side.facing);', to: "const lift = parapetLift(parapetFeet(battle, side, kind), camera), heading = 'e';",
     test: VIEW, expect: 'the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall' },
   { name: 'the full standing figure on the walls, as before 2026-10-25', file: 'public/battle-view.js',
     from: "  return PARAPET_FEET[side.id] || 0;", to: '  return 0;',
+    test: VIEW, expect: 'the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall' },
+  // The wall defenders made legible (2026-10-25, "fix the alamo wall defenders"): on the wall's own line, apart, at scale.
+  { name: 'the parapet man at the part\'s point inside the wall, not on the wall\'s line', file: 'public/battle-view.js',
+    from: 'point.x = onWall.x; point.y = onWall.y;', to: '',
+    test: VIEW, expect: 'the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall' },
+  { name: 'every sampled man over the parapet, shoulder into shoulder', file: 'public/battle-view.js',
+    from: 'const PARAPET_APART = 1.2;', to: 'const PARAPET_APART = 0.01;',
+    test: VIEW, expect: 'the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall' },
+  { name: 'the parapet man shrunk to two-thirds', file: 'public/battle-view.js',
+    from: 'const ownSize = figurePx * PARAPET_SIZE, n = slots.length;', to: 'const ownSize = figurePx * PARAPET_SIZE * 0.67, n = slots.length;',
+    test: VIEW, expect: 'the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall' },
+  { name: 'the page\'s copy of the north wall\'s point parted from the battle\'s', file: 'public/battle-view.js',
+    from: 'PARAPET_AT = Object.freeze({ north: [122, 20],', to: 'PARAPET_AT = Object.freeze({ north: [122, 40],',
     test: VIEW, expect: 'the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall' },
 ];
 

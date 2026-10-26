@@ -305,8 +305,35 @@ const REGULAR_LOOPHOLE = 0.65;
  * west wall, the low barrack's south wall and the palisade. The church's men stand on its gun platform inside a shell twice a
  * man's height, and are drawn as before.
  */
-const PARAPET_WALLS = Object.freeze({ north: 'north-0', west: 'west-perimeter', southwest: 'west-perimeter-south', south: 'south-perimeter', palisade: 'palisade-south' });
-const PARAPET_FEET = Object.freeze(Object.fromEntries(Object.entries(PARAPET_WALLS).map(([part, wall]) => [part, ALAMO_LAYOUT.walls.find(each => each.id === wall)?.heightFeet])));
+const PARAPET_WALLS = Object.freeze({ north: ['north-0', 'north-11'], west: ['west-perimeter'], southwest: ['west-perimeter-south'], south: ['south-perimeter'], palisade: ['palisade-south'] });
+const PARAPET_FEET = Object.freeze(Object.fromEntries(Object.entries(PARAPET_WALLS).map(([part, [wall]]) => [part, ALAMO_LAYOUT.walls.find(each => each.id === wall)?.heightFeet])));
+/**
+ * Where each part's men stand in the compound's plan (sim/battles/alamo.mjs `ALAMO_FEET`: its `at`), so a post on the wall can be
+ * told from the part's centre. Those points stand a few yards inside the walls (the full standing men were drawn at the wall's
+ * foot) and the north wall and the palisade run aslant of the line the part's men are laid along; the waist-up man is set on the
+ * wall's own line instead (`parapetPost`).
+ * ceiling: copied as numbers, since sim/ is not served to the page; tests/battle-alamo-view.test.mjs holds the two equal.
+ */
+export const PARAPET_AT = Object.freeze({ north: [122, 20], west: [22, 255], southwest: [24, 514], south: [115, 512], palisade: [244, 470] });
+/** Each part's run of wall, end to end, in the plan's feet (the north wall is twelve stretches on one line). */
+const PARAPET_RUNS = Object.freeze(Object.fromEntries(Object.entries(PARAPET_WALLS).map(([part, ids]) => {
+  const [first, last] = [ids[0], ids.at(-1)].map(id => ALAMO_LAYOUT.walls.find(each => each.id === id));
+  return [part, { a: first.a, b: last.b }];
+})));
+/**
+ * A garrison man's post on top of his own wall, in miles from his part's centre: his place along the part (`across`, miles to the
+ * left of the way it faces) measured along the wall from the point of the wall nearest the part's centre, kept a few feet in from
+ * the wall's ends. So the waist-up man's waist is on the wall he fires over, wherever on it he stands.
+ */
+export function parapetPost(side, across) {
+  const run = PARAPET_RUNS[side.id], at = PARAPET_AT[side.id];
+  if (!run || !at) return { x: 0, y: 0 };
+  const dx = run.b.x - run.a.x, dy = run.b.y - run.a.y, length = Math.hypot(dx, dy), d = { x: dx / length, y: dy / length };
+  const left = { x: -side.facing.y, y: side.facing.x }, sign = left.x * d.x + left.y * d.y >= 0 ? 1 : -1;
+  const middle = (at[0] - run.a.x) * d.x + (at[1] - run.a.y) * d.y, margin = Math.min(4, length / 4);
+  const t = Math.max(margin, Math.min(length - margin, middle + sign * across * 5280));
+  return { x: (run.a.x + d.x * t - at[0]) / 5280, y: (run.a.y + d.y * t - at[1]) / 5280 };
+}
 /** How high a wall of the given height is drawn: its true height times sim/town-layouts.mjs `DRAWN_HEIGHT`, as public/bexar-art.js draws it.
  * ceiling: the factor is copied, since this module is loaded where /town-layouts.js is not served; tests/battle-alamo-view.test.mjs holds the two equal. */
 export const WALL_DRAWN_HEIGHT = 4;
@@ -322,10 +349,21 @@ export function parapetPart(t) {
 }
 /**
  * How tall her waist-up man is drawn against a standing one: her sheet is held to its first frame (150 pixels, hat to waist), drawn
- * to the scale of the library's standing volunteer (277 pixels), so 150/277 of him.
+ * to the scale of the library's standing volunteer (277 pixels), so 150/277 of him. Not to be made larger to be seen: she painted
+ * him close, his hat about 100 of her pixels across against the standing man's 57, so at this size his head is already about
+ * one and three-quarter times the standing man's beside him (measured 2026-10-25). He is told apart by standing apart on his
+ * wall (`PARAPET_APART`) and on its top (`parapetPost`), not by size.
  * ceiling: read off the two sheets; a FIGURE_HEIGHTS reference in scripts/build-atlas-manifest.mjs would measure it.
  */
 const PARAPET_SIZE = 150 / 277;
+/**
+ * How far apart her waist-up men are drawn at the least, in their own drawn heights: the body of her east and west frames is
+ * about as wide as it is tall (the musket reaches past it), her north and south frames a little wider, so a body and a fifth
+ * leaves a clear gap of wall between two men instead of one brown band along it.
+ */
+const PARAPET_APART = 1.2;
+/** Where the muzzle is in her firing frames, in her man's drawn heights right of and up from his waist (read off the sheet). */
+export const PARAPET_MUZZLE = Object.freeze({ e: [1.31, 0.58], w: [-1.32, 0.58], n: [-0.2, 1.19], s: [-0.11, 0.44] });
 /**
  * Who the townspeople are drawn as, in turn: Astra's people of Béxar (2026-10-11, public/bexar-battle-art.js `BEXAR_TOWNSFOLK`:
  * a woman, an old man, a child and an older woman; never soldiers), each [figure, size, the library figure drawn while that
@@ -751,7 +789,7 @@ export function createBattleView(art) {
         const seed = seedKey;
         // Which way this man faces: out of his face of a square, or the way his body of men faces.
         const right = slot.out ? (facing.x * slot.out.along - facing.y * slot.out.across) >= 0 : sideRight;
-        let clip = null, sprite = null, timeMs = time, flip = !right, still = false, dy = 0, prefer = null;
+        let clip = null, sprite = null, timeMs = time, flip = !right, still = false, dy = 0, prefer = null, shade = 0;
         if (down) {
           // A wounded man went with his side when it left the field.
           if (down.wounded && side.action === 'gone') continue;
@@ -969,11 +1007,24 @@ export function createBattleView(art) {
           // firing on the musket's clock, each part one of her four frames; a man not firing watches over the wall, or keeps
           // down behind it on a night with no firing. Before, the full standing figure fired on the wall's line.
           const lift = parapetLift(parapetFeet(battle, side, kind), camera), heading = mountedHeading(side.facing);
+          // As many men as stand apart at this camera: her waist-up man is as wide as he is tall, about twice a standing man's
+          // width, so the part's men are laid evenly along its wall at no less than a body and a bit apart, the rest kept down
+          // behind the parapet. Drawn closer, they stand closer. ceiling: thinned by the camera, not by the record of who stood
+          // where; a closer camera on the compound shows them all.
+          const ownSize = figurePx * PARAPET_SIZE, n = slots.length;
+          const shown = n <= 1 ? n : Math.max(1, Math.min(n, Math.floor(side.spread.width * camera.scale / (ownSize * PARAPET_APART)) + 1));
+          const place = shown <= 1 ? (slot.index === Math.floor((n - 1) / 2) ? 0 : -1)
+            : Array.from({ length: shown }, (_, j) => Math.round(j * (n - 1) / (shown - 1))).indexOf(slot.index);
+          if (place < 0) continue;
+          // On the wall's own line (`parapetPost`), not where the standing men were laid a few yards inside it.
+          const offset = parapetPost(side, shown > 1 ? (place / (shown - 1) - 0.5) * side.spread.width : 0);
+          const post = { x: centre.x + offset.x, y: centre.y + offset.y }, onWall = camera.toScreen(post);
+          point.x = onWall.x; point.y = onWall.y;
           const firing = side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 5 === 0);
           const wait = slot.wait ?? (WAIT_MIN_MS + hash(`${seed}:w`) * WAIT_SPAN_MS), cycle = MUSKET_MS + wait;
           const t = (time + (slot.phase ?? hash(`${seed}:p`)) * 20000) % cycle;
           const part = !firing ? (side.fire === 'none' ? 'load' : 'aim') : t < wait ? 'aim' : parapetPart(t - wait);
-          sprite = `volunteer-parapet-${heading}-${part}`; flip = false; still = true; size = figurePx * PARAPET_SIZE; dy = -lift;
+          sprite = `volunteer-parapet-${heading}-${part}`; flip = false; still = true; size = ownSize; dy = -lift; shade = ownSize * 0.42;
           view.parapet[heading] = (view.parapet[heading] || 0) + 1;
           // While her sheet loads, today's figure on the wall's line.
           fallback = { sprite: `${kind}-${right ? 'e' : 'w'}`, flip: false, size: figurePx, dy: lift };
@@ -981,8 +1032,10 @@ export function createBattleView(art) {
             const shotKey = `${seed}:${Math.floor((time + (slot.phase ?? 0) * 20000) / cycle)}`;
             if (t - wait >= SHOT_AT && t - wait < SHOT_AT + 400 && !view.shotsSeen.has(shotKey) && !holding) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
-              const up = lift / camera.scale, ahead = heading === 'e' ? 0.012 : heading === 'w' ? -0.012 : 0;
-              const muzzle = { x: ground.x + ahead, y: ground.y - up - (heading === 'n' ? 0.006 : heading === 's' ? -0.002 : 0.003) };
+              // At the muzzle of her firing frame (`PARAPET_MUZZLE`), at this man's size; the flash and the smoke are drawn
+              // `figurePx * 0.55` above the point they are given, as every other shot's are.
+              const [aside, up] = PARAPET_MUZZLE[heading] || [0, 0.6];
+              const muzzle = { x: post.x + aside * ownSize / camera.scale, y: post.y + (figurePx * 0.55 - lift - up * ownSize) / camera.scale };
               puff(muzzle.x, muzzle.y, now, { wind, dir: heading === 'w' ? -1 : 1 }); flash(muzzle.x, muzzle.y, heading !== 'w', now, 1);
             }
           }
@@ -1060,7 +1113,7 @@ export function createBattleView(art) {
         // until `clipReady` says it can be drawn.
         const placedAt = dy ? { x: point.x, y: point.y + dy } : point;
         if (prefer) figures.push({ y: point.y, kind, side: side.side, point: placedAt, size, clip: prefer.clip, timeMs: prefer.timeMs ?? timeMs, flip: prefer.flip ?? flip, still, seed, fallback: clip ? { clip, flip } : { sprite, flip } });
-        else figures.push({ y: point.y, kind, side: side.side, point: placedAt, size, clip, sprite, timeMs, flip, still, seed: clip === 'volunteer-bank-climb' ? 0 : seed, ...(fallback && { fallback }) });
+        else figures.push({ y: point.y, kind, side: side.side, point: placedAt, size, clip, sprite, timeMs, flip, still, seed: clip === 'volunteer-bank-climb' ? 0 : seed, ...(fallback && { fallback }), ...(shade && { shade }) });
         if (side.key === side.side || side.part) drawn[side.side].push(point);
         drawnBy[side.key].push(point);
       }
@@ -1104,6 +1157,9 @@ export function createBattleView(art) {
         continue;
       }
       let ok = 0;
+      // A man over the parapet sits in his own soft shadow on the wall's top (`shade`, its half-width), as public/app.js
+      // `groundShadow` stands every person on the ground: the line where he meets the wall, so a brown coat does not run into it.
+      if (f.shade) { ctx.fillStyle = 'rgba(52,45,30,.32)'; ctx.beginPath(); ctx.ellipse(f.point.x, f.point.y, f.shade, f.shade * 0.3, 0, 0, Math.PI * 2); ctx.fill(); }
       // A Claude-drawn figure with a `fallback` is drawn as that fallback until its clip can be drawn (`clipReady`). Held
       // still (less motion asked for, or the class paused) no cycle moves (Astra, 2026-10-08).
       const own = !(f.fallback && f.clip && art.clipReady && !art.clipReady(f.clip));

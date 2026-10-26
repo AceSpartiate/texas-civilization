@@ -101,6 +101,24 @@ the 7.49 GB encoder only if the on-disk one fails; the 9B road tiles stay until 
   drawn factor), facing out over the wall, on the musket's clock (public/battle-view.js `parapetFeet`, `parapetLift`,
   `parapetPart`). Replaces the full standing figure firing on the wall's line. The walls, collision, breaching, the church
   platform and the family's own people are unchanged.
+  **Fixed the same day (branch `alamo-parapet`), after the owner's "fix the alamo wall defenders":** the men read as a row of
+  brown lumps. Three causes in public/battle-view.js. (1) Each man was lifted from his part's point (sim/battles/alamo.mjs
+  `ALAMO_FEET`), which stands yards inside the wall: the south wall's 25 ft, the west wall's 22 ft. That point also lies on
+  a line that runs across the slanted north wall and the palisade, so men floated over the plaza or sank into the wall's face.
+  Each man is now set on his own wall's line (`parapetPost`, `PARAPET_AT`). (2) Her waist-up man is about as wide as he is
+  tall, and nine on the north wall overlapped into one band. As many are drawn as stand a body and a fifth apart at the
+  camera (`PARAPET_APART`), laid evenly along the wall, and the rest keep down. (3) The flash came from fixed offsets in
+  miles; it now comes from her muzzle (`PARAPET_MUZZLE`). Each man also gets a soft shadow on the wall's top. He is not drawn
+  larger: at 150/277 his hat is already about 1.75 times the standing man's. The batch-W compare also overdrew 37 frames on
+  one canvas, which piled every pose into lumps. Before and after: docs/evidence/alamo-parapet-compare.png
+  (scripts/alamo-parapet-compare.mjs, three walls at 2,500, 4,000 and 7,000 pixels a mile). tests/battle-alamo-view.test.mjs
+  now checks each man's waist against his wall's line (within 1.5 px), his drawn size, and the gap between men. It also holds
+  `PARAPET_AT` equal to `ALAMO_FEET`. Four new injections are in scripts/battle-alamo-injections.mjs: the part's point, men
+  shoulder into shoulder, a man drawn at two-thirds size, and the copy parted. Each was caught by that test alone, as were
+  the three older parapet injections. `npm test`: 2523 tests, 2487 pass, 0 fail, 36 skipped. Proofs: battle-alamo (13
+  checks, alone), alamo-siege (9), alamo-pyres and famous-people (22) pass. famous-people failed three times under machine
+  load, on Neill, Bowie's cot and a 152 ms frame. The unchanged 88dddec2 code failed the same way (on Neill), and a
+  draw-time bench of the two versions is equal (about 0.4 ms a frame). Same computer only.
 - **Concepción's aftercare and the second gun's mules** (`limber-mules-*`, `padre-walk`, `casualty-cart-*`). These are
   staged from documented history in sim/battles/concepcion.mjs. In `retreat`, three of the six mules ride off toward Béxar
   (`HIST-TEX-480`). In `main-army`, the priest and two carts come down from the ford to the line as civilians

@@ -74,7 +74,7 @@ test('Seguín rides out on his own animated horse at the Alamo', () => {
 // own height in public/alamo-layout.js drawn as the compound is, out over their own wall, on the musket's clock. Before, the full
 // standing volunteer fired on the wall's line.
 test('the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall', async () => {
-  const { WALL_DRAWN_HEIGHT, parapetLift } = await import('../public/battle-view.js');
+  const { WALL_DRAWN_HEIGHT, PARAPET_AT, parapetLift } = await import('../public/battle-view.js');
   const { DRAWN_HEIGHT } = await import('../sim/town-layouts.mjs');
   assert.equal(WALL_DRAWN_HEIGHT, DRAWN_HEIGHT, 'the walls are drawn at the town buildings\' height factor');
   const art = fakeArt(), view = createBattleView(art);
@@ -84,11 +84,8 @@ test('the garrison fires over its parapets from the waist up, the waist on each 
   for (const [wall, heading, feet] of [['north', 'n', 10], ['west', 'w', 12.5], ['south', 's', 10], ['palisade', 's', 8]]) {
     const group = battle.groups.find(one => one.id === wall), lift = parapetLift(feet, camera);
     assert.ok(Math.abs(lift - feet * DRAWN_HEIGHT * camera.scale / 5280) < 1e-9);
-    const centre = camera.toScreen(group), near = parapet.filter(one => one.sprite.startsWith(`volunteer-parapet-${heading}-`) && Math.abs(one.x - centre.x) <= group.spread.width * camera.scale / 2 + 2 && Math.abs(one.y + lift - centre.y) < 40);
+    const centre = camera.toScreen(group), near = parapet.filter(one => one.sprite.startsWith(`volunteer-parapet-${heading}-`) && Math.abs(one.x - centre.x) <= group.spread.width * camera.scale / 2 + 40 && Math.abs(one.y + lift - centre.y) < 40);
     assert.ok(near.length, `nobody drawn over the ${wall} wall facing ${heading}`);
-    // Spread evenly along the wall, so on average their waists are on its top over the wall's own line.
-    const meanY = near.reduce((sum, one) => sum + one.y, 0) / near.length;
-    assert.ok(Math.abs(meanY - (centre.y - lift)) < 6, `the ${wall} wall's men are drawn ${(centre.y - meanY).toFixed(1)} px over its line, not on its top (${lift.toFixed(1)})`);
   }
   // Every part of the load is drawn over a run of the fight: aimed, fired, loading and the ramrod.
   for (const part of ['aim', 'fire', 'load', 'ramrod']) assert.ok(parapet.some(one => one.sprite.endsWith(`-${part}`)), `nobody drawn at the ${part}`);
@@ -96,6 +93,38 @@ test('the garrison fires over its parapets from the waist up, the waist on each 
   assert.ok(last.parapet.n > 0 && last.parapet.w > 0 && last.parapet.s > 0, `the view does not report the men over the walls: ${JSON.stringify(last.parapet)}`);
   // The church's gunners on their platform are not drawn over a parapet.
   assert.ok(!parapet.some(one => /-e-/.test(one.sprite)), 'somebody fires over a parapet facing east (the church)');
+  // As a student sees them (fixed 2026-10-25, "fix the alamo wall defenders"): each waist on the top of the very wall he fires
+  // over - the north wall and the palisade run aslant, and the parts' points (sim/battles/alamo.mjs `ALAMO_FEET`) stand yards
+  // inside the walls, where the standing men were drawn - never sunk into its face or floating over the plaza; drawn at the
+  // standing volunteer's scale; and far enough apart along his wall that two men never run together into one brown band.
+  const { ALAMO_FEET, ALAMO_PLAN_ORIGIN } = await import('../sim/battles/alamo.mjs');
+  const { ALAMO_LAYOUT } = await import('../public/alamo-layout.js');
+  for (const [part, where] of Object.entries({ north: 'north-wall', west: 'west-wall', southwest: 'sw-battery', south: 'south-wall', palisade: 'palisade' }))
+    assert.deepEqual(PARAPET_AT[part], ALAMO_FEET[where], `the page's copy of where the ${part} part stands has parted from the battle's`);
+  const wallOf = id => ALAMO_LAYOUT.walls.find(one => one.id === id);
+  const runs = { north: [wallOf('north-0').a, wallOf('north-11').b, 10], west: [wallOf('west-perimeter').a, wallOf('west-perimeter').b, 12.5],
+    southwest: [wallOf('west-perimeter-south').a, wallOf('west-perimeter-south').b, 7], south: [wallOf('south-perimeter').a, wallOf('south-perimeter').b, 10],
+    palisade: [wallOf('palisade-south').a, wallOf('palisade-south').b, 8] };
+  const screen = feet => camera.toScreen({ x: ALAMO_PLAN_ORIGIN.x + feet.x / 5280, y: ALAMO_PLAN_ORIGIN.y + feet.y / 5280 });
+  const off = (p, a, b) => { const t = Math.max(0, Math.min(1, ((p.x - a.x) * (b.x - a.x) + (p.y - a.y) * (b.y - a.y)) / ((b.x - a.x) ** 2 + (b.y - a.y) ** 2))); return Math.hypot(p.x - a.x - t * (b.x - a.x), p.y - a.y - t * (b.y - a.y)); };
+  const figurePx = Math.min(60, camera.figure * 0.95), frame = new Set(), men = [];
+  // Each man once, at his post, not every frame of the run.
+  for (const one of [...art.drawn].reverse().filter(one => /^volunteer-parapet-/.test(one.sprite || ''))) { const key = `${one.x.toFixed(1)},${one.y.toFixed(1)}`; if (!frame.has(key)) { frame.add(key); men.push(one); } }
+  assert.ok(men.length >= 8, `only ${men.length} men drawn over the parapets`);
+  const onWall = {};
+  for (const man of men) {
+    // Which wall's top his waist is on: his waist put back down by that wall's drawn height lies on its line.
+    const [part, miss] = Object.entries(runs).map(([id, [a, b, feet]]) => [id, off({ x: man.x, y: man.y + parapetLift(feet, camera) }, screen(a), screen(b))]).sort((x, y) => x[1] - y[1])[0];
+    assert.ok(miss < 1.5, `a man over the parapet (${man.sprite}) has his waist ${miss.toFixed(1)} px off the top of the nearest wall (the ${part})`);
+    // At the standing volunteer's scale: her 150 pixels hat to waist against his 277.
+    assert.ok(Math.abs(man.size - figurePx * 150 / 277) < 1e-6, `a man over the parapet drawn ${man.size.toFixed(1)} px, not ${(figurePx * 150 / 277).toFixed(1)}`);
+    (onWall[part] ||= []).push(man);
+  }
+  for (const part of ['north', 'west', 'south', 'palisade']) assert.ok(onWall[part]?.length, `nobody on the top of the ${part} wall`);
+  for (const [part, list] of Object.entries(onWall)) for (const [i, a] of list.entries()) for (const b of list.slice(i + 1)) {
+    const apart = Math.hypot(a.x - b.x, a.y - b.y);
+    assert.ok(apart >= a.size * 1.2 - 0.5, `two men on the ${part} wall are drawn ${apart.toFixed(1)} px apart, less than a body (${a.size.toFixed(1)} px) and a fifth`);
+  }
 });
 
 test('the guns fire each dated shot once, the defenders\' canister throws a cone of smoke, and the batteries bombard all day', () => {

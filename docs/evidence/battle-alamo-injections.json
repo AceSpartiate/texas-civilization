@@ -1,6 +1,6 @@
 {
   "record": "battle-alamo-injections",
-  "date": "2026-09-26",
+  "date": "2026-10-26",
   "gates": {
     "unit": "node --test tests/battle-alamo.test.mjs and tests/battle-alamo-view.test.mjs, the named test and no other",
     "browser": "scripts/battle-alamo-browser-proof.mjs"
@@ -204,6 +204,76 @@
       "caught": true,
       "failed": [
         "the storming's card goes up over the quiet reminder that somebody is inside, and not over a question"
+      ]
+    },
+    {
+      "name": "the parapet man stands on the wall's line, not its top",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall",
+      "caught": true,
+      "failed": [
+        "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall"
+      ]
+    },
+    {
+      "name": "every wall's man faces east over the parapet",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall",
+      "caught": true,
+      "failed": [
+        "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall"
+      ]
+    },
+    {
+      "name": "the parapet man at the part's point inside the wall, not on the wall's line",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall",
+      "caught": true,
+      "failed": [
+        "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall"
+      ]
+    },
+    {
+      "name": "every sampled man over the parapet, shoulder into shoulder",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall",
+      "caught": true,
+      "failed": [
+        "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall"
+      ]
+    },
+    {
+      "name": "the parapet man shrunk to two-thirds",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall",
+      "caught": true,
+      "failed": [
+        "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall"
+      ]
+    },
+    {
+      "name": "the full standing figure on the walls, as before 2026-10-25",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall",
+      "caught": true,
+      "failed": [
+        "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall"
+      ]
+    },
+    {
+      "name": "the page's copy of the north wall's point parted from the battle's",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall",
+      "caught": true,
+      "failed": [
+        "the garrison fires over its parapets from the waist up, the waist on each wall's top, out over its own wall"
       ]
     }
   ],
