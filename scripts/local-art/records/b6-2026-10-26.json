@@ -1,0 +1,84 @@
+{
+ "batch": "b6",
+ "date": "2026-10-26",
+ "model": "FLUX.2 klein 4B fp8 (Apache-2.0)",
+ "rows": [
+  {
+   "name": "pilot-mule-plain",
+   "stage": "main",
+   "prompt": "Keep this painting exactly: the same mule, the same pose, legs, hooves, head, ears, tail, outline, colours and size, facing the same way. Remove only the load: take away the bundle of grass and every strap, rope and pack saddle that holds it, showing the mule's plain bare back, and give it a plain rope halter on its head. Same plain pale grey background. No people, no text.",
+   "references": [
+    "output/local-2026-10-26/b6/refs/mule-packed-grass-walk-e-1.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": null
+  },
+  {
+   "name": "pilot-elder-stand",
+   "stage": "main",
+   "prompt": "Keep this person exactly: the same old man, the same face, hair, hat, clothes, colours, outline, painted style and size. Change only his pose: standing still, facing the viewer, his arms hanging relaxed at his sides, both feet on the ground. Same plain pale grey background. One person, no text.",
+   "references": [
+    "output/local-2026-10-26/b6/refs/bexar-elder-walk-1.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": null
+  }
+ ],
+ "flags": {},
+ "jobs": 8,
+ "failedJobs": 0,
+ "gpuSeconds": 41.0,
+ "cards": [
+  "4080"
+ ],
+ "pilot": {
+  "mule": {
+   "verdict": "pass",
+   "legsIoU": [
+    0.966,
+    0.981,
+    0.985,
+    0.988
+   ],
+   "groundLine": "909 px in all four, as hers",
+   "notes": "the grass load, its straps and the pack saddle gone with no ghost; a plain rope halter; legs and hooves where hers were (IoU of the lower 35% of her silhouette 0.97-0.99)"
+  },
+  "elder": {
+   "verdict": "fail",
+   "facecheck": {
+    "tool": "E:/VN-Tools/asset-toolkit/facecheck.py",
+    "ref": "his walk frame, profile",
+    "vs": [
+     "bexar-woman-walk-1",
+     "bexar-older-woman-walk-1"
+    ],
+    "sims": [
+     0.39,
+     0.328,
+     0.286,
+     0.278
+    ],
+    "nearest": "his own face in all four, below the 0.40 floor"
+   },
+   "notes": "one head and two hands each, the same coat, hat and trousers, but the bundle he carries survives as a white cloth knotted at his chest in all four (a leftover ghost); turned from profile to the front, his face is a new drawing rather than her line"
+  }
+ }
+}

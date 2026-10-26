@@ -354,6 +354,22 @@ piloted before any of it is planned in full.
   That is ≤140 jobs. Each cycle is checked playing at speed in the art catalog before it is wired.
 - **If it fails**, it stops there and is recorded under §3.
 
+### Tool parts done, and the batch 6 pilot run (2026-10-26, branch `standins-1025`, not released)
+
+**Tool parts:** [ART_DELIVERY_2026-10-26-LOCAL-TOOLS.md](ART_DELIVERY_2026-10-26-LOCAL-TOOLS.md), seven tools, 28 jobs, drawn in the
+hoeing cycle's hands by `TOOL_PARTS`.
+
+**Pilot, 8 jobs, report only (owner: do not go past it).** Picture: [evidence/batch6-pilot.jpg](evidence/batch6-pilot.jpg) (her frame,
+then the four edits); numbers in `scripts/local-art/records/b6-2026-10-26.json`.
+- **The mule: pass.** All four edits of `mule-packed-grass-walk-e-1` lose the grass load, its straps and the pack saddle with no
+  ghost, take a plain rope halter, and keep her legs and hooves where they were (the lower third of her silhouette overlaps
+  0.97-0.99) on her ground line to the pixel. The family's mule from her packed mule's frames looks feasible.
+- **The elder: fail.** All four edits of `bexar-elder-walk-1` stand facing the viewer with one head and two hands in the same coat,
+  hat and trousers, but the bundle he carries survives as a white cloth knotted at his chest (a leftover ghost), and his face,
+  turned from profile to the front, is a new drawing rather than her line (facecheck nearest his own face in all four, 0.28-0.39,
+  under the 0.40 floor). Stills of her townsfolk need a front-facing frame of hers to edit from, or her own drawing.
+- **Not continued**, as the owner asked: the full batch (the plain and saddled mule, the townsfolk stills) waits for the owner.
+
 ---
 
 ## §3 Not suited to the pipeline, and what is proposed

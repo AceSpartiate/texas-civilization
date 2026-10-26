@@ -59,6 +59,15 @@ review sheets and chosen paintings in `docs/art-sources/<group>-2026-10-26/`.
   west, strokes while loading; new: the spade for digging, the stick for beating the wash, the broom for sweeping (a `sweep` stroke),
   the painted pole for fishing. 28 jobs. **test:work's wood-pile step had expected Claude's pile held back** (stale since batch 2's
   painted pile; fixed here). [tools-local-compare.png](docs/evidence/tools-local-compare.png).
+- **Batch 6, the 8-job pilot only** (plan §Batch 6; [batch6-pilot.jpg](docs/evidence/batch6-pilot.jpg)). The mule edited from her
+  packed mule **passes** (load and straps gone, no ghost, legs on her pixels, ground line exact); the Béxar elder turned to stand
+  facing us **fails** (his carried bundle survives as a cloth at his chest; the frontal face is a new drawing, facecheck below its
+  floor though nearest his own face). Nothing wired; the full batch waits for the owner.
+
+**Open after these batches:** the flags (the ford's crossing, the hoe that is a spade, the deer track that is a paw print, the
+stick horse not shipped, the hoop's size); her round rear low walls; the pails held by no pose. The shared GPU arbiter stalled
+for 20 minutes at 16:01 (its own log: "slow poll: 1,200.8 s") while the owner's game started, so two of batch 5's jobs ran into
+the game on the 4080 before it moved ComfyUI to the 4060 Ti - worth a look at `parsecCap` in the arbiter.
 
 ## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, not released)
 
