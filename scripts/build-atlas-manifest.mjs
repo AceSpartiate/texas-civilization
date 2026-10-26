@@ -530,6 +530,9 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       return tallest(placed.filter(p => p.row < 3));
     }
     if (sheet === 'alamo-funeral-pyre') return heightOf(placed[0]);
+    // The local pipeline's wood piles and the wash kettle's two frames (2026-10-26): each packed at one scale, drawn at one height.
+    if (sheet === 'homestead-local-2') return tallest(placed);
+    if (sheet === 'homestead-local-1' && frame.row === 2) return tallest(placed.filter(p => p.row === 2));
     if (sheet === 'joe-poses' || sheet === 'joe-story-actions') return tallest(placed);
     if (sheet === 'wagon-rig') return name !== 'wagon-wheel' ? heightOf(placed[0]) : undefined;
     // Astra's 2026-10-04 sheets: the bank actions at the height of their two standing rows; each smith at the height of his own

@@ -1,0 +1,215 @@
+{
+ "batch": "b2",
+ "date": "2026-10-26",
+ "model": "FLUX.2 klein 4B fp8 (Apache-2.0)",
+ "rows": [
+  {
+   "name": "garden-beds-winter",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly: the same garden, the same beds, fence, paths, outline and view. Change only the season to winter: the bean poles bare, the beds mostly bare dark earth, one row of turnips and one row of dark green collards left, a little dry straw. Same plain pale grey background. No text.",
+   "references": [
+    "output/local-2026-10-26/b2/raw/garden-beds/garden-beds-s5_00001_.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "wash-kettle-2",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly: the same kettle, stones and fire, the same outline and view. Change only the steam and the flames: a different curl of white steam rising to the other side, the flames a little lower. Same plain pale grey background. No text.",
+   "references": [
+    "output/local-2026-10-26/b2/raw/wash-kettle-1/wash-kettle-1-s2_00001_.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "wood-pile-3",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly in style, view, lighting and log look. Make the pile smaller: about thirty logs, a shorter and lower stack on the same two cross logs. Same plain pale grey background. No text.",
+   "references": [
+    "output/local-2026-10-26/b2/raw/wood-pile-4/wood-pile-4-s8_00001_.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "wood-pile-2",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly in style, view, lighting and log look. Make the pile much smaller: about twenty logs, a short low stack on the same two cross logs. Same plain pale grey background. No text.",
+   "references": [
+    "output/local-2026-10-26/b2/raw/wood-pile-4/wood-pile-4-s8_00001_.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "wood-pile-1",
+   "stage": "edits",
+   "prompt": "Keep this painting exactly in style, view, lighting and log look. Make the pile very small: about ten logs, a small low stack on the same two cross logs. Same plain pale grey background. No text.",
+   "references": [
+    "output/local-2026-10-26/b2/raw/wood-pile-4/wood-pile-4-s8_00001_.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "homestead-tent",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a frontier family's tent made from a white canvas wagon sheet stretched over a ridge pole between two forked upright wooden posts, its two sloping sides pegged down to the ground with wooden stakes and ropes, seen corner-on, the front end open toward the lower left with a rolled striped bedroll inside. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b2/refs/board-homestead-tent.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "garden-beds",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same high three-quarter view from above, like a game map. Use it only for style, not for its objects. Paint one new object in that style: a small square kitchen garden of a frontier farm seen from high above: four or five long raised beds of dark tilled earth in rows, green beans climbing tall poles, rows of leafy greens, a melon vine with two melons, narrow paths of bare earth between the beds, a low fence of woven brush all round it. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b2/refs/board-garden-beds.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 5
+  },
+  {
+   "name": "wash-kettle-1",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a big round black cast-iron wash kettle with a bail handle, set on three stones over a small wood fire with low flames, a little white steam rising from the water in it. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b2/refs/board-wash-kettle-1.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "wash-line",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a short section of split-rail fence, three rails high, with two wet white homespun shirts and a folded white sheet hung over its top rail to dry, seen from the side and a little above. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b2/refs/board-wash-line.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "wood-pile-4",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a neat stacked pile of about forty round logs with their bark on, all the same length, laid lengthwise in a low long stack on two cross logs, seen from the side and a little above, the cut log ends toward the lower left. The pile is long and low, about as high as a man's waist. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b2/refs/board-wood-pile-4.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 8
+  }
+ ],
+ "flags": {},
+ "jobs": 50,
+ "failedJobs": 0,
+ "gpuSeconds": 506.5,
+ "cards": [
+  "4060 Ti",
+  "4080"
+ ]
+}

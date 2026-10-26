@@ -27,6 +27,14 @@ review sheets and chosen paintings in `docs/art-sources/<group>-2026-10-26/`.
   round). 88 jobs, 906 s (76 on the 4060 Ti while the owner was on Parsec, 12 on the 4080 after his game). Proofs:
   test:rider-scene (now asserts the painted street) and test:lone-parent pass;
   [scenes-local-compare.png](docs/evidence/scenes-local-compare.png).
+- **Batch 2, the homestead** ([delivery](docs/ART_DELIVERY_2026-10-26-LOCAL-HOMESTEAD.md)). `homestead-tent`, `garden-beds` and
+  its winter, the wood pile at four sizes (one pile edited down, cut at one scale; Claude's pile retired) asked for by name; the
+  wash's kettle (two frames of steam) and line are new, drawn beside the washer by `drawWashProps` (public/work-art.js). The
+  painted garden is drawn as wide as the stroked rows were. Her rear full walls raised to the front's height on the CPU from her
+  own courses (`scripts/local-art/rear_courses.py`: seat 117/116 round, 130/125 hewn, was 99 and 97), so the "seen from behind
+  whole" rule and its `ceiling:` are gone and a two-pen house takes the rear only for the pen that needs it. Her round low walls
+  were left (their courses fan; `ceiling:`). Sprites are painted on a flat grey ground and keyed on the CPU (`key_out`). 50 jobs.
+  test:yard-layout passes; [homestead-local-compare.png](docs/evidence/homestead-local-compare.png).
 
 ## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, not released)
 

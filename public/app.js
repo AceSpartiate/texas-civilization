@@ -60,7 +60,7 @@ import { createBattleView, personArt } from '/battle-view.js';
 import { createCinema, familyColour } from '/battle-cinema.js';
 import { createChaseView } from '/chase-view.js';
 import { FAR_SCALE, herdFigures, herdHover } from '/herd-view.js';
-import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, fetchPose, fetchStep, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
+import { activityOf, drawnStroke, drawsAtWork, drawWashProps, drawWorkLayer, fetchPose, fetchStep, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error', '#away-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
@@ -461,10 +461,12 @@ function drawFlies(ctx, id, x, top, height) {
   ctx.restore();
   (window.__fliesDrawn ??= {})[id] = { x: Math.round(x), y: Math.round(top), sprite: false };
 }
-/** The kitchen garden's beds (sim/housework.mjs), centred on (x, y), `half` its half-width on screen: see the stand-in note where drawn. */
+/** The kitchen garden's beds (sim/housework.mjs), centred on (x, y), `half` its half-width on screen: the painted beds, or these strokes while their sheet loads. */
 function drawGarden(ctx, x, y, half, season) {
   const sprite = season === 'winter' ? 'garden-beds-winter' : 'garden-beds';
-  if (spriteReady(sprite)) { drawSprite(ctx, sprite, x, y + half * .6, half * 1.4); return; }
+  // The painted beds (2026-10-26) are seen three-quarter from above, square across: drawn as wide as the stroked rows, its foot a
+  // little below their middle, the bean poles standing up behind.
+  if (spriteReady(sprite)) { drawSprite(ctx, sprite, x, y + half * .78, half * 1.9); return; }
   const w = half * 2, h = half * 1.3, left = x - half, top = y - h / 2;
   ctx.save();
   ctx.fillStyle = 'rgba(112,82,50,.85)';
@@ -520,6 +522,8 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   if (fetch) { x += fetch.dx * size; y += fetch.dy * size * .8; }
   const shift = still ? 0 : strokeShift(stroke, workClockOut) * size, face = still ? null : strokeFace(stroke, workClockOut);
   const flip = going ? !going.upright && going.west : face ? face === 'w' : binding.upright ? false : Boolean(entity.flip), dir = flip ? -1 : 1;
+  // The wash's kettle or line beside the washer, before her (public/work-art.js `drawWashProps`).
+  const washProp = drawWashProps(ctx, activityOf(entity), binding.stroke, x + shift, y, size, dir, animationTime + seed, still, drawSprite);
   const width = animated(ctx, clip, x + shift, y, size, 0, {
     paused: binding.frozen, flip, appearance: entity.appearance,
     timeMs: animationTime + seed, lean: still ? 0 : -strokeLean(stroke, workClockOut) * dir,
@@ -532,6 +536,7 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
     const seen = (window.__workDrawn ??= {})[id] ??= {};
     seen.activity = activityOf(entity); seen.stroke = binding.stroke; seen.art = stroke.art; seen.clip = clip;
     seen.frame = workClockOut.frame; seen.since = Math.round(workClockOut.since); seen.count = workClockOut.count; seen.marks = marks;
+    seen.prop = washProp;
     seen.shift = Math.round(shift * 10) / 10; seen.flip = flip; seen.request = stroke.request || null; seen.tool = stroke.tool || null; seen.heading = way;
     if (!still) workBeat(id, seen.activity, binding.stroke, workClockOut, x + dir * size * .5, y);
   }
@@ -1870,7 +1875,7 @@ function fitInside(ctx, what, x, y, figure, draw) {
 }
 /**
  * The family's wood pile standing at (x, y), `height` pixels high, for `pile` tens of logs: one sprite for its size (`wood-pile-1`..`-4`),
- * or, while that is held back for Astra's logs, that many `log-fallen` laid in a row stepping back to the left.
+ * or, while its sheet loads, that many `log-fallen` laid in a row stepping back to the left.
  */
 function drawWoodPile(ctx, x, y, height, pile) {
   if (spriteReady(`wood-pile-${pile}`)) { drawSprite(ctx, `wood-pile-${pile}`, x, y, height); return; }
@@ -4388,8 +4393,8 @@ function drawWorldNow(world) {
         familyHouses.push({ own: ownLand, siteId: site.id, box: () => drawnBox(drawn), item: { y: q.y, draw: () => drawn(ctx) } });
       }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, view.shelter === 'camp' ? yard : size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
       // The family's tent until its house has a roof (sim/shelter.mjs, owner 2026-10-02), where the server put it beside the camp:
-      // the family's own, and every family's on the Host's map. stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - the wagon sheet
-      // stretched over a ridge pole (`homestead-tent`); until it is drawn, the library's canvas tent.
+      // the family's own, and every family's on the Host's map: the wagon sheet over its ridge pole (`homestead-tent`, painted with
+      // the local pipeline 2026-10-26); the library's canvas tent while its sheet loads (`drawTent`).
       const tentAt = settlement ? null : ownLand ? world.land?.tent : theirs?.tent;
       if (tentAt) {
         // The canvas tent's anchor is its back corner peg; drawn a third of its height to the east, its open door stands on the
@@ -4401,8 +4406,8 @@ function drawWorldNow(world) {
         if (ownLand) yardPictures.tent = fitted.box && roundBox(fitted.box);
       } else if (window.__tentsDrawn?.[site.id]) delete window.__tentsDrawn[site.id];
       // The kitchen garden beside the house (owner, 2026-10-03; sim/housework.mjs), once it is laid out: rows of earth, green in its
-      // season and thin in the winter months. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "men's work, women's work and the
-      // wash", item 8 - `garden-beds` and `garden-beds-winter`; until drawn, these strokes.
+      // season and thin in the winter months: `garden-beds` and `garden-beds-winter` (painted with the local pipeline 2026-10-26),
+      // the stroked rows while their sheet loads (`drawGarden`).
       const gardenAt = settlement || !ownLand ? null : world.land?.garden;
       if (gardenAt) {
         const g = camera.toScreen(gardenAt), half = Math.max(6, 0.009 * camera.scale);
@@ -4428,10 +4433,8 @@ function drawWorldNow(world) {
       }
       // The family's wood pile beside the house (sim/felling.mjs), one sprite for its size: about ten, twenty, thirty or forty
       // logs (`wood-pile-1`..`-4`), a pile for every ten or part of ten, up to four.
-      // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the wood pile is Claude-drawn (request
-      // 2026-09-28 — people at work, item 16); Astra's `wood-pile-*` of the same names replace it. Until its sheet has arrived
-      // the pile is the older stand-in, `log-fallen` laid side by side - and while her `log-fallen` is in the library the Claude
-      // pile is held back and her logs are drawn (owner, 2026-09-29, public/art-subjects.js: her art wins by subject).
+      // Painted with the local pipeline 2026-10-26 (one pile of forty, edited down to thirty, twenty and ten, so the four are one
+      // pile); Claude's drawn pile is retired. While its sheet loads, `log-fallen` laid side by side (`drawWoodPile`).
       const piled = theirs ? theirs.logs || 0 : ownLand && world.land?.logs ? world.land.logs.wall + world.land.logs.sill + world.land.logs.poor : 0;
       const pile = Math.min(4, Math.ceil(piled / 10));
       // Where the yard's layout set the pile down, clear of the tent, the camp, the beasts and the ways (sim/yard-layout.mjs, owner

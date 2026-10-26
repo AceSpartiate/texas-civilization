@@ -163,13 +163,11 @@ export const REAR_VIEWS = true;
  * the front walls' anchor and height, the rear pen stood 6% (round) to 9% (hewn) wider than the front one and a thirtieth
  * of its width to the side of its ground, off the front pen's place in a row (`alongRidge` lays a two-pen house out by the
  * front walls' ground). null when either frame has no ground.
- * ceiling: one uniform scale, and the rear drawn as Astra drew it. Her rear walls stand six courses to the front's seven,
- * so a roof seated on them (at their own measured seat) sits lower than on the front walls - a twentieth of the pen's width
- * on the round-log rear, a tenth on the hewn - and their near gable runs a little steeper, the front corner 5% of the
- * width to the left of the front walls'. Stretching the rear upright to the front's height would push its ground's front
- * corner off the footprint instead. So a two-pen house is drawn from behind whole (`drawHousePlot`), its roofs on one line.
- * A rear wall at the front's height (docs/ART_REQUESTS.md, request 2026-10-13 - the rear walls as high as the front)
- * removes both.
+ * Her rear full walls stood six courses to the front's seven until 2026-10-26, when they were raised by copying her own
+ * courses on the CPU (request 2026-10-13, scripts/local-art/rear_courses.py): from the ground's middle to the wall-top seat
+ * now 117 front-sheet pixels against the front's 116 (round) and 130 against 125 (hewn), where they were 99 and 97. Their
+ * near gable still runs a little steeper, the front corner 5% of the width to the left of the front walls'.
+ * ceiling: one uniform scale; the hewn rear's seat stands 4% of its height above the front's, within the roofs' join.
  */
 export function rearFit(front, rear) {
   if (!front?.ground || !rear?.ground) return null;
@@ -600,15 +598,10 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
   // Back to front by the turned front edge, so a piece nearer the viewer is drawn over one further off.
   const order = placed.sort((a, b) => a.front - b.front);
   const row = alongRidge(order, rotation, cell, spriteFrame, housePicture(order, rotation, flip), catalogue, x, y);
-  // A house of two pens in a row is seen from behind whole when either pen is (`housePicture` sets `back`: the dog-run's
-  // near pen, the saddlebag's far one, at every turn). Astra's rear walls stand six courses to the front's seven, so a
-  // roof on a rear pen sits lower than on a front one (`rearFit`): one pen of each, and the near pen's roof stepped down
-  // from the passage roof, a twentieth of a pen's width at the join, where the owner asked for one roof line
-  // (2026-09-24, `alongRidge`). Both pens from behind, the passage and the chimney's roof seated on the rear walls too.
-  if (row) {
-    row.back = order.some(each => each.p.kind.pen && each.back);
-    for (const each of order) if (each.p.kind.pen) each.back = row.back;
-  }
+  // Each pen of a row is seen from behind only where it needs to be (`housePicture` sets `back` on the pen with a chimney
+  // against its door's gable): since 2026-10-26 her rear walls stand as high as the front ones (raised by her own courses,
+  // scripts/local-art/rear_courses.py), so a rear pen's roof seats on the same line as a front pen's and the house need not
+  // be drawn from behind whole. The passage and the chimney's roof seat on the first pen's front walls (`row.back` unset).
   // Gable placement subsequently moves chimney feet; the roof still belongs at the row's virtual pen seat.
   for(const each of order){each.roofFootX=each.footX;each.roofFootY=each.footY;}
   // Each log pen's walls as they will be drawn - front, or from behind fitted to its ground (`penWalls`) - for its chimney

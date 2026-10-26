@@ -244,6 +244,12 @@ bake-off's four Gonzales streets), one repair round (the ford, flagged), colour 
 
 **Jobs:** ≤4 + 8 + 12 + 10 + 20 + ≤4 repairs = 58.
 
+### Batch 2 done (2026-10-26, branch `standins-1025`, not released)
+
+[ART_DELIVERY_2026-10-26-LOCAL-HOMESTEAD.md](ART_DELIVERY_2026-10-26-LOCAL-HOMESTEAD.md): all of it but the low rear walls (their
+courses fan, so one lifted band broke the seams; left as she drew them). The rear full walls raised on the CPU, the rule deleted;
+the tent, garden, kettle, line and piles painted (50 jobs) and keyed out on the CPU; A2, E21, E30, F35 closed.
+
 ---
 
 ## Batch 3: the hunter's first-person view (request 2026-10-02, F17)

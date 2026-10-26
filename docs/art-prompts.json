@@ -7371,6 +7371,142 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/scenes-local-3.png",
       "postProcessing": "Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract's 960x540; every one but the night yard moved toward Astra's oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B's lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.",
       "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
+    },
+    {
+      "sheet": "homestead-local-1",
+      "promptId": "frontier-v1/homestead-local-1",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "homestead-tent (seed 4 of 1, 2, 3, 4, 5, 6, 7, 8; 1024x1024; references: output/local-2026-10-26/b2/refs/board-homestead-tent.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a frontier family's tent made from a white canvas wagon sheet stretched over a ridge pole between two forked upright wooden posts, its two sloping sides pegged down to the ground with wooden stakes and ropes, seen corner-on, the front end open toward the lower left with a rolled striped bedroll inside. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\ngarden-beds (seed 5 of 1, 2, 3, 4, 5, 6, 7, 8; 1024x1024; references: output/local-2026-10-26/b2/refs/board-garden-beds.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same high three-quarter view from above, like a game map. Use it only for style, not for its objects. Paint one new object in that style: a small square kitchen garden of a frontier farm seen from high above: four or five long raised beds of dark tilled earth in rows, green beans climbing tall poles, rows of leafy greens, a melon vine with two melons, narrow paths of bare earth between the beds, a low fence of woven brush all round it. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\ngarden-beds-winter (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b2/raw/garden-beds/garden-beds-s5_00001_.png): Keep this painting exactly: the same garden, the same beds, fence, paths, outline and view. Change only the season to winter: the bean poles bare, the beds mostly bare dark earth, one row of turnips and one row of dark green collards left, a little dry straw. Same plain pale grey background. No text.\n\nwash-line (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b2/refs/board-wash-line.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a short section of split-rail fence, three rails high, with two wet white homespun shirts and a folded white sheet hung over its top rail to dry, seen from the side and a little above. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\nwash-kettle-1 (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b2/refs/board-wash-kettle-1.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a big round black cast-iron wash kettle with a bail handle, set on three stones over a small wood fire with low flames, a little white steam rising from the water in it. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\nwash-kettle-2 (seed 2 of 1, 2; 1024x1024; references: output/local-2026-10-26/b2/raw/wash-kettle-1/wash-kettle-1-s2_00001_.png): Keep this painting exactly: the same kettle, stones and fire, the same outline and view. Change only the steam and the flames: a different curl of white steam rising to the other side, the flames a little lower. Same plain pale grey background. No text.",
+      "candidates": [
+        {
+          "sprite": "homestead-tent",
+          "chosen": 4,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "garden-beds",
+          "chosen": 5,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sprite": "garden-beds-winter",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "wash-line",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "wash-kettle-1",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "wash-kettle-2",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/homestead-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/homestead-local-1.png",
+      "postProcessing": "Painted at 1024x1024 on a flat pale grey ground; the ground and any grey shadow on it keyed out on the CPU by a flood fill from the edges (scripts/local-art/batches_2026_10_26.py `key_out`; the kettle also inside its bail); cut to the sprite and fitted to 440 px; the kettle's two frames and the four piles each cut at one scale, which the atlas build gives one logical height; packed one to a clear 512 cell. The winter beds, the kettle's second frame and the three smaller piles are reference edits of the chosen summer beds, kettle and forty-log pile, so each set is one thing.",
+      "review": "Eight candidates of the tent, the beds and the pile, four of the kettle and the line, and four of each edit (two of the kettle's), keyed on a mid green-grey on contact sheets (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size. In the game: docs/evidence/homestead-local-compare.png and the yard-layout proof (each drawn inside its own footprint)."
+    },
+    {
+      "sheet": "homestead-local-2",
+      "promptId": "frontier-v1/homestead-local-2",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "wood-pile-1 (seed 3 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b2/raw/wood-pile-4/wood-pile-4-s8_00001_.png): Keep this painting exactly in style, view, lighting and log look. Make the pile very small: about ten logs, a small low stack on the same two cross logs. Same plain pale grey background. No text.\n\nwood-pile-2 (seed 4 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b2/raw/wood-pile-4/wood-pile-4-s8_00001_.png): Keep this painting exactly in style, view, lighting and log look. Make the pile much smaller: about twenty logs, a short low stack on the same two cross logs. Same plain pale grey background. No text.\n\nwood-pile-3 (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/b2/raw/wood-pile-4/wood-pile-4-s8_00001_.png): Keep this painting exactly in style, view, lighting and log look. Make the pile smaller: about thirty logs, a shorter and lower stack on the same two cross logs. Same plain pale grey background. No text.\n\nwood-pile-4 (seed 8 of 1, 2, 3, 4, 5, 6, 7, 8; 1024x1024; references: output/local-2026-10-26/b2/refs/board-wood-pile-4.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same three-quarter view from above. Use it only for style, not for its objects. Paint one new object in that style: a neat stacked pile of about forty round logs with their bark on, all the same length, laid lengthwise in a low long stack on two cross logs, seen from the side and a little above, the cut log ends toward the lower left. The pile is long and low, about as high as a man's waist. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "wood-pile-1",
+          "chosen": 3,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "wood-pile-2",
+          "chosen": 4,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "wood-pile-3",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "wood-pile-4",
+          "chosen": 8,
+          "seeds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/homestead-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/homestead-local-2.png",
+      "postProcessing": "Painted at 1024x1024 on a flat pale grey ground; the ground and any grey shadow on it keyed out on the CPU by a flood fill from the edges (scripts/local-art/batches_2026_10_26.py `key_out`; the kettle also inside its bail); cut to the sprite and fitted to 440 px; the kettle's two frames and the four piles each cut at one scale, which the atlas build gives one logical height; packed one to a clear 512 cell. The winter beds, the kettle's second frame and the three smaller piles are reference edits of the chosen summer beds, kettle and forty-log pile, so each set is one thing.",
+      "review": "Eight candidates of the tent, the beds and the pile, four of the kettle and the line, and four of each edit (two of the kettle's), keyed on a mid green-grey on contact sheets (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size. In the game: docs/evidence/homestead-local-compare.png and the yard-layout proof (each drawn inside its own footprint)."
     }
   ]
 }

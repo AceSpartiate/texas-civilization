@@ -78,8 +78,8 @@ const BY_EYE = {
   'house-hewn-full-walls': { left: [12, 202], front: [175, 252], right: [288, 172] },
   // Astra's rear walls (2026-10-11), read on a five-pixel grid: the pen from behind, drawn where a chimney stands against
   // the gable toward the viewer. Its gables are the same faces as the front walls' - the near one (left-front) blank logs.
-  'house-round-back-full-walls': { left: [15, 175], front: [178, 244], right: [305, 170] },
-  'house-hewn-back-full-walls': { left: [15, 172], front: [181, 250], right: [313, 168] },
+  'house-round-back-full-walls': { left: [15, 194], front: [178, 263], right: [305, 189] },
+  'house-hewn-back-full-walls': { left: [15, 208], front: [181, 286], right: [313, 204] },
 };
 // The two gable walls in the sheet's picture: the roof's gables are over the face to the left and front (the one with the
 // door) and the face to the right and back. Mirrored at a quarter turn they are the right-front and left-back faces.
@@ -220,8 +220,8 @@ const DOOR = {
   // The rear walls' door, on the long side - the right-front face, near its far end - read on a five-pixel grid: the dark
   // opening and the lit jamb board, from under the top log to the sill, the top and foot running up to the right along the
   // face. Their near gable has none (Astra's checklist, item 4: "measure the new side doorway").
-  'house-round-back-full-walls': [[239, 143], [261, 130], [261, 192], [239, 187]],
-  'house-hewn-back-full-walls': [[243, 143], [270, 128], [270, 193], [243, 186]],
+  'house-round-back-full-walls': [[239, 143], [261, 130], [261, 211], [239, 206]],
+  'house-hewn-back-full-walls': [[243, 143], [270, 128], [270, 229], [243, 222]],
 };
 /** Where a pen's door is drawn on the screen, through the transform its walls were drawn with, mirrored or not. */
 const doorOn = walls => {
@@ -254,8 +254,8 @@ for (const plan of PLANS.filter(id => catalogue.plans.find(each => each.id === i
     // was drawn - its walls' door, through the transform they were drawn with - and every chimney drawn after that pen must
     // not be drawn over it; a chimney drawn before a pen is behind its walls, and the pen is drawn over it. A chimney against
     // the gable toward the viewer - which the front walls draw with the door - stands against the pen seen from behind
-    // instead (Astra's rear walls, 2026-10-11: that gable blank, the door on the long side), and a house of two pens is seen
-    // from behind whole when either pen is, so its roofs meet on one line. Until 2026-10-13 the chimney stood in front of the
+    // instead (Astra's rear walls, 2026-10-11: that gable blank, the door on the long side); from 2026-10-13 to 10-26 a house of
+    // two pens was seen from behind whole when either pen was, until her rear walls were raised to the front's height. Until 2026-10-13 the chimney stood in front of the
     // front walls' door and was held to hide it whole (coordinator, 2026-09-24), the stand-in until the rear views came.
     const chimneys = catalogue.plans.find(each => each.id === plan).pieces.filter(([type]) => /^chimney/.test(type)).sort((a, b) => a[1] - b[1]);
     for (const penStage of [12, undefined]) for (const { where, rotation, ctx } of draws(plan, penStage)) {
@@ -265,8 +265,11 @@ for (const plan of PLANS.filter(id => catalogue.plans.find(each => each.id === i
       const drawnChimneys = ctx.drawn.map((each, index) => ({ ...each, index })).filter(each => /^house-chimney-/.test(each.name || '') || each.name === 'filled').sort((a, b) => along(a.foot) - along(b.foot));
       assert.equal(drawnChimneys.length, chimneys.length, `${plan}, ${where}: ${drawnChimneys.length} chimneys drawn`);
       const toward = chimneys.some(piece => towardViewer(plan, piece, rotation));
-      // Seen from behind exactly where a chimney would otherwise stand on a door gable: every pen of the house, or none.
-      for (const door of doors) assert.equal(REAR.test(door.name), toward, `${plan}, ${where}: a pen drawn ${REAR.test(door.name) ? 'from behind' : 'from the front'} with ${toward ? 'a' : 'no'} chimney against the gable toward the viewer`);
+      // Seen from behind only where a chimney would otherwise stand on a door gable, and then the pen it stands against: since
+      // 2026-10-26 (her rear walls raised to the front's height) a house of two pens is no longer drawn from behind whole, so
+      // the other pen keeps its front. Which pen is right is held by the door check below: no chimney over any door drawn.
+      for (const door of doors) if (REAR.test(door.name)) assert.ok(toward, `${plan}, ${where}: a pen drawn from behind with no chimney against the gable toward the viewer`);
+      if (toward) assert.ok(doors.some(door => REAR.test(door.name)), `${plan}, ${where}: a chimney against the gable toward the viewer and no pen drawn from behind`);
       chimneys.forEach((piece, i) => {
         const chimney = drawnChimneys[i], after = doors.filter(door => chimney.index > door.index), what = `${plan}, ${where}: the ${piece[0]} at ${piece[1]},${piece[2]}`;
         assert.ok(!after.some(door => overlaps(chimney.box, door.box)), `${what} is drawn over a door`);

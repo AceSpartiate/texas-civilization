@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { HAFTS, STROKES, WORK, WORK_REQUEST, activityOf, drawWorkLayer, strokeClock, strokeOf, workClip, workSlot, onWorkBeat, workBeat } from '../public/work-art.js';
+import { HAFTS, STROKES, WASH_PROPS, WORK, WORK_REQUEST, activityOf, drawWashProps, drawWorkLayer, strokeClock, strokeOf, workClip, workSlot, onWorkBeat, workBeat } from '../public/work-art.js';
 import { entityClip, visualVariant, RIDING_FIGURES } from '../public/motion.js';
 
 const simDir = fileURLToPath(new URL('../sim/', import.meta.url));
@@ -289,4 +289,28 @@ test('a child carrying water walks to and fro, turned north and south in the pai
   // Going north or south it asks for the pails' own frames that way.
   assert.deepEqual(fetchPose(water, 'n'), { drawn: 'carry-water-n', pose: 'walk-n', upright: true, west: false });
   assert.deepEqual(fetchPose(water, 'w'), { drawn: 'carry-water', pose: 'carry', upright: false, west: true });
+});
+
+test('the wash has its kettle while it is scrubbed or beaten and its line while it is hung, and nothing else does', () => {
+  // The local pipeline's wash props (2026-10-26): every stroke the wash is drawn with that stands still at the tub has its
+  // thing; the water carried up walks, so it has none; no other chore draws them.
+  const drawn = [];
+  const sprite = (ctx, name, x, y, h) => { drawn.push({ name, x, y, h }); return 40; };
+  const wash = WORK['wash-clothes'];
+  assert.equal(wash.stroke, 'scrub');
+  const strokes = [wash.stroke, ...wash.by.map(([, stroke]) => stroke)];
+  for (const stroke of strokes) {
+    drawn.length = 0;
+    const got = drawWashProps({}, 'wash-clothes', stroke, 100, 200, 60, 1, 0, false, sprite);
+    if (stroke === 'water') assert.equal(got, null, 'the water carried up walks: it has no kettle');
+    else assert.equal(got, WASH_PROPS[stroke] === 'kettle' ? 'wash-kettle-1' : 'wash-line', `the ${stroke} of the wash drew ${got}`);
+  }
+  assert.equal(drawWashProps({}, 'wash-clothes', 'scrub', 100, 200, 60, 1, 650, false, sprite), 'wash-kettle-2', 'the steam does not turn');
+  assert.equal(drawWashProps({}, 'wash-clothes', 'scrub', 100, 200, 60, 1, 650, true, sprite), 'wash-kettle-1', 'with less motion the kettle is held still');
+  drawn.length = 0;
+  drawWashProps({}, 'wash-clothes', 'scrub', 100, 200, 60, 1, 0, false, sprite);
+  drawWashProps({}, 'wash-clothes', 'scrub', 100, 200, 60, -1, 0, false, sprite);
+  assert.ok(drawn[0].x > 100 && drawn[1].x < 100, 'the kettle is not at the side the washer faces');
+  for (const activity of ['keep-house', 'work-garden', 'fell-trees', null]) assert.equal(drawWashProps({}, activity, 'carry', 100, 200, 60, 1, 0, false, sprite), null, `${activity} drew the wash line`);
+  assert.equal(drawWashProps({}, 'wash-clothes', 'scrub', 100, 200, 60, 1, 0, false, () => 0), null, 'a kettle not yet loaded is said to be drawn');
 });

@@ -83,10 +83,10 @@ const GROUND = {
   'house-round-full-walls': { left: [12, 198], front: [180, 247], right: [290, 168] },
   'house-hewn-full-walls': { left: [12, 202], front: [175, 252], right: [288, 172] },
   // Astra's rear walls (2026-10-11), read on a five-pixel grid as tests/house-chimney.test.mjs reads them: a house of two
-  // pens is seen from behind whole where either pen's chimney stands on the gable toward the viewer. Its gables are the
+  // pens is seen from behind where a pen's chimney stands on the gable toward the viewer (that pen alone, since 2026-10-26). Its gables are the
   // same faces - the one "door's" face here is the rear's blank near gable.
-  'house-round-back-full-walls': { left: [15, 175], front: [178, 244], right: [305, 170] },
-  'house-hewn-back-full-walls': { left: [15, 172], front: [181, 250], right: [313, 168] },
+  'house-round-back-full-walls': { left: [15, 194], front: [178, 263], right: [305, 189] },
+  'house-hewn-back-full-walls': { left: [15, 208], front: [181, 286], right: [313, 204] },
 };
 // Which end of the house is the far one, up its ridge, at each turn: a house of two pens is drawn in the house's own
 // quarter-turn mirroring, not mirrored at 0 and 180 degrees (its ridge running up to the right) and mirrored at 90 and 270

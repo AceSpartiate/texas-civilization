@@ -8,13 +8,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
-| A — People at work and ambient poses | 33 | 8 | 18 | 0 |
+| A — People at work and ambient poses | 32 | 7 | 17 | 1 |
 | B — Children, babies and sickness | 20 | 7 | 12 | 2 |
 | C — Soldiers, battles and famous people | 13 | 1 | 7 | 11 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 25 | 2 | 9 | 6 |
-| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 13 | 2 | 9 | 16 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 20 | 1 | 8 | 20 |
-| **Total** | **124** | **21** | **63** | **55** |
+| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 11 | 2 | 9 | 18 |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 19 | 1 | 8 | 21 |
+| **Total** | **120** | **20** | **62** | **59** |
 
 ## How a builder works
 
@@ -33,18 +33,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 ## A — People at work and ambient poses
 
-Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 33 to make, 0 skipped.
+Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 32 to make, 1 skipped.
 
 - [ ] **A1** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-chop`, `teal-chop`, `elder-chop`, `blue-chop`, `rust-woman-chop`, `indigo-chop`, `ochre-chop`, `blue-girl-chop`)
   - **Deliver:** `<cast>-chop` (felling with an axe) for each of the eight: `<figure>-chop-1`..`-4`, clip `<figure>-chop`, the axe landing on frame 3
   - **Frames:** 4 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.chop` (`drawn`) in `public/work-art.js`, drawn by `drawAtWork` in `public/app.js`
   - **Stands in now:** the hoeing cycle (`-work`) with a felling axe drawn over the hoe in canvas, chips on the strike; rust in Claude's `rust-chop` (drawn in code (canvas or CSS))
-- [ ] **A2** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 16 — **Claude stand-in held back: Astra has drawn the subject** (logs), so the page draws hers (`wood-pile-1`, `wood-pile-2`, `wood-pile-3`, `wood-pile-4`)
-  - **Deliver:** `wood-pile-1`, `wood-pile-2`, `wood-pile-3`, `wood-pile-4` (about 10, 20, 30, 40 logs)
-  - **Frames:** one sprite a size. **Size:** A pile of wall logs three-quarter on the ground anchor, about as long as `log-fallen`, no taller than a person's waist; Claude: 448×320 cell drawn at 1.2 of a person
-  - **Plugs into:** the wood pile in `drawWorld`, `public/app.js` (`window.__woodPileSprite`)
-  - **Stands in now:** Claude's `wood-pile-1`..`-4`; without the sheet, `log-fallen` laid side by side (Claude-drawn)
 - [ ] **A3** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 3 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-notch`, `rust-lift`, `teal-notch`, `teal-lift`, `elder-notch`, `elder-lift`, `blue-notch`, `blue-lift`, `rust-woman-notch`, `rust-woman-lift`, `indigo-notch`, `indigo-lift`, `ochre-notch`, `ochre-lift`, `blue-girl-notch`, `blue-girl-lift`)
   - **Deliver:** `<cast>-notch` (4 frames: notching a wall log's end with an axe) and `<cast>-lift` (2 frames: stooped under a log end, the log end at the shoulder; two facing across the frame read as one log lifted)
   - **Frames:** 4 and 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -202,6 +197,9 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.fire` and `WORK['keep-house']` in `public/work-art.js`
   - **Stands in now:** the tending of a fire (`-tend-fire`, Claude-drawn) or the nursing pose (`-care`) with smoke (Astra's library art reused)
+
+Skipped:
+- ~~A2~~ [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 2): one pile of forty edited down to thirty, twenty and ten; the drawn pile Claude made is retired
 
 ## B — Children, babies and sickness
 
@@ -541,7 +539,7 @@ Skipped:
 
 ## E — Buildings, houses, towns, Béxar, the Alamo, interiors
 
-Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 13 to make, 16 skipped.
+Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 11 to make, 18 skipped.
 
 - [ ] **E1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 2 — **Claude stand-in in place** (`bexar-man-walk`, `bexar-man-walk-s`, `bexar-man-walk-n`, `bexar-man-idle-s`, `bexar-man-idle-e`, `bexar-man-idle-w`, `bexar-man-idle-n`, `bexar-man-listen-s`, `bexar-man-listen-n`, `bexar-man-speak`, `bexar-man-carry`, `bexar-girl-walk`, `bexar-girl-walk-s`, `bexar-girl-walk-n`, `bexar-girl-idle-s`, `bexar-girl-idle-e`, `bexar-girl-idle-w`, `bexar-girl-idle-n`, `bexar-girl-listen-s`, `bexar-girl-listen-n`, `bexar-girl-speak`, `bexar-girl-carry`, `bexar-boy-walk`, `bexar-boy-walk-s`, `bexar-boy-walk-n`, `bexar-boy-idle-s`, `bexar-boy-idle-e`, `bexar-boy-idle-w`, `bexar-boy-idle-n`, `bexar-boy-listen-s`, `bexar-boy-listen-n`, `bexar-boy-speak`, `bexar-boy-carry`); Astra's replaces it
   - **Deliver:** Tejano townspeople of Béxar - a man, a woman in a rebozo, a girl and a boy - each `walk`, `idle-s`, `carry` (loading a cart), `speak`, `listen`, in 1830s Béxar dress (`bexar-man-*`, `bexar-woman-*`, `bexar-girl-*`, `bexar-boy-*`); also the storming's townspeople of 1835 walking out of a house (request 2026-09-25 the storming of Béxar, item 6)
@@ -575,11 +573,6 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Frames:** 1 each. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside; a grown person's height as its logical height, as the wedding's pieces
   - **Plugs into:** `marker` and `coins` in `drawYard`, `public/flashback.js`
   - **Stands in now:** Claude's `grave-marker` and `coins-and-paper`; without them drawn in canvas (`marker`, `coins`) (Claude-drawn)
-- [ ] **E30** (priority 2) — [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather), item 1
-  - **Deliver:** `homestead-tent` (a wagon sheet stretched over a ridge pole between two forked posts, pegged down at the sides, the front open, a bedroll inside)
-  - **Frames:** 1. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable
-  - **Plugs into:** the tent drawn at `world.land.tent` (`tentAt`) in `drawWorld`, `public/app.js`
-  - **Stands in now:** the library's canvas `tent` (a pegged A-tent of new canvas) (Astra's library art reused)
 - [ ] **E10** (priority 3) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 4 — **Claude stand-in in place** (`plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`); Astra's replaces it
   - **Deliver:** `plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`
   - **Frames:** 1 each. **Size:** Map cutout as `public/place-art.js` gives the places past the box
@@ -609,11 +602,6 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Plugs into:** `drawFlag` in `public/battle-view.js`
   - **Stands in now:** the flag at the town point (nothing)
   - **Research first:** with E6
-- [ ] **E21** (priority 3) — [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash), item 10
-  - **Deliver:** `wash-kettle` (an iron wash kettle on three stones over a fire, steam) and `wash-line` (a rail fence with wet shirts and a sheet hung over it)
-  - **Frames:** 1 each (the kettle 2, steaming). **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
-  - **Plugs into:** `WORK['wash-clothes']` in `public/work-art.js`, beside the yard in `drawWorld`, `public/app.js`
-  - **Stands in now:** nothing: the washer is drawn bent to the work with no tub (nothing)
 
 Skipped:
 - ~~E2~~ [Request 2026-09-23 — the house from its other sides](ART_REQUESTS.md#request-2026-09-23--the-house-from-its-other-sides) — skipped: delivered 2026-10-11 (Astra's `house-round-back-*`, `house-hewn-back-*` and the four `-end` views, scripts/art-deliveries/house-other-sides-2026-10-11.mjs; drawn since 2026-10-13)
@@ -630,12 +618,14 @@ Skipped:
 - ~~E42~~ [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): `scene-road-prairie`, `scene-road-woods`, `scene-ford` (the ford flagged: the road meets a gravel bar rather than visibly crossing)
 - ~~E43~~ [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): `scene-yard-night`, the house and field of the family still set on it
 - ~~E44~~ [Request 2026-10-05 — rider scenes' backdrops](ART_REQUESTS.md#request-2026-10-05--rider-scenes-backdrops) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 1): `scene-alamo-plaza`, painted empty (owner, 2026-10-25: the page draws the men)
+- ~~E30~~ [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 2): `homestead-tent`, asked for by name in `drawTent`
+- ~~E21~~ [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 2): `wash-kettle-1`, `-2` (its steam turning) and `wash-line`, drawn beside the washer by `drawWashProps` in `public/work-art.js`
 - ~~ES6~~ [Request 2026-09-19 — the places past the box](ART_REQUESTS.md#request-2026-09-19--the-places-past-the-box) — skipped: delivered 2026-09-26
 - ~~ES7~~ [Request 2026-09-18 — the Alamo's faces seen from the south](ART_REQUESTS.md#request-2026-09-18--the-alamos-faces-seen-from-the-south) — skipped: delivered 2026-09-21
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 20 to make, 20 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 19 to make, 21 skipped.
 
 - [ ] **F16** (priority 1) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 6 — **Claude stand-in in place** (`icon-ask-neighbours`); Astra's replaces it
   - **Deliver:** `icon-ask-neighbours` (a parent and a child walking up a track toward a neighbour's cabin with smoke from its chimney)
@@ -672,11 +662,6 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
   - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
   - **Stands in now:** stroked glyphs (`LITTLE_GLYPHS['keep-house']`, `['work-garden']`, `['wash-clothes']`) (drawn in code (canvas or CSS))
-- [ ] **F35** (priority 2) — [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash), item 8
-  - **Deliver:** `garden-beds` (a kitchen garden of four or five beds in rows, beans on poles, greens, a melon vine, a brush fence round it, seen three-quarter from above) and `garden-beds-winter` (the same, mostly bare earth, a row of turnips and collards)
-  - **Frames:** 1 each. **Size:** Ground piece: seen from above at the map's scale, transparent, tiles or scatters
-  - **Plugs into:** `drawGarden` in `public/app.js`
-  - **Stands in now:** rows of earth with green dots and a stroked rail, drawn in canvas (`drawGarden`) (drawn in code (canvas or CSS))
 - [ ] **F36** (priority 2) — [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash), item 9
   - **Deliver:** `flies-buzz` (three or four flies circling and two wavy lines of stink rising, over a person's head; 3 frames, looping)
   - **Frames:** 3 frames, looping. **Size:** Effect: over a person's head, transparent, about two thirds of the figure's height across, anchored at the top of the head
@@ -749,6 +734,7 @@ Skipped:
 - ~~F13~~ [Request 2026-09-19 — Béxar's fields and acequias](ART_REQUESTS.md#request-2026-09-19--béxars-fields-and-acequias) — skipped: delivered 2026-09-21; the layout is research and code
 - ~~F14~~ [Request 2026-09-21 — the guided start's marks](ART_REQUESTS.md#request-2026-09-21--the-guided-starts-marks) — skipped: delivered 2026-10-07 (Astra's four lesson marks, wired into the bar and the pips; dormant while the guided start is off, 2026-09-28)
 - ~~F15~~ [Request 2026-09-28 — the garden — WITHDRAWN 2026-09-28](ART_REQUESTS.md#request-2026-09-28--the-garden--withdrawn-2026-09-28) — skipped: withdrawn 2026-09-28 (crops no longer follow the seasons)
+- ~~F35~~ [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 2): `garden-beds` and `garden-beds-winter` (an edit of the summer beds), asked for by name in `drawGarden`
 - ~~FS8~~ [Request 2026-09-20 — the launcher's remaining plates — Delivered 2026-09-20](ART_REQUESTS.md#request-2026-09-20--the-launchers-remaining-plates--delivered-2026-09-20) — skipped: delivered 2026-09-20
 - ~~FS9~~ [Request 2026-09-19 — the logs fetched from the timber](ART_REQUESTS.md#request-2026-09-19--the-logs-fetched-from-the-timber) — skipped: delivered (`icons-family-service.png`)
 - ~~FS10~~ [Request 2026-09-19 — the traveller's marker — WITHDRAWN 2026-09-22](ART_REQUESTS.md#request-2026-09-19--the-travellers-marker--withdrawn-2026-09-22) — skipped: withdrawn 2026-09-22: there is no marker any more

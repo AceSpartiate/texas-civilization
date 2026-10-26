@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **6366 usable sprites, 450 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
+Generated from the shipped library: **6376 usable sprites, 452 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -314,6 +314,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
 | ground-roads | 4 | 1536 × 1536 | 1774179 |
+| homestead-local-1 | 6 | 1024 × 1536 | 1308207 |
+| homestead-local-2 | 4 | 1024 × 1024 | 572804 |
 | scenes-local-1 | 4 | 2240 × 1400 | 4768867 |
 | scenes-local-2 | 4 | 2240 × 1400 | 4614709 |
 | scenes-local-3 | 4 | 2240 × 1400 | 4292950 |
@@ -3405,6 +3407,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | road-tile-street | ground-roads | State artwork; no motion required |
 | road-tile-path | ground-roads | State artwork; no motion required |
 | road-tile-verge | ground-roads | State artwork; no motion required |
+| homestead-tent | homestead-local-1 | State artwork; no motion required |
+| garden-beds | homestead-local-1 | State artwork; no motion required |
+| garden-beds-winter | homestead-local-1 | State artwork; no motion required |
+| wash-line | homestead-local-1 | State artwork; no motion required |
+| wash-kettle-1 | homestead-local-1 | State artwork; no motion required |
+| wash-kettle-2 | homestead-local-1 | State artwork; no motion required |
+| wood-pile-1 | homestead-local-2 | State artwork; no motion required |
+| wood-pile-2 | homestead-local-2 | State artwork; no motion required |
+| wood-pile-3 | homestead-local-2 | State artwork; no motion required |
+| wood-pile-4 | homestead-local-2 | State artwork; no motion required |
 | scene-street-gonzales | scenes-local-1 | State artwork; no motion required |
 | scene-street-texian | scenes-local-1 | State artwork; no motion required |
 | scene-street-tejano | scenes-local-1 | State artwork; no motion required |

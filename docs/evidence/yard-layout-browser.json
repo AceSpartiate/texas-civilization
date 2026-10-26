@@ -1,21 +1,21 @@
 {
   "record": "yard-layout-browser",
-  "date": "2026-10-13",
-  "browser": "154.0.8037.93",
+  "date": "2026-10-26",
+  "browser": "156.0.8078.47",
   "checks": [
-    "yard-layout-1 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-1-camp.png)",
-    "yard-layout-1 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-1-house.png)",
-    "yard-layout-4 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-4-camp.png)",
-    "yard-layout-4 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-4-house.png)",
-    "yard-layout-7 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-7-camp.png)",
-    "yard-layout-7 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-7-house.png)",
+    "yard-layout-1 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-1-camp.png)",
+    "yard-layout-1 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-1-house.png)",
+    "yard-layout-4 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-4-camp.png)",
+    "yard-layout-4 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-4-house.png)",
+    "yard-layout-7 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-7-camp.png)",
+    "yard-layout-7 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-7-house.png)",
     "no page errors"
   ],
   "observed": [
     {
       "seed": "yard-layout-1",
       "state": "camp",
-      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-1-camp.png",
+      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-1-camp.png",
       "site": {
         "x": 76.21,
         "y": -20.11
@@ -26,10 +26,10 @@
           "y": 539,
           "size": 96,
           "box": {
-            "left": 563,
-            "top": 445,
-            "right": 684,
-            "bottom": 542
+            "left": 539,
+            "top": 449,
+            "right": 656,
+            "bottom": 546
           }
         },
         "garden": {
@@ -39,10 +39,10 @@
           "season": "growing"
         },
         "pile": {
-          "x": 511.6294492701892,
-          "y": 409.37591171179446,
-          "width": 170.10000000000008,
-          "height": 55.4684016393443
+          "x": 525.8438176880996,
+          "y": 410.1082526298272,
+          "width": 112.72298507462688,
+          "height": 42.52499999999998
         },
         "camera": {
           "cx": 76.16422575774016,
@@ -55,22 +55,22 @@
         "paths": [],
         "pictures": {
           "tent": {
-            "left": 563,
-            "top": 445,
-            "right": 684,
-            "bottom": 542
+            "left": 539,
+            "top": 449,
+            "right": 656,
+            "bottom": 546
           },
           "garden": {
-            "left": 933,
-            "top": 441,
-            "right": 986,
-            "bottom": 476
+            "left": 935,
+            "top": 432,
+            "right": 987,
+            "bottom": 483
           },
           "woodpile": {
-            "left": 427,
-            "top": 321,
-            "right": 597,
-            "bottom": 409
+            "left": 469,
+            "top": 342,
+            "right": 582,
+            "bottom": 410
           },
           "camp": {
             "left": 722,
@@ -136,7 +136,7 @@
     {
       "seed": "yard-layout-1",
       "state": "house",
-      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-1-house.png",
+      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-1-house.png",
       "site": {
         "x": 76.21,
         "y": -20.11
@@ -150,10 +150,10 @@
           "season": "growing"
         },
         "pile": {
-          "x": 511.6294492701892,
-          "y": 409.37591171179446,
-          "width": 170.10000000000008,
-          "height": 55.4684016393443
+          "x": 525.8438176880996,
+          "y": 410.1082526298272,
+          "width": 112.72298507462688,
+          "height": 42.52499999999998
         },
         "camera": {
           "cx": 76.16422575774016,
@@ -365,16 +365,16 @@
         ],
         "pictures": {
           "garden": {
-            "left": 933,
-            "top": 441,
-            "right": 986,
-            "bottom": 476
+            "left": 935,
+            "top": 432,
+            "right": 987,
+            "bottom": 483
           },
           "woodpile": {
-            "left": 427,
-            "top": 321,
-            "right": 597,
-            "bottom": 409
+            "left": 469,
+            "top": 342,
+            "right": 582,
+            "bottom": 410
           },
           "figure": 56.7
         },
@@ -434,7 +434,7 @@
     {
       "seed": "yard-layout-4",
       "state": "camp",
-      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-4-camp.png",
+      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-4-camp.png",
       "site": {
         "x": 1.96,
         "y": -12.33
@@ -445,10 +445,10 @@
           "y": 539,
           "size": 96,
           "box": {
-            "left": 563,
-            "top": 445,
-            "right": 684,
-            "bottom": 542
+            "left": 539,
+            "top": 449,
+            "right": 656,
+            "bottom": 546
           }
         },
         "garden": {
@@ -458,10 +458,10 @@
           "season": "growing"
         },
         "pile": {
-          "x": 511.62944927014814,
-          "y": 409.3759117117997,
-          "width": 170.09999999999997,
-          "height": 55.46840163934423
+          "x": 525.8438176880586,
+          "y": 410.10825262983246,
+          "width": 112.72298507462688,
+          "height": 42.52499999999998
         },
         "camera": {
           "cx": 1.914225757740162,
@@ -474,22 +474,22 @@
         "paths": [],
         "pictures": {
           "tent": {
-            "left": 563,
-            "top": 445,
-            "right": 684,
-            "bottom": 542
+            "left": 539,
+            "top": 449,
+            "right": 656,
+            "bottom": 546
           },
           "garden": {
-            "left": 933,
-            "top": 441,
-            "right": 986,
-            "bottom": 476
+            "left": 935,
+            "top": 432,
+            "right": 987,
+            "bottom": 483
           },
           "woodpile": {
-            "left": 427,
-            "top": 321,
-            "right": 597,
-            "bottom": 409
+            "left": 469,
+            "top": 342,
+            "right": 582,
+            "bottom": 410
           },
           "camp": {
             "left": 722,
@@ -555,7 +555,7 @@
     {
       "seed": "yard-layout-4",
       "state": "house",
-      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-4-house.png",
+      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-4-house.png",
       "site": {
         "x": 1.96,
         "y": -12.33
@@ -569,10 +569,10 @@
           "season": "growing"
         },
         "pile": {
-          "x": 511.62944927014814,
-          "y": 409.3759117117997,
-          "width": 170.09999999999997,
-          "height": 55.46840163934423
+          "x": 525.8438176880586,
+          "y": 410.10825262983246,
+          "width": 112.72298507462688,
+          "height": 42.52499999999998
         },
         "camera": {
           "cx": 1.914225757740162,
@@ -827,16 +827,16 @@
         ],
         "pictures": {
           "garden": {
-            "left": 933,
-            "top": 441,
-            "right": 986,
-            "bottom": 476
+            "left": 935,
+            "top": 432,
+            "right": 987,
+            "bottom": 483
           },
           "woodpile": {
-            "left": 427,
-            "top": 321,
-            "right": 597,
-            "bottom": 409
+            "left": 469,
+            "top": 342,
+            "right": 582,
+            "bottom": 410
           },
           "figure": 56.7
         },
@@ -896,7 +896,7 @@
     {
       "seed": "yard-layout-7",
       "state": "camp",
-      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-7-camp.png",
+      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-7-camp.png",
       "site": {
         "x": 88.09,
         "y": -25.03
@@ -907,10 +907,10 @@
           "y": 670,
           "size": 96,
           "box": {
-            "left": 1112,
-            "top": 577,
-            "right": 1233,
-            "bottom": 673
+            "left": 1088,
+            "top": 580,
+            "right": 1205,
+            "bottom": 677
           }
         },
         "garden": {
@@ -920,10 +920,10 @@
           "season": "growing"
         },
         "pile": {
-          "x": 511.6294492701468,
-          "y": 325.81801697495615,
-          "width": 170.09999999999997,
-          "height": 55.46840163934423
+          "x": 525.8438176880572,
+          "y": 326.5503578929889,
+          "width": 112.72298507462688,
+          "height": 42.52499999999998
         },
         "camera": {
           "cx": 88.04422575774016,
@@ -936,22 +936,22 @@
         "paths": [],
         "pictures": {
           "tent": {
-            "left": 1112,
-            "top": 577,
-            "right": 1233,
-            "bottom": 673
+            "left": 1088,
+            "top": 580,
+            "right": 1205,
+            "bottom": 677
           },
           "garden": {
-            "left": 933,
-            "top": 441,
-            "right": 986,
-            "bottom": 476
+            "left": 935,
+            "top": 432,
+            "right": 987,
+            "bottom": 483
           },
           "woodpile": {
-            "left": 427,
-            "top": 237,
-            "right": 597,
-            "bottom": 326
+            "left": 469,
+            "top": 259,
+            "right": 582,
+            "bottom": 327
           },
           "camp": {
             "left": 997,
@@ -1017,7 +1017,7 @@
     {
       "seed": "yard-layout-7",
       "state": "house",
-      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-7-house.png",
+      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-7-house.png",
       "site": {
         "x": 88.09,
         "y": -25.03
@@ -1031,10 +1031,10 @@
           "season": "growing"
         },
         "pile": {
-          "x": 511.6294492701468,
-          "y": 325.81801697495615,
-          "width": 170.09999999999997,
-          "height": 55.46840163934423
+          "x": 525.8438176880572,
+          "y": 326.5503578929889,
+          "width": 112.72298507462688,
+          "height": 42.52499999999998
         },
         "camera": {
           "cx": 88.04422575774016,
@@ -1442,16 +1442,16 @@
         ],
         "pictures": {
           "garden": {
-            "left": 933,
-            "top": 441,
-            "right": 986,
-            "bottom": 476
+            "left": 935,
+            "top": 432,
+            "right": 987,
+            "bottom": 483
           },
           "woodpile": {
-            "left": 427,
-            "top": 237,
-            "right": 597,
-            "bottom": 326
+            "left": 469,
+            "top": 259,
+            "right": 582,
+            "bottom": 327
           },
           "figure": 56.7
         },

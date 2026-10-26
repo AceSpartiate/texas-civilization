@@ -521,6 +521,26 @@ export function drawHaftTool(ctx, tool, figure, frame, x, y, size, dir) {
 }
 
 /**
+ * The wash's own things beside the washer (owner, 2026-10-03; sim/housework.mjs; request 2026-10-03 "men's work, women's work and
+ * the wash", item 10): the iron kettle boiling on its three stones while the wash is scrubbed or beaten, its steam turning
+ * (`wash-kettle-1`, `-2`), and the rail fence with wet shirts and a sheet over it while the wash is hung (`wash-line`). Painted
+ * with the local pipeline, 2026-10-26 (docs/ART_DELIVERY_2026-10-26-LOCAL-HOMESTEAD.md); until then the washer bent over nothing.
+ * The water carried up (`water`) walks to and fro, so it has none. Drawn before the washer, the kettle at her hands' side and the
+ * line behind her. Nothing where its sheet has not loaded. Returns the name drawn, or null.
+ */
+export const WASH_PROPS = Object.freeze({ scrub: 'kettle', beat: 'kettle', carry: 'line' });
+export function drawWashProps(ctx, activity, strokeKey, x, y, size, dir, timeMs, still, sprite) {
+  if (activity !== 'wash-clothes' || typeof sprite !== 'function') return null;
+  const prop = WASH_PROPS[strokeKey];
+  if (prop === 'kettle') {
+    const name = `wash-kettle-${still ? 1 : 1 + (Math.floor(timeMs / 650) % 2)}`;
+    return sprite(ctx, name, x + dir * size * 0.5, y + size * 0.02, size * 0.42) ? name : null;
+  }
+  if (prop === 'line') return sprite(ctx, 'wash-line', x - dir * size * 0.62, y - size * 0.04, size * 0.6) ? 'wash-line' : null;
+  return null;
+}
+
+/**
  * Draw the stand-in's tool and effect over (and, for the rod's line and ripples, in front of) the figure just drawn at
  * (x, y), `size` tall, facing `dir` (1 east, -1 west). Does nothing for a delivered stroke with no effect, or under reduced
  * motion except the still tool. Returns how many marks it drew, which the proofs read.

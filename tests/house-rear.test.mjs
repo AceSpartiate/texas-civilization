@@ -54,8 +54,8 @@ function recorder() {
 const BY_EYE = {
   'house-round-full-walls': { left: [12, 198], front: [180, 247], right: [290, 168] },
   'house-hewn-full-walls': { left: [12, 202], front: [175, 252], right: [288, 172] },
-  'house-round-back-full-walls': { left: [15, 175], front: [178, 244], right: [305, 170] },
-  'house-hewn-back-full-walls': { left: [15, 172], front: [181, 250], right: [313, 168] },
+  'house-round-back-full-walls': { left: [15, 194], front: [178, 263], right: [305, 189] },
+  'house-hewn-back-full-walls': { left: [15, 208], front: [181, 286], right: [313, 204] },
 };
 // The footprint as wide as the front walls' to within 2%, its middle within 2% of that width of theirs: unfitted the rear
 // was 6% (round) to 9% (hewn) wider, and placed by its own anchor its middle stood 3.5% to the side. Each corner within 6%:
@@ -100,4 +100,18 @@ test('while the rear walls have not loaded the pen is drawn from the front, and 
   const foot = walls.screen((l[0] + f[0]) / 2 + 0.1 * (f[0] - r[0]), (l[1] + f[1]) / 2 + 0.1 * (f[1] - r[1]));
   const wide = gap(walls.screen(...l), walls.screen(...r));
   assert.ok(gap(chimney.foot, foot) <= 0.02 * wide, `the chimney stands ${(gap(chimney.foot, foot) / wide * 100).toFixed(1)}% of the pen's width off the front walls' gable`);
+});
+
+test('her rear full walls stand as high as the front ones: the wall top over the ground, in the front sheet\'s pixels', () => {
+  // Request 2026-10-13, delivered 2026-10-26 by raising her own courses (scripts/local-art/rear_courses.py): from the middle of
+  // the ground to the wall-top seat the rear stood 99 (round) and 97 (hewn) front-sheet pixels to the front's 116 and 125, so a
+  // house of two pens was drawn from behind whole. Now within a twentieth of the front, and the rule is gone.
+  const high = name => {
+    const frame = atlas.frames[name], ground = (frame.ground.left[1] + frame.ground.right[1]) / 2;
+    return (ground - frame.seatY) * frame.h / (frame.roofScale || 1);
+  };
+  for (const material of ['round', 'hewn']) {
+    const front = high(`house-${material}-full-walls`), rear = high(`house-${material}-back-full-walls`);
+    assert.ok(Math.abs(rear - front) / front < 0.05, `${material}: the rear walls stand ${rear.toFixed(1)} to the front's ${front.toFixed(1)}`);
+  }
 });

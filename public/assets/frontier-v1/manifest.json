@@ -3,8 +3,8 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 450,
-    "sprites": 6366,
+    "sheets": 452,
+    "sprites": 6376,
     "clips": 2102,
     "poseCycles": 1693,
     "rigs": 4
@@ -26476,11 +26476,11 @@
       "image": "atlases/house-back-views.png",
       "width": 1448,
       "height": 1086,
-      "bytes": 819294,
-      "sha256": "0fea9ea7bd17697fb5dbda1c7a2be568490b765d12d7f64fc09bf13f7bbdca56",
+      "bytes": 787018,
+      "sha256": "35d7abd1bedd2a33375d5eeec2cd35c8496a342477b5ef1ac3feb304a435ee78",
       "alpha": {
         "threshold": 24,
-        "transparentFraction": 0.82518,
+        "transparentFraction": 0.814413,
         "cornerAlpha": [
           0,
           0,
@@ -26513,7 +26513,7 @@
           {
             "row": 2,
             "yRange": [
-              425,
+              406,
               673
             ],
             "columns": [
@@ -26530,7 +26530,7 @@
           {
             "row": 3,
             "yRange": [
-              757,
+              721,
               1010
             ],
             "columns": [
@@ -26922,6 +26922,139 @@
               [
                 894,
                 1410
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "homestead-local-1": {
+      "image": "atlases/homestead-local-1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1308207,
+      "sha256": "2763b84e8787b61426ba18731639ee43d7a5eca5bee5e4b4fe02c9b0cd6d8be2",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.684462,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              39,
+              473
+            ],
+            "columns": [
+              [
+                34,
+                477
+              ],
+              [
+                546,
+                990
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              551,
+              985
+            ],
+            "columns": [
+              [
+                35,
+                474
+              ],
+              [
+                546,
+                990
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1059,
+              1502
+            ],
+            "columns": [
+              [
+                106,
+                406
+              ],
+              [
+                618,
+                918
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "homestead-local-2": {
+      "image": "atlases/homestead-local-2.png",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 572804,
+      "sha256": "1e32bc4cbf4b2e1fde7d31e976c8de5222008de981b2d39ae26a99ed644dc6b9",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.807343,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              147,
+              365
+            ],
+            "columns": [
+              [
+                34,
+                478
+              ],
+              [
+                546,
+                989
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              634,
+              902
+            ],
+            "columns": [
+              [
+                58,
+                454
+              ],
+              [
+                546,
+                990
               ]
             ]
           }
@@ -145580,25 +145713,25 @@
     "house-round-back-full-walls": {
       "sheet": "house-back-views",
       "x": 265,
-      "y": 425,
+      "y": 406,
       "w": 319,
-      "h": 248,
-      "anchorX": 0.5455,
-      "anchorY": 0.9274,
+      "h": 267,
+      "anchorX": 0.5439,
+      "anchorY": 0.9288,
       "seatX": 0.4984,
-      "seatY": 0.2681,
+      "seatY": 0.2491,
       "ground": {
         "left": [
           0.011,
-          0.7016
+          0.7228
         ],
         "front": [
           0.5517,
-          0.9879
+          0.9888
         ],
         "right": [
           0.9859,
-          0.6815
+          0.7041
         ]
       },
       "label": "house round back full walls",
@@ -145608,11 +145741,11 @@
       "audit": {
         "sourceBounds": [
           267,
-          427,
+          408,
           315,
-          244
+          263
         ],
-        "visiblePixels": 52165,
+        "visiblePixels": 58099,
         "trimmedPixels": 0,
         "retainedFraction": 1
       },
@@ -145693,25 +145826,25 @@
     "house-hewn-back-full-walls": {
       "sheet": "house-back-views",
       "x": 879,
-      "y": 757,
+      "y": 721,
       "w": 328,
-      "h": 253,
-      "anchorX": 0.5396,
-      "anchorY": 0.9289,
+      "h": 289,
+      "anchorX": 0.5381,
+      "anchorY": 0.9273,
       "seatX": 0.497,
-      "seatY": 0.249,
+      "seatY": 0.218,
       "ground": {
         "left": [
           0.0107,
-          0.6719
+          0.7128
         ],
         "front": [
           0.5518,
-          0.9881
+          0.9896
         ],
         "right": [
           0.9832,
-          0.664
+          0.7059
         ]
       },
       "label": "house hewn back full walls",
@@ -145721,11 +145854,11 @@
       "audit": {
         "sourceBounds": [
           881,
-          759,
+          723,
           324,
-          249
+          285
         ],
-        "visiblePixels": 54583,
+        "visiblePixels": 66141,
         "trimmedPixels": 0,
         "retainedFraction": 1
       },
@@ -146718,6 +146851,332 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/ground-roads"
+    },
+    "homestead-tent": {
+      "sheet": "homestead-local-1",
+      "x": 34,
+      "y": 73,
+      "w": 443,
+      "h": 367,
+      "anchorX": 0.6738,
+      "anchorY": 0.9292,
+      "label": "homestead tent",
+      "kind": "homestead-local-1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          36,
+          75,
+          439,
+          363
+        ],
+        "visiblePixels": 73074,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homestead-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homestead-local-1"
+    },
+    "garden-beds": {
+      "sheet": "homestead-local-1",
+      "x": 546,
+      "y": 39,
+      "w": 444,
+      "h": 434,
+      "anchorX": 0.4775,
+      "anchorY": 0.9286,
+      "label": "garden beds",
+      "kind": "homestead-local-1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          548,
+          41,
+          440,
+          430
+        ],
+        "visiblePixels": 95178,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homestead-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homestead-local-1"
+    },
+    "garden-beds-winter": {
+      "sheet": "homestead-local-1",
+      "x": 35,
+      "y": 551,
+      "w": 439,
+      "h": 434,
+      "anchorX": 0.4795,
+      "anchorY": 0.9286,
+      "label": "garden beds winter",
+      "kind": "homestead-local-1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          37,
+          553,
+          435,
+          430
+        ],
+        "visiblePixels": 91396,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homestead-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homestead-local-1"
+    },
+    "wash-line": {
+      "sheet": "homestead-local-1",
+      "x": 546,
+      "y": 600,
+      "w": 444,
+      "h": 335,
+      "anchorX": 0.777,
+      "anchorY": 0.9284,
+      "label": "wash line",
+      "kind": "homestead-local-1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          548,
+          602,
+          440,
+          331
+        ],
+        "visiblePixels": 89350,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homestead-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homestead-local-1"
+    },
+    "wash-kettle-1": {
+      "sheet": "homestead-local-1",
+      "x": 106,
+      "y": 1091,
+      "w": 300,
+      "h": 386,
+      "anchorX": 0.5117,
+      "anchorY": 0.9275,
+      "logicalHeight": 443,
+      "label": "wash kettle 1",
+      "kind": "homestead-local-1",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          108,
+          1093,
+          296,
+          382
+        ],
+        "visiblePixels": 69322,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homestead-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homestead-local-1"
+    },
+    "wash-kettle-2": {
+      "sheet": "homestead-local-1",
+      "x": 618,
+      "y": 1059,
+      "w": 300,
+      "h": 443,
+      "anchorX": 0.51,
+      "anchorY": 0.9278,
+      "logicalHeight": 443,
+      "label": "wash kettle 2",
+      "kind": "homestead-local-1",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          620,
+          1061,
+          296,
+          439
+        ],
+        "visiblePixels": 69951,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homestead-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homestead-local-1"
+    },
+    "wood-pile-1": {
+      "sheet": "homestead-local-2",
+      "x": 34,
+      "y": 153,
+      "w": 444,
+      "h": 206,
+      "anchorX": 0.3671,
+      "anchorY": 0.9272,
+      "logicalHeight": 268,
+      "label": "wood pile 1",
+      "kind": "homestead-local-2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          36,
+          155,
+          440,
+          202
+        ],
+        "visiblePixels": 40961,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homestead-local-2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homestead-local-2"
+    },
+    "wood-pile-2": {
+      "sheet": "homestead-local-2",
+      "x": 546,
+      "y": 147,
+      "w": 443,
+      "h": 218,
+      "anchorX": 0.3668,
+      "anchorY": 0.9266,
+      "logicalHeight": 268,
+      "label": "wood pile 2",
+      "kind": "homestead-local-2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          548,
+          149,
+          439,
+          214
+        ],
+        "visiblePixels": 44945,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homestead-local-2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homestead-local-2"
+    },
+    "wood-pile-3": {
+      "sheet": "homestead-local-2",
+      "x": 58,
+      "y": 644,
+      "w": 396,
+      "h": 247,
+      "anchorX": 0.3838,
+      "anchorY": 0.9271,
+      "logicalHeight": 268,
+      "label": "wood pile 3",
+      "kind": "homestead-local-2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          60,
+          646,
+          392,
+          243
+        ],
+        "visiblePixels": 47479,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homestead-local-2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homestead-local-2"
+    },
+    "wood-pile-4": {
+      "sheet": "homestead-local-2",
+      "x": 546,
+      "y": 634,
+      "w": 444,
+      "h": 268,
+      "anchorX": 0.3739,
+      "anchorY": 0.9291,
+      "logicalHeight": 268,
+      "label": "wood pile 4",
+      "kind": "homestead-local-2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          548,
+          636,
+          440,
+          264
+        ],
+        "visiblePixels": 66006,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/homestead-local-2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/homestead-local-2"
     },
     "scene-street-gonzales": {
       "sheet": "scenes-local-1",
@@ -340560,7 +341019,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 450,
+    "sourceCount": 452,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

@@ -356,7 +356,7 @@ def key_out(im, thresh=34, feather=1.0, hole=0):
 
 # Sprites with holes of the plain ground enclosed by them (a kettle's bail, a fence's rails), keyed there too. Not the tent:
 # its canvas is painted the ground's own grey in places.
-HOLES = {'wash-kettle-1': 8, 'wash-kettle-2': 8, 'wash-line': 8}
+HOLES = {'wash-kettle-1': 8, 'wash-kettle-2': 8}   # not the line: its shirts are shaded in the ground's grey
 
 
 def trim(im, size):
@@ -467,22 +467,38 @@ B2_SHEETS = {
 }
 
 
-def finish_sprites(batch, sheets, picks, src_name, cell=(512, 512), fit=(440, 440), sizes=None):
-    """Each pick keyed out, trimmed and packed one to a clear cell; the chosen raws and the contact sheets to docs/art-sources."""
+def finish_sprites(batch, sheets, picks, src_name, cell=(512, 512), fit=(440, 440), sizes=None, groups=()):
+    """Each pick keyed out, trimmed and packed one to a clear cell; the chosen raws and the contact sheets to docs/art-sources.
+    `groups`: lists of names cut at one scale (the frames of one thing: a kettle's steam, a pile's sizes), each fitting `fit`."""
     d = os.path.join(WORK, batch)
     final = os.path.join(d, 'final')
     os.makedirs(final, exist_ok=True)
     src = os.path.join(SOURCES, f'{src_name}-{DATE}')
     os.makedirs(os.path.join(src, 'raw'), exist_ok=True)
-    for sheet, names in sheets.items():
-        cells = []
+    keyed = {}
+    for names in sheets.values():
         for n in names:
             row = made_from(n, picks)
             raw = os.path.join(d, 'raw', row, f'{row}-s{picks[row]}_00001_.png')
             shutil.copy(raw, os.path.join(src, 'raw'))
-            k = trim(key_out(Image.open(raw), hole=HOLES.get(n, 0)), (sizes or {}).get(n, fit))
-            k.save(os.path.join(final, f'{n}.png'))
-            cells.append(k)
+            im = key_out(Image.open(raw), hole=HOLES.get(n, 0))
+            keyed[n] = im.crop(im.getchannel('A').point(lambda v: 255 if v > 24 else 0).getbbox())
+    scale = {}
+    for group in groups:
+        w, h = (sizes or {}).get(group[0], fit)
+        k = min(min(w / keyed[n].width, h / keyed[n].height) for n in group)
+        scale.update({n: k for n in group})
+    for sheet, names in sheets.items():
+        cells = []
+        for n in names:
+            im = keyed[n]
+            if n in scale:
+                k = scale[n]
+                im = im.resize((max(1, round(im.width * k)), max(1, round(im.height * k))), Image.LANCZOS)
+            else:
+                im = trim(im, (sizes or {}).get(n, fit))
+            im.save(os.path.join(final, f'{n}.png'))
+            cells.append(im)
         pack(cells, os.path.join(ATL, f'{sheet}.png'), cell, 2 if len(names) in (4, 6) else 1 if len(names) == 1 else 4)
     for f in os.listdir(d):
         if f.startswith('contact') and f.endswith('.jpg'):
@@ -491,7 +507,10 @@ def finish_sprites(batch, sheets, picks, src_name, cell=(512, 512), fit=(440, 44
 
 
 def finish_b2():
-    finish_sprites('b2', B2_SHEETS, picks_of('b2'), 'homestead-local')
+    # The kettle's two frames and the four piles each at one scale, so the steam does not shrink the kettle and a smaller pile is
+    # drawn smaller; scripts/build-atlas-manifest.mjs gives each group one logical height (its tallest).
+    finish_sprites('b2', B2_SHEETS, picks_of('b2'), 'homestead-local',
+                   groups=[['wash-kettle-1', 'wash-kettle-2'], ['wood-pile-1', 'wood-pile-2', 'wood-pile-3', 'wood-pile-4']])
 
 
 BATCHES['b2'] = {'refs': lambda: refs_boards('b2', B2), 'rows': rows_b2, 'finish': finish_b2,
@@ -531,8 +550,20 @@ B3_EDITS = {
     for n in ('hunt-field-timber', 'hunt-field-brush', 'hunt-field-open')}
 
 
+# The one repair (method step 8): the timber and brush winters came back under snow and frost; a Texas winter is dry and brown.
+B3_REPAIRS = {
+    f'{n}-winter-repair': (n, 'Keep this painting exactly: the same place, the same trees, ground, horizon and composition. Change '
+                           'only the season to a dry Texas winter, with no snow and no frost anywhere: the post oak and mesquite '
+                           'crowns bare grey-brown branches with a few dead brown leaves, the live oaks still dark green, the grass '
+                           'dead buff and tan, the ground dry, a pale clear winter sky. No animals, no people, no text.', 4)
+    for n in ('hunt-field-timber', 'hunt-field-brush')}
+
+
 def rows_b3(stage):
     d = os.path.join(WORK, 'b3')
+    if stage == 'repair':
+        write_rows('b3', stage, edit_rows('b3', B3_REPAIRS, picks_of('b3'), size=(1792, 1008)))
+        return
     if stage == 'edits':
         write_rows('b3', stage, edit_rows('b3', B3_EDITS, picks_of('b3'), size=(1792, 1008)))
         return

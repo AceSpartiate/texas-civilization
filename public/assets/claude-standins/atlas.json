@@ -1651,25 +1651,6 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-wood-pile": {
-      "image": "/assets/claude-standins/claude-wood-pile.png",
-      "width": 896,
-      "height": 640,
-      "bytes": 406025,
-      "sha256": "ba2086d96baba3a585d26f9c83f92276dbbf11a669dd907a885c0c4856b0cd63",
-      "madeBy": "claude",
-      "module": "wood-pile",
-      "request": "Request 2026-09-28 — people at work",
-      "layout": {
-        "rows": 2,
-        "columns": 2,
-        "cell": {
-          "w": 448,
-          "h": 320
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-work-fx": {
       "image": "/assets/claude-standins/claude-work-fx.png",
       "width": 960,
@@ -18423,74 +18404,6 @@
       "source": "svg/transport-vehicles/claude-wagon-ox-open-n-4.svg",
       "label": "wagon ox open n 4",
       "kind": "claude-wagon-ox-ns"
-    },
-    "wood-pile-1": {
-      "sheet": "claude-wood-pile",
-      "x": 0,
-      "y": 0,
-      "w": 448,
-      "h": 320,
-      "anchorX": 0.5,
-      "anchorY": 0.9375,
-      "logicalHeight": 192,
-      "madeBy": "claude",
-      "module": "wood-pile",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "wood-pile-1: item 16: one sprite a size, a pile of wall logs seen three-quarter on the ground anchor, about as long as log-fallen and no taller than a person's waist",
-      "source": "svg/wood-pile/claude-wood-pile-1.svg",
-      "label": "wood pile 1",
-      "kind": "claude-wood-pile"
-    },
-    "wood-pile-2": {
-      "sheet": "claude-wood-pile",
-      "x": 448,
-      "y": 0,
-      "w": 448,
-      "h": 320,
-      "anchorX": 0.5,
-      "anchorY": 0.9375,
-      "logicalHeight": 192,
-      "madeBy": "claude",
-      "module": "wood-pile",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "wood-pile-2: item 16: one sprite a size, a pile of wall logs seen three-quarter on the ground anchor, about as long as log-fallen and no taller than a person's waist",
-      "source": "svg/wood-pile/claude-wood-pile-2.svg",
-      "label": "wood pile 2",
-      "kind": "claude-wood-pile"
-    },
-    "wood-pile-3": {
-      "sheet": "claude-wood-pile",
-      "x": 0,
-      "y": 320,
-      "w": 448,
-      "h": 320,
-      "anchorX": 0.5,
-      "anchorY": 0.9375,
-      "logicalHeight": 192,
-      "madeBy": "claude",
-      "module": "wood-pile",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "wood-pile-3: item 16: one sprite a size, a pile of wall logs seen three-quarter on the ground anchor, about as long as log-fallen and no taller than a person's waist",
-      "source": "svg/wood-pile/claude-wood-pile-3.svg",
-      "label": "wood pile 3",
-      "kind": "claude-wood-pile"
-    },
-    "wood-pile-4": {
-      "sheet": "claude-wood-pile",
-      "x": 448,
-      "y": 320,
-      "w": 448,
-      "h": 320,
-      "anchorX": 0.5,
-      "anchorY": 0.9375,
-      "logicalHeight": 192,
-      "madeBy": "claude",
-      "module": "wood-pile",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "wood-pile-4: item 16: one sprite a size, a pile of wall logs seen three-quarter on the ground anchor, about as long as log-fallen and no taller than a person's waist",
-      "source": "svg/wood-pile/claude-wood-pile-4.svg",
-      "label": "wood pile 4",
-      "kind": "claude-wood-pile"
     },
     "fx-wood-chips-1": {
       "sheet": "claude-work-fx",
