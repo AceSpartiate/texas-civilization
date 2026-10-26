@@ -155,14 +155,14 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
     'enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston', 'winter-recall',
     'travel-gonzales', 'travel-home', 'visit', 'work', 'rest', 'stop-chore',
   ].map(key => [key, { sprite: `icon-${key}` }]),
-  // Seguín's company (sim/tejano.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-09-29 "the family's start" - `icon-join-seguin`;
-  // until it is drawn, the joining of Houston's army, which it is.
+  // Seguín's company (sim/tejano.mjs): `icon-join-seguin` (painted 2026-10-26, taken first by `drawIcon`); while its sheet loads,
+  // the joining of Houston's army, which it is.
   ['join-seguin', { sprite: 'icon-join-houston' }],
   // The camp's four (sim/camp.mjs) select their registered `icon-<key>` sprites in drawIcon; glyphs remain load fallbacks.
   ['camp-drill', { glyph: 'drill' }], ['camp-forage', { glyph: 'forage' }], ['camp-guard', { glyph: 'guard' }], ['camp-scout', { glyph: 'scout' }],
-  // The volunteers' camp (sim/militia.mjs, owner 2026-10-05). stand-in: docs/ART_REQUESTS.md, request 2026-10-05 "away at the war",
-  // item 1 - `icon-camp-cook`, `-camp-wood`, `-camp-bullets`, `-camp-shelter`, `-camp-buy`, `-camp-hunt`, `-town-wages`,
-  // `-town-board`: until each is drawn, the nearest picture the library has.
+  // The volunteers' camp (sim/militia.mjs, owner 2026-10-05): `icon-camp-cook`, `-camp-wood`, `-camp-bullets`, `-camp-shelter`,
+  // `-camp-buy`, `-camp-hunt`, `-town-wages`, `-town-board` (painted 2026-10-26, taken first by `drawIcon`); while their sheet
+  // loads, the nearest picture the library has.
   ['camp-cook', { sprite: 'icon-camp-forage', glyph: 'camp-fire' }], ['camp-wood', { sprite: 'icon-child-kindling', glyph: 'child-kindling' }],
   ['camp-bullets', { sprite: 'icon-fetch-powder', glyph: 'forage' }], ['camp-shelter', { glyph: 'pitch-tent' }],
   ['camp-buy', { sprite: 'icon-visit-shop' }], ['camp-hunt', { sprite: 'icon-hunt-timber' }],
@@ -177,13 +177,12 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // Fetching logs from the timber uses registered `icon-fetch-logs`; the glyph is a load fallback.
   ['fetch-logs', { glyph: 'fetch-logs' }],
   ['make-carreta', { sprite: 'icon-make-carreta' }],
-  // The yard (owner, 2026-10-02; sim/land-paths.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-10-02 "paths and the yard" -
-  // `icon-fence-yard`: until it is drawn, fencing a plot, which it is kin to. (*Cut a path* had an icon here until every path went
+  // The yard (owner, 2026-10-02; sim/land-paths.mjs): `icon-fence-yard` (painted 2026-10-26); while its sheet loads, fencing a
+  // plot, which it is kin to. (*Cut a path* had an icon here until every path went
   // automatic, owner 2026-10-03, "All automatic".)
   ['fence-yard', { sprite: 'icon-fence-plot' }],
-  // The house's rooms on the bar (owner, 2026-09-30, "Move Idle and House off"; public/app.js `HOUSE_ICON`). stand-in:
-  // docs/ART_REQUESTS.md, request 2026-09-30 "the House icon on the bar" - `icon-go-inside`; until it is drawn, the house the family
-  // raises, which it is.
+  // The house's rooms on the bar (owner, 2026-09-30, "Move Idle and House off"; public/app.js `HOUSE_ICON`): `icon-go-inside`
+  // (painted 2026-10-26); while its sheet loads, the house the family raises.
   ['go-inside', { sprite: 'icon-build-house' }],
   // The old walk to the shops, for a class saved in the middle of it: the same picture as going to town to trade.
   ['visit-shop-street', { sprite: 'icon-visit-shop' }],
@@ -192,9 +191,9 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['cut-bee-tree', { sprite: 'icon-cut-bee-tree' }],
   ['butcher-beef', { sprite: 'icon-butcher-beef' }], ['butcher-hog', { sprite: 'icon-butcher-hog' }],
   ['look-to-stock', { sprite: 'icon-look-to-stock' }],
-  // Milking the cow (sim/milking.mjs, owner 2026-10-02). stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - the milking icon,
-  // `icon-milk-cow`: until it is drawn, the cow on a rope (Claude's `icon-flee-cow`, or its stroked glyph).
-  ['milk-cow', { sprite: 'icon-flee-cow', glyph: 'flee-cow' }], ['milk-road', { sprite: 'icon-flee-cow', glyph: 'flee-cow' }],
+  // Milking the cow (sim/milking.mjs, owner 2026-10-02): `icon-milk-cow` (painted 2026-10-26), on the road too; while its sheet
+  // loads, the cow on a rope (`icon-flee-cow`, or its stroked glyph).
+  ['milk-cow', { sprite: 'icon-flee-cow', glyph: 'flee-cow' }], ['milk-road', { sprite: 'icon-milk-cow', glyph: 'flee-cow' }],
   // What the family's children do (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21).
   ['child-play', { sprite: 'icon-child-play' }], ['child-kindling', { sprite: 'icon-child-kindling' }],
   ['child-birds', { sprite: 'icon-child-birds' }], ['child-eggs', { sprite: 'icon-child-eggs' }],
@@ -205,11 +204,9 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
     'flee-hide', 'flee-bundle', 'flee-cow', 'road-lookout', 'road-sing', 'road-little-ones', 'camp-fire', 'ferry-help', 'share-food', 'ford-carry',
     // stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - the oldest child going for help (sim/acting.mjs).
     'child-help',
-    // stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - the tent (sim/shelter.mjs): `icon-pitch-tent`, a stroked tent until drawn.
-    'pitch-tent',
-    // stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "men's work, women's work and the wash", items 1-3 - `icon-keep-house`,
-    // `icon-work-garden`, `icon-wash-clothes`: stroked glyphs until they are drawn (sim/housework.mjs).
-    'keep-house', 'work-garden', 'wash-clothes',
+    // The tent (sim/shelter.mjs) and the house's work (sim/housework.mjs): `icon-pitch-tent`, `icon-keep-house`, `icon-work-garden`,
+    // `icon-wash-clothes` (painted 2026-10-26); the stroked glyphs while their sheet loads.
+    'pitch-tent', 'keep-house', 'work-garden', 'wash-clothes',
   ].map(key => [key, { glyph: key }]),
 ]));
 /**

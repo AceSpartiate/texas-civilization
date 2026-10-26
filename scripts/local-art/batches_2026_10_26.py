@@ -356,7 +356,7 @@ def key_out(im, thresh=34, feather=1.0, hole=0):
 
 # Sprites with holes of the plain ground enclosed by them (a kettle's bail, a fence's rails), keyed there too. Not the tent:
 # its canvas is painted the ground's own grey in places.
-HOLES = {'wash-kettle-1': 8, 'wash-kettle-2': 8}   # not the line: its shirts are shaded in the ground's grey
+HOLES = {'wash-kettle-1': 8, 'wash-kettle-2': 8, 'tool-pails': 8}   # not the line: its shirts are shaded in the ground's grey
 
 
 def trim(im, size):
@@ -712,9 +712,19 @@ B5 = [
 ]
 
 
-def rows_icons(batch, items):
+# The one repair each (method step 8): every hoe came back a spade, and the hunt's deer track came back a fire's ring of stones.
+B4_REPAIRS = [
+    icon('icon-work-garden-repair', ['icon-plant-field', 'icon-mend-hoe'], 'a garden hoe standing in a bed of dark earth with rows of '
+         'small young green plants: a long straight wooden handle with a flat iron blade fixed at a right angle across its lower end, '
+         'like a letter L, the blade cutting the soil. A hoe, not a shovel and not a spade.'),
+    icon('icon-camp-hunt-repair', ['icon-hunt-timber', 'icon-hunt-road'], 'a long rifle lying on muddy ground beside the tracks of a '
+         'deer: two split-hoof prints pressed into the mud, each print two pointed teardrop halves side by side. No fire, no stones.'),
+]
+
+
+def rows_icons(batch, items, repairs=()):
     def go(stage):
-        write_rows(batch, stage, sprite_rows(batch, items))
+        write_rows(batch, stage, sprite_rows(batch, repairs if stage == 'repair' else items))
     return go
 
 
@@ -728,9 +738,9 @@ def finish_icons(batch, sheets, src_name, extra_sizes=None):
     finish_sprites(batch, sheets, picks_of(batch), src_name, cell=(384, 384), fit=ICON_SIZE, sizes=sizes)
 
 
-B4_SHEETS = {
+B4_SHEETS = {   # sixteen icons, then the last icon with three marks, then four marks (the atlas build reads 4 or 16 a sheet)
     'icons-family-local-1': [b['name'] for b in B4[:16]],
-    'icons-family-local-2': [b['name'] for b in B4[16:17]] + [b['name'] for b in B4[17:20]],
+    'icons-family-local-2': [b['name'] for b in B4[16:20]],
     'marks-local-1': [b['name'] for b in B4[20:24]],
 }
 B5_SHEETS = {
@@ -738,7 +748,7 @@ B5_SHEETS = {
     'icons-family-local-4': [b['name'] for b in B5[16:24]],
     'homecoming-local-1': ['farm-neighbour-porch', 'farm-neighbour-ramada', 'grave-marker', 'coins-and-paper'],
 }
-BATCHES['b4'] = {'refs': lambda: refs_boards('b4', B4, bg=(236, 228, 208)), 'rows': rows_icons('b4', B4),
+BATCHES['b4'] = {'refs': lambda: refs_boards('b4', B4 + B4_REPAIRS, bg=(236, 228, 208)), 'rows': rows_icons('b4', B4, B4_REPAIRS),
                  'finish': lambda: finish_icons('b4', B4_SHEETS, 'icons-local'),
                  'sheet': lambda: keyed_contact('b4', [b['name'] for b in B4])}
 BATCHES['b5'] = {'refs': lambda: refs_boards('b5', B5, bg=(236, 228, 208)), 'rows': rows_icons('b5', B5),
@@ -774,7 +784,21 @@ TOOLS = [
                 'long flat paddle blade toward the upper right.'},
 ]
 TOOLS_SHEETS = {'tools-local-1': [t['name'] for t in TOOLS[:6]], 'tools-local-2': [t['name'] for t in TOOLS[6:]]}
-BATCHES['tools'] = {'refs': lambda: refs_boards('tools', TOOLS), 'rows': lambda stage: write_rows('tools', stage, sprite_rows('tools', [dict(t, view=TOOL_VIEW) for t in TOOLS])),
+def finish_tools():
+    finish_sprites('tools', TOOLS_SHEETS, picks_of('tools'), 'tools-local', cell=(512, 512), fit=(460, 460))
+    # Each haft tool's two ends along its long diagonal, as fractions of its atlas frame (two pixels of padding each side):
+    # the butt (the first opaque pixel from the lower left) and the head (the last toward the upper right). public/work-art.js
+    # `TOOL_PARTS` takes these numbers; tests/tool-parts.test.mjs holds them to the sheet.
+    for n in [t['name'] for t in TOOLS if t['name'] != 'tool-pails']:
+        a = np.asarray(Image.open(os.path.join(WORK, 'tools', 'final', f'{n}.png')))[..., 3] > 128
+        ys, xs = np.nonzero(a)
+        h, w = a.shape
+        i, j = np.argmin(xs - ys), np.argmax(xs - ys)
+        frac = lambda x, y: [round((x + 2) / (w + 4), 3), round((y + 2) / (h + 4), 3)]
+        print(n, 'butt', frac(xs[i], ys[i]), 'head', frac(xs[j], ys[j]))
+
+
+BATCHES['tools'] = {'finish': finish_tools, 'refs': lambda: refs_boards('tools', TOOLS), 'rows': lambda stage: write_rows('tools', stage, sprite_rows('tools', [dict(t, view=TOOL_VIEW) for t in TOOLS])),
                     'sheet': lambda: keyed_contact('tools', [t['name'] for t in TOOLS])}
 
 

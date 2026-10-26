@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **6383 usable sprites, 456 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
+Generated from the shipped library: **6407 usable sprites, 459 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -320,6 +320,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | hunt-fields-local-2 | 1 | 1840 × 1100 | 2768009 |
 | hunt-fields-local-3 | 1 | 1840 × 1100 | 2655810 |
 | hunt-rifle-local | 1 | 1100 × 1100 | 272583 |
+| icons-family-local-1 | 16 | 1536 × 1536 | 1609363 |
+| icons-family-local-2 | 4 | 768 × 768 | 542430 |
+| marks-local-1 | 4 | 768 × 768 | 599708 |
 | scenes-local-1 | 4 | 2240 × 1400 | 4768867 |
 | scenes-local-2 | 4 | 2240 × 1400 | 4614709 |
 | scenes-local-3 | 4 | 2240 × 1400 | 4292950 |
@@ -3428,6 +3431,30 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | hunt-field-open | hunt-fields-local-2 | State artwork; no motion required |
 | hunt-field-open-winter | hunt-fields-local-3 | State artwork; no motion required |
 | hunt-rifle | hunt-rifle-local | State artwork; no motion required |
+| icon-more | icons-family-local-1 | State artwork; no motion required |
+| icon-go-inside | icons-family-local-1 | State artwork; no motion required |
+| icon-join-seguin | icons-family-local-1 | State artwork; no motion required |
+| icon-pitch-tent | icons-family-local-1 | State artwork; no motion required |
+| icon-keep-house | icons-family-local-1 | State artwork; no motion required |
+| icon-work-garden | icons-family-local-1 | State artwork; no motion required |
+| icon-wash-clothes | icons-family-local-1 | State artwork; no motion required |
+| icon-milk-cow | icons-family-local-1 | State artwork; no motion required |
+| icon-fence-yard | icons-family-local-1 | State artwork; no motion required |
+| icon-camp-cook | icons-family-local-1 | State artwork; no motion required |
+| icon-camp-wood | icons-family-local-1 | State artwork; no motion required |
+| icon-camp-bullets | icons-family-local-1 | State artwork; no motion required |
+| icon-camp-shelter | icons-family-local-1 | State artwork; no motion required |
+| icon-camp-buy | icons-family-local-1 | State artwork; no motion required |
+| icon-camp-hunt | icons-family-local-1 | State artwork; no motion required |
+| icon-town-wages | icons-family-local-1 | State artwork; no motion required |
+| icon-town-board | icons-family-local-2 | State artwork; no motion required |
+| mark-hunger | icons-family-local-2 | State artwork; no motion required |
+| mark-food | icons-family-local-2 | State artwork; no motion required |
+| mark-help | icons-family-local-2 | State artwork; no motion required |
+| mark-cue-house | marks-local-1 | State artwork; no motion required |
+| mark-cue-wash | marks-local-1 | State artwork; no motion required |
+| mark-shelter-house | marks-local-1 | State artwork; no motion required |
+| mark-shelter-tent | marks-local-1 | State artwork; no motion required |
 | scene-street-gonzales | scenes-local-1 | State artwork; no motion required |
 | scene-street-texian | scenes-local-1 | State artwork; no motion required |
 | scene-street-tejano | scenes-local-1 | State artwork; no motion required |

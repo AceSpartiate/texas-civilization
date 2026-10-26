@@ -3,8 +3,8 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 456,
-    "sprites": 6383,
+    "sheets": 459,
+    "sprites": 6407,
     "clips": 2102,
     "poseCycles": 1693,
     "rigs": 4
@@ -27224,6 +27224,246 @@
               [
                 143,
                 956
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "icons-family-local-1": {
+      "image": "atlases/icons-family-local-1.png",
+      "width": 1536,
+      "height": 1536,
+      "bytes": 1609363,
+      "sha256": "7802e314b490d01cd1f96d55f4ed065363b7102126bd2d9ab525faf1b44fa59f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.726685,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              41,
+              344
+            ],
+            "columns": [
+              [
+                40,
+                344
+              ],
+              [
+                426,
+                727
+              ],
+              [
+                828,
+                1091
+              ],
+              [
+                1192,
+                1496
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              424,
+              728
+            ],
+            "columns": [
+              [
+                83,
+                300
+              ],
+              [
+                424,
+                728
+              ],
+              [
+                833,
+                1087
+              ],
+              [
+                1193,
+                1496
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              808,
+              1112
+            ],
+            "columns": [
+              [
+                41,
+                344
+              ],
+              [
+                458,
+                694
+              ],
+              [
+                809,
+                1111
+              ],
+              [
+                1192,
+                1496
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              1197,
+              1492
+            ],
+            "columns": [
+              [
+                41,
+                343
+              ],
+              [
+                424,
+                728
+              ],
+              [
+                808,
+                1112
+              ],
+              [
+                1193,
+                1495
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "icons-family-local-2": {
+      "image": "atlases/icons-family-local-2.png",
+      "width": 768,
+      "height": 768,
+      "bytes": 542430,
+      "sha256": "7685ab3a8359d15ca9568899a52c71925c1795945993fefa290be7f611b93758",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.517636,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              30,
+              354
+            ],
+            "columns": [
+              [
+                40,
+                343
+              ],
+              [
+                423,
+                729
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              416,
+              735
+            ],
+            "columns": [
+              [
+                30,
+                354
+              ],
+              [
+                414,
+                738
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "marks-local-1": {
+      "image": "atlases/marks-local-1.png",
+      "width": 768,
+      "height": 768,
+      "bytes": 599708,
+      "sha256": "1ca5aae8e6cc6fc435415963d804fa8a3d3a6afe1130680442a3b48182107c58",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.464574,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              32,
+              352
+            ],
+            "columns": [
+              [
+                30,
+                354
+              ],
+              [
+                415,
+                738
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              417,
+              735
+            ],
+            "columns": [
+              [
+                30,
+                354
+              ],
+              [
+                414,
+                738
               ]
             ]
           }
@@ -147582,6 +147822,774 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/hunt-rifle-local"
+    },
+    "icon-more": {
+      "sheet": "icons-family-local-1",
+      "x": 40,
+      "y": 86,
+      "w": 304,
+      "h": 210,
+      "anchorX": 0.5164,
+      "anchorY": 0.9286,
+      "label": "icon more",
+      "kind": "icons-family-local-1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          88,
+          300,
+          206
+        ],
+        "visiblePixels": 44250,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-go-inside": {
+      "sheet": "icons-family-local-1",
+      "x": 426,
+      "y": 70,
+      "w": 301,
+      "h": 244,
+      "anchorX": 0.4934,
+      "anchorY": 0.9262,
+      "label": "icon go inside",
+      "kind": "icons-family-local-1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          428,
+          72,
+          297,
+          240
+        ],
+        "visiblePixels": 59621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-join-seguin": {
+      "sheet": "icons-family-local-1",
+      "x": 828,
+      "y": 41,
+      "w": 263,
+      "h": 303,
+      "anchorX": 0.5133,
+      "anchorY": 0.9604,
+      "label": "icon join seguin",
+      "kind": "icons-family-local-1",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          830,
+          43,
+          259,
+          299
+        ],
+        "visiblePixels": 40017,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-pitch-tent": {
+      "sheet": "icons-family-local-1",
+      "x": 1192,
+      "y": 88,
+      "w": 304,
+      "h": 208,
+      "anchorX": 0.5263,
+      "anchorY": 0.9279,
+      "label": "icon pitch tent",
+      "kind": "icons-family-local-1",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1194,
+          90,
+          300,
+          204
+        ],
+        "visiblePixels": 36822,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-keep-house": {
+      "sheet": "icons-family-local-1",
+      "x": 83,
+      "y": 425,
+      "w": 217,
+      "h": 303,
+      "anchorX": 0.5023,
+      "anchorY": 0.9274,
+      "label": "icon keep house",
+      "kind": "icons-family-local-1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          85,
+          427,
+          213,
+          299
+        ],
+        "visiblePixels": 25817,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-work-garden": {
+      "sheet": "icons-family-local-1",
+      "x": 424,
+      "y": 455,
+      "w": 304,
+      "h": 242,
+      "anchorX": 0.4836,
+      "anchorY": 0.9298,
+      "label": "icon work garden",
+      "kind": "icons-family-local-1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          457,
+          300,
+          238
+        ],
+        "visiblePixels": 27325,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-wash-clothes": {
+      "sheet": "icons-family-local-1",
+      "x": 833,
+      "y": 424,
+      "w": 254,
+      "h": 304,
+      "anchorX": 0.4941,
+      "anchorY": 0.9276,
+      "label": "icon wash clothes",
+      "kind": "icons-family-local-1",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          835,
+          426,
+          250,
+          300
+        ],
+        "visiblePixels": 41044,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-milk-cow": {
+      "sheet": "icons-family-local-1",
+      "x": 1193,
+      "y": 463,
+      "w": 303,
+      "h": 226,
+      "anchorX": 0.5132,
+      "anchorY": 0.9292,
+      "label": "icon milk cow",
+      "kind": "icons-family-local-1",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1195,
+          465,
+          299,
+          222
+        ],
+        "visiblePixels": 49887,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-fence-yard": {
+      "sheet": "icons-family-local-1",
+      "x": 41,
+      "y": 845,
+      "w": 303,
+      "h": 230,
+      "anchorX": 0.4884,
+      "anchorY": 0.9261,
+      "label": "icon fence yard",
+      "kind": "icons-family-local-1",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          847,
+          299,
+          226
+        ],
+        "visiblePixels": 41520,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-camp-cook": {
+      "sheet": "icons-family-local-1",
+      "x": 458,
+      "y": 808,
+      "w": 236,
+      "h": 304,
+      "anchorX": 0.4979,
+      "anchorY": 0.9309,
+      "label": "icon camp cook",
+      "kind": "icons-family-local-1",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          460,
+          810,
+          232,
+          300
+        ],
+        "visiblePixels": 36628,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-camp-wood": {
+      "sheet": "icons-family-local-1",
+      "x": 809,
+      "y": 814,
+      "w": 302,
+      "h": 292,
+      "anchorX": 0.5596,
+      "anchorY": 0.9281,
+      "label": "icon camp wood",
+      "kind": "icons-family-local-1",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          811,
+          816,
+          298,
+          288
+        ],
+        "visiblePixels": 44388,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-camp-bullets": {
+      "sheet": "icons-family-local-1",
+      "x": 1192,
+      "y": 845,
+      "w": 304,
+      "h": 229,
+      "anchorX": 0.449,
+      "anchorY": 0.9258,
+      "label": "icon camp bullets",
+      "kind": "icons-family-local-1",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1194,
+          847,
+          300,
+          225
+        ],
+        "visiblePixels": 21222,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-camp-shelter": {
+      "sheet": "icons-family-local-1",
+      "x": 41,
+      "y": 1224,
+      "w": 302,
+      "h": 241,
+      "anchorX": 0.4983,
+      "anchorY": 0.9295,
+      "label": "icon camp shelter",
+      "kind": "icons-family-local-1",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          1226,
+          298,
+          237
+        ],
+        "visiblePixels": 47267,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-camp-buy": {
+      "sheet": "icons-family-local-1",
+      "x": 424,
+      "y": 1215,
+      "w": 304,
+      "h": 257,
+      "anchorX": 0.5214,
+      "anchorY": 0.93,
+      "label": "icon camp buy",
+      "kind": "icons-family-local-1",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          1217,
+          300,
+          253
+        ],
+        "visiblePixels": 39794,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-camp-hunt": {
+      "sheet": "icons-family-local-1",
+      "x": 808,
+      "y": 1260,
+      "w": 304,
+      "h": 167,
+      "anchorX": 0.6036,
+      "anchorY": 0.9281,
+      "label": "icon camp hunt",
+      "kind": "icons-family-local-1",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          810,
+          1262,
+          300,
+          163
+        ],
+        "visiblePixels": 28387,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-town-wages": {
+      "sheet": "icons-family-local-1",
+      "x": 1193,
+      "y": 1197,
+      "w": 302,
+      "h": 295,
+      "anchorX": 0.4967,
+      "anchorY": 0.9288,
+      "label": "icon town wages",
+      "kind": "icons-family-local-1",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1195,
+          1199,
+          298,
+          291
+        ],
+        "visiblePixels": 46324,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-1"
+    },
+    "icon-town-board": {
+      "sheet": "icons-family-local-2",
+      "x": 40,
+      "y": 46,
+      "w": 303,
+      "h": 293,
+      "anchorX": 0.4983,
+      "anchorY": 0.9283,
+      "label": "icon town board",
+      "kind": "icons-family-local-2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          48,
+          299,
+          289
+        ],
+        "visiblePixels": 50680,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-2"
+    },
+    "mark-hunger": {
+      "sheet": "icons-family-local-2",
+      "x": 423,
+      "y": 30,
+      "w": 306,
+      "h": 324,
+      "anchorX": 0.4984,
+      "anchorY": 0.929,
+      "label": "mark hunger",
+      "kind": "icons-family-local-2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          425,
+          32,
+          302,
+          320
+        ],
+        "visiblePixels": 74995,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-2"
+    },
+    "mark-food": {
+      "sheet": "icons-family-local-2",
+      "x": 30,
+      "y": 418,
+      "w": 324,
+      "h": 315,
+      "anchorX": 0.4985,
+      "anchorY": 0.927,
+      "label": "mark food",
+      "kind": "icons-family-local-2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          32,
+          420,
+          320,
+          311
+        ],
+        "visiblePixels": 77491,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-2"
+    },
+    "mark-help": {
+      "sheet": "icons-family-local-2",
+      "x": 414,
+      "y": 416,
+      "w": 324,
+      "h": 319,
+      "anchorX": 0.4985,
+      "anchorY": 0.9279,
+      "label": "mark help",
+      "kind": "icons-family-local-2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          416,
+          418,
+          320,
+          315
+        ],
+        "visiblePixels": 78285,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-family-local-2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-family-local-2"
+    },
+    "mark-cue-house": {
+      "sheet": "marks-local-1",
+      "x": 30,
+      "y": 32,
+      "w": 324,
+      "h": 320,
+      "anchorX": 0.4969,
+      "anchorY": 0.9281,
+      "label": "mark cue house",
+      "kind": "marks-local-1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          32,
+          34,
+          320,
+          316
+        ],
+        "visiblePixels": 78528,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/marks-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/marks-local-1"
+    },
+    "mark-cue-wash": {
+      "sheet": "marks-local-1",
+      "x": 415,
+      "y": 32,
+      "w": 323,
+      "h": 320,
+      "anchorX": 0.4969,
+      "anchorY": 0.9281,
+      "label": "mark cue wash",
+      "kind": "marks-local-1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          417,
+          34,
+          319,
+          316
+        ],
+        "visiblePixels": 78837,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/marks-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/marks-local-1"
+    },
+    "mark-shelter-house": {
+      "sheet": "marks-local-1",
+      "x": 30,
+      "y": 417,
+      "w": 324,
+      "h": 318,
+      "anchorX": 0.4969,
+      "anchorY": 0.9277,
+      "label": "mark shelter house",
+      "kind": "marks-local-1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          32,
+          419,
+          320,
+          314
+        ],
+        "visiblePixels": 78433,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/marks-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/marks-local-1"
+    },
+    "mark-shelter-tent": {
+      "sheet": "marks-local-1",
+      "x": 414,
+      "y": 418,
+      "w": 324,
+      "h": 315,
+      "anchorX": 0.5,
+      "anchorY": 0.927,
+      "label": "mark shelter tent",
+      "kind": "marks-local-1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          416,
+          420,
+          320,
+          311
+        ],
+        "visiblePixels": 77493,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/marks-local-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/marks-local-1"
     },
     "scene-street-gonzales": {
       "sheet": "scenes-local-1",
@@ -341424,7 +342432,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 456,
+    "sourceCount": 459,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

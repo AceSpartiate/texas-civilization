@@ -166,6 +166,7 @@ const files = new Map([
   ['/tips.js', ['../public/tips.js', 'text/javascript']],
   // The short bar and "More" (owner, 2026-10-09; public/short-bar.js): which of a person's works wait behind one press. Decides nothing.
   ['/short-bar.js', ['../public/short-bar.js', 'text/javascript']],
+  ['/painted-marks.js', ['../public/painted-marks.js', 'text/javascript']],
   // The journal's roster in plain sentences (owner, 2026-10-09; public/roster-line.js).
   ['/roster-line.js', ['../public/roster-line.js', 'text/javascript']],
   // Read aloud (owner, 2026-09-30, D15; public/read-aloud.js): the button on the words, and the one <audio> that plays them.

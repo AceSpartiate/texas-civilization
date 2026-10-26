@@ -6891,6 +6891,36 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/hunt-rifle-local.png",
       "postProcessing": "The fields painted at 1792x1008 and Lanczos-scaled to the contract's 1600x900, moved toward Astra's oil landscape by colour as the rider scenes were (spread halfway, mean a sixth), each opaque painting in a clear 1840x1100 cell; the winters are reference edits of the chosen summers. The rifle painted on a flat grey ground, keyed out on the CPU, fitted to 900 px in a clear 1100 cell. scripts/local-art/batches_2026_10_26.py `finish b3`.",
       "review": "Eight of each field and of the rifle, four of each winter edit and one repair round (four each) for the timber and brush winters, which first came back under snow; contact sheets (contact.jpg, contact-edits.jpg, contact-repair.jpg, contact-rifle.jpg); every candidate licence-checked from its own file; picks looked at full size. In the game: docs/evidence/hunt-local-compare.png and npm run test:hunt-aim."
+    },
+    {
+      "sheet": "icons-family-local-1",
+      "promptId": "frontier-v1/icons-family-local-1",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "generatedSourcePath": "docs/art-sources/icons-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-local-1.png",
+      "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (or her three panel marks), the ground keyed out on the CPU (scripts/local-art/batches_2026_10_26.py `key_out`), cut to the sprite and fitted to her icon size (300 px; marks 320), packed one to a clear 384 cell.",
+      "review": "Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints). In the game: docs/evidence/icons-local-compare.png."
+    },
+    {
+      "sheet": "icons-family-local-2",
+      "promptId": "frontier-v1/icons-family-local-2",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "generatedSourcePath": "docs/art-sources/icons-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-local-2.png",
+      "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (or her three panel marks), the ground keyed out on the CPU (scripts/local-art/batches_2026_10_26.py `key_out`), cut to the sprite and fitted to her icon size (300 px; marks 320), packed one to a clear 384 cell.",
+      "review": "Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints). In the game: docs/evidence/icons-local-compare.png."
+    },
+    {
+      "sheet": "marks-local-1",
+      "promptId": "frontier-v1/marks-local-1",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "generatedSourcePath": "docs/art-sources/icons-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/marks-local-1.png",
+      "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (or her three panel marks), the ground keyed out on the CPU (scripts/local-art/batches_2026_10_26.py `key_out`), cut to the sprite and fitted to her icon size (300 px; marks 320), packed one to a clear 384 cell.",
+      "review": "Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints). In the game: docs/evidence/icons-local-compare.png."
     }
   ],
   "rejectedAttempts": [

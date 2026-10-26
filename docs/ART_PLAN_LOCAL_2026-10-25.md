@@ -306,6 +306,11 @@ All are *asks by name* unless marked.
 
 **Jobs:** 24 × 4 = 96. Sheets: `icons-family-local-1.png` and `-2.png`, plus `marks-local-1.png`.
 
+### Batch 4 done (2026-10-26, branch `standins-1025`, not released)
+
+[ART_DELIVERY_2026-10-26-LOCAL-ICONS.md](ART_DELIVERY_2026-10-26-LOCAL-ICONS.md): 24 painted and wired (marks through new
+`public/painted-marks.js`), 104 jobs; two flagged after their one repair (the hoe, the deer track).
+
 ---
 
 ## Batch 5: Claude-drawn stand-ins in the places seen most

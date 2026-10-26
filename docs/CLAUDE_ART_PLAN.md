@@ -9,12 +9,12 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 32 | 7 | 17 | 1 |
-| B — Children, babies and sickness | 20 | 7 | 12 | 2 |
-| C — Soldiers, battles and famous people | 13 | 1 | 7 | 11 |
+| B — Children, babies and sickness | 19 | 6 | 12 | 3 |
+| C — Soldiers, battles and famous people | 11 | 1 | 7 | 13 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 25 | 2 | 9 | 6 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 11 | 2 | 9 | 18 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 18 | 1 | 8 | 22 |
-| **Total** | **119** | **20** | **62** | **60** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 11 | 1 | 8 | 29 |
+| **Total** | **109** | **19** | **62** | **70** |
 
 ## How a builder works
 
@@ -203,7 +203,7 @@ Skipped:
 
 ## B — Children, babies and sickness
 
-Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 20 to make, 2 skipped.
+Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 19 to make, 3 skipped.
 
 - [ ] **B1** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `girl-scatter`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `boy-scatter`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`, `smallchild-scatter`)
   - **Deliver:** for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)
@@ -230,11 +230,6 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40% (the request says 64 px; deliver at 128 as the other icons)
   - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
   - **Stands in now:** `icon-rest`, `icon-tend-sick` and a stroked glyph (Astra's library art reused)
-- [ ] **B13** (priority 1) — [Request 2026-09-30 — the hunger mark and the food gauge's sack](ART_REQUESTS.md#request-2026-09-30--the-hunger-mark-and-the-food-gauges-sack), items 1 and 2
-  - **Deliver:** `mark-hunger` (an empty bowl, in the panel's mark style) and `mark-food` (a filled sack, the food gauge's)
-  - **Frames:** 1 each. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
-  - **Plugs into:** `.panel-hunger-mark` in `panelRow` and `.food-icon` in `paintLarder`, `public/app.js` and `public/style.css`
-  - **Stands in now:** a bowl and a sack drawn in the style sheet as masks, coloured by the stage (drawn in code (canvas or CSS))
 - [ ] **B17** (priority 1) — [Request 2026-10-03 — the children's own actions](ART_REQUESTS.md#request-2026-10-03--the-childrens-own-actions), items 1 and 2 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`)
   - **Deliver:** `<child>-play` (running, skipping, a hoop or ball, 4, east, `-n`, `-s`) and `<child>-play-sit` (sitting at play indoors, 2, east), for `boy`, `girl` and `smallchild`
   - **Frames:** 4 + 2 frames each. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -307,12 +302,13 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Stands in now:** the kindling's gathering (`gather`) and the water's pails (`water`) (Astra's library art reused)
 
 Skipped:
+- ~~B13~~ [Request 2026-09-30 — the hunger mark and the food gauge's sack](ART_REQUESTS.md#request-2026-09-30--the-hunger-mark-and-the-food-gauges-sack) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `mark-hunger` and `mark-food`, handed to the style sheet by `public/painted-marks.js` in place of its masks
 - ~~B12~~ [Request 2026-09-12 — families that look like who they are, and a rider who gets down](ART_REQUESTS.md#request-2026-09-12--families-that-look-like-who-they-are-and-a-rider-who-gets-down) — skipped: covered by B1, B6, B7 and B8; the scaling rule stays
 - ~~BS1~~ [Request 2026-09-21 — the children's icons](ART_REQUESTS.md#request-2026-09-21--the-childrens-icons) — skipped: delivered 2026-09-22 (`icons-children.png`)
 
 ## C — Soldiers, battles and famous people
 
-Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 13 to make, 11 skipped.
+Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 11 to make, 13 skipped.
 
 - [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`)
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
@@ -346,16 +342,6 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Plugs into:** `PERSON_ART` in `public/battle-view.js`; `drawBearers`; `drawFamous`
   - **Stands in now:** the second cast's woman, the library's girl, boy and small child; two `rust` figures with a canvas bundle (Astra's library art reused)
   - **Research first:** Tejano dress in Béxar, 1836 (HIST-TEX-605-609); original interpretations, no likeness claimed
-- [ ] **C20** (priority 2) — [Request 2026-09-29 — the family's start: Tejano and free Black families, and the people of the road east](ART_REQUESTS.md#request-2026-09-29--the-familys-start-tejano-and-free-black-families-and-the-people-of-the-road-east), item 4
-  - **Deliver:** `icon-join-seguin` (a Tejano horseman in a wide sombrero with a lance or a rifle, riding to join a line)
-  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
-  - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
-  - **Stands in now:** `icon-join-houston`, the joining of Houston’s army, which it is (Astra's library art reused)
-- [ ] **C21** (priority 2) — [Request 2026-09-30 — the House icon on the bar](ART_REQUESTS.md#request-2026-09-30--the-house-icon-on-the-bar), the icon
-  - **Deliver:** `icon-go-inside` (the cabin’s open door with the hearth’s light inside, a chair or a chest by it: going in to set out the rooms, not raising the house)
-  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
-  - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
-  - **Stands in now:** `icon-build-house`, the house the family raises (Astra's library art reused)
 - [ ] **C22** (priority 2) — [Request 2026-10-03 — the family figures' missing poses](ART_REQUESTS.md#request-2026-10-03--the-family-figures-missing-poses), item 4
   - **Deliver:** for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): `<family>-aim`, `-fire`, `-load`, `-ramrod`, clip `<family>-fire-reload`, and `<family>-injured`, `<family>-reclining`, as C1 asks of the old cast
   - **Frames:** as C1. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -395,6 +381,8 @@ Skipped:
 - ~~C13~~ [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses) — skipped: delivered 2026-10-03 (Astra's Kimbell, Martin, J. W. Smith, Horton, W. P. Smith, Smither, Sánchez Navarro, Barragán); Claude's sheets deleted
 - ~~C16~~ [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight) — skipped: delivered 2026-10-12 (Astra's `padre-walk` and `casualty-cart-wounded`/`-covered`); staged 2026-10-25 (batch W) in Concepción's `main-army` phase (`HIST-TEX-481`)
 - ~~C17~~ [Request 2026-09-25 — Gonzales before the fight](ART_REQUESTS.md#request-2026-09-25--gonzales-before-the-fight) — skipped: delivered 2026-10-07 (Astra's `flag-come-and-take-it-no-star-wind` and the flat `gonzales-flag-work-half-star`, `-half-no-star`, `-done-no-star`; `drawFlag` takes `star: false` and `stage: half`, and no scene asks for them yet)
+- ~~C20~~ [Request 2026-09-29 — the family's start: Tejano and free Black families, and the people of the road east](ART_REQUESTS.md#request-2026-09-29--the-familys-start-tejano-and-free-black-families-and-the-people-of-the-road-east) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `icon-join-seguin`, taken first by `drawIcon`
+- ~~C21~~ [Request 2026-09-30 — the House icon on the bar](ART_REQUESTS.md#request-2026-09-30--the-house-icon-on-the-bar) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `icon-go-inside`, taken first by `drawIcon`
 - ~~CS2~~ [Request 2026-09-27 — Seguín, the ashes, and the later church claim](ART_REQUESTS.md#request-2026-09-27--seguín-the-ashes-and-the-later-church-claim) — skipped: art and storyboard delivered; the trigger is code
 
 ## D — Riders, horses, wagons, carreta, ferry, steamboat
@@ -625,7 +613,7 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 18 to make, 22 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 11 to make, 29 skipped.
 
 - [ ] **F16** (priority 1) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 6 — **Claude stand-in in place** (`icon-ask-neighbours`); Astra's replaces it
   - **Deliver:** `icon-ask-neighbours` (a parent and a child walking up a track toward a neighbour's cabin with smoke from its chimney)
@@ -642,46 +630,16 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 6-8 frames, looping. **Size:** Readable at 30-160 px, anchored at the foot of the column
   - **Plugs into:** the `fires` in `drawWorld`, `public/app.js` (`window.__firesDrawn`)
   - **Stands in now:** the library's `smoke-rise` drawn three to four figures tall; a painted grey plume (Astra's library art reused)
-- [ ] **F30** (priority 2) — [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather), item 2
-  - **Deliver:** `icon-pitch-tent` (a wagon sheet tent going up: a person pegging down one side)
-  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
-  - **Plugs into:** `PANEL_ICONS['pitch-tent']` in `public/family-panel.js`
-  - **Stands in now:** a stroked tent (`LITTLE_GLYPHS['pitch-tent']`) (drawn in code (canvas or CSS))
 - [ ] **F32** (priority 2) — [Request 2026-10-03 — the herd and the herder](ART_REQUESTS.md#request-2026-10-03--the-herd-and-the-herder), items 1 and 2
   - **Deliver:** `cattle-longhorn-<coat>-walk` for `red`, `pied`, `dun` (a range longhorn walking, 4, east, `-n`, `-s`), `calf-graze`, `calf-walk` (a longhorn calf, 2 and 4) and `piglet-root`, `piglet-walk` (a sucking pig, 2 and 4)
   - **Frames:** 4 walking, 2 grazing or rooting, east (mirrored west). **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside (the longhorn's `cattle-longhorn-*` height; a calf and a pig about three fifths of it)
   - **Plugs into:** `herdFigures` in `public/herd-view.js`, drawn by `drawHerd` in `public/app.js`
   - **Stands in now:** Astra's farmyard `cow-walk` for a longhorn walking; the longhorn and the rooting hog drawn at three fifths for the young (Astra's library art reused)
-- [ ] **F34** (priority 2) — [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash), items 1 to 3
-  - **Deliver:** `icon-keep-house` (a woman at a pot over the hearth fire), `icon-work-garden` (a hoe in a bed of young plants), `icon-wash-clothes` (a washtub with a shirt over its rim and the battling stick)
-  - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
-  - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
-  - **Stands in now:** stroked glyphs (`LITTLE_GLYPHS['keep-house']`, `['work-garden']`, `['wash-clothes']`) (drawn in code (canvas or CSS))
 - [ ] **F36** (priority 2) — [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash), item 9
   - **Deliver:** `flies-buzz` (three or four flies circling and two wavy lines of stink rising, over a person's head; 3 frames, looping)
   - **Frames:** 3 frames, looping. **Size:** Effect: over a person's head, transparent, about two thirds of the figure's height across, anchored at the top of the head
   - **Plugs into:** `drawFlies` in `public/app.js`
   - **Stands in now:** three specks circling and two wavy lines drawn in canvas (`drawFlies`) (drawn in code (canvas or CSS))
-- [ ] **F37** (priority 2) — [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help), item 1
-  - **Deliver:** `mark-help` (two hands clasped, or a small figure lending a hand, in green: help with somebody else's work, not "add" or "new")
-  - **Frames:** 1. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px; at 17 CSS px on the top-right corner of a 48 px action icon
-  - **Plugs into:** `.panel-icon[data-help=true]` in `public/style.css`
-  - **Stands in now:** a green disc with two joined hands, an inline SVG in `.panel-icon[data-help=true]` (drawn in code (canvas or CSS))
-- [ ] **F38** (priority 2) — [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help), item 2
-  - **Deliver:** `mark-cue-house` (the pot over the hearth fire) and `mark-cue-wash` (the washtub with a shirt), in the marks' small round style, to pulse in the foot of a portrait
-  - **Frames:** 1 each. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px; at 20 CSS px in the foot of a portrait
-  - **Plugs into:** `cueMark` in `public/app.js`
-  - **Stands in now:** the work's own icon (or its stroked glyph until F34) in a small blue disc (`cueMark`) (drawn in code (canvas or CSS))
-- [ ] **F39** (priority 2) — [Request 2026-10-05 — away at the war](ART_REQUESTS.md#request-2026-10-05--away-at-the-war), item 1
-  - **Deliver:** `icon-camp-cook` (a pot over a fire), `icon-camp-wood` (an axe in a log), `icon-camp-bullets` (a bullet mould and ladle), `icon-camp-shelter` (a brush lean-to), `icon-camp-buy` (a sack and a coin), `icon-camp-hunt` (a rifle and a deer track), `icon-town-wages` (a sack on a shoulder and a coin), `icon-town-board` (a bowl before a house)
-  - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
-  - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
-  - **Stands in now:** the nearest icons the library has: the forage, the kindling, the powder, the tent glyph, the shop, the timber hunt, the work about the place, the house (Astra's library art reused)
-- [ ] **F40** (priority 2) — [Request 2026-10-09 — the More icon on a short bar](ART_REQUESTS.md#request-2026-10-09--the-more-icon-on-a-short-bar), item 1
-  - **Deliver:** `icon-more` (three or four small tiles of the bar fanned out with a hand reaching for them, or a row of the bar’s tiles running on behind a fold: more works than these; not "add", not a plus)
-  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%; at 32 CSS px in a tile of the bar beside the works
-  - **Plugs into:** `drawMoreIcon` in `public/short-bar.js`, `moreButton` in `public/app.js`
-  - **Stands in now:** three tiles fanned with three dots, drawn in canvas (`drawMoreIcon`) (drawn in code (canvas or CSS))
 - [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in held back: Astra has drawn the subject** (marsh-cordgrass, dune-grass, thicket-thorn-1, thicket-thorn-2, palmetto, yucca), so the page draws hers (`marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`)
   - **Deliver:** a gale silhouette for each remaining ground mark the map scatters - the cottonwood, cordgrass, dune grass, thorn thickets, palmetto and yucca (every tree and the scrub, reeds and prickly pear are Astra's `<upright>-gale-1`, 2026-10-07/08)
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite
@@ -709,11 +667,6 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 2-4; 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
   - **Plugs into:** `drawScenery` in `public/battle-view.js`
   - **Stands in now:** a warm glow in canvas; `live-oak-large` and `mesquite-large` set close (Astra's library art reused)
-- [ ] **F31** (priority 3) — [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather), item 3
-  - **Deliver:** `mark-shelter-house` (a cabin's roof with rain slanting past it) and `mark-shelter-tent` (the wagon sheet tent with rain slanting past it)
-  - **Frames:** 2. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
-  - **Plugs into:** `.panel-shelter-mark` (`data-at`) in `public/style.css`, made in `panelRow`, `public/app.js`
-  - **Stands in now:** a roof and a tent drawn in the style sheet as masks (drawn in code (canvas or CSS))
 - [ ] **F33** (priority 3) — [Request 2026-10-03 — the herd and the herder](ART_REQUESTS.md#request-2026-10-03--the-herd-and-the-herder), items 3 and 4
   - **Deliver:** `herd-cattle-group`, `herd-hogs-group` (a knot of six to eight head grazing as one sprite, 2 frames) and `mark-herd` (a longhorn's head in the panel's mark style)
   - **Frames:** 2 each; 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside; Mark: 96×96, transparent, no text, reads at 22–24 CSS px
@@ -730,7 +683,14 @@ Skipped:
 - ~~F14~~ [Request 2026-09-21 — the guided start's marks](ART_REQUESTS.md#request-2026-09-21--the-guided-starts-marks) — skipped: delivered 2026-10-07 (Astra's four lesson marks, wired into the bar and the pips; dormant while the guided start is off, 2026-09-28)
 - ~~F15~~ [Request 2026-09-28 — the garden — WITHDRAWN 2026-09-28](ART_REQUESTS.md#request-2026-09-28--the-garden--withdrawn-2026-09-28) — skipped: withdrawn 2026-09-28 (crops no longer follow the seasons)
 - ~~F17~~ [Request 2026-10-02 — the hunter's first-person field](ART_REQUESTS.md#request-2026-10-02--the-hunters-first-person-field) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 3): the three fields summer and winter (the winters repaired once: they came back under snow) and `hunt-rifle`, drawn by `public/hunt-aim.js` (`fieldSprite`, `RIFLE`); the cover nearest the hunter stays drawn in canvas, as planned
+- ~~F30~~ [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `icon-pitch-tent` (the tent and its mallet; no hand painted)
+- ~~F31~~ [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `mark-shelter-house` and `mark-shelter-tent`, by `public/painted-marks.js`; under the wagon keeps its drawn mark
+- ~~F34~~ [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `icon-keep-house`, `icon-work-garden` (flagged: a spade, not a hoe, after one repair round), `icon-wash-clothes`
 - ~~F35~~ [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 2): `garden-beds` and `garden-beds-winter` (an edit of the summer beds), asked for by name in `drawGarden`
+- ~~F37~~ [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `mark-help`, by `public/painted-marks.js`
+- ~~F38~~ [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `mark-cue-house` and `mark-cue-wash`, drawn in the cue mark by `CUE_MARKS`
+- ~~F39~~ [Request 2026-10-05 — away at the war](ART_REQUESTS.md#request-2026-10-05--away-at-the-war) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): the eight camp and town icons (`icon-camp-hunt` flagged: its tracks are paw prints, after one repair round)
+- ~~F40~~ [Request 2026-10-09 — the More icon on a short bar](ART_REQUESTS.md#request-2026-10-09--the-more-icon-on-a-short-bar) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `icon-more`, asked for by name in `drawMoreIcon`
 - ~~FS8~~ [Request 2026-09-20 — the launcher's remaining plates — Delivered 2026-09-20](ART_REQUESTS.md#request-2026-09-20--the-launchers-remaining-plates--delivered-2026-09-20) — skipped: delivered 2026-09-20
 - ~~FS9~~ [Request 2026-09-19 — the logs fetched from the timber](ART_REQUESTS.md#request-2026-09-19--the-logs-fetched-from-the-timber) — skipped: delivered (`icons-family-service.png`)
 - ~~FS10~~ [Request 2026-09-19 — the traveller's marker — WITHDRAWN 2026-09-22](ART_REQUESTS.md#request-2026-09-19--the-travellers-marker--withdrawn-2026-09-22) — skipped: withdrawn 2026-09-22: there is no marker any more

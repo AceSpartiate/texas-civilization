@@ -114,8 +114,8 @@ export function moreMemory(storage = null) {
 }
 
 /**
- * The "More" control's picture. `icon-more` the moment it is drawn; until then three small tiles fanned, with three dots on the top
- * one - the bar's own tiles, more of them. stand-in: docs/ART_REQUESTS.md, request 2026-10-09 "the More icon on a short bar".
+ * The "More" control's picture: `icon-more` (painted with the local pipeline 2026-10-26: tiles fanned and a hand reaching for them);
+ * while its sheet loads, three small tiles fanned with three dots on the top one - the bar's own tiles, more of them.
  */
 export function drawMoreIcon(canvas, { drawSprite = null, spriteFrame = () => null } = {}) {
   const ctx = canvas.getContext('2d'), size = canvas.width;

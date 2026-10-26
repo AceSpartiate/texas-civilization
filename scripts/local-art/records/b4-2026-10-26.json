@@ -1,0 +1,512 @@
+{
+ "batch": "b4",
+ "date": "2026-10-26",
+ "model": "FLUX.2 klein 4B fp8 (Apache-2.0)",
+ "rows": [
+  {
+   "name": "icon-more",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: three small square picture cards fanned out like a hand of cards, and a hand reaching to pick one. Not a plus sign. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-more.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-go-inside",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: the open plank door of a log cabin with the warm light of the hearth fire inside and a ladder-back chair by the door. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-go-inside.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "icon-join-seguin",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a Tejano horseman in a wide-brimmed sombrero and a short jacket on a brown horse, riding from left to right, a lance held upright in his right hand. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-join-seguin.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-pitch-tent",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a white canvas wagon-sheet tent half put up on its ridge pole, and a hand with a wooden mallet driving a tent peg into the ground. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-pitch-tent.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "icon-keep-house",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: an iron cooking pot hung over a small hearth fire of logs, steam rising from it. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-keep-house.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "icon-work-garden",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: an iron hoe leaning in a bed of dark earth with rows of small young green plants. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-work-garden.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-wash-clothes",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a round wooden washtub of soapy water with a white shirt hung over its rim and a flat wooden battling stick leaning against it. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-wash-clothes.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-milk-cow",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: the side of a brown milk cow's belly and udder, a wooden milk pail beneath it, and a hand milking. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-milk-cow.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-fence-yard",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: the corner of a small log cabin with a low split-rail fence running round its dooryard. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-fence-yard.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "icon-camp-cook",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: an iron pot hung over a camp fire on a tripod of sticks. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-camp-cook.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "icon-camp-wood",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a woodcutter's axe stuck in a short round log, a few split sticks of firewood beside it. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-camp-wood.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "icon-camp-bullets",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: an iron bullet mould with long handles, a small iron ladle of melted grey lead, and three round lead balls. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-camp-bullets.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-camp-shelter",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a small lean-to shelter of leafy brush and branches laid over a pole between two forked sticks. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-camp-shelter.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "icon-camp-buy",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a tied cloth sack of goods and one silver coin before it. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-camp-buy.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 3
+  },
+  {
+   "name": "icon-camp-hunt",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a long rifle lying above the split-hoof track of a deer pressed into the mud. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-camp-hunt.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "icon-town-wages",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a heavy sack carried on a man's shoulder, seen from behind, and a silver coin. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-town-wages.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "icon-town-board",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a bowl of hot stew with a spoon in it set before the front of a small frame house. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-town-board.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "mark-hunger",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's small round marks. Match their style exactly: a round badge with a thick dark ink outline and a cream rim, its disc filled with one flat painted colour, holding one simple bold pictogram that reads at a very small size. Paint one new mark in that style: an empty wooden bowl with a spoon, on an amber disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-mark-hunger.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "mark-food",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's small round marks. Match their style exactly: a round badge with a thick dark ink outline and a cream rim, its disc filled with one flat painted colour, holding one simple bold pictogram that reads at a very small size. Paint one new mark in that style: a full tied sack of meal with corn ears beside it, on a green disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-mark-food.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "mark-help",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's small round marks. Match their style exactly: a round badge with a thick dark ink outline and a cream rim, its disc filled with one flat painted colour, holding one simple bold pictogram that reads at a very small size. Paint one new mark in that style: two hands clasped in a handshake, on a green disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-mark-help.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "mark-cue-house",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's small round marks. Match their style exactly: a round badge with a thick dark ink outline and a cream rim, its disc filled with one flat painted colour, holding one simple bold pictogram that reads at a very small size. Paint one new mark in that style: an iron pot over a little hearth fire, on a blue disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-mark-cue-house.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "mark-cue-wash",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's small round marks. Match their style exactly: a round badge with a thick dark ink outline and a cream rim, its disc filled with one flat painted colour, holding one simple bold pictogram that reads at a very small size. Paint one new mark in that style: a washtub with a white shirt over its rim, on a blue disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-mark-cue-wash.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "mark-shelter-house",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's small round marks. Match their style exactly: a round badge with a thick dark ink outline and a cream rim, its disc filled with one flat painted colour, holding one simple bold pictogram that reads at a very small size. Paint one new mark in that style: a cabin's shingle roof with slanting rain falling past it, on a slate blue disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-mark-shelter-house.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "mark-shelter-tent",
+   "stage": "main",
+   "prompt": "Image 1 shows this game's small round marks. Match their style exactly: a round badge with a thick dark ink outline and a cream rim, its disc filled with one flat painted colour, holding one simple bold pictogram that reads at a very small size. Paint one new mark in that style: a white wagon-sheet tent with slanting rain falling past it, on a slate blue disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-mark-shelter-tent.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "icon-work-garden-repair",
+   "stage": "repair",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a garden hoe standing in a bed of dark earth with rows of small young green plants: a long straight wooden handle with a flat iron blade fixed at a right angle across its lower end, like a letter L, the blade cutting the soil. A hoe, not a shovel and not a spade. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-work-garden-repair.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": null
+  },
+  {
+   "name": "icon-camp-hunt-repair",
+   "stage": "repair",
+   "prompt": "Image 1 shows this game's action icons. Match their style exactly: a small storybook illustration with a thick dark ink outline, soft painted shading, a muted warm palette, one clear subject that reads at a glance at a very small size, at most a small patch of ground under it, no frame, no border, no badge. Use the icons only for style, not for their subjects. Paint one new icon in that style: a long rifle lying on muddy ground beside the tracks of a deer: two split-hoof prints pressed into the mud, each print two pointed teardrop halves side by side. No fire, no stones. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/b4/refs/board-icon-camp-hunt-repair.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  }
+ ],
+ "flags": {
+  "icon-work-garden": "Every candidate, the eight of the first round and the four of the one repair round told plainly \"a hoe, not a shovel and not a spade\", painted a spade. Shipped the first round s1 (a spade in a bed of young plants): it reads as working the garden; a hoe wants a redraw.",
+  "icon-camp-hunt": "The first round painted the rifle over a ring of stones; the repair (told split-hoof deer prints) painted paw prints with claws. Shipped the repair s2 (a rifle beside two tracks), which reads as the hunt; the tracks are the wrong animal and want a redraw."
+ },
+ "jobs": 104,
+ "failedJobs": 0,
+ "gpuSeconds": 409.6,
+ "cards": [
+  "4060 Ti",
+  "4080"
+ ]
+}

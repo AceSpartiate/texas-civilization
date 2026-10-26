@@ -41,6 +41,12 @@ review sheets and chosen paintings in `docs/art-sources/<group>-2026-10-26/`.
   the hunter stays canvas; the rifle is turned on its muzzle onto the sights (`RIFLE`). One repair: the timber and brush winters
   came back snowy and were redone dry. 52 jobs (12 on the 4060 Ti during the owner's game). test:hunt-aim passes;
   [hunt-local-compare.png](docs/evidence/hunt-local-compare.png).
+- **Batch 4, the panel's icons and marks** ([delivery](docs/ART_DELIVERY_2026-10-26-LOCAL-ICONS.md)). 17 icons, asked for by
+  name (`drawIcon` takes `icon-<key>` first; `drawMoreIcon`), and 7 marks. The marks were CSS masks: new public/painted-marks.js
+  draws each into a canvas once its sheet has come and hands it to the style sheet (`--mark-<name>`, `data-painted-marks`); the
+  house's two cues are drawn into the cue's canvas (`CUE_MARKS`). Coins with numerals refused (text). **Flagged** after one
+  repair each: `icon-work-garden` is a spade (no candidate painted a hoe), `icon-camp-hunt`'s tracks are paw prints. 104 jobs.
+  test:custom-work passes; [icons-local-compare.png](docs/evidence/icons-local-compare.png).
 
 ## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, not released)
 

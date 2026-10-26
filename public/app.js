@@ -8,6 +8,7 @@ import { portraitSetsMain, herdMarkOf, actingOf, iconPress, takenInWords, autoLa
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { TIPS, TIP_GAP_MS, tipToShow, tipsToReread } from '/tips.js';
 import { drawMoreIcon, moreLabel, moreMemory, namedKeys, shortBar } from '/short-bar.js';
+import { CUE_MARKS, paintMarks } from '/painted-marks.js';
 import { rosterLine } from '/roster-line.js';
 import { mountErrand } from '/errand.js';
 import { reconnector, reconnectWords } from '/reconnect.js';
@@ -6150,7 +6151,12 @@ function renderFamilyPanel(world) {
     // The house's cue (sim/housework.mjs `houseCue`): the work's own picture pulsing on the portrait, redrawn only when the work changes.
     const cue = ['keep-house', 'wash-clothes'].includes(entity.cue) ? entity.cue : '';
     if (row.cueMark.hidden !== !cue) row.cueMark.hidden = !cue;
-    if (cue && row.cueMark.dataset.work !== cue) { row.cueMark.dataset.work = cue; drawIcon(row.cueMark.querySelector('canvas'), cue, { drawSprite, spriteFrame }); }
+    if (cue && row.cueMark.dataset.work !== cue) {
+      row.cueMark.dataset.work = cue;
+      // The painted cue (`mark-cue-house`, `mark-cue-wash`, public/painted-marks.js) is a disc of its own; else the work's icon in the drawn disc.
+      const painted = CUE_MARKS[cue] && drawMark(row.cueMark.querySelector('canvas'), CUE_MARKS[cue], { drawSprite, spriteFrame });
+      if (painted) row.cueMark.dataset.painted = 'true'; else { delete row.cueMark.dataset.painted; drawIcon(row.cueMark.querySelector('canvas'), cue, { drawSprite, spriteFrame }); }
+    }
     setData(row.item, 'cue', cue);
     // What the person has become goes on the row after what they are: the mark and the camp drill (docs/FAMILY_PANEL.md).
     // The role alone on the row; the age is on the portrait's hover and label and in the family book (owner, 2026-09-30, "Move age
@@ -6771,15 +6777,14 @@ function panelRow(id) {
   sickMark.append(sickCanvas);
   sickMark.hidden = true;
   // Hunger on the portrait (sim/hunger.mjs, owner 2026-09-30): the face tinted and ringed by the stage, and an empty bowl in its
-  // corner coloured the same - amber hungry, ember weak, red and pulsing starving (public/style.css `data-hunger`). No words.
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-30 "the hunger mark" - a bowl drawn in the style sheet until Astra's
-  // `mark-hunger` is registered.
+  // corner coloured the same - amber hungry, ember weak, red and pulsing starving (public/style.css `data-hunger`). No words. The
+  // bowl is the painted `mark-hunger` once its sheet has come (public/painted-marks.js), ringed by the stage's colour; a drawn one before.
   const hungerMark = element('span', '', 'panel-hunger-mark');
   hungerMark.setAttribute('aria-hidden', 'true');
   hungerMark.hidden = true;
   // In out of the weather (sim/shelter.mjs, owner 2026-10-02): a roof or a tent in the portrait's top right while the server says they
-  // are in, the house, the tent or the wagon (public/style.css `data-at`). No words. stand-in: docs/ART_REQUESTS.md, request 2026-10-02
-  // "the shelter mark" - drawn in the style sheet until Astra's `mark-shelter-house` and `mark-shelter-tent` are registered.
+  // are in, the house, the tent or the wagon (public/style.css `data-at`). No words. The roof and the tent are the painted
+  // `mark-shelter-house` and `mark-shelter-tent` once their sheet has come (public/painted-marks.js); under the wagon, a drawn one.
   const shelterMark = element('span', '', 'panel-shelter-mark');
   shelterMark.hidden = true;
   // A hand with stock (owner, 2026-10-03; sim/stock.mjs `herdingOf`): a horn on the portrait, its notches the hand, lit while out after the herd.
@@ -6788,9 +6793,8 @@ function panelRow(id) {
   herdMark.hidden = true;
   // Prompt the student (owner, 2026-10-04, "Prompt the student"; sim/housework.mjs `houseCue`): the house's work wanting doing - the
   // pot over the fire, or the washtub - pulsing in the portrait's foot while this idle person may take it up, and the same icon glowing
-  // on the bar. No words. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "men's work, women's work and the wash", items 1 and 3 -
-  // the icon's own picture (`icon-keep-house`, `icon-wash-clothes`, or their glyphs) in a small disc; request 2026-10-04 "help and the
-  // house cue", item 2, asks Astra's `mark-cue-house` and `mark-cue-wash` to replace it.
+  // on the bar. No words. The painted `mark-cue-house` and `mark-cue-wash` (2026-10-26); the work's own icon in a small disc while
+  // their sheet loads.
   const cueMark = element('span', '', 'panel-cue-mark');
   const cueCanvas = document.createElement('canvas');
   cueCanvas.width = cueCanvas.height = 48;
@@ -6929,7 +6933,7 @@ function moreButton(entityId) {
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = 72;
   canvas.setAttribute('aria-hidden', 'true');
-  // stand-in: docs/ART_REQUESTS.md, request 2026-10-09 "the More icon on a short bar" - three tiles fanned, drawn here, until `icon-more` lands.
+  // `icon-more` (painted 2026-10-26); three tiles fanned, drawn here, while its sheet loads.
   drawMoreIcon(canvas, { drawSprite, spriteFrame });
   button.append(canvas, element('span', '', 'panel-action-name'));
   return button;
@@ -10407,8 +10411,10 @@ reducedMotion.addEventListener('change', () => { if (window.__snapshot) drawWorl
 // of this file has run, and a `let` it reaches first is a ReferenceError. That froze the Host page and sent a reloading
 // student back to the join form (2026-09-22; tests/page-startup.test.mjs).
 let housePlacement = null;
-onArtReady((status, sheet) => { redrawForArrival(sheet); repaintFamilyPanel(); });
-loadArt();
+// The panel's painted marks handed to the style sheet once their sheet has come (public/painted-marks.js); asked for now, so they come.
+const handMarks = () => { try { paintMarks({ drawSprite, spriteFrame, spriteReady }, drawMark); } catch { /* a page with no canvas */ } };
+onArtReady((status, sheet) => { redrawForArrival(sheet); repaintFamilyPanel(); handMarks(); });
+loadArt().then(handMarks, () => {});
 // The class code a scanned QR code carries (`renderJoinLinks`): put in the join and the away forms, and taken out of the address
 // bar, so the student types only their name and the code is not left on the screen.
 // The code in the address itself (`addressCode`, above): put in both boxes, and the boxes put away. The address is left as it is,
