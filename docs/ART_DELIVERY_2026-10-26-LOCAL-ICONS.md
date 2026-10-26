@@ -37,6 +37,21 @@ horse's legs (Seguín) counted.
   prints with claws. Shipped the repair's s2, a rifle beside two tracks: it reads as the hunt, with the wrong animal's tracks.
 - Seguín's horseman wears a modest felt hat rather than a wide sombrero; minor, shipped.
 
+## Checked again before release (coordinator, 2026-10-26)
+
+- **Portraits: not a regression.** The first compare's BEFORE was the committed `custom-work-cue.png` of 2026-10-05, made before
+  the family rig's portraits of 2026-10-13. The same class shot at the same moment with the art loaded, in 5972d453 and in this
+  branch (`output/local-2026-10-26/panel-shot.mjs`), draws the same portraits; nothing here touches the portrait canvas.
+- **Numerals: none ship.** The two coin icons with "1" and "10" in the first compare were the first picks, swapped in the atlas
+  before commit (the sheet in that picture was older than the packed atlas); `icon-camp-buy` and `icon-town-wages` as shipped carry a
+  head on a plain coin. Every shipped local icon and prop was looked at: no letters or numerals.
+- **AUTO is unchanged.** Its badge is Astra's `mark-auto-off`/`-on` (2026-10-07), the same in both trees; none of these batches
+  touched it.
+- **Marks at their drawn size.** Seen at 18-20 px, only the hunger bowl and the help hands read. The food sack would hide the gauge's
+  colour by level, and the shelter roof and tent and the two cue marks are too small inside their wide rims. Those five stay drawn as
+  before (`PAINTED_MARKS`, `CUE_MARKS`), their paintings in the library unused; B13 (the sack), F31 and F38 are open again.
+  `tests/painted-marks.test.mjs` holds it (injection: the food sack put back among the painted marks fails it).
+
 ## Proofs
 
 `tests/painted-marks.test.mjs` (new): every painted mark is in the library and the style sheet shows each by name; a mark is handed

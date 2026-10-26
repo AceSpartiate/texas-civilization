@@ -1821,7 +1821,8 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
 .panel-hunger-mark::before{content:"";position:absolute;inset:2px;background:var(--hunger-tone,#f0a73a);
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 6.5h13c0 3.7-2.9 6.3-6.5 6.3S1.5 10.2 1.5 6.5z'/%3E%3Crect x='5' y='12.6' width='6' height='1.8' rx='.9'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 6.5h13c0 3.7-2.9 6.3-6.5 6.3S1.5 10.2 1.5 6.5z'/%3E%3Crect x='5' y='12.6' width='6' height='1.8' rx='.9'/%3E%3C/svg%3E") center/contain no-repeat}
-/* In out of the weather (sim/shelter.mjs): a roof, or a tent, in the portrait's top right; the painted marks once they have come (below). */
+/* In out of the weather (sim/shelter.mjs): a roof, or a tent, in the portrait's top right. stand-in until Astra's mark-shelter-* (the
+   local pipeline's of 2026-10-26 did not read at this size). */
 .panel-shelter-mark{position:absolute;right:1px;top:1px;z-index:3;width:18px;height:18px;border-radius:4px;background:#e9f0f7;border:1.5px solid #4f6f8f;box-shadow:0 0 0 1px #29251b88;pointer-events:none}
 .panel-shelter-mark::before{content:"";position:absolute;inset:2px;background:#36506b;
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1.5 15 7.5h-2.2V14H3.2V7.5H1z'/%3E%3C/svg%3E") center/contain no-repeat;
@@ -1889,8 +1890,8 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
 .panel-icon[data-help=true]::after{content:"";position:absolute;right:-4px;top:-4px;width:17px;height:17px;border-radius:50%;background:#e6f3d8;border:1.5px solid #4f8a2f;box-shadow:0 0 0 1px #29251b88;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%233f6f25' d='M1 9c1-2 3-3 5-3l2 1 2-1c2 0 4 1 5 3l-2 1-2-1-1 2H6L5 9 3 10z'/%3E%3Cpath fill='%233f6f25' d='M6 12h4v2H6z'/%3E%3C/svg%3E");background-size:13px 13px;background-position:center;background-repeat:no-repeat}
 /* Prompt the student (owner, 2026-10-04; sim/housework.mjs `houseCue`): the house's work wanting doing glows on the one idle person's
-   bar, and its picture pulses in the foot of their portrait - a pot over the fire or the washtub (the painted `mark-cue-house` and
-   `mark-cue-wash` once they have come). No words. */
+   bar, and its picture pulses in the foot of their portrait - a pot over the fire or the washtub. No words. stand-in: docs/ART_REQUESTS.md,
+   request 2026-10-04 "help and the house cue", item 2 (the local pipeline's cue marks of 2026-10-26 did not read at 20 px). */
 .panel-icon[data-cue=true]{box-shadow:0 0 0 2px #6aa3c9,0 0 10px 2px #6aa3c999;animation:cue-glow 2.4s ease-in-out infinite}
 @keyframes cue-glow{0%,100%{box-shadow:0 0 0 2px #6aa3c9,0 0 6px 1px #6aa3c966}50%{box-shadow:0 0 0 2px #9fd0ef,0 0 14px 4px #6aa3c9cc}}
 .panel-cue-mark{position:absolute;left:1px;bottom:1px;z-index:3;width:20px;height:20px;border-radius:50%;background:#eef6fb;border:1.5px solid #4f7f9f;box-shadow:0 0 0 1px #29251b88;pointer-events:none;animation:cue-pulse 1.6s ease-in-out infinite}
@@ -1899,16 +1900,10 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
 @media(prefers-reduced-motion:reduce){.panel-icon[data-cue=true]{animation:none;box-shadow:0 0 0 3px #6aa3c9,0 0 10px 3px #6aa3c999}.panel-cue-mark{animation:none}}
 /* The panel's painted marks (2026-10-26, the local pipeline's; public/painted-marks.js): once each one's sheet has come it is handed
    here as a picture (`--mark-<name>`) and its name put on the root's `data-painted-marks`; the drawn mask above stands until then. The
-   hunger bowl keeps its stage's ring; the cue mark's own canvas draws its disc (`data-painted`). */
+   hunger bowl keeps its stage's ring. */
 :root[data-painted-marks~="mark-hunger"] .panel-hunger-mark{background:none;width:20px;height:20px}
 :root[data-painted-marks~="mark-hunger"] .panel-hunger-mark::before{-webkit-mask:none;mask:none;inset:-1px;border-radius:50%;background:var(--mark-hunger) center/contain no-repeat}
-:root[data-painted-marks~="mark-food"] .food-icon{-webkit-mask:none;mask:none;width:18px;height:18px;background:var(--mark-food) center/contain no-repeat}
 :root[data-painted-marks~="mark-help"] .panel-icon[data-help=true]::after{background:var(--mark-help) center/contain no-repeat;border-color:transparent;width:19px;height:19px}
-:root[data-painted-marks~="mark-shelter-house"] .panel-shelter-mark[data-at=house],
-:root[data-painted-marks~="mark-shelter-tent"] .panel-shelter-mark[data-at=tent]{background:none;border-color:transparent;box-shadow:none;border-radius:50%;width:20px;height:20px}
-:root[data-painted-marks~="mark-shelter-house"] .panel-shelter-mark[data-at=house]::before{-webkit-mask:none;mask:none;inset:-1px;background:var(--mark-shelter-house) center/contain no-repeat}
-:root[data-painted-marks~="mark-shelter-tent"] .panel-shelter-mark[data-at=tent]::before{-webkit-mask:none;mask:none;inset:-1px;background:var(--mark-shelter-tent) center/contain no-repeat}
-.panel-cue-mark[data-painted=true]{background:none;border-color:transparent;width:22px;height:22px}
 /* Something sighted on a hunt (owner, 2026-10-02; public/military-attention.js `sighting`): the card in the green-brown of the timber,
    breathing fast - fifteen seconds to take the shot. */
 .story-card[data-accent=sighting]{--card-edge:#6d7a2e;--card-ring:#4a551c66;--card-ring-strong:#4a551cbb;--card-glow:#d8e07a99;--card-glow-strong:#e6ec8cee;

@@ -46,7 +46,9 @@ review sheets and chosen paintings in `docs/art-sources/<group>-2026-10-26/`.
   draws each into a canvas once its sheet has come and hands it to the style sheet (`--mark-<name>`, `data-painted-marks`); the
   house's two cues are drawn into the cue's canvas (`CUE_MARKS`). Coins with numerals refused (text). **Flagged** after one
   repair each: `icon-work-garden` is a spade (no candidate painted a hoe), `icon-camp-hunt`'s tracks are paw prints. 104 jobs.
-  test:custom-work passes; [icons-local-compare.png](docs/evidence/icons-local-compare.png).
+  test:custom-work passes; [icons-local-compare.png](docs/evidence/icons-local-compare.png). **Rechecked:** portraits and AUTO
+  unchanged against 5972d453 at the same moment; no numerals ship; only the hunger and help marks are drawn painted (the food sack,
+  shelter and cue marks did not read at 20 px and stay drawn; B13's sack, F31, F38 reopened).
 - **Batch 5, Claude-drawn stand-ins** ([delivery](docs/ART_DELIVERY_2026-10-26-LOCAL-CLAUDE-ICONS.md)). 23 icons, `mark-sick`, the two
   farmsteads, the grave marker and the coins, all asked for by name; Claude's of those names retired (five area modules). The
   farmsteads, marker and coins get a person-height logical height in the atlas build (the first proof drew the jacal a third of its

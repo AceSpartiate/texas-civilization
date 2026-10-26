@@ -9,9 +9,16 @@
 // rule). Until then, and wherever the library is not there, the masks are drawn as before.
 
 /** The marks the style sheet takes as pictures, by name, with the CSS custom property each is handed as. */
-export const PAINTED_MARKS = Object.freeze(['mark-hunger', 'mark-food', 'mark-help', 'mark-shelter-house', 'mark-shelter-tent']);
-/** The house's work whose cue is a painted mark of its own, drawn straight into the cue's canvas (`cueMark` in public/app.js). */
-export const CUE_MARKS = Object.freeze({ 'keep-house': 'mark-cue-house', 'wash-clothes': 'mark-cue-wash' });
+// Only the two that read at the size they are drawn (18-20 CSS px), looked at in the game on 2026-10-26: the hunger bowl (its stage's
+// colour kept in the ring) and the hands of help. The food sack would hide the gauge's colour by level, and the shelter roof and
+// the cues' pot are too small inside their wide rims at 20 px to read: those stay drawn in the style sheet, and their paintings
+// stay in the library unused (docs/ART_DELIVERY_2026-10-26-LOCAL-ICONS.md).
+export const PAINTED_MARKS = Object.freeze(['mark-hunger', 'mark-help']);
+/**
+ * The house's work whose cue is a painted mark of its own, drawn straight into the cue's canvas (`cueMark` in public/app.js). None:
+ * the painted `mark-cue-house` and `mark-cue-wash` did not read at the cue's 20 px (2026-10-26), so the work's own icon stays.
+ */
+export const CUE_MARKS = Object.freeze({});
 
 /**
  * Hand every painted mark whose sheet has come to the style sheet. `art`: { drawSprite, spriteFrame, spriteReady } (public/art.js);

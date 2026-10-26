@@ -5168,6 +5168,9 @@ function larderParts(box) {
   }
   return { count: box.querySelector('.food-count'), fill: box.querySelector('.food-gauge-fill') };
 }
+// stand-in: docs/ART_REQUESTS.md, request 2026-09-30 "the hunger mark and the food gauge's sack", item 2 - the sack is drawn in the
+// style sheet as a mask in the gauge's colour by level (`.food-icon`); the local pipeline's `mark-food` (2026-10-26) would hide that
+// colour and is not drawn.
 /**
  * The family's food (sim/hunger.mjs `larderShown`): "Food 15.5" as ever, a bar of the days it lasts at the family's eating, and the
  * box coloured by where that stands - calm, amber, red, then glowing and pulsing as the family is hungry, weak and starving. It
@@ -6784,8 +6787,9 @@ function panelRow(id) {
   hungerMark.setAttribute('aria-hidden', 'true');
   hungerMark.hidden = true;
   // In out of the weather (sim/shelter.mjs, owner 2026-10-02): a roof or a tent in the portrait's top right while the server says they
-  // are in, the house, the tent or the wagon (public/style.css `data-at`). No words. The roof and the tent are the painted
-  // `mark-shelter-house` and `mark-shelter-tent` once their sheet has come (public/painted-marks.js); under the wagon, a drawn one.
+  // are in, the house, the tent or the wagon (public/style.css `data-at`). No words. stand-in: docs/ART_REQUESTS.md, request 2026-10-02
+  // "the shelter mark" - drawn in the style sheet until Astra's `mark-shelter-house` and `mark-shelter-tent` are registered (the local
+  // pipeline's of 2026-10-26 are in the library but did not read at 18 px, so they are not drawn).
   const shelterMark = element('span', '', 'panel-shelter-mark');
   shelterMark.hidden = true;
   // A hand with stock (owner, 2026-10-03; sim/stock.mjs `herdingOf`): a horn on the portrait, its notches the hand, lit while out after the herd.
@@ -6794,8 +6798,9 @@ function panelRow(id) {
   herdMark.hidden = true;
   // Prompt the student (owner, 2026-10-04, "Prompt the student"; sim/housework.mjs `houseCue`): the house's work wanting doing - the
   // pot over the fire, or the washtub - pulsing in the portrait's foot while this idle person may take it up, and the same icon glowing
-  // on the bar. No words. The painted `mark-cue-house` and `mark-cue-wash` (2026-10-26); the work's own icon in a small disc while
-  // their sheet loads.
+  // on the bar. No words. stand-in: docs/ART_REQUESTS.md, request 2026-10-04 "help and the house cue", item 2 (`mark-cue-house`,
+  // `mark-cue-wash`) - the work's own icon (`icon-keep-house`, `icon-wash-clothes`) in a small disc; the local pipeline's of
+  // 2026-10-26 did not read at 20 px (`CUE_MARKS` is empty).
   const cueMark = element('span', '', 'panel-cue-mark');
   const cueCanvas = document.createElement('canvas');
   cueCanvas.width = cueCanvas.height = 48;

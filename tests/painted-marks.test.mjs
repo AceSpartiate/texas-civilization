@@ -25,15 +25,27 @@ test('a mark is handed over once its sheet has come and it drew, and never twice
   const make = () => ({ width: 0, height: 0, toDataURL: () => 'data:image/png;base64,AAAA' });
   const ready = new Set(['mark-hunger', 'mark-help']);
   const art = { spriteReady: name => ready.has(name), drawSprite: () => 1, spriteFrame: () => ({}) };
-  const drawMark = (canvas, name) => { drawnCount++; return name !== 'mark-help'; };
+  let helpDraws = false;
+  const drawMark = (canvas, name) => { drawnCount++; return name !== 'mark-help' || helpDraws; };
   let done = paintMarks(art, drawMark, { root, make });
   assert.deepEqual([...done], ['mark-hunger'], 'a mark that did not draw, or whose sheet has not come, was handed over');
   assert.equal(root.dataset.paintedMarks, 'mark-hunger');
   assert.equal(props['--mark-hunger'], 'url("data:image/png;base64,AAAA")');
   assert.ok(!('--mark-help' in props));
-  ready.add('mark-food');
+  helpDraws = true;
   const before = drawnCount;
   done = paintMarks(art, drawMark, { root, make });
-  assert.deepEqual([...done].sort(), ['mark-food', 'mark-hunger']);
-  assert.equal(drawnCount - before, 2, 'a mark already handed over was drawn again (food and the undrawn help only)');
+  assert.deepEqual([...done].sort(), ['mark-help', 'mark-hunger']);
+  assert.equal(drawnCount - before, 1, 'a mark already handed over was drawn again (only the help, undrawn before, is)');
+});
+
+test('the marks that did not read at their size stay drawn: the food sack keeps its colour by level, the shelter and the cues their pictures', () => {
+  // Looked at in the game on 2026-10-26 at 18-20 CSS px: the painted food sack would hide the gauge's colour by level, and the shelter
+  // roof and the cues' pot are too small inside their rims to read. Their paintings stay in the library, unused.
+  for (const name of ['mark-food', 'mark-shelter-house', 'mark-shelter-tent', 'mark-cue-house', 'mark-cue-wash']) {
+    assert.ok(!PAINTED_MARKS.includes(name), `${name} is handed to the style sheet`);
+    assert.ok(!Object.values(CUE_MARKS).includes(name), `${name} is drawn as the cue`);
+    assert.ok(!css.includes(`var(--${name})`), `public/style.css shows ${name}`);
+  }
+  assert.match(css, /\.food-icon\{[^}]*background:var\(--food-tone\)/, 'the food sack is no longer drawn in the gauge\'s colour');
 });

@@ -9,12 +9,12 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 32 | 7 | 17 | 1 |
-| B — Children, babies and sickness | 15 | 4 | 8 | 7 |
+| B — Children, babies and sickness | 16 | 5 | 8 | 6 |
 | C — Soldiers, battles and famous people | 11 | 1 | 7 | 13 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 25 | 2 | 9 | 6 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 9 | 1 | 7 | 20 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 0 | 7 | 30 |
-| **Total** | **102** | **15** | **55** | **77** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 12 | 0 | 7 | 28 |
+| **Total** | **105** | **16** | **55** | **74** |
 
 ## How a builder works
 
@@ -203,7 +203,7 @@ Skipped:
 
 ## B — Children, babies and sickness
 
-Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 15 to make, 7 skipped.
+Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 16 to make, 6 skipped.
 
 - [ ] **B1** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `girl-scatter`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `boy-scatter`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`, `smallchild-scatter`)
   - **Deliver:** for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)
@@ -220,6 +220,11 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 2 and 4 frames. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `littleClip` (`aside.kind === 'baby'`) in `public/motion.js`; `carriedAt` in `drawWorld`, `public/app.js`
   - **Stands in now:** the harvest carry with the infant drawn at her side; a carried baby drawn at the carrier's hip (Astra's library art reused)
+- [ ] **B13** (priority 1) — [Request 2026-09-30 — the hunger mark and the food gauge's sack](ART_REQUESTS.md#request-2026-09-30--the-hunger-mark-and-the-food-gauges-sack), items 1 and 2
+  - **Deliver:** `mark-food` (a filled sack, the food gauge's). `mark-hunger` was painted by the local pipeline on 2026-10-26 and is drawn; its `mark-food` is in the library but not drawn, because over the gauge's sack it would hide the colour by level
+  - **Frames:** 1 each. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
+  - **Plugs into:** `.panel-hunger-mark` in `panelRow` and `.food-icon` in `paintLarder`, `public/app.js` and `public/style.css`
+  - **Stands in now:** a bowl and a sack drawn in the style sheet as masks, coloured by the stage (drawn in code (canvas or CSS))
 - [ ] **B17** (priority 1) — [Request 2026-10-03 — the children's own actions](ART_REQUESTS.md#request-2026-10-03--the-childrens-own-actions), items 1 and 2 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`)
   - **Deliver:** `<child>-play` (running, skipping, a hoop or ball, 4, east, `-n`, `-s`) and `<child>-play-sit` (sitting at play indoors, 2, east), for `boy`, `girl` and `smallchild`
   - **Frames:** 4 + 2 frames each. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -286,7 +291,6 @@ Skipped:
 - ~~B5~~ [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `icon-rest-road`, `icon-camp-apart`, `icon-nurse-home`; the icons Claude drew are retired
 - ~~B10~~ [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `icon-child-help`
 - ~~B11~~ [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `icon-flee-cow`
-- ~~B13~~ [Request 2026-09-30 — the hunger mark and the food gauge's sack](ART_REQUESTS.md#request-2026-09-30--the-hunger-mark-and-the-food-gauges-sack) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `mark-hunger` and `mark-food`, handed to the style sheet by `public/painted-marks.js` in place of its masks
 - ~~B12~~ [Request 2026-09-12 — families that look like who they are, and a rider who gets down](ART_REQUESTS.md#request-2026-09-12--families-that-look-like-who-they-are-and-a-rider-who-gets-down) — skipped: covered by B1, B6, B7 and B8; the scaling rule stays
 - ~~BS1~~ [Request 2026-09-21 — the children's icons](ART_REQUESTS.md#request-2026-09-21--the-childrens-icons) — skipped: delivered 2026-09-22 (`icons-children.png`)
 
@@ -589,7 +593,7 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 10 to make, 30 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 12 to make, 28 skipped.
 
 - [ ] **F3** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 15 — **Claude stand-in in place** (`tree-fall`, `fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple`); Astra's replaces it
   - **Deliver:** `fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple` (3 frames each, played from the strike) and `tree-fall` (4 frames: a hardwood leaning, going over, down, a bounce)
@@ -611,6 +615,11 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 3 frames, looping. **Size:** Effect: over a person's head, transparent, about two thirds of the figure's height across, anchored at the top of the head
   - **Plugs into:** `drawFlies` in `public/app.js`
   - **Stands in now:** three specks circling and two wavy lines drawn in canvas (`drawFlies`) (drawn in code (canvas or CSS))
+- [ ] **F38** (priority 2) — [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help), item 2
+  - **Deliver:** `mark-cue-house` (the pot over the hearth fire) and `mark-cue-wash` (the washtub with a shirt), in the marks' small round style, to pulse in the foot of a portrait
+  - **Frames:** 1 each. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px; at 20 CSS px in the foot of a portrait
+  - **Plugs into:** `cueMark` in `public/app.js`
+  - **Stands in now:** the work's own icon in a small blue disc (`cueMark`); the local pipeline's of 2026-10-26 are in the library but did not read at 20 px and are not drawn (drawn in code (canvas or CSS))
 - [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in held back: Astra has drawn the subject** (marsh-cordgrass, dune-grass, thicket-thorn-1, thicket-thorn-2, palmetto, yucca), so the page draws hers (`marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`)
   - **Deliver:** a gale silhouette for each remaining ground mark the map scatters - the cottonwood, cordgrass, dune grass, thorn thickets, palmetto and yucca (every tree and the scrub, reeds and prickly pear are Astra's `<upright>-gale-1`, 2026-10-07/08)
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite
@@ -638,6 +647,11 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 2-4; 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
   - **Plugs into:** `drawScenery` in `public/battle-view.js`
   - **Stands in now:** a warm glow in canvas; `live-oak-large` and `mesquite-large` set close (Astra's library art reused)
+- [ ] **F31** (priority 3) — [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather), item 3
+  - **Deliver:** `mark-shelter-house` (a cabin's roof with rain slanting past it) and `mark-shelter-tent` (the wagon sheet tent with rain slanting past it)
+  - **Frames:** 2. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
+  - **Plugs into:** `.panel-shelter-mark` (`data-at`) in `public/style.css`, made in `panelRow`, `public/app.js`
+  - **Stands in now:** a roof and a tent drawn in the style sheet as masks; the local pipeline's of 2026-10-26 are in the library but did not read at 18 px and are not drawn (drawn in code (canvas or CSS))
 - [ ] **F33** (priority 3) — [Request 2026-10-03 — the herd and the herder](ART_REQUESTS.md#request-2026-10-03--the-herd-and-the-herder), items 3 and 4
   - **Deliver:** `herd-cattle-group`, `herd-hogs-group` (a knot of six to eight head grazing as one sprite, 2 frames) and `mark-herd` (a longhorn's head in the panel's mark style)
   - **Frames:** 2 each; 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside; Mark: 96×96, transparent, no text, reads at 22–24 CSS px
@@ -656,11 +670,9 @@ Skipped:
 - ~~F16~~ [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 5): `icon-ask-neighbours`
 - ~~F17~~ [Request 2026-10-02 — the hunter's first-person field](ART_REQUESTS.md#request-2026-10-02--the-hunters-first-person-field) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 3): the three fields summer and winter (the winters repaired once: they came back under snow) and `hunt-rifle`, drawn by `public/hunt-aim.js` (`fieldSprite`, `RIFLE`); the cover nearest the hunter stays drawn in canvas, as planned
 - ~~F30~~ [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `icon-pitch-tent` (the tent and its mallet; no hand painted)
-- ~~F31~~ [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `mark-shelter-house` and `mark-shelter-tent`, by `public/painted-marks.js`; under the wagon keeps its drawn mark
 - ~~F34~~ [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `icon-keep-house`, `icon-work-garden` (flagged: a spade, not a hoe, after one repair round), `icon-wash-clothes`
 - ~~F35~~ [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 2): `garden-beds` and `garden-beds-winter` (an edit of the summer beds), asked for by name in `drawGarden`
 - ~~F37~~ [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `mark-help`, by `public/painted-marks.js`
-- ~~F38~~ [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `mark-cue-house` and `mark-cue-wash`, drawn in the cue mark by `CUE_MARKS`
 - ~~F39~~ [Request 2026-10-05 — away at the war](ART_REQUESTS.md#request-2026-10-05--away-at-the-war) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): the eight camp and town icons (`icon-camp-hunt` flagged: its tracks are paw prints, after one repair round)
 - ~~F40~~ [Request 2026-10-09 — the More icon on a short bar](ART_REQUESTS.md#request-2026-10-09--the-more-icon-on-a-short-bar) — skipped: delivered 2026-10-26 by the local pipeline (klein 4B, batch 4): `icon-more`, asked for by name in `drawMoreIcon`
 - ~~FS8~~ [Request 2026-09-20 — the launcher's remaining plates — Delivered 2026-09-20](ART_REQUESTS.md#request-2026-09-20--the-launchers-remaining-plates--delivered-2026-09-20) — skipped: delivered 2026-09-20
