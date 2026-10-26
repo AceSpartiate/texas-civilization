@@ -296,16 +296,15 @@ try {
   // A drawn two-frame cycle (the staking) is two pictures by design; everything else changes more often than that.
   for (const id of Object.keys(two)) assert.ok(two[id].prints >= (id === surveyor.id && drawnStake ? 2 : 3), `the pixels round ${id} changed ${two[id].prints} times`);
   ok(`at the mark ${marksman.name} is drawn ${drawnShot ? `in ${shooter.workClips} (frames ${shooter.frames.join('/')})` : 'with the rifle up'} and a puff of smoke once a cycle (marks ${shooter.marks.join('/')}); surveying, ${surveyor.name} ${drawnStake ? `drives the stakes in ${pacer.workClips} (frames ${pacer.frames.join('/')})` : `paces the ground to and fro (${pacer.shifts.length} places, turning both ways)`}`);
-  // 4. The wood pile by the house (request 2026-09-28, item 16; Claude-drawn `wood-pile-1`..`-4` since 2026-09-28). A class of
+  // 4. The wood pile by the house (request 2026-09-28, item 16; painted with the local pipeline 2026-10-26, Claude's retired). A class of
   // its own, made with thirty-five logs on the family's pile (the server hands a proof a copy of its state, so the pile is set
-  // when the class is made, as scripts/means-browser-proof.mjs sets its logs): drawn as Astra's `log-fallen`, four in a row, a
-  // pile for every ten - never Claude's pile sprite while her logs are in the library (owner, 2026-09-29: her art wins by subject,
-  // public/art-subjects.js).
+  // when the class is made, as scripts/means-browser-proof.mjs sets its logs): drawn as the painted `wood-pile-4`, one pile for
+  // every ten logs or part of ten, up to four (`wood-pile-1`..`-4`).
   const piled = await classroom({ seed: 'work-proof-pile', tickMs: 1000, viewport: { width: 1366, height: 768 },
     worldFactory: seed => { const made = createGonzalesWorld(seed, 5); made.households['hh-1'].logs = { wall: 28, sill: 4, poor: 3 }; return made; } });
   const pileFamily = await piled.page.evaluate(() => window.__snapshot.world.entities.filter(one => one.kind === 'person').map(one => one.id));
   await watch(piled.page, pileFamily[0]);
-  await piled.page.waitForFunction(() => window.__logPileDrawn === 4 && window.__woodPileSprite === null && window.__woodPileAt, null, { timeout: 30000 })
+  await piled.page.waitForFunction(() => window.__logPileDrawn === 4 && window.__woodPileSprite === 'wood-pile-4' && window.__woodPileAt, null, { timeout: 30000 })
     .catch(async error => { console.log('DEBUG', JSON.stringify(await piled.page.evaluate(() => ({ pile: window.__logPileDrawn, sprite: window.__woodPileSprite, logs: window.__snapshot.world.land?.logs })))); throw error; });
   observed.woodPile = await piled.page.evaluate(() => ({ drawn: window.__logPileDrawn, sprite: window.__woodPileSprite, logs: window.__snapshot.world.land?.logs }));
   await zoomTo(piled.page, pileFamily[0], 60);
@@ -328,7 +327,7 @@ try {
   observed.woodPile.box = pileBox;
   await piled.page.screenshot({ path: 'docs/evidence/work-wood-pile-close.png', clip: pileBox });
   shots.push('docs/evidence/work-wood-pile-close.png');
-  ok(`thirty-five logs on the pile are drawn as Astra's logs, ${observed.woodPile.drawn} in a row, not Claude's pile (${observed.woodPile.sprite}; projected ${JSON.stringify(observed.woodPile.logs)})`);
+  ok(`thirty-five logs on the pile are drawn as the painted pile of forty (${observed.woodPile.sprite}, pile ${observed.woodPile.drawn}; projected ${JSON.stringify(observed.woodPile.logs)})`);
   await piled.app.close();
   assert.deepEqual(errors, [], `a page threw: ${errors.join(' | ')}`);
   ok('no page errors');

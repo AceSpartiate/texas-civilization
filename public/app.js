@@ -150,6 +150,8 @@ const EFFECT_EAST = Object.freeze({ flip: false }), EFFECT_WEST = Object.freeze(
 // kind, set on the new stump itself, is the way out if it jars.
 const fellingWords = new Map(), treesFalling = new Map(), TREE_FALL_MS = 1240;
 function workEffect(ctx, name, x, y, height, flip) { return drawSprite(ctx, name, x, y, height, flip ? EFFECT_WEST : EFFECT_EAST); }
+// The painted tools in the work cycles' hands (public/work-art.js `TOOL_PARTS`): the art module lent to `drawWorkLayer`.
+const TOOL_ART = Object.freeze({ drawSprite, spriteFrame: name => (spriteReady(name) ? spriteFrame(name) : null) });
 /**
  * What was drawn of each traveller this frame (public/motion.js `travelSight`): how much of them was drawn (1 in view, 0
  * away), where along the road they were drawn, how fast they were drawn going in their own heights a second and what the
@@ -530,7 +532,7 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
     timeMs: animationTime + seed, lean: still ? 0 : -strokeLean(stroke, workClockOut) * dir,
   });
   if (!width) return 0;
-  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, worn, workEffect);
+  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, worn, workEffect, TOOL_ART);
   // Presentation evidence for the proofs (npm run test:work), read by nothing in the application: what each of the family at work
   // was last drawn doing, which frame of it, and how many marks of its tool and effect. One record a person, kept and rewritten.
   if (id) {

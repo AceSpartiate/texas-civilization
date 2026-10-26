@@ -64,10 +64,11 @@ export const STROKES = Object.freeze({
   // ahead and up); `muzzle` where the rifle's smoke comes from; `ownFire` that the frame draws the fire itself.
   split: { pose: 'work', art: 'stand-in', tool: 'maul', effect: 'chips', beat: 2, request: item(2), drawn: { pose: 'split', beat: 3, at: [0.27, 0.02] } },
   notch: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(3), drawn: { pose: 'notch', beat: 2, at: [0.25, 0.26] } },
-  dig: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4), drawn: { pose: 'dig', beat: 3, at: [-0.06, 0.85] } },
+  // The dig, the well and the grubbing hold the painted spade over the hoe (`TOOL_PARTS`, 2026-10-26).
+  dig: { pose: 'work', art: 'stand-in', tool: 'spade', effect: 'earth', beat: 2, request: item(4), drawn: { pose: 'dig', beat: 3, at: [-0.06, 0.85] } },
   // The well dug waist-deep in its hole (item 4, `-dig-well`); until it is drawn, the dig.
-  well: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4), drawn: { pose: 'dig-well', beat: 3, at: [-0.06, 0.65] } },
-  grub: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4), drawn: { pose: 'dig', beat: 3, at: [-0.06, 0.85] } },
+  well: { pose: 'work', art: 'stand-in', tool: 'spade', effect: 'earth', beat: 2, request: item(4), drawn: { pose: 'dig-well', beat: 3, at: [-0.06, 0.65] } },
+  grub: { pose: 'work', art: 'stand-in', tool: 'spade', effect: 'earth', beat: 2, request: item(4), drawn: { pose: 'dig', beat: 3, at: [-0.06, 0.85] } },
   reap: { pose: 'work', art: 'stand-in', effect: 'chaff', beat: 2, request: item(5), drawn: { pose: 'reap', beat: 1, at: [0.11, 0.63] } },
   whittle: { pose: 'repair', art: 'stand-in', effect: 'shavings', beat: 1, request: item(6), drawn: { pose: 'carpentry', beat: 1, at: [0.21, 0.3] } },
   shoot: { pose: 'idle-e', art: 'stand-in', tool: 'rifle', effect: 'smoke', cycleMs: 2600, request: item(7), drawn: { pose: 'fire', beat: 1, muzzle: [0.55, 0.59] } },
@@ -89,7 +90,9 @@ export const STROKES = Object.freeze({
   // the wash is beaten with the hoeing cycle's strike until `-beat-wash` (item 6).
   sew: { pose: 'repair', art: 'stand-in', request: `${HOUSE_REQUEST}, item 4`, drawn: { pose: 'sew' } },
   scrub: { pose: 'care', art: 'stand-in', motion: 'bob', cycleMs: 1300, request: `${HOUSE_REQUEST}, item 5`, drawn: { pose: 'wash' } },
-  beat: { pose: 'work', art: 'stand-in', beat: 2, request: `${HOUSE_REQUEST}, item 6` },
+  beat: { pose: 'work', art: 'stand-in', tool: 'stick', beat: 2, request: `${HOUSE_REQUEST}, item 6` },
+  // Sweeping the house: the hoeing cycle with the painted broom over the hoe (2026-10-26), its dust.
+  sweep: { pose: 'work', art: 'delivered', tool: 'broom', effect: 'dust', beat: 2 },
 });
 
 /**
@@ -232,7 +235,7 @@ export const WORK = Object.freeze({
   // children's own strokes. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "the children's own actions" - the kindling's gathering
   // for the hearth and the water's pails for the wash, until a child's own cooking and washing poses are drawn (request 2026-10-04
   // "help and the house cue", item 3).
-  'keep-house': { stroke: 'fire', spread: 0.6, by: [[/sewing|mending/, 'sew'], [/sweeping/, 'about']], child: 'gather' },
+  'keep-house': { stroke: 'fire', spread: 0.6, by: [[/sewing|mending/, 'sew'], [/sweeping/, 'sweep']], child: 'gather' },
   'work-garden': { stroke: 'hoe', spread: 0.5, by: [[/picking/, 'gather'], [/carrying/, 'carry']] },
   'wash-clothes': { stroke: 'scrub', spread: 0.5, by: [[/carrying water/, 'water'], [/beating/, 'beat'], [/hanging/, 'carry']], child: 'water' },
   // Putting up the tent (sim/shelter.mjs, owner 2026-10-02). stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - pegging the sheet
@@ -477,17 +480,60 @@ export const HAFTS = Object.freeze({
   'youth-girl': [[0.224, -0.5, -0.006, -0.67], [0.155, -0.221, 0.375, -0.021]],
 });
 /**
- * A felling axe or a maul in the hands of the hoeing cycle's `frame`, over the painted hoe: the haft from the hands through the
- * hoe's head, the axe's bit (the maul's block) on the side the hoe blade hangs, so it covers it. No allocation: a few paths.
+ * The tools the work cycles hold, painted with the local pipeline (owner, 2026-10-25: "a batch of painted tool parts"; 2026-10-26,
+ * docs/ART_DELIVERY_2026-10-26-LOCAL-TOOLS.md): each sprite lies along its long diagonal, and `butt` and `head` are its two ends as
+ * fractions of its frame (read off its pixels; tests/tool-parts.test.mjs holds them to the sheet). Drawn turned so the butt lies a
+ * little behind the hands and the head on the hoe's head (`paintToolPart`), mirrored with the figure. The pails and the battling
+ * stick's tub are not held by any pose yet; the pails are in the library for the day one is.
+ */
+export const TOOL_PARTS = Object.freeze({
+  axe: { sprite: 'tool-felling-axe', butt: [0.019, 0.947], head: [0.989, 0.19] },
+  maul: { sprite: 'tool-maul', butt: [0.024, 0.957], head: [0.963, 0.136] },
+  spade: { sprite: 'tool-spade', butt: [0.013, 0.856], head: [0.847, 0.038] },
+  broom: { sprite: 'tool-broom', butt: [0.022, 0.978], head: [0.929, 0.063] },
+  stick: { sprite: 'tool-battling-stick', butt: [0.024, 0.951], head: [0.94, 0.072] },
+  rod: { sprite: 'tool-cane-pole', butt: [0.011, 0.979], head: [0.972, 0.007] },
+});
+/** The tools drawn over the hoeing cycle's hoe (`HAFTS`); the stroked axe and maul are their fallbacks. */
+export const HAFT_TOOLS = new Set(['axe', 'maul', 'spade', 'broom', 'stick']);
+
+/**
+ * One painted tool laid from (bx, by) to (tx, ty) on the screen, mirrored across its own length when `mirror` (a figure facing
+ * west). `art`: { drawSprite, spriteFrame } (public/art.js). True when it drew; false while its sheet loads.
+ */
+export function paintToolPart(ctx, tool, bx, by, tx, ty, mirror, art) {
+  const part = TOOL_PARTS[tool], frame = part && art?.spriteFrame?.(part.sprite);
+  if (!frame) return false;
+  const sx = (part.head[0] - part.butt[0]) * frame.w, sy = (part.head[1] - part.butt[1]) * frame.h;
+  const k = Math.hypot(tx - bx, ty - by) / (Math.hypot(sx, sy) || 1), turn = Math.atan2(ty - by, tx - bx) - Math.atan2(sy, sx);
+  ctx.save();
+  ctx.translate(bx, by); ctx.rotate(turn);
+  if (mirror) {
+    // Mirrored across the tool's own length: the line from butt to head, in the turned frame, is the direction (sx, sy).
+    const a = Math.atan2(sy, sx);
+    ctx.rotate(a); ctx.scale(1, -1); ctx.rotate(-a);
+  }
+  const drawn = art.drawSprite(ctx, part.sprite, 0, 0, (frame.logicalHeight || frame.h) * k, { anchor: part.butt }) > 0;
+  ctx.restore();
+  return drawn;
+}
+
+/**
+ * A tool in the hands of the hoeing cycle's `frame`, over the painted hoe: the painted tool (`TOOL_PARTS`) where its sheet has
+ * come and `art` is given, from just behind the hands to the hoe's head; else, for the felling axe and the maul, the stroked haft
+ * and the axe's bit (the maul's block) on the side the hoe blade hangs, so it covers it. No allocation: a few paths.
  * Returns how many marks it drew (0 for a figure `HAFTS` does not know, which keeps its hoe).
  */
-export function drawHaftTool(ctx, tool, figure, frame, x, y, size, dir) {
+export function drawHaftTool(ctx, tool, figure, frame, x, y, size, dir, art = null) {
   const haft = HAFTS[figure]?.[frame];
   if (!haft) return 0;
   const gx = x + dir * haft[0] * size, gy = y + haft[1] * size, hx = x + dir * haft[2] * size, hy = y + haft[3] * size;
   let ux = hx - gx, uy = hy - gy;
   const length = Math.hypot(ux, uy) || 1;
   ux /= length; uy /= length;
+  // Counted as the strokes are (a haft and a head: two marks), which the proofs read.
+  if (art && paintToolPart(ctx, tool, gx - ux * size * 0.08, gy - uy * size * 0.08, hx + ux * size * 0.05, hy + uy * size * 0.05, dir < 0, art)) return 2;
+  if (tool !== 'axe' && tool !== 'maul') return 0;
   // The side the hoe blade hangs: the perpendicular that points down the screen.
   let px = -uy, py = ux;
   if (py < 0) { px = -px; py = -py; }
@@ -545,11 +591,11 @@ export function drawWashProps(ctx, activity, strokeKey, x, y, size, dir, timeMs,
  * (x, y), `size` tall, facing `dir` (1 east, -1 west). Does nothing for a delivered stroke with no effect, or under reduced
  * motion except the still tool. Returns how many marks it drew, which the proofs read.
  */
-export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false, figure = null, sprite = null) {
+export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false, figure = null, sprite = null, art = null) {
   let drawn = 0;
   const since = clock.since;
   // Under reduced motion the pose is held at its first frame, and so is the tool in its hands.
-  if (stroke.tool === 'axe' || stroke.tool === 'maul') drawn += drawHaftTool(ctx, stroke.tool, figure, still ? 0 : clock.frame, x, y, size, dir);
+  if (HAFT_TOOLS.has(stroke.tool)) drawn += drawHaftTool(ctx, stroke.tool, figure, still ? 0 : clock.frame, x, y, size, dir, art);
   else if (stroke.tool === 'rifle') {
     // A long rifle held to the shoulder, level at the mark (practice) or, standing guard, sloped up.
     const up = stroke === STROKES.guard ? 0.3 : 0.04;
@@ -566,8 +612,11 @@ export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false
     const tipX = x + dir * size * 0.95, tipY = y - size * 0.85, floatX = x + dir * size * 1.1, floatY = y + size * 0.04 + bob;
     ctx.save();
     ctx.lineCap = 'round';
-    ctx.strokeStyle = '#6d5332'; ctx.lineWidth = Math.max(1, size * 0.025);
-    ctx.beginPath(); ctx.moveTo(x + dir * size * 0.18, y - size * 0.42); ctx.lineTo(tipX, tipY); ctx.stroke();
+    // The painted cane pole (`TOOL_PARTS.rod`) where its sheet has come; a stroke while it loads.
+    if (!(art && paintToolPart(ctx, 'rod', x + dir * size * 0.14, y - size * 0.4, tipX, tipY, dir < 0, art))) {
+      ctx.strokeStyle = '#6d5332'; ctx.lineWidth = Math.max(1, size * 0.025);
+      ctx.beginPath(); ctx.moveTo(x + dir * size * 0.18, y - size * 0.42); ctx.lineTo(tipX, tipY); ctx.stroke();
+    }
     ctx.strokeStyle = 'rgba(40,36,30,.55)'; ctx.lineWidth = 0.8;
     ctx.beginPath(); ctx.moveTo(tipX, tipY); ctx.lineTo(floatX, floatY); ctx.stroke();
     ctx.fillStyle = '#b8452c'; ctx.beginPath(); ctx.arc(floatX, floatY, Math.max(1.2, size * 0.022), 0, Math.PI * 2); ctx.fill();

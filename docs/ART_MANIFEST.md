@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **6434 usable sprites, 463 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
+Generated from the shipped library: **6441 usable sprites, 465 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -330,6 +330,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | scenes-local-1 | 4 | 2240 × 1400 | 4768867 |
 | scenes-local-2 | 4 | 2240 × 1400 | 4614709 |
 | scenes-local-3 | 4 | 2240 × 1400 | 4292950 |
+| tools-local-1 | 6 | 1024 × 1536 | 598930 |
+| tools-local-2 | 1 | 512 × 512 | 99353 |
 | marsh-edge | 8 | 2172 × 724 | 1222516 |
 | marsh-wading | 8 | 1774 × 887 | 1112271 |
 | military-camp-life | 16 | 1254 × 1254 | 1457813 |
@@ -3498,6 +3500,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | courtship-yard-morning | scenes-local-3 | State artwork; no motion required |
 | courtship-yard-noon | scenes-local-3 | State artwork; no motion required |
 | courtship-yard-evening | scenes-local-3 | State artwork; no motion required |
+| tool-felling-axe | tools-local-1 | State artwork; no motion required |
+| tool-maul | tools-local-1 | State artwork; no motion required |
+| tool-spade | tools-local-1 | State artwork; no motion required |
+| tool-broom | tools-local-1 | State artwork; no motion required |
+| tool-pails | tools-local-1 | State artwork; no motion required |
+| tool-cane-pole | tools-local-1 | State artwork; no motion required |
+| tool-battling-stick | tools-local-2 | State artwork; no motion required |
 | marsh-edge-dense-1 | marsh-edge | marsh-edge-dense |
 | marsh-edge-dense-2 | marsh-edge | marsh-edge-dense |
 | marsh-edge-dense-3 | marsh-edge | marsh-edge-dense |

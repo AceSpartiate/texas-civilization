@@ -27922,6 +27922,118 @@
         ]
       }
     },
+    "tools-local-1": {
+      "image": "atlases/tools-local-1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 598930,
+      "sha256": "128b4c2d643ebe19663c7d27eb5e0c2829081aac09a9236c5f3a4b87a675e16a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.859746,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              85,
+              427
+            ],
+            "columns": [
+              [
+                24,
+                488
+              ],
+              [
+                536,
+                1000
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              559,
+              977
+            ],
+            "columns": [
+              [
+                24,
+                488
+              ],
+              [
+                536,
+                996
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1062,
+              1497
+            ],
+            "columns": [
+              [
+                24,
+                488
+              ],
+              [
+                536,
+                999
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "tools-local-2": {
+      "image": "atlases/tools-local-2.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 99353,
+      "sha256": "21b4bd21e9d5e5ac659eee529b06558f898c5081734fad4cbb8808cf60e2d6c3",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.848629,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              60,
+              451
+            ],
+            "columns": [
+              [
+                24,
+                488
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "marsh-edge": {
       "image": "atlases/marsh-edge.png",
       "width": 2172,
@@ -122566,6 +122678,174 @@
       },
       "logicalHeight": 540,
       "backdrop": true
+    },
+    "tool-felling-axe": {
+      "sheet": "tools-local-1",
+      "x": 24,
+      "y": 85,
+      "w": 464,
+      "h": 342,
+      "anchorX": 0.0668,
+      "anchorY": 0.9298,
+      "label": "tool felling axe",
+      "kind": "tools-local-1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          26,
+          87,
+          460,
+          338
+        ],
+        "visiblePixels": 26254,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tool-maul": {
+      "sheet": "tools-local-1",
+      "x": 536,
+      "y": 94,
+      "w": 464,
+      "h": 323,
+      "anchorX": 0.0657,
+      "anchorY": 0.9288,
+      "label": "tool maul",
+      "kind": "tools-local-1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          538,
+          96,
+          460,
+          319
+        ],
+        "visiblePixels": 27259,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tool-spade": {
+      "sheet": "tools-local-1",
+      "x": 24,
+      "y": 559,
+      "w": 464,
+      "h": 418,
+      "anchorX": 0.1369,
+      "anchorY": 0.9282,
+      "label": "tool spade",
+      "kind": "tools-local-1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          26,
+          561,
+          460,
+          414
+        ],
+        "visiblePixels": 34355,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tool-broom": {
+      "sheet": "tools-local-1",
+      "x": 536,
+      "y": 570,
+      "w": 460,
+      "h": 404,
+      "anchorX": 0.0598,
+      "anchorY": 0.9282,
+      "label": "tool broom",
+      "kind": "tools-local-1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          538,
+          572,
+          456,
+          400
+        ],
+        "visiblePixels": 20139,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tool-pails": {
+      "sheet": "tools-local-1",
+      "x": 24,
+      "y": 1109,
+      "w": 464,
+      "h": 342,
+      "anchorX": 0.4795,
+      "anchorY": 0.9298,
+      "label": "tool pails",
+      "kind": "tools-local-1",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          26,
+          1111,
+          460,
+          338
+        ],
+        "visiblePixels": 98454,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tool-cane-pole": {
+      "sheet": "tools-local-1",
+      "x": 536,
+      "y": 1062,
+      "w": 463,
+      "h": 435,
+      "anchorX": 0.0421,
+      "anchorY": 0.9517,
+      "label": "tool cane pole",
+      "kind": "tools-local-1",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          538,
+          1064,
+          459,
+          431
+        ],
+        "visiblePixels": 7690,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tool-battling-stick": {
+      "sheet": "tools-local-2",
+      "x": 24,
+      "y": 60,
+      "w": 464,
+      "h": 391,
+      "anchorX": 0.0884,
+      "anchorY": 0.9284,
+      "label": "tool battling stick",
+      "kind": "tools-local-2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          26,
+          62,
+          460,
+          387
+        ],
+        "visiblePixels": 38873,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
     },
     "marsh-edge-dense-1": {
       "sheet": "marsh-edge",

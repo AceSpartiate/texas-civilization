@@ -54,6 +54,11 @@ review sheets and chosen paintings in `docs/art-sources/<group>-2026-10-26/`.
   alone); the hoop's hoop is tall; the ferry icon is hands on a rope. First rounds wrote on the bill of sale and coins (text,
   refused). 132 jobs; two timed out when the arbiter's poll stalled 20 min as the owner's game began (repainted).
   test:lone-parent and test:flashback pass; [claude-icons-local-compare.png](docs/evidence/claude-icons-local-compare.png).
+- **Tool parts** ([delivery](docs/ART_DELIVERY_2026-10-26-LOCAL-TOOLS.md)). The felling axe, maul, spade, broom, pails, cane pole and
+  battling stick. public/work-art.js `TOOL_PARTS`/`paintToolPart` lay each in the hoeing cycle's hands (`HAFTS`), mirrored facing
+  west, strokes while loading; new: the spade for digging, the stick for beating the wash, the broom for sweeping (a `sweep` stroke),
+  the painted pole for fishing. 28 jobs. **test:work's wood-pile step had expected Claude's pile held back** (stale since batch 2's
+  painted pile; fixed here). [tools-local-compare.png](docs/evidence/tools-local-compare.png).
 
 ## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, not released)
 

@@ -1,0 +1,147 @@
+{
+ "batch": "tools",
+ "date": "2026-10-26",
+ "model": "FLUX.2 klein 4B fp8 (Apache-2.0)",
+ "rows": [
+  {
+   "name": "tool-felling-axe",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one long-handled American felling axe lying flat, its straight hickory handle running from the lower left to the upper right and its iron head at the upper right end, the blade edge toward the top. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/tools/refs/board-tool-felling-axe.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "tool-maul",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one wooden maul for splitting rails lying flat: a long straight handle from the lower left to the upper right and a heavy round wooden head at the upper right end, bound with iron rings. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/tools/refs/board-tool-maul.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "tool-spade",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one iron spade lying flat: a long straight wooden handle from the lower left to the upper right with a short cross grip at the lower left end, and the flat iron blade at the upper right end. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/tools/refs/board-tool-spade.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "tool-broom",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one homemade broom lying flat: a long straight wooden handle from the lower left to the upper right and a bundle of tied straw at the upper right end. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/tools/refs/board-tool-broom.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "tool-pails",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: two wooden water pails with iron hoops and rope bail handles, standing side by side, full of water. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/tools/refs/board-tool-pails.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "tool-cane-pole",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one long cane fishing pole lying flat from the lower left to the upper right, a fishing line hanging from its thin upper right tip. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/tools/refs/board-tool-cane-pole.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "tool-battling-stick",
+   "stage": "main",
+   "prompt": "Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one flat wooden battling stick for beating wet laundry, lying flat: a short round handle at the lower left and a long flat paddle blade toward the upper right. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-26/tools/refs/board-tool-battling-stick.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "chosen": 4
+  }
+ ],
+ "flags": {},
+ "jobs": 28,
+ "failedJobs": 0,
+ "gpuSeconds": 214.7,
+ "cards": [
+  "4060 Ti"
+ ]
+}

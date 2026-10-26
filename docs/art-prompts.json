@@ -8254,6 +8254,102 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/homecoming-local-1.png",
       "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (her panel marks for the sick mark; her cabin, porch and jacals for the farmsteads; her bucket, rail and table for the props), keyed out on the CPU, fitted to her icon size (300 px; the mark 320; the farmsteads 370) and packed one to a clear 384 cell. Claude's icon of each subject was the subject sketch: what it shows, never how.",
       "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time)."
+    },
+    {
+      "sheet": "tools-local-1",
+      "promptId": "frontier-v1/tools-local-1",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "tool-felling-axe (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/tools/refs/board-tool-felling-axe.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one long-handled American felling axe lying flat, its straight hickory handle running from the lower left to the upper right and its iron head at the upper right end, the blade edge toward the top. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\ntool-maul (seed 2 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/tools/refs/board-tool-maul.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one wooden maul for splitting rails lying flat: a long straight handle from the lower left to the upper right and a heavy round wooden head at the upper right end, bound with iron rings. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\ntool-spade (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/tools/refs/board-tool-spade.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one iron spade lying flat: a long straight wooden handle from the lower left to the upper right with a short cross grip at the lower left end, and the flat iron blade at the upper right end. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\ntool-broom (seed 4 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/tools/refs/board-tool-broom.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one homemade broom lying flat: a long straight wooden handle from the lower left to the upper right and a bundle of tied straw at the upper right end. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\ntool-pails (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/tools/refs/board-tool-pails.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: two wooden water pails with iron hoops and rope bail handles, standing side by side, full of water. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.\n\ntool-cane-pole (seed 1 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/tools/refs/board-tool-cane-pole.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one long cane fishing pole lying flat from the lower left to the upper right, a fishing line hanging from its thin upper right tip. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "tool-felling-axe",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "tool-maul",
+          "chosen": 2,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "tool-spade",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "tool-broom",
+          "chosen": 4,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "tool-pails",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "sprite": "tool-cane-pole",
+          "chosen": 1,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/tools-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/tools-local-1.png",
+      "postProcessing": "Each painted at 1024x1024 on a flat pale grey ground from a board of two of Astra's icons showing the tool (or her bucket), lying along the picture's diagonal; keyed out on the CPU (the pails also inside their bails), cut to the sprite and fitted to 460 px in a clear 512 cell. Each haft tool's butt and head, as fractions of its frame, are read off its pixels (scripts/local-art/batches_2026_10_26.py `finish tools`) into public/work-art.js `TOOL_PARTS`.",
+      "review": "Four candidates each on one keyed contact sheet (contact.jpg); every candidate licence-checked from its own file; the picks looked at full size: an axe with a spike on its poll refused. In the game: docs/evidence/tools-local-compare.png."
+    },
+    {
+      "sheet": "tools-local-2",
+      "promptId": "frontier-v1/tools-local-2",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "prompt": "tool-battling-stick (seed 4 of 1, 2, 3, 4; 1024x1024; references: output/local-2026-10-26/tools/refs/board-tool-battling-stick.png): Image 1 shows the art style to match exactly: its thin dark ink outline, its soft painted shading, its muted warm palette and its the same painted look. Use it only for style, not for its objects. Paint one new object in that style: one flat wooden battling stick for beating wet laundry, lying flat: a short round handle at the lower left and a long flat paddle blade toward the upper right. The object stands alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges: no ground, no cast shadow, no frame, nothing else in the picture. No lettering anywhere, no text, no signature, no watermark.",
+      "candidates": [
+        {
+          "sprite": "tool-battling-stick",
+          "chosen": 4,
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "generatedSourcePath": "docs/art-sources/tools-local-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/tools-local-2.png",
+      "postProcessing": "Each painted at 1024x1024 on a flat pale grey ground from a board of two of Astra's icons showing the tool (or her bucket), lying along the picture's diagonal; keyed out on the CPU (the pails also inside their bails), cut to the sprite and fitted to 460 px in a clear 512 cell. Each haft tool's butt and head, as fractions of its frame, are read off its pixels (scripts/local-art/batches_2026_10_26.py `finish tools`) into public/work-art.js `TOOL_PARTS`.",
+      "review": "Four candidates each on one keyed contact sheet (contact.jpg); every candidate licence-checked from its own file; the picks looked at full size: an axe with a spike on its poll refused. In the game: docs/evidence/tools-local-compare.png."
     }
   ]
 }
