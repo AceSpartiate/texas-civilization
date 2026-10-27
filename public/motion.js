@@ -499,7 +499,7 @@ export function rigReach(sizes = {}) {
  * driver on its box; coming toward the camera the rig, the driver, and the ox again in front of them (the rig drawn a second
  * time only up to the yoke, `band`); going away the driver first, behind the canvas, and the rig over them.
  */
-export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wagon = 1.55 } = {}, rider = 1, delivered = 0, rig = false, open = false) {
+export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.1, wagon = 1.55 } = {}, rider = 1, delivered = 0, rig = false, open = false) {
   const vertical = direction === 'n' || direction === 's';
   // The rider's feet are put where their hip lands on the seat, and they are cut a little below the hip.
   const sitting = (seatHeight, dx = 0) => ({ part: 'rider', dx, dy: -seatHeight + SEAT.hip * rider, height: rider, shown: 1 - SEAT.hip + SEAT.overlap });

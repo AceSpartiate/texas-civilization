@@ -74,7 +74,7 @@ test('the rider is drawn as themselves, sitting up, facing the way they go, in a
  */
 test("the eight riders and the eight drivers Astra painted are what is drawn, and nobody else's layer is invented", async () => {
   const { RIDING_FIGURES, DRIVING_FIGURES, MOUNTED_HEIGHT, SEAT, seatFigure } = await import('../public/motion.js');
-  const SIZES = { horse: 1.5, ox: 1.45, wagon: 1.55 };
+  const SIZES = { horse: 1.5, ox: 1.1, wagon: 1.55 };
   // Every figure a rolled family can actually produce, so a figure added to the cast and forgotten here is caught.
   const cast = new Set();
   for (const sex of ['male', 'female', undefined]) for (const band of ['adult', 'youth', 'child', 'small', 'infant']) for (const principal of [false, true]) {
@@ -220,7 +220,7 @@ test('the rider sits on the mount: up on its back or the wagon seat, cut below t
  * drawn apart, and the rig is put under them so its own seat is under their hip.
  */
 test('the wagon and its ox as one drawing: the driver where they were, on the rig’s own seat; riders in its open tail', () => {
-  const SIZES = { horse: 1.5, ox: 1.45, wagon: 1.55 };
+  const SIZES = { horse: 1.5, ox: 1.1, wagon: 1.55 };
   // The page's measures of the rig are the kit's (scripts/claude-art/kit/vehicles.mjs, areas/transport-vehicles.mjs).
   assert.equal(WAGON_RIG.units, WAGON.TOP);
   assert.equal(WAGON_RIG.depth, WAGON.DEPTH);
