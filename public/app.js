@@ -57,6 +57,7 @@ import { mountHuntAim } from '/hunt-aim.js';
 // Read aloud (owner, 2026-09-30, D15; docs/READ_ALOUD.md): a button on the words, played in a voice made on the teacher's laptop.
 import { cardLines, createReadAloud, voiceOfPerson } from '/read-aloud.js';
 import { createBattleView, personArt } from '/battle-view.js';
+import { fieldFrame, fightingPoints } from '/battle-frame.js';
 // The class view watching a fight like a film (owner, 2026-09-30; docs/BATTLES.md §15.3, docs/HOST_PAGE.md §2.15).
 import { createCinema, familyColour } from '/battle-cinema.js';
 import { createChaseView } from '/chase-view.js';
@@ -2253,28 +2254,8 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
 // The fighting stood about seven miles upriver of the ford (HIST-GONZ-008), so framing
 // it alongside the viewer's own people is what pulls the camera out far enough to hold
 // both. Without this the formations are drawn correctly and off-screen.
-/**
- * The ground a fight is framed on: each side and the gun with room round them for their ranks and their smoke, and more
- * above than below, because the top of the page carries the banner and the caption and the figures stand up from their feet.
- */
-const fieldFrame = points => points.frame ? points : points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
-// Where the engagement names the ground it is fought over (Béxar: the houses north of the plaza and the Alamo's guns at the
-// east edge), that ground; otherwise every body of men drawn - each side and each group drawn apart from it (Palm Sunday's
-// three roads, the Mexicans round Coleto's square, Concepción's companies) - and the guns. A body gone from the field is not
-// framed, unless nothing else is left to frame (the Mexicans gone toward Béxar at Concepción). Nor is a group more than a mile
-// from the sides (San Jacinto's Deaf Smith riding for Vince's bridge): the camera stays on the fight. A frame the engagement
-// marks tight (`frameTight`, the Alamo's compound, whose frames already hold the room round it) is taken as it is.
-const nearTheSides = (sides, body) => !sides.length || Math.hypot(body.x - sides.reduce((s, one) => s + one.x, 0) / sides.length, body.y - sides.reduce((s, one) => s + one.y, 0) / sides.length) < 1;
-const battlePoints = world => {
-  const fight = world.battle;
-  if (fight?.frame?.length) {
-    const points = fight.frame.map(point => ({ x: point.x, y: point.y }));
-    return fight.frameTight ? Object.assign(points, { frame: true }) : points;
-  }
-  const sides = fight?.sides || [];
-  const bodies = [...sides, ...(fight?.groups || []).filter(group => nearTheSides(sides, group))], here = bodies.filter(body => body.action !== 'gone');
-  return [...(here.length ? here : bodies.length ? bodies : fight?.formations || []), ...(fight?.cannon ? [fight.cannon] : []), ...(fight?.guns || [])].map(point => ({ x: point.x, y: point.y }));
-};
+// The ground a fight is framed on, and where the fighting is: public/battle-frame.js (`fieldFrame`, `fightingPoints`).
+const battlePoints = world => fightingPoints(world.battle);
 function framingFor(world) {
   // The country outside the box (docs/MAP_ACCURACY.md §11) is drawn where it is, but it never frames a view: framing the
   // region on Matamoros, 250 miles south of the colonies, would shrink the settlements to nothing. The map still zooms out
@@ -3915,11 +3896,44 @@ function cinemaInput(world, canvas) {
     home: manualView ? { cx: manualView.cx, cy: manualView.cy, scale: manualView.scale } : null,
   };
 }
+/**
+ * **The fight out from under the page** (owner, 2026-10-27: "it was kind of hard to see the battles"; docs/BATTLES.md §17.2,
+ * docs/HOST_PAGE.md §2.18). While the film has the camera - the class view filming a fight by itself, or a student's Watch - the
+ * page's own panels step out of the fight's way, and come back the moment it lets go (the fight over and faded back, Esc, the
+ * teacher's "Take the camera", a student's pan, zoom or Follow):
+ *   - the Host's: *The class* and *The Rumor Mill* fold to their headings (the teacher can open either again), the teacher's column
+ *     down the right keeps its pause, bell and pace and puts away Recover, the join card, the class days, late students and Classes,
+ *     and the day's banner goes small into the bottom left (`body[data-film=host]`, public/style.css);
+ *   - a student's: the family column folds to its faces, as it already does while a place is chosen (docs/FAMILY_PANEL.md §12.13),
+ *     and the card beside the man in the fight, his bar, a tip and a land chooser are put away (`body[data-film=student]`).
+ * Nothing is decided or sent: it is the page's own presentation, read off the film's state each frame and changed only when it
+ * changes. A panel the teacher opens while the film runs stays open; what was folded for the film is opened again after it.
+ */
+let filmingWas = false, filmFolded = [];
+function screenForFilm(world, filming) {
+  if (filming === filmingWas) return;
+  filmingWas = filming;
+  const host = world.role === 'host';
+  if (filming) document.body.dataset.film = host ? 'host' : 'student'; else delete document.body.dataset.film;
+  if (host) {
+    if (filming) { filmFolded = ['#host-class', '#rumor-mill'].map(one => $(one)).filter(one => one?.open); for (const one of filmFolded) one.open = false; }
+    else { for (const one of filmFolded) one.open = true; filmFolded = []; }
+  } else setPanelFolded(filming || placingWas || panelFolded());
+  placement.boxes = null;
+}
 /** Once a frame: the film moved on, and the teacher's own view put back when a fight it filmed is over (with the fade). */
 function runCinema(world, canvas, now) {
   const film = cinemaFor(world);
-  // Only a page that could ever film: a student's waits for the Watch card, and costs nothing until then.
-  if (world.role !== 'host' && film.state === 'off') return;
+  screenForFilm(world, film.driving && Boolean(world.battle?.sides));
+  // Only a page that could ever film: a student's waits for the Watch card, and costs nothing until then. Watch pressed before the
+  // fight was drawn (the card comes up at the gathering, "The fight is coming") framed the ground and nothing more, and when the
+  // fighting came the student was left on a still frame with the card folded and a tip saying "Press Watch" (§17.2, 2026-10-27):
+  // the follow Watch asked for now starts when the fight is drawn, as long as the student has left the camera where Watch put it.
+  if (world.role !== 'host' && film.state === 'off') {
+    if (!(fieldWatch && !fieldWatch.filmed && manualView === fieldWatch.view && world.battle?.sides)) return;
+    fieldWatch.filmed = true;
+    film.resume({ ...cinemaInput(world, canvas), current: { ...manualView } }, now);
+  }
   film.update(cinemaInput(world, canvas), now);
   const back = film.takeRestore();
   if (back) { manualView = back.view ? { ...back.view } : null; fieldWatch = null; stopWatching(); }
@@ -7424,7 +7438,9 @@ function positionSelection(world, chosen = selectedEntity(world)) {
   const crowd = `${chosen.id}:${innerWidth}x${innerHeight}`;
   if (cardCrowding && cardCrowding !== crowd) releaseCrowding();
   const notice = $('#military-notice');
-  if (!cardCrowding && crowdingRefused !== crowd && to - from < Math.min(panelHeight, 220) && notice && !notice.hidden && !$('#military-message')?.hidden) {
+  // Never the fight's Watch card (docs/BATTLES.md §17.2, 2026-10-27): folded away under "Open messages" by the card of the man in
+  // the fight, it left a student a tip saying to press "Watch" and no Watch to press.
+  if (!cardCrowding && crowdingRefused !== crowd && to - from < Math.min(panelHeight, 220) && notice && !notice.hidden && !$('#military-message')?.hidden && notice.dataset.accent !== 'battle') {
     cardCrowding = crowd; placement.boxes = null; renderMilitaryNotice(world);
   }
   const room = Math.max(120, Math.round(to - from));
@@ -8642,6 +8658,9 @@ function renderMilitaryNotice(world) {
   }
   const fresh = notices.find(notice => !militarySeen.has(notice.id));
   if (fresh) { militaryCollapsed = false; militarySelected = fresh.id; }
+  // A fresh Watch card is never left folded by a person's card that folded an earlier message (`cardCrowding` stays while the same
+  // person is chosen): the fight's card came up folded under "Open messages", and the tip said "Press Watch" (§17.2, 2026-10-27).
+  if (fresh?.kind === 'battle' && cardCrowding) { crowdingRefused = cardCrowding; cardCrowding = null; placement.boxes = null; }
   for (const notice of notices) militarySeen.add(notice.id);
   try { sessionStorage.setItem(session, JSON.stringify([...militarySeen])); } catch { /* private browsers still work */ }
   const notice = notices.find(one => one.id === militarySelected) || notices[0];
@@ -9144,7 +9163,7 @@ function watchField(world, field) {
     const scale = clampTo(Math.min(canvas.width / width, canvas.height / height), view.limits);
     manualView = { cx: (Math.max(...xs) + Math.min(...xs)) / 2, cy: (Math.max(...ys) + Math.min(...ys)) / 2, scale };
   } else if (field) manualView = { cx: field.x, cy: field.y, scale: clampTo(Math.max(view.scale, view.limits.max * .4), view.limits) };
-  fieldWatch = { view: manualView };
+  fieldWatch = { view: manualView, filmed: Boolean(world.battle?.sides) };
   window.__watchedField = { at: performance.now(), view: { ...manualView } };
   // And follows it as a film would - the field, then the family's own in it - for as long as the student leaves the camera be
   // (public/battle-cinema.js, student mode: no fades, no title; a pan, a zoom, Follow or Esc ends it). Never started by itself.
@@ -9914,7 +9933,7 @@ function renderScreenMoments() {
   document.body.dataset.meeting = String(shown('#encounter'));
   const placing = shown('#site-choose') || shown('#survey-choose');
   document.body.dataset.placing = String(placing);
-  if (placing !== placingWas) { placingWas = placing; setPanelFolded(placing || panelFolded()); }
+  if (placing !== placingWas) { placingWas = placing; setPanelFolded(placing || filmingWas || panelFolded()); }
   if (!placing) return;
   // The folded strip's corner, measured every draw because a row's height moves with the family. Measured from the Hide
   // names button and the faces rather than the column: the column is as wide as its widest status line, 248px at 1366,

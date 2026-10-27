@@ -1,0 +1,108 @@
+{
+  "fight": "gonzales",
+  "label": "before",
+  "shots": [
+    {
+      "phase": "dawn-skirmish",
+      "host": {
+        "phase": "dawn-skirmish",
+        "figurePx": 23,
+        "scale": 1263,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 56,
+          "mexican": 48
+        },
+        "cover": 0.735,
+        "banksInView": 29,
+        "smokeInView": 59,
+        "readable": null,
+        "quiet": null
+      },
+      "student1366": {
+        "phase": "dawn-skirmish",
+        "figurePx": 23,
+        "scale": 1267,
+        "cinema": "off",
+        "followed": null,
+        "figures": {
+          "texian": 55,
+          "mexican": 48
+        },
+        "cover": 0.773,
+        "banksInView": 50,
+        "smokeInView": 108,
+        "readable": null,
+        "quiet": null
+      },
+      "student1024": {
+        "phase": "dawn-skirmish",
+        "figurePx": 18,
+        "scale": 990,
+        "cinema": "off",
+        "followed": null,
+        "figures": {
+          "texian": 55,
+          "mexican": 48
+        },
+        "cover": 0.754,
+        "banksInView": 55,
+        "smokeInView": 118,
+        "readable": null,
+        "quiet": null
+      }
+    },
+    {
+      "phase": "fight",
+      "host": {
+        "phase": "fight",
+        "figurePx": 43,
+        "scale": 2379,
+        "cinema": "follow",
+        "followed": "hh-1-thomas",
+        "figures": {
+          "texian": 48,
+          "mexican": 20
+        },
+        "cover": 0.88,
+        "banksInView": 31,
+        "smokeInView": 54,
+        "readable": null,
+        "quiet": null
+      },
+      "student1366": {
+        "phase": "fight",
+        "figurePx": 20,
+        "scale": 1117,
+        "cinema": "off",
+        "followed": null,
+        "figures": {
+          "texian": 55,
+          "mexican": 47
+        },
+        "cover": 0.88,
+        "banksInView": 69,
+        "smokeInView": 95,
+        "readable": null,
+        "quiet": null
+      },
+      "student1024": {
+        "phase": "fight",
+        "figurePx": 17,
+        "scale": 915,
+        "cinema": "off",
+        "followed": null,
+        "figures": {
+          "texian": 55,
+          "mexican": 47
+        },
+        "cover": 0.88,
+        "banksInView": 68,
+        "smokeInView": 95,
+        "readable": null,
+        "quiet": null
+      }
+    }
+  ]
+}

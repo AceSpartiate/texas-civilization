@@ -480,6 +480,24 @@ and **keep 1835**. Both owner-decided 2026-10-03.
 - `ceiling:` same computer only. No Chromebook, managed or not, has opened playtexas.github.io; whether a district's policy blocks a
   navigation from an https page to an http private address (Chrome's Local Network Access, HTTPS-First) is not yet seen on one.
 
+### 2.18 The page steps out of the fight's way while it is filmed (2026-10-27, not released)
+
+The owner, 2026-10-27: *"it was kind of hard to see the battles."* On the projector the class panel and the Rumor Mill covered the
+left third of the map, the teacher's column the right sixth and the day's banner the bottom middle, while the film framed the fight
+in the middle of the whole screen (the Alamo's north-wall assault went on under the class panel). Now, **while the film has the
+camera** (docs/BATTLES.md §17.2; public/app.js `screenForFilm`, public/style.css `body[data-film=host]`):
+
+- *The class* and *The Rumor Mill* fold to their headings. The teacher can open either again; what the film folded opens again after it.
+- The teacher's column keeps **Pause**, **Stop for today**, **End Game** and the pace, and puts away **Recover a student**, the join
+  card, the class days, **Late students** and **Classes**.
+- The day's banner (§2.3) goes small into the **bottom left**, above the map's buttons; **Whole class** still works on it.
+- Everything comes back the moment the film lets go: the fight over and faded back, **Esc** or **Take the camera (Esc)**, a drag, a
+  zoom or a map button. To reach Recover or Late students mid-fight, take the camera.
+
+The film also frames **where the fighting is** (§17.2): bodies standing silent far off no longer widen the field (Coleto's dawn).
+Same computer only: `npm run test:battle-cinema` (the page out of the fight's way, nothing over the middle of the screen, and back
+when the teacher takes the camera). Not proved on a projector.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the

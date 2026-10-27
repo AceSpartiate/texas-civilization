@@ -1,0 +1,174 @@
+{
+  "fight": "gonzales",
+  "label": "after",
+  "shots": [
+    {
+      "phase": "dawn-skirmish",
+      "host": {
+        "phase": "dawn-skirmish",
+        "figurePx": 22,
+        "scale": 1240,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 56,
+          "mexican": 48
+        },
+        "cover": 0.777,
+        "banksInView": 38,
+        "smokeInView": 78,
+        "menThinned": 108,
+        "puffsThinned": 22,
+        "film": "host",
+        "messages": {
+          "accent": null,
+          "open": true,
+          "title": null,
+          "go": null,
+          "toggle": "Messages"
+        },
+        "alert": null
+      },
+      "student1366": {
+        "phase": "dawn-skirmish",
+        "figurePx": 22,
+        "scale": 1218,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 55,
+          "mexican": 48
+        },
+        "cover": 0.777,
+        "banksInView": 51,
+        "smokeInView": 115,
+        "menThinned": 106,
+        "puffsThinned": 23,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The fight at Williams’s place",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:gonzales:hh-1",
+          "field": true
+        }
+      },
+      "student1024": {
+        "phase": "dawn-skirmish",
+        "figurePx": 20,
+        "scale": 1088,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 55,
+          "mexican": 48
+        },
+        "cover": 0.754,
+        "banksInView": 55,
+        "smokeInView": 121,
+        "menThinned": 104,
+        "puffsThinned": 25,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The fight at Williams’s place",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:gonzales:hh-1",
+          "field": true
+        }
+      }
+    },
+    {
+      "phase": "fight",
+      "host": {
+        "phase": "fight",
+        "figurePx": 45,
+        "scale": 2510,
+        "cinema": "follow",
+        "followed": "hh-1-thomas",
+        "figures": {
+          "texian": 46,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 31,
+        "smokeInView": 51,
+        "menThinned": 55,
+        "puffsThinned": 21,
+        "film": "host",
+        "messages": {
+          "accent": null,
+          "open": true,
+          "title": null,
+          "go": null,
+          "toggle": "Messages"
+        },
+        "alert": null
+      },
+      "student1366": {
+        "phase": "fight",
+        "figurePx": 44,
+        "scale": 2465,
+        "cinema": "follow",
+        "followed": "hh-1-thomas",
+        "figures": {
+          "texian": 46,
+          "mexican": 26
+        },
+        "cover": 0.88,
+        "banksInView": 30,
+        "smokeInView": 52,
+        "menThinned": 62,
+        "puffsThinned": 21,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The fight at Williams’s place",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:gonzales:hh-1",
+          "field": true
+        }
+      },
+      "student1024": {
+        "phase": "fight",
+        "figurePx": 41,
+        "scale": 2255,
+        "cinema": "follow",
+        "followed": "hh-1-thomas",
+        "figures": {
+          "texian": 40,
+          "mexican": 20
+        },
+        "cover": 0.88,
+        "banksInView": 23,
+        "smokeInView": 43,
+        "menThinned": 52,
+        "puffsThinned": 19,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The fight at Williams’s place",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:gonzales:hh-1",
+          "field": true
+        }
+      }
+    }
+  ]
+}

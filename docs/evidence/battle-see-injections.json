@@ -1,0 +1,134 @@
+{
+  "unit": [
+    {
+      "name": "every plume thrown east or west by the sign of the aim, as before 2026-10-27",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": [
+        "a line firing north throws its smoke north, and one firing south throws it south - not east or west",
+        "a gun laid north throws its four puffs north, and a man in a square fires out of his own face",
+        "a named man drawn firing north - Travis at the north battery - makes smoke, and it goes north"
+      ],
+      "caught": true,
+      "failed": [
+        "a line firing north throws its smoke north, and one firing south throws it south - not east or west",
+        "a gun laid north throws its four puffs north, and a man in a square fires out of his own face",
+        "a named man drawn firing north - Travis at the north battery - makes smoke, and it goes north"
+      ]
+    },
+    {
+      "name": "a man firing at will throws his smoke the way his figure is drawn",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "a line firing north throws its smoke north, and one firing south throws it south - not east or west",
+      "caught": true,
+      "failed": [
+        "a line firing north throws its smoke north, and one firing south throws it south - not east or west"
+      ]
+    },
+    {
+      "name": "a gun throws its puffs east or west",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "a gun laid north throws its four puffs north, and a man in a square fires out of his own face",
+      "caught": true,
+      "failed": [
+        "a gun laid north throws its four puffs north, and a man in a square fires out of his own face"
+      ]
+    },
+    {
+      "name": "a square's faces all fire the way the square faces",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "a gun laid north throws its four puffs north, and a man in a square fires out of his own face",
+      "caught": true,
+      "failed": [
+        "a gun laid north throws its four puffs north, and a man in a square fires out of his own face"
+      ]
+    },
+    {
+      "name": "a named man drawn firing makes no smoke",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "a named man drawn firing north - Travis at the north battery - makes smoke, and it goes north",
+      "caught": true,
+      "failed": [
+        "a named man drawn firing north - Travis at the north battery - makes smoke, and it goes north"
+      ]
+    },
+    {
+      "name": "the smoke's rising counted as ground going north",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "the smoke drifts with the wind and never against it, however light: rising is height, not ground",
+      "caught": true,
+      "failed": [
+        "the smoke drifts with the wind and never against it, however light: rising is height, not ground"
+      ]
+    },
+    {
+      "name": "a volley's wall always laid east to west",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "a volley's wall of smoke lies along the rank, whichever way the rank faces",
+      "caught": true,
+      "failed": [
+        "a volley's wall of smoke lies along the rank, whichever way the rank faces"
+      ]
+    },
+    {
+      "name": "the whole field framed, the silent ring and all, as before 2026-10-27",
+      "file": "public/battle-frame.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept",
+      "caught": true,
+      "failed": [
+        "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept"
+      ]
+    },
+    {
+      "name": "the men being fired on left out of the frame",
+      "file": "public/battle-frame.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept",
+      "caught": true,
+      "failed": [
+        "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept"
+      ]
+    },
+    {
+      "name": "the reach reckoned from a gun beside the men as from the men",
+      "file": "public/battle-frame.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept",
+      "caught": true,
+      "failed": [
+        "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept"
+      ]
+    },
+    {
+      "name": "the smoke thinned round the class's own men only, as before 2026-10-27",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "every man in the fight is seen through its smoke: the banks thinned round each of them, a fresh plume over a man drawn thinner",
+      "caught": true,
+      "failed": [
+        "every man in the fight is seen through its smoke: the banks thinned round each of them, a fresh plume over a man drawn thinner"
+      ]
+    },
+    {
+      "name": "a fresh plume over a man drawn at full strength",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "every man in the fight is seen through its smoke: the banks thinned round each of them, a fresh plume over a man drawn thinner",
+      "caught": true,
+      "failed": [
+        "every man in the fight is seen through its smoke: the banks thinned round each of them, a fresh plume over a man drawn thinner"
+      ]
+    }
+  ],
+  "browser": [],
+  "at": "2026-10-27T12:51:51.704Z",
+  "caught": 12,
+  "of": 12
+}

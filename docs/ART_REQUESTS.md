@@ -586,6 +586,7 @@ Owner, 2026-09-28: *"add to the art requests list which items need to be made so
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| **A man on foot firing north or south** (a square's north and south faces, a line facing up or down the page) is drawn in the library's side-on `volunteer-fire-reload` / `regular-fire-reload`, turned east or west by the sign of his aim; his smoke goes the way the shot does (2026-10-27) | `aimOf` and the firing figures in `draw`, `public/battle-view.js` | Request 2026-10-27 — infantry firing north and south | `volunteer-fire-reload-n`, `-s`; `regular-fire-reload-n`, `-s`; the standing and loading frames |
 | **The family's mule** (bought at the stock pens, 2026-10-03) is Claude's brown mule on its halter (`mule-walk-*`, `mule-idle`) and saddled under a rider (`mule-saddled-walk-*`); while those sheets load, the family's chestnut horse drawn a little smaller. **Anybody riding the mule** is their own figure cut at the waist over the saddled mule - never the painted horse-and-rider, which would put them on the chestnut horse | `miniAnimal` and `drawSeated` (`onMule`, `mountOf`) in `public/app.js`; `entityClip` in `public/motion.js` | Request 2026-10-03 — riders in every vehicle, items 1 to 3 | `mule-idle`, `mule-walk-*`, `mule-saddled-walk-*`, `mule-packed-walk-*`; `<family>-mule-ride-*`, `<child>-mule-ride-*`, `<cast>-mule-ride-*` |
 | **A mule in harness** (2026-10-03, the owner's "yes, but speed should adjust if it's too heavy") is Claude's mule on its halter (`mule-walk-*`) drawn where the ox would stand before the carreta, cart or wagon; the second of a pair walks alongside; a mule-drawn wagon is drawn apart, not as the ox rig | `miniAnimal` and `drawSeated` (`muleDrawn`) in `public/app.js`; `wagonTeams` in `public/motion.js` | Request 2026-10-03 — riders in every vehicle, items 9 and 10 | `mule-harness-walk-*`, `mule-pair-harness-walk-*`, `wagon-mule-*`, `wagon-mules-*` |
 | **Fencing a yard** has its painted icon (`icon-fence-yard`, 2026-10-26); a **path** on the land is laid in the painted trodden-path tile turned along it, over the road's worn verge (`road-tile-path`, `road-tile-verge`, painted with the owner's local pipeline 2026-10-13, repainted with klein 4B 2026-10-26; public/ground-texture.js), as the roads now are (*Cut a path* and its stand-in icon went 2026-10-03, when every path went automatic) | `PANEL_ICONS['fence-yard']` in `public/family-panel.js`; `drawLandPaths` in `public/app.js` | Request 2026-10-02 — paths and the yard, item 3 | `ground-path-straight`, `ground-path-bend` |
@@ -766,6 +767,30 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-10-27 — infantry firing north and south
+
+**Status: open; a stand-in in use since 2026-10-27 (see *Stand-ins in use*).** The owner, 2026-10-27: *"smoke plumes from gunfire: do
+they go in the right direction? always?"* Since that day each shot's smoke is thrown the way the shot goes, north and south as well as
+east and west (docs/BATTLES.md §17.1). A man on foot firing up or down the page - Coleto's square's north and south faces, a line
+facing the enemy above or below it - is still drawn in the library's side-on cycle, so his musket points east or west while his smoke
+goes north or south. The Alamo's men over the parapet (Astra's `volunteer-parapet-n-*`, `-s-*`), the mounted men
+(`*-mounted-fire-n`, `-s`) and Travis and Milam at their guns already have north and south frames.
+
+1. **A volunteer firing and loading, north and south** (priority 2) - `volunteer-fire-reload-n`, `volunteer-fire-reload-s`: the
+   same four parts and timing as `volunteer-fire-reload` (aim 700, fire 120, load 750, ramrod 900 ms of the clip; the page holds each
+   longer, public/battle-view.js `musketClip`), seen from behind firing away up the page and from the front firing down it. His
+   muzzle at the top of his figure (north) or at its foot (south), so the flash and the smoke start there.
+2. **A Mexican regular, the same** (priority 2) - `regular-fire-reload-n`, `regular-fire-reload-s`.
+3. **Standing between shots** (priority 3) - `volunteer-n`, `volunteer-s`, `regular-n`, `regular-s` with the piece held, and the
+   kneeling load `volunteer-load-n`/`-s`, `regular-load-n`/`-s`.
+
+**Plugs in.** The figure loop of `draw` in public/battle-view.js picks `${kind}-fire-reload` and flips it east or west; with the frames it picks the
+`-n`/`-s` clip when `aimOf` points more up or down the page than across it (`mountedHeading`'s rule), and the flash is turned
+along the shot as the parapet's already is (`flash`'s `turn`).
+
+**Check.** At Coleto's square (1366x768, the film's field and its close shot) the north face's men are seen from behind firing north,
+the south face's from the front firing south, their smoke going out of their own face (docs/evidence/battle-see/smoke-direction-after.png).
 
 ## Request 2026-10-09 — the More icon on a short bar
 

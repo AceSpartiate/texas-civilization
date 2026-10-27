@@ -1952,3 +1952,15 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
    marks: a cream disc ringed in amber, over the horn, in the portrait's foot. No words. */
 .panel-row[data-idle=true] .panel-idle-mark[data-drawn=true]{z-index:4;width:21px;height:21px;right:0;bottom:0;box-sizing:border-box;padding:1px;border-radius:50%;background:#fbf3dc;border:1.5px solid #d08a1e;box-shadow:0 0 0 1px #29251b99,0 0 6px 1px #f0b43aaa;filter:none}
 .panel-row[data-idle=true] .panel-idle-mark:not([data-drawn=true]){z-index:4;background:#d08a1e;color:#fff8e6}
+/* The fight out from under the page (owner, 2026-10-27: "it was kind of hard to see the battles"; docs/BATTLES.md §17.2,
+   docs/HOST_PAGE.md §2.18; public/app.js `screenForFilm`). While the film has the camera - the class view filming a fight, or a
+   student's Watch - the panels that stood over the fight step aside, and come back the moment the film lets go. On the Host the
+   class panel and the Rumor Mill fold to their headings (in the script); the teacher's column keeps its pause, bell and pace; the
+   day's banner goes small into the bottom left, above the map's buttons. On a student's page the
+   column folds to its faces (in the script), and the card beside the man in the fight, his bar, a tip and a land chooser are put
+   away: Watch is the whole of what that moment is for, as answering the rider is (docs/FAMILY_PANEL.md §12.13). */
+body[data-film=host] #recover,body[data-film=host] #join-links,body[data-film=host] #class-days,body[data-film=host] #late,body[data-film=host] #classes{display:none}
+body[data-film=host] #host-spotlight{left:12px;right:auto;top:auto;bottom:68px;transform:none;max-width:min(24rem,calc(100% - 24px));padding:5px 9px;gap:2px 8px;font-size:12px;line-height:1.3;opacity:.94}
+body[data-film=host] #host-spotlight-back{padding:2px 8px;font-size:11px}
+body[data-film=student] #selection,body[data-film=student] #tip,body[data-film=student] #site-choose,body[data-film=student] #survey-choose{display:none}
+body[data-film=student] .panel-row[data-focused=true] .panel-icons{display:none}

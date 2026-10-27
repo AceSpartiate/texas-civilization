@@ -36,14 +36,14 @@ const INJECTIONS = [
   {
     name: 'the column is never folded for a place, so the student keeps the names and the panel keeps its distance by luck',
     file: 'public/app.js',
-    from: '  if (placing !== placingWas) { placingWas = placing; setPanelFolded(placing || panelFolded()); }',
-    to: '  if (placing !== placingWas) { placingWas = placing; setPanelFolded(panelFolded()); }',
+    from: '  if (placing !== placingWas) { placingWas = placing; setPanelFolded(placing || filmingWas || panelFolded()); }',
+    to: '  if (placing !== placingWas) { placingWas = placing; setPanelFolded(filmingWas || panelFolded()); }',
     expect: 'the column did not fold',
   },
   {
     name: 'the column folds for a place and never opens again, which takes the names away for good',
     file: 'public/app.js',
-    from: '  if (placing !== placingWas) { placingWas = placing; setPanelFolded(placing || panelFolded()); }',
+    from: '  if (placing !== placingWas) { placingWas = placing; setPanelFolded(placing || filmingWas || panelFolded()); }',
     to: '  if (placing !== placingWas) { placingWas = placing; setPanelFolded(true); }',
     expect: 'the column did not fold',
   },

@@ -1,0 +1,258 @@
+{
+  "fight": "coleto",
+  "label": "after",
+  "shots": [
+    {
+      "phase": "assault-1",
+      "host": {
+        "phase": "assault-1",
+        "figurePx": 19,
+        "scale": 1039,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 51,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 39,
+        "smokeInView": 107,
+        "menThinned": 117,
+        "puffsThinned": 40,
+        "film": "host",
+        "messages": {
+          "accent": null,
+          "open": true,
+          "title": null,
+          "go": null,
+          "toggle": "Messages"
+        },
+        "alert": null
+      },
+      "student1366": {
+        "phase": "assault-1",
+        "figurePx": 37,
+        "scale": 2025,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 51,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 28,
+        "smokeInView": 80,
+        "menThinned": 101,
+        "puffsThinned": 36,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "Caught on the prairie",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:coleto:caught:hh-1",
+          "field": true
+        }
+      },
+      "student1024": {
+        "phase": "assault-1",
+        "figurePx": 26,
+        "scale": 1450,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 51,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 30,
+        "smokeInView": 83,
+        "menThinned": 102,
+        "puffsThinned": 40,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "Caught on the prairie",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:coleto:caught:hh-1",
+          "field": true
+        }
+      }
+    },
+    {
+      "phase": "assault-2",
+      "host": {
+        "phase": "assault-2",
+        "figurePx": 36,
+        "scale": 2018,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 48,
+          "mexican": 14
+        },
+        "cover": 0.88,
+        "banksInView": 41,
+        "smokeInView": 101,
+        "menThinned": 95,
+        "puffsThinned": 52,
+        "film": "host",
+        "messages": {
+          "accent": null,
+          "open": true,
+          "title": null,
+          "go": null,
+          "toggle": "Messages"
+        },
+        "alert": null
+      },
+      "student1366": {
+        "phase": "assault-2",
+        "figurePx": 31,
+        "scale": 1707,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 48,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 46,
+        "smokeInView": 113,
+        "menThinned": 110,
+        "puffsThinned": 51,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "Caught on the prairie",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:coleto:caught:hh-1",
+          "field": true
+        }
+      },
+      "student1024": {
+        "phase": "assault-2",
+        "figurePx": 28,
+        "scale": 1557,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 48,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 42,
+        "smokeInView": 100,
+        "menThinned": 87,
+        "puffsThinned": 58,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "Caught on the prairie",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:coleto:caught:hh-1",
+          "field": true
+        }
+      }
+    },
+    {
+      "phase": "guns",
+      "host": {
+        "phase": "guns",
+        "figurePx": 17,
+        "scale": 919,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 46,
+          "mexican": 17
+        },
+        "cover": 0.88,
+        "banksInView": 64,
+        "smokeInView": 115,
+        "menThinned": 119,
+        "puffsThinned": 22,
+        "film": "host",
+        "messages": {
+          "accent": null,
+          "open": true,
+          "title": null,
+          "go": null,
+          "toggle": "Messages"
+        },
+        "alert": null
+      },
+      "student1366": {
+        "phase": "guns",
+        "figurePx": 18,
+        "scale": 974,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 46,
+          "mexican": 17
+        },
+        "cover": 0.88,
+        "banksInView": 57,
+        "smokeInView": 108,
+        "menThinned": 115,
+        "puffsThinned": 23,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The guns at dawn",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:coleto:guns:hh-1",
+          "field": true
+        }
+      },
+      "student1024": {
+        "phase": "guns",
+        "figurePx": 15,
+        "scale": 844,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 46,
+          "mexican": 17
+        },
+        "cover": 0.88,
+        "banksInView": 57,
+        "smokeInView": 103,
+        "menThinned": 109,
+        "puffsThinned": 18,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The guns at dawn",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:coleto:guns:hh-1",
+          "field": true
+        }
+      }
+    }
+  ]
+}

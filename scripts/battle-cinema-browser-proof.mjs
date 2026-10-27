@@ -111,6 +111,17 @@ try {
     await host.waitForFunction(() => window.__snapshot.world.status === 'running');
   }
   ok('two students joined on the page, each family with a man up the river with the men, and the Host started the class');
+  // The second student presses Watch the moment the card comes up - at the gathering, before any fight is drawn ("The fight is
+  // coming"). Until 2026-10-27 that framed the ground and nothing more: when the fighting came the page stood on a still frame with
+  // the card folded and a tip saying "Press Watch" (docs/BATTLES.md §17.2). Checked when the fight is on, below.
+  const earlyWatch = (async () => {
+    const page = students['hh-2'];
+    const up = await page.waitForFunction(() => !document.querySelector('#military-message')?.hidden && document.querySelector('#military-go')?.textContent === 'Watch', null, { timeout: 240000 }).then(() => true, () => false);
+    if (!up) return { up };
+    const drawn = await page.evaluate(() => Boolean(window.__snapshot?.world.battle?.sides));
+    await page.locator('#military-go').click();
+    return { up, drawn, title: await page.evaluate(() => document.querySelector('#military-title')?.textContent || null) };
+  })();
   // A second Host page asking for less motion, at a Chromebook's small screen.
   const still = await pageFor({ width: 1024, height: 600 }, { reducedMotion: 'reduce' });
   await still.goto(`${url}/host#${app.state.hostKey}`);
@@ -161,6 +172,26 @@ try {
   const fieldShot = await cinema(host);
   assert.equal(fieldShot.camera.kind, 'battle');
   await shot(host, '2-follow-field');
+  // The fight out from under the page (owner, 2026-10-27: "it was kind of hard to see the battles"; docs/BATTLES.md §17.2): while the
+  // film has the camera, the class panel and the Rumor Mill are folded to their headings, the teacher's column keeps only its pause,
+  // bell and pace, the day's banner is small in the bottom left, and nothing of the page stands over the middle of the screen.
+  const clearOfFight = page => page.evaluate(() => {
+    const shown = selector => { const element = document.querySelector(selector); if (!element || element.hidden) return null; const box = element.getBoundingClientRect(); return box.width && box.height && getComputedStyle(element).display !== 'none' ? box : null; };
+    const middle = { left: innerWidth * 0.25, right: innerWidth * 0.75, top: innerHeight * 0.25, bottom: innerHeight * 0.75 };
+    const over = ['#host-live', '#host-spotlight', '#late', '#join-links', '#classes', '#recover', '#class-days', '#family-panel', '#selection', '#tip', '#site-choose', '#military-notice']
+      .map(selector => [selector, shown(selector)]).filter(([, box]) => box && box.left < middle.right && box.right > middle.left && box.top < middle.bottom && box.bottom > middle.top).map(([selector]) => selector);
+    return { film: document.body.dataset.film || null, classOpen: document.querySelector('#host-class')?.open ?? null, rumorOpen: document.querySelector('#rumor-mill')?.open ?? null,
+      column: ['#late', '#join-links', '#classes', '#recover', '#class-days'].filter(selector => shown(selector)), controls: Boolean(shown('#host-controls')),
+      spotlight: shown('#host-spotlight') && { left: Math.round(shown('#host-spotlight').left), right: Math.round(shown('#host-spotlight').right) }, over,
+      folded: document.querySelector('#family-panel')?.dataset.collapsed ?? null, card: Boolean(shown('#selection')) };
+  });
+  const filmedHost = await clearOfFight(host);
+  assert.ok(filmedHost.film === 'host' && filmedHost.classOpen === false && filmedHost.rumorOpen === false, `the class panel or the Rumor Mill stood open over the fight: ${JSON.stringify(filmedHost)}`);
+  assert.ok(!filmedHost.column.length && filmedHost.controls, `the teacher's column stood over the fight: ${JSON.stringify(filmedHost)}`);
+  assert.ok(!filmedHost.spotlight || filmedHost.spotlight.right < 1366 / 2, `the day's banner stood across the fight: ${JSON.stringify(filmedHost.spotlight)}`);
+  assert.deepEqual(filmedHost.over, [], `the page stood over the middle of the fight: ${filmedHost.over.join(', ')}`);
+  evidence.clearOfFight = { filmed: filmedHost };
+  ok(`while the film had the camera the page stood out of the fight's way: the class and the Rumor Mill folded, the teacher's column down to its pause, bell and pace, the banner small at the left, nothing over the middle`);
   // The names: every man of the class in the fight, his family and its colour, told apart.
   const named = fieldShot.tags.filter(tag => men.includes(tag.id));
   assert.equal(named.length, 2, `the class's two men were not both named: ${JSON.stringify(fieldShot.tags)}`);
@@ -194,6 +225,11 @@ try {
   assert.ok(Math.abs(after.camera.cx - taken.camera.cx) < 1e-6 && Math.abs(after.camera.scale - taken.camera.scale) < 1e-6, 'the camera went on moving after the teacher took it');
   const button = host.locator('#map-nav [data-view=cinema]');
   assert.equal((await button.textContent()).trim(), 'Watch the fight');
+  // The teacher has the camera: the page is theirs again, every panel back as it was before the film.
+  const released = await clearOfFight(host);
+  assert.ok(released.film === null && released.classOpen === true && released.rumorOpen === true && released.column.includes('#late'), `the page did not come back when the teacher took the camera: ${JSON.stringify(released)}`);
+  evidence.clearOfFight.released = released;
+  ok('the teacher took the camera and the page came back: the class panel and the Rumor Mill open again, the teacher\'s column whole');
   await shot(host, '4-teacher-has-the-camera');
   await button.click();
   await host.waitForFunction(() => window.__cinema?.state === 'follow');
@@ -206,18 +242,43 @@ try {
 
   // ------------------------------------------------------------------ the student's Watch
   const student = students['hh-1'];
-  const watch = await student.locator('#military-go').isVisible().catch(() => false) && (await student.locator('#military-go').textContent()) === 'Watch';
+  // The Watch card is up, open, while the family's man is in the fight - never folded under "Open messages" by the card of the man
+  // himself (§17.2: until 2026-10-27 it was, and the tip said "Press Watch" with no Watch to press).
+  const card = await student.evaluate(() => ({ accent: document.querySelector('#military-notice')?.dataset.accent || null, open: !document.querySelector('#military-message')?.hidden, go: document.querySelector('#military-go')?.textContent || null, alert: Boolean(window.__snapshot?.world.battleAlert) }));
+  const watch = card.alert && card.accent === 'battle';
   if (watch) {
+    assert.ok(card.open && card.go === 'Watch' && await student.locator('#military-go').isVisible(), `the student's Watch card was folded away while the fight was on: ${JSON.stringify(card)}`);
     assert.equal(await student.evaluate(() => window.__cinema?.state ?? 'off'), 'off', 'a student\'s page was filmed before Watch');
+    const before = await clearOfFight(student);
     await student.locator('#military-go').click();
     await student.waitForFunction(() => window.__cinema?.state === 'follow', null, { timeout: 5000 });
     const own = await student.waitForFunction(id => window.__cinema?.followed === id, men[0], { timeout: 30000 }).then(() => true, () => false);
     assert.ok(own, 'the student\'s Watch never followed their own man');
     const seen = await cinema(student);
     assert.ok(seen.tags.every(tag => tag.householdId === 'hh-1'), `a student's page named another family's man: ${JSON.stringify(seen.tags)}`);
+    // Watching, the family's column is folded to its faces and the card beside the man and the tip are put away (§17.2).
+    const watching = await clearOfFight(student);
+    assert.ok(watching.film === 'student' && watching.folded === 'true' && !watching.card, `the student's page stood over the fight while watching: ${JSON.stringify(watching)}`);
+    assert.deepEqual(watching.over, [], `the student's page stood over the middle of the fight: ${watching.over.join(', ')}`);
     await shot(student, '5-student-watch');
-    ok(`the student pressed Watch and the same follow ran on their own page, on their own man ${men[0]}, naming nobody else's`);
-  } else ok('(the student\'s Watch card had gone up and been seen before this point; the follow it starts is held by tests/battle-cinema.test.mjs)');
+    // And Esc gives the student their page back as it was.
+    await student.keyboard.press('Escape');
+    await student.waitForFunction(() => window.__cinema?.state !== 'follow', null, { timeout: 5000 });
+    await student.waitForTimeout(300);
+    const after = await clearOfFight(student);
+    assert.ok(after.film === null && after.folded === before.folded, `the student's page did not come back after Watch: ${JSON.stringify({ before, after })}`);
+    evidence.clearOfFight.student = { before, watching, after };
+    ok(`the student's Watch card stood open; pressed, the same follow ran on their own page, on their own man ${men[0]}, naming nobody else's, with the family folded to its faces and nothing over the fight; Esc gave the page back`);
+  } else ok(`(the student's Watch card was not up at this point: ${JSON.stringify(card)}; the follow it starts is held by tests/battle-cinema.test.mjs)`);
+  // The second student, who pressed Watch before the fight was drawn: once it is, their page follows it, out of its way.
+  const early = await earlyWatch;
+  assert.ok(early.up, 'the second student\'s Watch card never came up open');
+  const earlyPage = students['hh-2'];
+  const earlyFilmed = await earlyPage.waitForFunction(() => window.__cinema?.state === 'follow' && document.body.dataset.film === 'student', null, { timeout: 30000 }).then(() => true, () => false);
+  const earlySeen = await clearOfFight(earlyPage);
+  assert.ok(earlyFilmed, `Watch pressed before the fight was drawn ("${early.title}", drawn then: ${early.drawn}) left the student on a still frame when it was: ${JSON.stringify({ state: await earlyPage.evaluate(() => window.__cinema?.state ?? 'off'), ...earlySeen })}`);
+  evidence.clearOfFight.early = { ...early, seen: earlySeen };
+  ok(`the second student pressed Watch at "${early.title}"${early.drawn ? '' : ', before the fight was drawn'}, and when it was their page followed it, out of its way`);
 
   // ------------------------------------------------------------------ frame time at a Chromebook's screen
   const frame = async (page, label) => { await page.waitForTimeout(2500); const one = await page.evaluate(() => ({ battle: window.__battleView?.frameMs, map: window.__animation?.drawMs, smokeInView: window.__battleView?.smokeInView, banks: window.__battleView?.banksInView })); evidence.frames[label] = one; return one; };
@@ -286,6 +347,7 @@ try {
     record: 'battle-cinema-browser', date: new Date().toISOString().slice(0, 10), browser: browser.version(),
     environment: 'Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x600 (one page asking for reduced motion). The class runs at 400 ms a tick with the fight floor scaled by 0.5. Not a projector, a Chromebook, physical LAN or district acceptance.',
     checks: pass, home: evidence.home, floor: evidence.floor, frames: evidence.frames, samples: evidence.samples, musket: evidence.musket,
+    clearOfFight: evidence.clearOfFight,
     states: [...new Set(evidence.trace.map(one => one.state))], screenshots: `${shots}/`,
   }, null, 2)}\n`);
   console.log(`\n${pass.length} checks passed. Wrote docs/evidence/battle-cinema-browser.json`);
