@@ -10,6 +10,7 @@ import { dirname, basename, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { openSouth } from '../sim/south.mjs';
 import { openAdvancePlaces } from '../sim/advance-places.mjs';
+import { keepersToTheirDoors } from '../sim/shops.mjs';
 
 /**
  * When process `pid` began, in milliseconds since 1970: a number; `undefined` when there is no such process; null when it
@@ -187,6 +188,9 @@ export function readSave(path) {
   // Washington, Mrs. Powell's - and the roads the columns went by (sim/advance-places.mjs `openAdvancePlaces`, docs/SCRAPE.md
   // §10 (c)). No version moved: added, nothing it had moved.
   if (save.world) openAdvancePlaces(save.world);
+  // And every keeper of a drawn town at the door the town now draws (sim/shops.mjs `keepersToTheirDoors`): a class saved before
+  // the lots were drawn wider than surveyed (2026-10-27) had them at the surveyed doors. No version moved: nothing is added.
+  if (save.world) keepersToTheirDoors(save.world);
   return save;
 }
 // Keep the previous class before a deliberate reset. This is an explicit teacher

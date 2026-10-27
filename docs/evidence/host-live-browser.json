@@ -1,20 +1,20 @@
 {
   "record": "host-live-browser",
-  "date": "2026-10-04",
+  "date": "2026-10-27",
   "verdict": "PASS",
-  "browser": "154.0.8037.93",
+  "browser": "156.0.8078.47",
   "task": "docs/HOST_PAGE.md: the class panel in words with presence and what waits; an absent family playing itself and back; the Rumor Mill; the spotlight taking the camera to the fight at Gonzales; the student sent none of it.",
   "environment": "Same computer: a local classroom server at 100 ms a tick with a 2500 ms absence grace (the build ships 120 s), five families, and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
   "checks": [
     "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Josiah at home: working",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2793 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2545 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
     "the fight at Gonzales lit the spotlight: the camera went to the field and the banner reads \"October 2: On Williams’s land above Gonzales, the Texians fire the cann…\"",
     "Whole class brings the camera back to the class",
-    "the Rumor Mill tells 2 piece(s) as a story: \"In September, a Mexican detachment came to the Guadalupe opposite Gonzales for the town's …\" - The latest, October 2 (confirmed): Mexican detachment withdraws; Texia…",
-    "as word spread the story grew to 3 pieces",
+    "the Rumor Mill tells 1 piece(s) as a story: \"In September, a Mexican detachment came to the Guadalupe opposite Gonzales for the town's …\" - The latest, September 29 (confirmed): A Mexican detachment has reached…",
+    "as word spread the story grew to 2 pieces",
     "at 400 px the Host page does not scroll sideways",
     "no page errors on either page"
   ],
@@ -101,8 +101,8 @@
         "people": [
           "Joel at home: working",
           "Keziah at home: working",
-          "Peter at home",
-          "Ruth at home",
+          "Peter at home: working",
+          "Ruth at home: working",
           "Emily at home",
           "Micajah at home",
           "Zadok at home",
@@ -111,37 +111,35 @@
         ]
       }
     ],
-    "absentAfterMs": 2793,
+    "absentAfterMs": 2545,
     "spotlight": {
       "date": "October 2",
       "text": "On Williams’s land above Gonzales, the Texians fire the cannon and advance, and the Mexican dragoons wheel and ride away toward Béxar. The war has begun.",
       "camera": {
         "kind": "battle",
-        "scale": 1437.7856492415506,
+        "scale": 1247.6727746789054,
         "named": true,
-        "cx": 0.8039879792966784,
-        "cy": 1.8798430362282152,
+        "cx": 0.806574142255494,
+        "cy": 1.8508829247991025,
         "following": false,
         "watching": null,
-        "figure": 27.31792733558946,
+        "figure": 23.7057827188992,
         "house": {
-          "size": 90.1491602074452,
+          "size": 78.22908297236737,
           "one": false
         }
       }
     },
     "mill": {
       "paragraphs": [
-        "In September, a Mexican detachment came to the Guadalupe opposite Gonzales for the town's cannon, and the settlers would not give it up.",
-        "In October, the Mexican detachment withdrew, and the Texians kept the cannon (heard by 1 of 5 families)."
+        "In September, a Mexican detachment came to the Guadalupe opposite Gonzales for the town's cannon, and the settlers would not give it up (heard by 4 of 5 families)."
       ],
-      "latest": "The latest, October 2 (confirmed): Mexican detachment withdraws; Texians retain the cannon.",
+      "latest": "The latest, September 29 (confirmed): A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon.",
       "topics": [
-        "cannon-request",
-        "gonzales-outcome"
+        "cannon-request"
       ]
     },
-    "millLater": 3
+    "millLater": 2
   },
   "screenshots": [
     "docs/evidence/host-live-class-panel.png",

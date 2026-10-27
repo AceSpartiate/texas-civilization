@@ -23,7 +23,7 @@ import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzale
 import { TOWN_WALK, TownWalker, drawTownSpeech, renderSceneCard, townSceneAt, townSceneDrawables } from '/town-scenes.js';
 import { drawSpeech, speechLayout } from '/speech.js';
 import { ambientGround, campMan, crowdDrawables, drawAmbientSpeech, propItem } from '/ambient.js';
-import { drawTownGround, townDrawables, townLabelsDrawn } from '/town-art.js';
+import { beginTownLabels, drawTownGround, drawTownLabels, townDrawables, townLabelsDrawn, townLots } from '/town-art.js';
 import { placeSprite } from '/place-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
@@ -1116,11 +1116,27 @@ function drawnHeightOf(entity, size, seat) {
  * town's scenes have put somewhere (sim/town-scenes.mjs), who stands exactly where the scene has them. Null for anybody not
  * standing in the town.
  */
+/**
+ * A keeper standing at their own shop's door, or stepped out a few paces from it (sim/shops.mjs `shopSpot`,
+ * `advanceShopkeepers`): drawn on that spot, without the separation (`stableOffset`) that keeps a crowd standing on one
+ * point apart, which carried a keeper up to a person and a half sideways - behind the next building down the street once the
+ * town lots were drawn wider than surveyed and the buildings three times taller (owner, 2026-10-27). Each keeper has a door of
+ * their own, so there is no crowd to part. Read from the map's shops, which the page has for every town it draws.
+ */
+function keeperAtDoor(world, entity) {
+  if (entity.kind !== 'person' || entity.travel || !entity.location) return false;
+  const siteId = entity.location.siteId, site = world.map?.sites?.[siteId];
+  const shop = site && (world.map?.shops?.[siteId] || []).find(one => one.keeperId === entity.id);
+  if (!shop) return false;
+  const dx = entity.location.x - site.x - shop.x, dy = entity.location.y - site.y - shop.y;
+  return Math.abs(dy - 0.012) < 0.002 && dx > -0.002 && dx < 0.01;
+}
 function townGround(world, entity, camera, now, frozen) {
   // Somebody at an ambient activity, anywhere (public/ambient.js): walked to a neighbour's door and home again, a load carried
   // back and forth, turned to whoever they keep company with. Walked by the same walker as Gonzales, so nobody slides.
+  const door = keeperAtDoor(world, entity);
   if (!entity.travel && entity.kind === 'person' && Number.isFinite(entity.location?.x) && (entity.amb || townWalker.seen(entity.id)?.away)) {
-    const offset = stableOffset(entity.id), miles = PERSON_MILES / 26;
+    const offset = door ? { x: 0, y: 0 } : stableOffset(entity.id), miles = PERSON_MILES / 26;
     const home = { x: entity.location.x + offset.x * miles, y: entity.location.y + offset.y * miles * .8 };
     const one = ambientGround(entity, home, { walker: townWalker, now, time: animationTime, figure: camera.figure, scale: camera.scale, frozen, reducedMotion: reducedMotion.matches, whereIs: id => ambientSpots.get(id), personMiles: PERSON_MILES });
     if (one) {
@@ -1131,7 +1147,7 @@ function townGround(world, entity, camera, now, frozen) {
   }
   if (entity.travel || entity.kind !== 'person' || entity.location?.siteId !== 'gonzales' || !Number.isFinite(entity.location.x)) return null;
   const posed = world.townScenes?.poses?.[entity.id] || null;
-  const offset = posed ? { x: 0, y: 0 } : stableOffset(entity.id), miles = PERSON_MILES / 26;
+  const offset = posed || door ? { x: 0, y: 0 } : stableOffset(entity.id), miles = PERSON_MILES / 26;
   const target = { x: entity.location.x + offset.x * miles, y: entity.location.y + offset.y * miles * .8 };
   const one = townWalker.step(entity.id, target, now, frozen ? 1e3 : TOWN_WALK * camera.figure / Math.max(1, camera.scale));
   // Presentation evidence for the proofs, as `__drawnAt` is, read by nothing in the application.
@@ -3146,6 +3162,12 @@ function drawGroundDetail(ctx, world, camera, kept = null) {
   const cleared = knownLands(world).flatMap(land => land.plots || []).filter(plot => plot.state === 'cleared'
     && (!hostView(world) || (plot.x > topLeft.x - near && plot.x < bottomRight.x + near && plot.y > topLeft.y - near && plot.y < bottomRight.y + near)));
   const inCleared = (x, y) => cleared.some(plot => Math.abs(x - plot.x) < PLOT_SIDE / 2 && Math.abs(y - plot.y) < PLOT_SIDE / 2);
+  // Nor on a town's lots as drawn (public/town-art.js `townLots`): only the towns within a couple of miles of the view.
+  const lots = Object.entries(TOWN_LAYOUTS).flatMap(([id, layout]) => {
+    const site = world.map?.sites?.[id];
+    return site && site.x > topLeft.x - 2 && site.x < bottomRight.x + 2 && site.y > topLeft.y - 2 && site.y < bottomRight.y + 2 ? townLots(layout, site) : [];
+  });
+  const onLot = (x, y) => lots.some(lot => x >= lot.left && x <= lot.right && y >= lot.top && y <= lot.bottom);
   const bexarSite=world.map?.sites?.bexar;
   const gonzalesSite=world.map?.sites?.gonzales;
   // Timber stands where the map says the woods are (sim/geography.mjs, sim/colonies-region.mjs), and close up it is the trees
@@ -3225,6 +3247,8 @@ function drawGroundDetail(ctx, world, camera, kept = null) {
         const own = groundClassAt(landGrid, wx, wy);
         const ground = outsideGrid && own === DEFAULT_GROUND ? groundClassAt(outsideGrid, wx, wy) : own;
         const timber = (hasWoods && inWoods(wx, wy)) || (!landWoods && groundClass(ground).timber === true);
+        // A tree of the scatter, like a tree of the woods, does not stand on a town's lot (`onLot`, below the trees' own).
+        if (timber && lots.length && onLot(wx, wy)) continue;
         const mix = windAt ? windAt(wx) : null;
         scattered.push({ share: item.share, seed: cx + cy, alpha: alpha * detail, timber, ground, point, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false });
       }
@@ -3233,6 +3257,7 @@ function drawGroundDetail(ctx, world, camera, kept = null) {
   if (treesShown > 0) {
     for (const tree of treesVisible(camera, canvas, woodsCatalogue)) {
       if (cleared.length && inCleared(tree.x, tree.y)) continue;
+      if (lots.length && onLot(tree.x, tree.y)) continue;
       if (channels.length && inWater(tree.x, tree.y)) continue;
       const point = camera.toScreen(tree), look = treeLook(tree, figure);
       const mix = windAt ? windAt(tree.x) : null;
@@ -4301,7 +4326,7 @@ function drawWorldNow(world) {
   const labels = [];
   // The shops' and buildings' names drawn on the map this frame, which no speech bubble may cover (`speechLayout` below).
   const shopNames = [];
-  townLabelsDrawn.length = 0;
+  beginTownLabels();
   const standing = [];
   // Heads in Gonzales this frame, for the words said over them (public/town-scenes.js); filled as the figures are laid out.
   townHeads.clear(); townSceneSpots.clear(); window.__townCast = []; window.__townWalkers = [];
@@ -4681,7 +4706,7 @@ function drawWorldNow(world) {
     standing.push({ y: point.y, draw: () => drawEntity(ctx, shown, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark, entities, workmates: entities, yard: yardRect, projected,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
-      now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
+      now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown) || keeperAtDoor(world, entity),
     }) });
     // The milk cow a child drives along behind the family on the Scrape (sim/flight-work.mjs, owner 2026-09-27), a step behind
     // them on the road and grazing beside them at the camp. stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow on the run, and Béxar before the bell:
@@ -4743,7 +4768,7 @@ function drawWorldNow(world) {
     projected.set(entity.id, point);
     standing.push({ y: point.y, draw: () => drawEntity(ctx, shown, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale, workmates: host ? observed : null,
-      now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
+      now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown) || keeperAtDoor(world, entity),
     }) });
     shownObserved.push(entity.id);
   }
@@ -4802,6 +4827,8 @@ function drawWorldNow(world) {
   if (pathHome) drawPathGlow(ctx, pathHome, camera);
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
+  // The names of the towns' buildings, over the towns (public/town-art.js `drawTownLabels`): never under the next roof down.
+  drawTownLabels(ctx);
   window.__pathMarker = pathHome ? drawPathMarker(ctx, pathHome, camera) : null;
   drawTravelRoads(ctx, roads, camera, canvas);
   const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;

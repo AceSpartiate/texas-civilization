@@ -597,6 +597,32 @@ export function createShopkeepers(world, near) {
   }
 }
 
+/**
+ * Every keeper of a drawn town back at the door of the building the layout draws them in, where it now draws it: a class saved
+ * before the town lots were drawn wider than surveyed (sim/town-layouts.mjs `TOWN_SPREAD`, owner 2026-10-27) kept its keepers
+ * at the doors of the surveyed town, a third as far from its heart, and would have drawn them standing in the street between
+ * the new lots. Called by server/storage.mjs `readSave`, the one door every save comes through, so no `saveVersion` moves:
+ * nothing is added or read another way, and a class saved since is already where this puts it. A keeper away from the town
+ * comes back to the new door by `advanceShopkeepers`, which reads `shopSpot`; one standing in it is put at it now.
+ */
+export function keepersToTheirDoors(world) {
+  for (const [settlementId, shops] of Object.entries(world?.map?.shops || {})) {
+    const layout = TOWN_LAYOUTS[settlementId];
+    if (!layout || !Array.isArray(shops)) continue;
+    for (const shop of shops) {
+      const building = shop?.building && layout.buildings.find(b => b.id === shop.building);
+      if (!building) continue;
+      const at = townPoint(layout, building);
+      shop.x = at.x; shop.y = at.y;
+      const keeper = world.entities?.[shop.keeperId];
+      if (!keeper?.shopSpot || keeper.townSiteId !== settlementId) continue;
+      keeper.shopSpot = { x: at.x, y: place(at.y + DOOR) };
+      const site = world.map.sites?.[settlementId];
+      if (site && !keeper.travel && keeper.location?.siteId === settlementId) keeper.location = { x: place(site.x + keeper.shopSpot.x), y: place(site.y + keeper.shopSpot.y), siteId: settlementId };
+    }
+  }
+}
+
 /** Keepers keep to their doors, stepping out and back as the day goes. Deterministic from the tick. */
 export function advanceShopkeepers(world) {
   for (const entity of Object.values(world.entities)) {

@@ -597,6 +597,23 @@ Columbia and Liberty — are drawn from the layout sketches in `docs/town-resear
   would place the others as well.
 - `ceiling:` buildings are drawn four times the height the research gives them (`DRAWN_HEIGHT`), so a town reads at a
   student's walking zoom.
+- **The lots drawn wider than surveyed** (owner, 2026-10-27, after the scaling pass found a log house drawn 0.85 of a
+  person to its ridge beside its keeper): a town's inside is drawn `TOWN_SPREAD` (3) times its survey round its heart -
+  every lot, street and square three times as far from it and as wide - and its buildings three times as tall
+  (`townDrawnHeight`, `DRAWN_HEIGHT` × 3 = 12): a 22-foot log house 2.6 people to the ridge, the family's own house 3.3.
+  The heart is the anchor on the map's point, but at Liberty (its 1968 marker), Anahuac (its southern house, the fort a
+  mile off keeping its place), and the four towns whose water would otherwise run through them, which spread away from it:
+  Washington from its ferry landing, Harrisburg from the mills' landing, Brazoria from the top of its bank on Market
+  Street, Mina from Chestnut's line toward the Colorado (`spreadFrom`). A work out of town keeps its surveyed place
+  (`inPlace`: Matagorda's schoolhouse, salt works and burying ground, the Masonic Oak; `heldAt`: Fort Anahuac's pieces).
+  Goliad is battle ground, as Béxar is, and is not spread (`spread: 1`). Twenty-one invented lot positions moved 10 to 110
+  feet so no picture covers a neighbour's, a keeper or a name (`lotsApart`). Keepers stand where the town draws their
+  door - the server places them by the same `townPoint` - and are drawn on it, not parted from it (public/app.js
+  `keeperAtDoor`); a keeper's trade is written west of the door, and every building's name over the town
+  (`drawTownLabels`). Gonzales's houses are drawn 2.2 times as tall (`GONZALES_TALL`), as tall as a 22-foot log house,
+  its lots unchanged. The woods' trees are left out where a building is drawn (`townLots`): the woods' 0.25-mile ring of town
+  fields no longer covers a spread town. tests/town-lots.test.mjs holds all of it.
+- `ceiling:` one spread for every town; a town that needs another sets its own `spread`.
 - `ceiling:` a class made before this keeps its shops' own sprites in its saved map, and draws them on top of the new town.
 - **The other eight, drawn the same day**: Washington (one street, a staked grid, the ferry on its bench), Brazoria (a
   frontage on Main along the bank; its map point moved to Old Town, `HIST-TEX-046`), Velasco (six buildings in two

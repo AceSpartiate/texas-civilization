@@ -214,7 +214,11 @@ const TOWN = 'san-felipe';
 function townWithFamilies(seed) {
   const world = settledClass(seed);
   const [one, two] = ['hh-1', 'hh-2'].map(id => grownOf(world, world.households[id])[0]);
-  const keep = () => { standIn(world, one, TOWN, 0.004, 0.02); standIn(world, two, TOWN, -0.004, 0.02); };
+  // In the street before the store, among the keepers' doors: the town's lots are drawn wider than surveyed (sim/town-layouts.mjs
+  // `TOWN_SPREAD`, 2026-10-27), so the doors stand three times as far from the town's point as they did, and two people there
+  // have only each other near.
+  const store = world.map.shops[TOWN].find(shop => shop.trade === 'store');
+  const keep = () => { standIn(world, one, TOWN, store.x + 0.004, store.y + 0.03); standIn(world, two, TOWN, store.x - 0.004, store.y + 0.03); };
   keep();
   return { world, one, two, keep };
 }

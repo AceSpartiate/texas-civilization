@@ -17,21 +17,48 @@
 
 export const FEET_PER_MILE = 5280;
 /**
- * How much taller a building is drawn than the height the research gives it: a cabin of twenty-odd feet is drawn about as
- * tall as a Gonzales house (public/gonzales-art.js), so a town reads at the zoom a student walks through it; at true
- * height a cabin is a speck (found in the first screenshots, 2026-09-16).
+ * How much taller a building is drawn than the height the research gives it, on ground laid out in true feet: so a cabin
+ * of twenty-odd feet is not a speck (found in the first screenshots, 2026-09-16). Béxar and the Alamo, battle ground laid
+ * out in true miles, are drawn at this (public/bexar-art.js; public/battle-view.js `WALL_DRAWN_HEIGHT`). The towns of the
+ * colonies are drawn spread (`TOWN_SPREAD`), and their buildings at this times their spread (`townDrawnHeight`).
  * ceiling: one factor for every building; a house and a two-storey hall keep their proportion to each other, not to people.
  */
 export const DRAWN_HEIGHT = 4;
+/**
+ * How many times wider than surveyed a town's lots are drawn (owner, 2026-10-27: "draw the town lots wider than
+ * surveyed"). People are a symbol `PERSON_MILES` (100 feet) high; at `DRAWN_HEIGHT` alone a town's log house stood 0.85 of
+ * a person to its ridge beside its keeper, and raising the height alone piled the street's lots one on another. So the
+ * inside of the town is drawn this many times its survey round its heart (`spreadFrom`, else `anchor`): every lot, street
+ * and square that much further from it and that much wider, and every building that much taller - a one-storey log house
+ * 2.5 people to its ridge, about as the family's own house stands at home (`CABIN_PEOPLE` 3.3). The town keeps its place on
+ * the map, its heart on its point, and the drawing its proportions: nothing in it is closer to anything else than
+ * surveyed, against the size it is drawn. The keepers stand where it is drawn (sim/shops.mjs), since both read `townPoint`.
+ * A layout's own `spread` overrides it (Goliad, battle ground, keeps 1), and a point marked `inPlace` keeps its surveyed
+ * place: a ferry on its water, a ruin or a work a mile out of town.
+ * ceiling: one factor for every town; a town that ever needs its own (a larger town, a closer zoom) sets `spread`.
+ */
+export const TOWN_SPREAD = 3;
+/** How many times its survey a town is drawn (`TOWN_SPREAD`, or the layout's own). */
+export const townSpread = layout => layout.spread ?? TOWN_SPREAD;
+/** How many times its researched height a town's building is drawn: `DRAWN_HEIGHT` on the town's spread ground. */
+export const townDrawnHeight = layout => DRAWN_HEIGHT * townSpread(layout);
 /*
  * A building's `art`, where given, is a drawing of that building itself (a Claude-drawn stand-in or, later, Astra's frame of
  * the same name) drawn in its place at `artHeight` (else `height`) once its sheet has loaded (public/town-art.js); a building
  * or a wall marked `standInFor` that name is then not drawn - the library pieces that stood for it. Until then, `sprite`.
+ * A building marked `partOf` another is a piece of one work drawn together - a fort's gun, a ruin's bastion, a row of guns,
+ * a house's outbuilding - and may stand over it (tests/town-lots.test.mjs holds every other pair of pictures apart).
  */
 
-/** Where a point of a layout falls, in miles east and south of the town's site point. */
+/**
+ * Where a point of a layout is drawn, in miles east and south of the town's site point: spread round the town's heart
+ * (`TOWN_SPREAD`), or round its own `heldAt` - the place a work out of town keeps, its pieces spread round it so they stand
+ * apart as the town's do - or not at all if it is marked `inPlace`. The server puts every keeper by this; the page draws by it.
+ */
 export function townPoint(layout, point) {
-  const dx = point.x - layout.anchor.x, dy = point.y - layout.anchor.y, b = layout.bearing * Math.PI / 180;
+  const spread = townSpread(layout), from = point.heldAt || (point.inPlace ? point : layout.spreadFrom || layout.anchor);
+  const x = from.x + (point.x - from.x) * spread, y = from.y + (point.y - from.y) * spread;
+  const dx = x - layout.anchor.x, dy = y - layout.anchor.y, b = layout.bearing * Math.PI / 180;
   const round = value => { const fixed = +value.toFixed(4); return fixed === 0 ? 0 : fixed; };
   return { x: round((dx * Math.sin(b) + dy * Math.cos(b)) / FEET_PER_MILE), y: round((-dx * Math.cos(b) + dy * Math.sin(b)) / FEET_PER_MILE) };
 }
@@ -184,8 +211,8 @@ const MINA_Y = [['Farm', 2804], ['Spring', 3199], ['Chestnut', 3600], ['Pine', 3
 // 2026-09-21). It was 27 `palisade` pieces and a `gate` run round a square with a `house-hewn-log` in the middle, which
 // read as a fence somebody had left in a field. The gate is drawn open: Mina in 1835 is a town going about its business,
 // and `mina-stockade` - the same compound shut - is registered for a day the game ever has one. Nothing shuts it today.
-// ceiling: `height` 30 is chosen so the compound is drawn about as wide as its 168 surveyed feet at the town's own
-// exaggeration (`DRAWN_HEIGHT` times the frame's own proportion), rather than as tall as a 14-foot palisade would be.
+// ceiling: `height` 30 is chosen so the compound is drawn about as wide as its 168 surveyed feet on the town's ground, its
+// height and its ground spread alike (`townDrawnHeight` times the frame's own proportion), not as tall as a 14-foot palisade.
 const STOCKADE_LEFT = 3900, STOCKADE_TOP = 4100, STOCKADE_SIDE = 168;
 const STOCKADE = [
   { id: 'mina-stockade-house', sprite: 'mina-stockade-open', x: STOCKADE_LEFT + STOCKADE_SIDE / 2, y: STOCKADE_TOP + STOCKADE_SIDE, height: 30, label: 'The stockade' },
@@ -202,6 +229,10 @@ const MINA_NAMED = [
 ];
 const MINA = {
   name: 'Mina', research: 'docs/town-research/mina.md', bearing: 90, anchor: { x: 3400, y: 3600 },
+  // A town above its river spreads away from it (`TOWN_SPREAD`): round Chestnut's line 250 feet west of the town's point,
+  // toward the Colorado, so the Camino Real still comes in on Chestnut and the town grows east. Spread round its point,
+  // Dr. Gazley's store and a house were drawn in Gills Branch.
+  spreadFrom: { x: 3150, y: 3600 },
   // The blocks round the stockade and the store, stopping at Farm Street as the research has the cluster (§7.7), and Pecan
   // down between the two squares. Hill and Haysel, Farm, Spring and Government Streets ran past empty blocks in 1835 and
   // are not drawn (2026-10-13). Hill carried the Old San Antonio Road on Zively's line and Chestnut on the town's tradition
@@ -231,10 +262,11 @@ const MAT_NAMED = [
   { id: 'mat-warehouse', sprite: 'storehouse', x: 1600, y: 4500, height: 24, label: 'Warehouse' },
   { id: 'mat-committee-room', sprite: 'frame-hall', x: 2670, y: 3900, height: 28, label: 'The Committee Room' },
   { id: 'mat-powder-store', sprite: 'storehouse', x: 2900, y: 4350, height: 22 },
-  { id: 'mat-schoolhouse', sprite: 'cabin-wide', x: 6250, y: 1850, height: 20, label: 'The schoolhouse' },
+  // The schoolhouse and the salt works stood a mile out of town and keep their surveyed places (`inPlace`, `TOWN_SPREAD`).
+  { id: 'mat-schoolhouse', sprite: 'cabin-wide', x: 6250, y: 1850, height: 20, label: 'The schoolhouse', inPlace: true },
   { id: 'mat-cummins-cabin', sprite: 'house-dog-run', x: 600, y: 3600, height: 26 },
   { id: 'mat-burnham-cabin', sprite: 'house-round-log', x: 1100, y: 4100, height: 22 },
-  { id: 'mat-saltworks', sprite: 'shed-open', x: 6800, y: 3600, height: 14, label: 'Salt works' },
+  { id: 'mat-saltworks', sprite: 'shed-open', x: 6800, y: 3600, height: 14, label: 'Salt works', inPlace: true },
 ];
 const MATAGORDA = {
   name: 'Matagorda', research: 'docs/town-research/matagorda.md', bearing: 60.5, anchor: { x: 1100, y: 2696 },
@@ -249,7 +281,7 @@ const MATAGORDA = {
   ]),
   squares: [
     { label: 'Public Square', x: 2180, y: 2280, width: 833, height: 833 },
-    { label: 'Burying Ground', x: 7250, y: 1780, width: 600, height: 600 },
+    { label: 'Burying Ground', x: 7250, y: 1780, width: 600, height: 600, inPlace: true },
   ],
   // The frame town of imported lumber, now in frame (`town-buildings-researched`, 2026-09-21): clapboard residences and
   // shops of one storey and a storey and a half, with hewn log among them for the older houses.
@@ -306,6 +338,8 @@ const LIB_NAMED = [
 ];
 const LIBERTY = {
   name: 'Liberty', research: 'docs/town-research/liberty.md', bearing: 88.78, anchor: { x: 2084, y: 1809 },
+  // Spread round the 1968 marker, which ties the frame to the ground, so Plaza Constitucional stays where it stands.
+  spreadFrom: { x: 1539, y: 1314 },
   // The streets round the four eastern squares, where the court room and the houses by the public bar stood (§7.6), Main
   // the Nacogdoches road through them. Almost none of the plat's forty-nine blocks was built on in 1835: Fonda, Crockett,
   // Milam, Austin, Fannin and San Jacinto, Grand, Webster, Santa Anna and Washington, and the ends of the rest, are not
@@ -374,6 +408,10 @@ const faint = streets => streets.map(street => ({ ...street, faint: true }));
 const WASH_FERRY = [{ x: -250, y: 0 }, { x: 0, y: 0 }, { x: 700, y: 0 }, { x: 1050, y: 0 }, { x: 1300, y: 0 }, { x: 1500, y: 0 }];
 const WASHINGTON = {
   name: 'Washington', research: 'docs/town-research/washington.md', bearing: 26.7, anchor: { x: -236, y: 161 },
+  // A town at its crossing spreads up from it (`TOWN_SPREAD`): round the ferry's landing at the foot of Ferry Street, so the
+  // ferry keeps its place on the Brazos, the street its line through the map's point, and the town grows up the street away
+  // from the river. Spread round its point, its houses were drawn in the Brazos and the Navasota.
+  spreadFrom: { x: 1470, y: 0 },
   // "Only one well defined street, which consists of an opening cut out of the woods" (Gray, February 1836, `HIST-TEX-204`):
   // Ferry Street, down to the ferry. Main Street, the other documented name, is drawn faint and only at the corner where it
   // crosses Ferry at the frame building. The six unnamed lines of the staked grid, all invented (§8.3), are not drawn
@@ -406,9 +444,10 @@ const WASHINGTON = {
 const BRZ_X = [['Walnut Street', -1148], ['Chestnut Street', -882], ['Star Street', -591], ['China Street', -325], ['Market Street', 0], ['Liberty Street', 541], ['Cherry Street', 935]];
 const BRZ_Y = [['Main Street', 0], ['Pearl Street', 282], ['Austin Street', 561], ['Camp Street', 840], ['Travis Street', 1119], ['Marion Street', 1391], ['Velasco Street', 1670]];
 const BRZ_NAMED = [
-  { id: 'brz-mills-store', sprite: 'trading-house', x: 30, y: -40, height: 26, label: 'The Mills brothers’ store' },
+  // Built out over the water (research §7.4), so drawn there on purpose (`onWater`).
+  { id: 'brz-mills-store', sprite: 'trading-house', x: 30, y: -40, height: 26, label: 'The Mills brothers’ store', onWater: true },
   { id: 'brz-long-boarding-house', sprite: 'house-dog-run', x: -190, y: 80, height: 24, label: 'Jane Long’s boarding house' },
-  { id: 'brz-long-outbuilding', sprite: 'storehouse', x: -190, y: 120, height: 12 },
+  { id: 'brz-long-outbuilding', sprite: 'storehouse', x: -190, y: 120, height: 12, partOf: 'brz-long-boarding-house' },
   { id: 'brz-hotel', sprite: 'frame-hall', x: 300, y: 90, height: 28, label: 'The Brazoria Hotel' },
   { id: 'brz-printing-office', sprite: 'cabin-small', x: -40, y: 350, height: 18, label: 'The Texas Republican' },
   { id: 'brz-andrews-store', sprite: 'trading-house', x: 160, y: 350, height: 22, label: 'Andrews’s store' },
@@ -419,10 +458,15 @@ const BRZ_NAMED = [
   { id: 'brz-doctor-1', sprite: 'cabin-small', x: -520, y: 40, height: 16 },
   { id: 'brz-doctor-2', sprite: 'cabin-small', x: 700, y: 330, height: 16 },
   { id: 'brz-courthouse', sprite: 'timber-hall', x: 270, y: 630, height: 24, label: 'The municipal building' },
-  { id: 'brz-masonic-oak', sprite: 'live-oak-large', x: -2201, y: 2188, height: 50, label: 'The Masonic Oak' },
+  // Half a mile out of town, and it keeps its surveyed place (`inPlace`, `TOWN_SPREAD`).
+  { id: 'brz-masonic-oak', sprite: 'live-oak-large', x: -2201, y: 2188, height: 50, label: 'The Masonic Oak', inPlace: true },
 ];
 const BRAZORIA = {
   name: 'Brazoria', research: 'docs/town-research/brazoria.md', bearing: 133.7, anchor: { x: 0, y: 0 },
+  // A town on its river spreads away from the water (`TOWN_SPREAD`): round Market Street at the top of the bank, 130 feet
+  // above Main, so the riverfront keeps its place and the town grows back from the Brazos. Spread round Market × Main, the
+  // hotel and the warehouse of the riverfront were drawn in the river.
+  spreadFrom: { x: 0, y: -130 },
   // Main Street runs 130 ft from the top of a 22-ft cut bank, and the Mills store was built out over the water (research §7.4):
   // this town stands nearer its river than any other, so it is held only 100 ft clear of the river's centreline.
   riverClearance: 100,
@@ -454,7 +498,7 @@ const VELASCO = {
   buildings: [
     // Fort Velasco's stockade: Astra's researched landmark (2026-10-11), about 90 feet across, its gun inside it.
     { id: 'vel-fort-stockade', sprite: 'town-fort-velasco-1835', x: -420, y: -180, height: 8, drawWidthFeet: 90, anchor: [.5, .52], sortOffsetFeet: -1, label: 'Fort Velasco' },
-    { id: 'vel-fort-gun', sprite: 'cannon-iron-e', x: -420, y: -180, height: 7, drawWidthFeet: 12, anchor: [.5, 1] },
+    { id: 'vel-fort-gun', sprite: 'cannon-iron-e', x: -420, y: -180, height: 7, drawWidthFeet: 12, anchor: [.5, 1], partOf: 'vel-fort-stockade' },
     { id: 'vel-brown-hoskins', sprite: 'frame-hall', x: -760, y: -430, height: 28, label: 'Brown & Hoskins’ tavern' },
     { id: 'vel-custom-house', sprite: 'trading-house', x: -620, y: -300, height: 18, label: 'The custom house' },
     { id: 'vel-pilot-house', sprite: 'cabin-wide', x: -560, y: -520, height: 16, label: 'The pilot’s house' },
@@ -469,6 +513,10 @@ const VELASCO = {
 // the bayou, the largest thing in the place. The origin, Broadway × Cypress, is the map's point.
 const HARRISBURG = {
   name: 'Harrisburg', research: 'docs/town-research/harrisburg.md', bearing: 88.8, anchor: { x: 0, y: 0 },
+  // A town on its bayou spreads up from its landing (`TOWN_SPREAD`): round the steam mills' landing on Buffalo Bayou, so
+  // the mills, the largest thing in the place, keep their place on the water and the town grows back from it between the
+  // two bayous. Spread round its point, the store, the warehouse and the houses of the bayou front were drawn in the bayou.
+  spreadFrom: { x: 520, y: -500 },
   // The survey lines of the blocks the twenty houses stand on, toward Broadway and the bayou front (§8.4), and Broadway,
   // the cart track, from Market Street down to the town's point at Cypress, where the map's roads come in. Colorado,
   // Cypress and Elm, and the ends of the rest, ran past empty blocks and are not drawn (2026-10-13).
@@ -488,8 +536,8 @@ const HARRISBURG = {
     { id: 'hbg-frame-1', sprite: 'frame-hall', x: 480, y: -700, height: 18 },
     { id: 'hbg-frame-2', sprite: 'timber-shop', x: 490, y: -640, height: 18 },
     { id: 'hbg-cannon-1', sprite: 'cannon-iron-e', x: 520, y: -430, height: 6, label: 'Guns waiting to go west' },
-    { id: 'hbg-cannon-2', sprite: 'cannon-iron-e', x: 545, y: -420, height: 6 },
-    { id: 'hbg-cannon-3', sprite: 'cannon-iron-e', x: 570, y: -410, height: 6 },
+    { id: 'hbg-cannon-2', sprite: 'cannon-iron-e', x: 545, y: -420, height: 6, partOf: 'hbg-cannon-1' },
+    { id: 'hbg-cannon-3', sprite: 'cannon-iron-e', x: 570, y: -410, height: 6, partOf: 'hbg-cannon-1' },
     ...dwellings('hbg-log', { origin: { x: -1221, y: -1610 }, module: 400, block: 320, lots: 2, centre: { x: 100, y: -700 }, count: 14, rows: [0, 5], columns: [0, 4], sprites: ['house-round-log', 'cabin-small', 'cabin-weathered', 'house-hewn-log'], height: 16, taken: [{ x: 220, y: -600 }, { x: 300, y: -1000 }, { x: -380, y: -700 }, { x: 480, y: -700 }, { x: 420, y: -640 }] }),
   ],
 };
@@ -498,20 +546,27 @@ const HARRISBURG = {
 // docs/town-research/anahuac.md §8: the 1831 brick fort a robbed ruin on the bluff, empty; a scatter of fifteen houses and
 // shops a mile north on the terrace, some empty. North-up; the origin is the 1976 fort marker, and the map's point stands
 // at x 1642, y −6287 in it (measured).
+/** The fort on its bluff, which keeps its place a mile south of the town (`heldAt`, `TOWN_SPREAD`). */
+const ANH_FORT = { x: -160, y: 0 };
 const ANAHUAC = {
   name: 'Anahuac', research: 'docs/town-research/anahuac.md', bearing: 90, anchor: { x: 1642, y: -6287 },
+  // The map's point stands three quarters of a mile north of the town (above): spread round it, the town was pushed two
+  // miles south past its own fort. Spread from Labadie's, the town's southern house, it grows north up its terrace.
+  spreadFrom: { x: 650, y: -2000 },
   streets: [
     { name: 'The track to Turtle Bayou', leadsTo: 'Turtle Bayou', width: 12, faint: true, points: [{ x: 1100, y: -4000 }, { x: 1400, y: -6800 }] },
     // Interpretive terrace connector, keeping the two documented path fragments unchanged.
     { name: 'The terrace path', width: 10, faint: true, points: [{ x: 1100, y: -4000 }, { x: 1030, y: -3550 }, { x: 940, y: -3050 }, { x: 900, y: -2550 }, { x: 800, y: -2000 }, { x: 700, y: -1500 }] },
-    { name: 'The path to the fort', leadsTo: 'the fort', width: 8, faint: true, points: [{ x: 700, y: -1500 }, { x: -100, y: -100 }] },
+    { name: 'The path to the fort', leadsTo: 'the fort', width: 8, faint: true, points: [{ x: 700, y: -1500 }, { x: -100, y: -100, heldAt: ANH_FORT }] },
   ],
   squares: [],
   buildings: [
-    { id: 'anh-fort', sprite: 'brick-fort-ruin', x: -160, y: 0, height: 14, label: 'Fort Anahuac (ruin)' },
-    { id: 'anh-fort-davis', sprite: 'brick-bastion', x: -205, y: 40, height: 8 },
-    { id: 'anh-fort-barracks', sprite: 'brick-barracks-ruin', x: -168, y: -12, height: 10 },
-    { id: 'anh-fort-breach', sprite: 'brick-breach', x: -125, y: 20, height: 6 },
+    // The fort keeps its surveyed place on the bluff, a mile south of the town (`heldAt`); the town spreads north from its
+    // southern house, so the ground between them stays open (`spreadFrom`).
+    { id: 'anh-fort', sprite: 'brick-fort-ruin', x: -160, y: 0, height: 14, label: 'Fort Anahuac (ruin)', heldAt: ANH_FORT },
+    { id: 'anh-fort-davis', sprite: 'brick-bastion', x: -205, y: 40, height: 8, heldAt: ANH_FORT, partOf: 'anh-fort' },
+    { id: 'anh-fort-barracks', sprite: 'brick-barracks-ruin', x: -168, y: -12, height: 10, heldAt: ANH_FORT, partOf: 'anh-fort' },
+    { id: 'anh-fort-breach', sprite: 'brick-breach', x: -125, y: 20, height: 6, heldAt: ANH_FORT, partOf: 'anh-fort' },
     { id: 'anh-willcox-store', sprite: 'trading-house', x: 900, y: -3600, height: 18, label: 'Willcox’s store' },
     { id: 'anh-briscoe-store', sprite: 'trading-house', x: 620, y: -3000, height: 18, label: 'Briscoe’s store' },
     { id: 'anh-custom-office', sprite: 'storehouse', x: 560, y: -2650, height: 16, label: 'The collector’s office (empty)' },
@@ -608,6 +663,9 @@ const REFUGIO = {
 // is the fort's; the map's point, at the presidio, stands about x 50, y 205 in it (the interpretive markers).
 const GOLIAD = {
   name: 'Goliad', research: 'docs/town-research/goliad.md', bearing: 96, anchor: { x: 50, y: 205 },
+  // Battle ground, as Béxar and the Alamo are: the massacre is staged in and round the presidio in true miles
+  // (sim/battles/goliad-massacre.mjs), so the presidio and its town are drawn as surveyed, not spread (`TOWN_SPREAD`).
+  spread: 1,
   streets: [
     { name: 'The road from Refugio', leadsTo: 'Refugio', width: 30, faint: true, points: [{ x: 200, y: 358 }, { x: 400, y: 520 }, { x: 900, y: 700 }, { x: 1800, y: 1100 }] },
     { name: 'The road from Victoria, by the ford', leadsTo: 'the ford', width: 30, faint: true, points: [{ x: 200, y: 20 }, { x: 60, y: -400 }, { x: -130, y: -680 }] },
@@ -640,6 +698,24 @@ const scenicAnchors = {
 };
 for (const layout of [WASHINGTON, NACOGDOCHES, GOLIAD]) {
   layout.buildings = layout.buildings.map(building => scenicAnchors[building.id] ? { ...building, ...scenicAnchors[building.id] } : building);
+}
+// Lots set a little apart for the spread drawing (`TOWN_SPREAD`, owner 2026-10-27). As drawn, each of these covered more than
+// a sixth of a neighbour's picture, hid a keeper standing at a door, or put its name over a keeper (tests/town-lots.test.mjs);
+// most did at the old height too. Every position finer than a block is invented (`FIC-GONZ-042`), so each moves the least
+// that clears it - ten to sixty feet, Cooper & Chieves's a hundred and ten - and stays on its own side of its street. Found
+// by search, not by eye; the numbers are the survey's frame, in feet. Goliad's three are huts of its town, not the presidio.
+const lotsApart = {
+  'sf-peyton-tavern': { x: 1155, y: 2040 }, 'sf-gay-saloon': { x: 1426, y: 1954 }, 'sf-cooper-chieves': { x: 1432, y: 2042 },
+  'sf-white-store': { x: 1100, y: 1795 }, 'sf-perry-store': { x: 1210, y: 1850 }, 'sf-huff-store': { x: 1663, y: 2075 },
+  'sf-calvit-house': { x: 1930, y: 2075 }, 'sf-house-7': { x: 1600, y: 1690 }, 'sf-house-3': { x: 980, y: 2100 },
+  'lib-house-1': { x: 1981, y: 961 }, 'lib-house-2': { x: 2024, y: 1114 },
+  'wash-house-1': { x: 137, y: -90 }, 'wash-house-4': { x: 257, y: 130 },
+  'anh-house-2': { x: 691, y: -3007 }, 'anh-empty-2': { x: 772, y: -2188 },
+  'nac-store-3': { x: -109, y: -129 }, 'nac-old-8': { x: -561, y: -330 }, 'nac-log-8': { x: -860, y: -492 },
+  'gol-jacal-1': { x: 112, y: 528 }, 'gol-jacal-11': { x: 437, y: 378 }, 'gol-stone-1': { x: -51, y: 484 },
+};
+for (const layout of [SAN_FELIPE, LIBERTY, WASHINGTON, ANAHUAC, NACOGDOCHES, GOLIAD]) {
+  layout.buildings = layout.buildings.map(building => lotsApart[building.id] ? { ...building, ...lotsApart[building.id] } : building);
 }
 // The surveyed Refugio grid stays in place; only filler huts are held off its street strips.
 REFUGIO.buildings = REFUGIO.buildings.map(building => {

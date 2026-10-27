@@ -1,7 +1,7 @@
 {
   "record": "travel-modes-browser",
-  "date": "2026-09-27",
-  "browser": "153.0.8010.53",
+  "date": "2026-10-27",
+  "browser": "156.0.8078.47",
   "ownerDirection": "\"okay, so horse for speed, ox and wagon for heavy?\"",
   "checks": [
     "a student is offered all three ways of going, named in words, when they send somebody",
@@ -9,30 +9,30 @@
     "the hunt says what it would give before it is chosen: \"A good trip gives about 10 food\"",
     "choosing the wagon in the chooser and pressing Send sends them with the wagon",
     "the ox and the wagon are on the road with him, not left standing at home",
-    "the ox and wagon are drawn travelling, not teleported (21.5px and 5.8px of screen movement)",
+    "the ox and wagon are drawn travelling, not teleported (14.9px and 1.4px of screen movement)",
     "and are drawn with the walking and rolling cycles the art library has always carried",
-    "a second person is told who has it, in words: \"Alvin has the ox and wagon, on the road to Gonzales.\"",
+    "a second person is told who has it, in words: \"Ezra has the ox and wagon, on the road to Gonzales.\"",
     "and walking is never taken away from anybody",
     "no page errors anywhere in the run"
   ],
   "measured": {
     "screenPixelsMovedInNineTenthsOfASecond": {
-      "ox": 21.54065922853802,
-      "wagon": 5.8309518948453,
-      "man": 9.486832980505138
+      "ox": 14.866068747318506,
+      "wagon": 1.4142135623730951,
+      "man": 5.385164807134505
     },
     "clipsBound": [
+      "father-straw-rig-saddle-s",
       "fire-flicker",
       "horse-chestnut-idle",
-      "indigo-idle-s",
-      "indigo-rest",
+      "mother-braid-rig-camp-rest",
       "oak-broad-wind",
       "oak-spreading-wind",
       "ox-walk-s",
       "pecan-wind",
-      "rust-rest",
-      "rust-walk",
-      "wagon-travel"
+      "wagon-travel",
+      "youth-boy-rig-camp-rest",
+      "youth-girl-rig-camp-rest"
     ]
   },
   "notProved": [

@@ -23,7 +23,7 @@ try{
    const centre=townPoint(layout,b),scale=town==='velasco'?15840:6336;
    const project=p=>({x:x+(p.x-centre.x)*scale,y:620+(p.y-centre.y)*scale});
    ctx.save();ctx.beginPath();ctx.rect(i*370,400,360,300);ctx.clip();townArt.drawTownGround(ctx,layout,project,scale);
-   const d=townArt.townDrawables(ctx,layout,project,scale);d.sort((a,b)=>a.y-b.y).forEach(d=>d.draw());ctx.restore();
+   const d=townArt.townDrawables(ctx,layout,project,scale);d.sort((a,b)=>a.y-b.y).forEach(d=>d.draw());townArt.drawTownLabels(ctx);ctx.restore();
    towns.push({town,drawables:d.length});
   });
   const phases=[];for(let i=0;i<4;i++){const p=document.createElement('canvas');p.width=200;p.height=250;const pc=p.getContext('2d');art.drawClip(pc,'town-mill-smoke',100,240,220,{timeMs:i*350});phases.push(p.toDataURL());ctx.drawImage(p,70+i*260,730);}

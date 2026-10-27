@@ -1,6 +1,6 @@
 {
   "record": "The shops of the towns, in a browser: docs/TOWNS.md",
-  "date": "2026-10-04",
+  "date": "2026-10-27",
   "verdict": "PASS",
   "note": "Same computer only. A student pressed Go to town to trade on the family panel, read every shop of Gonzales and its prices in the popup, put a meal at the tavern paid in food on the list and sent the person; the keepers were in sight while the person was in Gonzales, and the meal is in the story. Since 2026-10-03 the same person bought a mule at the stock pens, led it home, saw it standing in the yard, and rode it to town chosen on its way card, drawn in its saddle (Claude's stand-in mule); then bought a second, saw the wagon's way name the pair with its pace as a bar, and sent the wagon behind both mules with the ox left home (the owner's answers of the same day: the price 8, and a mule pulls at a pace for the weight). Every other trade is proved in tests/shops.test.mjs and tests/mules.test.mjs; the load and the wagon in scripts/errand-browser-proof.mjs. No LAN or district claim.",
   "checks": [
@@ -92,13 +92,13 @@
     "muleLed": "mule-walk-n",
     "muleYard": {
       "mule": {
-        "x": 541.1742093454452,
-        "y": -1205.0018421629597,
+        "x": 541.605723781375,
+        "y": -1201.4395527769905,
         "size": 74.25000000000001
       },
       "horse": {
-        "x": 564.0203631915991,
-        "y": -1223.278765239883,
+        "x": 564.4518776275289,
+        "y": -1219.7164758539136,
         "size": 74.25000000000001
       },
       "clip": "mule-idle"
@@ -109,15 +109,15 @@
       "seat": {
         "seat": "horse",
         "direction": "s",
-        "art": null,
+        "art": "mother-straw-rig-saddle-s",
         "rig": null,
         "parts": [
           {
             "part": "rider",
             "x": 720,
-            "y": -148,
+            "y": -155,
             "height": 50,
-            "shown": 0.6300000000000001
+            "seated": true
           },
           {
             "part": "horse",
@@ -135,21 +135,21 @@
       "seat": {
         "seat": "horse",
         "direction": "n",
-        "art": null,
+        "art": "mother-straw-rig-saddle-n",
         "rig": null,
         "parts": [
           {
             "part": "horse",
             "x": 913,
-            "y": 975,
+            "y": 979,
             "height": 135
           },
           {
             "part": "rider",
             "x": 913,
-            "y": 933,
+            "y": 925,
             "height": 90,
-            "shown": 0.6300000000000001
+            "seated": true
           }
         ],
         "mount": "mule",
@@ -170,27 +170,27 @@
       "seat": {
         "seat": "wagon",
         "direction": "s",
-        "art": null,
+        "art": "mother-straw-rig-saddle-s",
         "rig": null,
         "parts": [
           {
             "part": "wagon",
-            "x": 808,
-            "y": 109,
+            "x": 807,
+            "y": 105,
             "height": 140
           },
           {
             "part": "rider",
-            "x": 808,
-            "y": 87,
+            "x": 807,
+            "y": 71,
             "height": 90,
-            "shown": 0.6300000000000001
+            "seated": true
           },
           {
             "part": "ox",
-            "x": 808,
-            "y": 175,
-            "height": 131
+            "x": 807,
+            "y": 155,
+            "height": 99
           }
         ],
         "draws": "mule",

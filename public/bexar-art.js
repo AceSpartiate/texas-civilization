@@ -20,8 +20,9 @@ export function drawBexarGround(ctx,project,pixelsPerFoot,{river=true}={}){
  *
  * Every footprint is the plan's, in true feet (public/alamo-layout.js `alamoMassing`, HIST-TEX-090 to -092): the map is
  * plan-true, so a building stands on the ground it covered. What is drawn as the towns draw it:
- * - **Height** is its true height times `DRAWN_HEIGHT`, the factor every town building is drawn at (sim/town-layouts.mjs),
- *   so the church's 22½ ft walls stand as tall as San Fernando's sprite beside the plaza.
+ * - **Height** is its true height times `DRAWN_HEIGHT` (sim/town-layouts.mjs), the factor of buildings on ground laid out in
+ *   true feet, so the church's 22½ ft walls stand as tall as San Fernando's sprite beside the plaza. The towns of the colonies
+ *   are drawn spread and taller (`TOWN_SPREAD`, 2026-10-27); Béxar and the Alamo, battle ground, are not.
  * - **Walls and faces** carry Astra's own straight-on south elevations (public/alamo-faces.js, delivered 2026-09-21) and the palisade
  *   its stakes (`alamo-palisade`), laid on each face at the art's own proportion - not stretched - once the
  *   faces are big enough to show it. A wall is drawn as the solid it is: its top, the face turned to the camera and the end

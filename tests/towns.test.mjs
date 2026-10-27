@@ -20,11 +20,12 @@ const segment = (p, a, b) => { const dx = b.x - a.x, dy = b.y - a.y, l = dx * dx
 const nearest = (p, courses) => Math.min(...courses.flatMap(c => c.points.slice(1).map((q, i) => segment(p, c.points[i], q))));
 
 test('a town frame turns to its bearing: +x along the bearing, +y ninety degrees clockwise of it', () => {
-  const north = { bearing: 0, anchor: { x: 0, y: 0 } }, east = { bearing: 90, anchor: { x: 0, y: 0 } };
+  // `spread: 1`: the frame's turn alone, on ground drawn as surveyed (tests/town-lots.test.mjs holds the spread).
+  const north = { bearing: 0, anchor: { x: 0, y: 0 }, spread: 1 }, east = { bearing: 90, anchor: { x: 0, y: 0 }, spread: 1 };
   assert.deepEqual(townPoint(north, { x: 5280, y: 0 }), { x: 0, y: -1 }, 'bearing 0: +x is not north');
   assert.deepEqual(townPoint(north, { x: 0, y: 5280 }), { x: 1, y: 0 }, 'bearing 0: +y is not east');
   assert.deepEqual(townPoint(east, { x: 5280, y: 5280 }), { x: 1, y: 1 }, 'bearing 90: the frame is not north-up');
-  const turned = { bearing: 60.5, anchor: { x: 100, y: 100 } };
+  const turned = { bearing: 60.5, anchor: { x: 100, y: 100 }, spread: 1 };
   assert.deepEqual(townPoint(turned, { x: 100, y: 100 }), { x: 0, y: 0 }, 'the anchor is not on the site point');
   const along = townPoint(turned, { x: 5380, y: 100 });
   assert.ok(Math.abs(Math.atan2(along.x, -along.y) * 180 / Math.PI - 60.5) < 0.1, 'the frame does not bear N 60.5 E');
