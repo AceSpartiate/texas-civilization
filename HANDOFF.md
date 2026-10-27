@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## Stand-ins replaced with the local pipeline on FLUX.2 klein 4B, batches 0-6 — 2026-10-26 (branch `standins-1025`, not released)
+## Released as v2026.10.26.1 — 2026-10-26
+
+Main at 20c8ba6a, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.26.1>). Set of changes from v2026.10.13.1: 7.9 MB. Holds the sections below down to the v2026.10.13.1 line: batch W (Astra's library drawings wired), the klein 4B batches 0-5, the tool parts and the batch 6 pilot (nothing wired from it), and the Alamo parapet fix. Every painted file is FLUX.2 klein 4B (Apache 2.0); the klein 9B road tiles of v2026.10.13.1 are replaced. Evidence at 20c8ba6a: `npm test` 2501 pass, 0 fail; the browser proofs two at a time, 118 of 119 passing, shelter passing alone. Same computer only; no Chromebook, LAN or classroom.
+
+## Stand-ins replaced with the local pipeline on FLUX.2 klein 4B, batches 0-6 — 2026-10-26 (branch `standins-1025`, released in v2026.10.26.1)
 
 The owner picked FLUX.2 klein 4B fp8 (Apache-2.0) after the [bake-off](docs/ART_BAKEOFF_2026-10-25.md) and said start on the
 RTX 4080. Batches of docs/ART_PLAN_LOCAL_2026-10-25.md, one commit each, in the owner's order (0, 1, 2, 3, 4, 5, the tool parts,
@@ -71,7 +75,7 @@ stick horse not shipped, the hoop's size); her round rear low walls; the pails h
 for 20 minutes at 16:01 (its own log: "slow poll: 1,200.8 s") while the owner's game started, so two of batch 5's jobs ran into
 the game on the 4080 before it moved ComfyUI to the 4060 Ti - worth a look at `parsecCap` in the arbiter.
 
-## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, not released)
+## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, released in v2026.10.26.1)
 
 Batch W of docs/ART_PLAN_LOCAL_2026-10-25.md: the drawings Astra delivered on 2026-10-11 and 10-12 that were in the library but
 never drawn. No GPU was used: another project holds both cards. The owner's decisions of 2026-10-25 (order W, then 0 to 5,
