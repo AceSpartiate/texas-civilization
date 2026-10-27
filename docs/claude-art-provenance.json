@@ -8638,20 +8638,6 @@
       ],
       "status": "temporary: replace with Astra's regular-camp-cook"
     },
-    "icon-child-stick-horse": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "children-icons",
-      "area": "children",
-      "sheet": "claude-children-icons",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "prompt": "A child galloping a stick horse: the boy side on, a plain stick between his knees trailing on the ground, the stuffed tan horse head with a red yarn mane held up before him, one knee lifted, on a scrap of grass. One silhouette on a transparent ground, a thin dark olive-brown outline, flat shade with the light from the upper left, the warm moss, rust, cream and ochre palette of the family panel's icons; no text. Reads at 34-38 CSS px and dimmed to 40%. (Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work.)",
-      "source": "public/assets/claude-standins/svg/children-icons/claude-icon-child-stick-horse.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's icon-child-stick-horse"
-    },
     "girl-play-run-1": {
       "kind": "frame",
       "madeBy": "claude",

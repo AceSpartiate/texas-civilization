@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **6441 usable sprites, 465 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
+Generated from the shipped library: **6442 usable sprites, 466 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -313,10 +313,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-wagon-passenger | 6 | 1024 × 1536 | 2003734 |
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
-| icons-family-local-3 | 16 | 1536 × 1536 | 1452763 |
+| icons-family-local-3 | 16 | 1536 × 1536 | 1431546 |
 | icons-family-local-4 | 6 | 768 × 1152 | 566616 |
 | marks-local-2 | 1 | 384 × 384 | 147117 |
 | homecoming-local-1 | 4 | 768 × 768 | 529982 |
+| icons-family-local-5 | 1 | 384 × 384 | 57815 |
 | ground-roads | 4 | 1536 × 1536 | 1774179 |
 | homestead-local-1 | 6 | 1024 × 1536 | 1308207 |
 | homestead-local-2 | 4 | 1024 × 1024 | 572804 |
@@ -324,11 +325,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | hunt-fields-local-2 | 1 | 1840 × 1100 | 2768009 |
 | hunt-fields-local-3 | 1 | 1840 × 1100 | 2655810 |
 | hunt-rifle-local | 1 | 1100 × 1100 | 272583 |
-| icons-family-local-1 | 16 | 1536 × 1536 | 1609363 |
+| icons-family-local-1 | 16 | 1536 × 1536 | 1575866 |
 | icons-family-local-2 | 4 | 768 × 768 | 542430 |
-| marks-local-1 | 4 | 768 × 768 | 599708 |
+| marks-local-1 | 4 | 768 × 768 | 394510 |
 | scenes-local-1 | 4 | 2240 × 1400 | 4768867 |
-| scenes-local-2 | 4 | 2240 × 1400 | 4614709 |
+| scenes-local-2 | 4 | 2240 × 1400 | 4548001 |
 | scenes-local-3 | 4 | 2240 × 1400 | 4292950 |
 | tools-local-1 | 6 | 1024 × 1536 | 598930 |
 | tools-local-2 | 1 | 512 × 512 | 99353 |
@@ -3443,6 +3444,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | farm-neighbour-ramada | homecoming-local-1 | State artwork; no motion required |
 | grave-marker | homecoming-local-1 | State artwork; no motion required |
 | coins-and-paper | homecoming-local-1 | State artwork; no motion required |
+| icon-child-stick-horse | icons-family-local-5 | State artwork; no motion required |
 | road-tile-wagon | ground-roads | State artwork; no motion required |
 | road-tile-street | ground-roads | State artwork; no motion required |
 | road-tile-path | ground-roads | State artwork; no motion required |

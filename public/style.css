@@ -1821,8 +1821,9 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
 .panel-hunger-mark::before{content:"";position:absolute;inset:2px;background:var(--hunger-tone,#f0a73a);
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 6.5h13c0 3.7-2.9 6.3-6.5 6.3S1.5 10.2 1.5 6.5z'/%3E%3Crect x='5' y='12.6' width='6' height='1.8' rx='.9'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 6.5h13c0 3.7-2.9 6.3-6.5 6.3S1.5 10.2 1.5 6.5z'/%3E%3Crect x='5' y='12.6' width='6' height='1.8' rx='.9'/%3E%3C/svg%3E") center/contain no-repeat}
-/* In out of the weather (sim/shelter.mjs): a roof, or a tent, in the portrait's top right. stand-in until Astra's mark-shelter-* (the
-   local pipeline's of 2026-10-26 did not read at this size). */
+/* In out of the weather (sim/shelter.mjs): a roof, or a tent, in the portrait's top right. Drawn here as masks; the painted house and
+   tent (`mark-shelter-house`, `mark-shelter-tent`, 2026-10-27) take their place once their sheet has come (below, `data-painted-marks`).
+   Under the wagon and in the open keep the drawn tent. */
 .panel-shelter-mark{position:absolute;right:1px;top:1px;z-index:3;width:18px;height:18px;border-radius:4px;background:#e9f0f7;border:1.5px solid #4f6f8f;box-shadow:0 0 0 1px #29251b88;pointer-events:none}
 .panel-shelter-mark::before{content:"";position:absolute;inset:2px;background:#36506b;
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1.5 15 7.5h-2.2V14H3.2V7.5H1z'/%3E%3C/svg%3E") center/contain no-repeat;
@@ -1903,6 +1904,12 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
    hunger bowl keeps its stage's ring. */
 :root[data-painted-marks~="mark-hunger"] .panel-hunger-mark{background:none;width:20px;height:20px}
 :root[data-painted-marks~="mark-hunger"] .panel-hunger-mark::before{-webkit-mask:none;mask:none;inset:-1px;border-radius:50%;background:var(--mark-hunger) center/contain no-repeat}
+:root[data-painted-marks~="mark-shelter-house"] .panel-shelter-mark[data-at=house],
+:root[data-painted-marks~="mark-shelter-tent"] .panel-shelter-mark[data-at=tent]{background:none;border-color:transparent;box-shadow:none;width:20px;height:20px;right:0;top:0}
+:root[data-painted-marks~="mark-shelter-house"] .panel-shelter-mark[data-at=house]::before{-webkit-mask:none;mask:none;inset:-1px;background:var(--mark-shelter-house) center/contain no-repeat}
+:root[data-painted-marks~="mark-shelter-tent"] .panel-shelter-mark[data-at=tent]::before{-webkit-mask:none;mask:none;inset:-1px;background:var(--mark-shelter-tent) center/contain no-repeat}
+/* The painted cue (`CUE_MARKS`) is a disc of its own: no drawn disc round it. */
+.panel-cue-mark[data-painted=true]{background:none;border-color:transparent;box-shadow:none}
 :root[data-painted-marks~="mark-help"] .panel-icon[data-help=true]::after{background:var(--mark-help) center/contain no-repeat;border-color:transparent;width:19px;height:19px}
 /* Something sighted on a hunt (owner, 2026-10-02; public/military-attention.js `sighting`): the card in the green-brown of the timber,
    breathing fast - fifteen seconds to take the shot. */

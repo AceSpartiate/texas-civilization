@@ -111,4 +111,4 @@ const ALL_SHEETS = {
 };
 // Painted with the local pipeline on 2026-10-26 (batch 5 of docs/ART_PLAN_LOCAL_2026-10-25.md); pipeline art counts as finished
 // art (owner, 2026-10-25), so Claude's are retired. The drawing code above is no longer called for them.
-export const { SHEETS } = retire(ALL_SHEETS, {}, ['icon-child-doll', 'icon-child-tag', 'icon-child-hide', 'icon-child-cart', 'icon-child-hoop', 'icon-child-marbles', 'icon-child-hens', 'icon-flee-*', 'icon-road-*', 'icon-camp-fire', 'icon-ferry-help', 'icon-share-food', 'icon-ford-carry', 'icon-child-help']);
+export const { SHEETS } = retire(ALL_SHEETS, {}, ['icon-child-stick-horse', 'icon-child-doll', 'icon-child-tag', 'icon-child-hide', 'icon-child-cart', 'icon-child-hoop', 'icon-child-marbles', 'icon-child-hens', 'icon-flee-*', 'icon-road-*', 'icon-camp-fire', 'icon-ferry-help', 'icon-share-food', 'icon-ford-carry', 'icon-child-help']);

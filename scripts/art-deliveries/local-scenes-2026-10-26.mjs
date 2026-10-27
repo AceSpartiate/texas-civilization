@@ -14,9 +14,9 @@ const delivery = localDelivery({
   batch: 'b1',
   sheets: SHEETS,
   sources: 'docs/art-sources/scenes-local-2026-10-26',
-  made: { 'scene-ford': 'scene-ford-repair' },
+  redone: ['scene-ford'],
   postProcessing: 'Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract\'s 960x540; every one but the night yard moved toward Astra\'s oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B\'s lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.',
-  review: 'Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png).',
+  review: 'Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four, then repainted 2026-10-27 from a drawn layout so its road crosses the water: docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png).',
 });
 
 export const { promptEntries, provenanceEntries } = delivery;

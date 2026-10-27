@@ -4,6 +4,22 @@
 
 Main at 20c8ba6a, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.26.1>). Set of changes from v2026.10.13.1: 7.9 MB. Holds the sections below down to the v2026.10.13.1 line: batch W (Astra's library drawings wired), the klein 4B batches 0-5, the tool parts and the batch 6 pilot (nothing wired from it), and the Alamo parapet fix. Every painted file is FLUX.2 klein 4B (Apache 2.0); the klein 9B road tiles of v2026.10.13.1 are replaced. Evidence at 20c8ba6a: `npm test` 2501 pass, 0 fail; the browser proofs two at a time, 118 of 119 passing, shelter passing alone. Same computer only; no Chromebook, LAN or classroom.
 
+## The flagged icons, marks and ford repainted from drawn guides — 2026-10-27 (branch `fixes-1027`, not released)
+
+Owner: "fix the flagged icons and the ford backdrop" ([delivery](docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md)). The flags below
+(batches 1, 4, 5) repainted with klein 4B as reference edits of **drawn guide sketches** (`scripts/local-art/fixes_2026_10_27.py`
+`sketches`, PIL on the CPU): the sketch pins shape, place and size, which words alone never held. Now shipped: the hoe
+(`icon-work-garden`), two cloven deer tracks (`icon-camp-hunt`), a man carrying a sack onto the ferry (`icon-ferry-help`), the
+hoop at the girl's waist (`icon-child-hoop`), the stick horse (`icon-child-stick-horse`, new sheet `icons-family-local-5`;
+Claude's retired, the `children-icons` area emptied and deleted), and the ford's road crossing the creek (`scene-ford`). The four
+marks were redrawn with a thin rim and the picture filling the badge, tried at 20 px, and are now **drawn**: `CUE_MARKS` gives the
+house's two cues their paintings, `PAINTED_MARKS` adds the shelter's house and tent (public/style.css `data-at=house`/`=tent`;
+the wagon and the open keep the drawn tent). `mark-food` left as drawn: a gauge tinted by level. B9, F31, F38 closed. 68 jobs,
+378 s on the 4080; 68 of 68 licence-checked. `delivery.mjs` `redone` reads the new rows from `records/fix-2026-10-27.json`.
+`tests/painted-marks.test.mjs` now holds the shelter and cue marks shown (proved: with the cue rule taken out, that test alone
+fails). **Flagged:** the ford's crossing is a hard-edged band, a little like a paved low-water crossing.
+[fixes-local-compare.png](docs/evidence/fixes-local-compare.png), [fixes-local-ford.png](docs/evidence/fixes-local-ford.png).
+
 ## Stand-ins replaced with the local pipeline on FLUX.2 klein 4B, batches 0-6 — 2026-10-26 (branch `standins-1025`, released in v2026.10.26.1)
 
 The owner picked FLUX.2 klein 4B fp8 (Apache-2.0) after the [bake-off](docs/ART_BAKEOFF_2026-10-25.md) and said start on the

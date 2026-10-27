@@ -26858,11 +26858,11 @@
       "image": "atlases/icons-family-local-3.png",
       "width": 1536,
       "height": 1536,
-      "bytes": 1452763,
-      "sha256": "b0a47dcc979d20fe9a73227fd1f1c3fa1d6011047ead2b0051e9472001ad24d5",
+      "bytes": 1431546,
+      "sha256": "eeb5368f7a42dc47659f40b37c4b2117c03a123144e926fa7f0195b25de1e940",
       "alpha": {
         "threshold": 24,
-        "transparentFraction": 0.761143,
+        "transparentFraction": 0.765213,
         "cornerAlpha": [
           0,
           0,
@@ -26903,13 +26903,13 @@
           {
             "row": 2,
             "yRange": [
-              448,
-              703
+              424,
+              728
             ],
             "columns": [
               [
-                40,
-                344
+                42,
+                342
               ],
               [
                 424,
@@ -26966,7 +26966,7 @@
                 705
               ],
               [
-                808,
+                809,
                 1112
               ],
               [
@@ -27142,6 +27142,43 @@
               [
                 424,
                 727
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "icons-family-local-5": {
+      "image": "atlases/icons-family-local-5.png",
+      "width": 384,
+      "height": 384,
+      "bytes": 57815,
+      "sha256": "bf8f882ead16cb01a3f9095566726afcba7122e45defdb52b0fc9a48facdc4ef",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.880473,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              61,
+              322
+            ],
+            "columns": [
+              [
+                40,
+                344
               ]
             ]
           }
@@ -27512,11 +27549,11 @@
       "image": "atlases/icons-family-local-1.png",
       "width": 1536,
       "height": 1536,
-      "bytes": 1609363,
-      "sha256": "7802e314b490d01cd1f96d55f4ed065363b7102126bd2d9ab525faf1b44fa59f",
+      "bytes": 1575866,
+      "sha256": "05b304ca4e77cbf85a4356af3ea1e8c45132aa758e31ad2064379001a0878f68",
       "alpha": {
         "threshold": 24,
-        "transparentFraction": 0.726685,
+        "transparentFraction": 0.731022,
         "cornerAlpha": [
           0,
           0,
@@ -27566,7 +27603,7 @@
                 300
               ],
               [
-                424,
+                425,
                 728
               ],
               [
@@ -27694,11 +27731,11 @@
       "image": "atlases/marks-local-1.png",
       "width": 768,
       "height": 768,
-      "bytes": 599708,
-      "sha256": "1ca5aae8e6cc6fc435415963d804fa8a3d3a6afe1130680442a3b48182107c58",
+      "bytes": 394510,
+      "sha256": "28e916cc64920b1553009e6315817a6e7fe089a283de4bc6133589a4bda8f228",
       "alpha": {
         "threshold": 24,
-        "transparentFraction": 0.464574,
+        "transparentFraction": 0.453347,
         "cornerAlpha": [
           0,
           0,
@@ -27714,25 +27751,8 @@
           {
             "row": 1,
             "yRange": [
-              32,
-              352
-            ],
-            "columns": [
-              [
-                30,
-                354
-              ],
-              [
-                415,
-                738
-              ]
-            ]
-          },
-          {
-            "row": 2,
-            "yRange": [
-              417,
-              735
+              30,
+              354
             ],
             "columns": [
               [
@@ -27742,6 +27762,23 @@
               [
                 414,
                 738
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              414,
+              738
+            ],
+            "columns": [
+              [
+                30,
+                354
+              ],
+              [
+                414,
+                737
               ]
             ]
           }
@@ -27810,8 +27847,8 @@
       "image": "atlases/scenes-local-2.png",
       "width": 2240,
       "height": 1400,
-      "bytes": 4614709,
-      "sha256": "3a69c016eb06c9bec0c38988da6e81cb2b5b4ce357c86ded58ae01f365864505",
+      "bytes": 4548001,
+      "sha256": "9383b6a9f482d2cafe93eb4f3c17a63176ad7359c93ca78c701d980500a7a6e6",
       "alpha": {
         "threshold": 24,
         "transparentFraction": 0.338776,
@@ -120715,24 +120752,24 @@
     },
     "icon-child-hoop": {
       "sheet": "icons-family-local-3",
-      "x": 40,
-      "y": 448,
-      "w": 304,
-      "h": 255,
-      "anchorX": 0.5,
-      "anchorY": 0.9333,
+      "x": 42,
+      "y": 424,
+      "w": 300,
+      "h": 304,
+      "anchorX": 0.2233,
+      "anchorY": 0.9276,
       "label": "icon child hoop",
       "kind": "icons-family-local-3",
       "row": 2,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          42,
-          450,
-          300,
-          251
+          44,
+          426,
+          296,
+          300
         ],
-        "visiblePixels": 40399,
+        "visiblePixels": 22965,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -120955,24 +120992,24 @@
     },
     "icon-ferry-help": {
       "sheet": "icons-family-local-3",
-      "x": 808,
-      "y": 1267,
-      "w": 304,
-      "h": 154,
-      "anchorX": 0.5329,
-      "anchorY": 0.9351,
+      "x": 809,
+      "y": 1233,
+      "w": 303,
+      "h": 221,
+      "anchorX": 0.4554,
+      "anchorY": 0.9276,
       "label": "icon ferry help",
       "kind": "icons-family-local-3",
       "row": 4,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          810,
-          1269,
-          300,
-          150
+          811,
+          1235,
+          299,
+          217
         ],
-        "visiblePixels": 26164,
+        "visiblePixels": 33714,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -121265,6 +121302,30 @@
           249
         ],
         "visiblePixels": 36667,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "icon-child-stick-horse": {
+      "sheet": "icons-family-local-5",
+      "x": 40,
+      "y": 61,
+      "w": 304,
+      "h": 261,
+      "anchorX": 0.398,
+      "anchorY": 0.9272,
+      "label": "icon child stick horse",
+      "kind": "icons-family-local-5",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          63,
+          300,
+          257
+        ],
+        "visiblePixels": 16844,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -121913,24 +121974,24 @@
     },
     "icon-work-garden": {
       "sheet": "icons-family-local-1",
-      "x": 424,
-      "y": 455,
-      "w": 304,
-      "h": 242,
-      "anchorX": 0.4836,
-      "anchorY": 0.9298,
+      "x": 425,
+      "y": 428,
+      "w": 303,
+      "h": 296,
+      "anchorX": 0.4983,
+      "anchorY": 0.9628,
       "label": "icon work garden",
       "kind": "icons-family-local-1",
       "row": 2,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          426,
-          457,
-          300,
-          238
+          427,
+          430,
+          299,
+          292
         ],
-        "visiblePixels": 27325,
+        "visiblePixels": 27597,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -122130,11 +122191,11 @@
     "icon-camp-hunt": {
       "sheet": "icons-family-local-1",
       "x": 808,
-      "y": 1260,
+      "y": 1228,
       "w": 304,
-      "h": 167,
-      "anchorX": 0.6036,
-      "anchorY": 0.9281,
+      "h": 232,
+      "anchorX": 0.5,
+      "anchorY": 0.9267,
       "label": "icon camp hunt",
       "kind": "icons-family-local-1",
       "row": 4,
@@ -122142,11 +122203,11 @@
       "audit": {
         "sourceBounds": [
           810,
-          1262,
+          1230,
           300,
-          163
+          228
         ],
-        "visiblePixels": 28387,
+        "visiblePixels": 18449,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -122274,11 +122335,11 @@
     "mark-cue-house": {
       "sheet": "marks-local-1",
       "x": 30,
-      "y": 32,
+      "y": 30,
       "w": 324,
-      "h": 320,
-      "anchorX": 0.4969,
-      "anchorY": 0.9281,
+      "h": 324,
+      "anchorX": 0.4985,
+      "anchorY": 0.929,
       "label": "mark cue house",
       "kind": "marks-local-1",
       "row": 1,
@@ -122286,35 +122347,35 @@
       "audit": {
         "sourceBounds": [
           32,
-          34,
+          32,
           320,
-          316
+          320
         ],
-        "visiblePixels": 78528,
+        "visiblePixels": 80207,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "mark-cue-wash": {
       "sheet": "marks-local-1",
-      "x": 415,
-      "y": 32,
-      "w": 323,
-      "h": 320,
-      "anchorX": 0.4969,
-      "anchorY": 0.9281,
+      "x": 414,
+      "y": 30,
+      "w": 324,
+      "h": 324,
+      "anchorX": 0.4985,
+      "anchorY": 0.929,
       "label": "mark cue wash",
       "kind": "marks-local-1",
       "row": 1,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          417,
-          34,
-          319,
-          316
+          416,
+          32,
+          320,
+          320
         ],
-        "visiblePixels": 78837,
+        "visiblePixels": 80307,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -122322,11 +122383,11 @@
     "mark-shelter-house": {
       "sheet": "marks-local-1",
       "x": 30,
-      "y": 417,
+      "y": 414,
       "w": 324,
-      "h": 318,
-      "anchorX": 0.4969,
-      "anchorY": 0.9277,
+      "h": 324,
+      "anchorX": 0.4985,
+      "anchorY": 0.929,
       "label": "mark shelter house",
       "kind": "marks-local-1",
       "row": 2,
@@ -122334,11 +122395,11 @@
       "audit": {
         "sourceBounds": [
           32,
-          419,
+          416,
           320,
-          314
+          320
         ],
-        "visiblePixels": 78433,
+        "visiblePixels": 80216,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -122346,11 +122407,11 @@
     "mark-shelter-tent": {
       "sheet": "marks-local-1",
       "x": 414,
-      "y": 418,
-      "w": 324,
-      "h": 315,
-      "anchorX": 0.5,
-      "anchorY": 0.927,
+      "y": 414,
+      "w": 323,
+      "h": 324,
+      "anchorX": 0.4985,
+      "anchorY": 0.929,
       "label": "mark shelter tent",
       "kind": "marks-local-1",
       "row": 2,
@@ -122358,11 +122419,11 @@
       "audit": {
         "sourceBounds": [
           416,
-          420,
-          320,
-          311
+          416,
+          319,
+          320
         ],
-        "visiblePixels": 77493,
+        "visiblePixels": 79978,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

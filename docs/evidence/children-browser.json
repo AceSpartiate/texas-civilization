@@ -1,16 +1,16 @@
 {
   "record": "Children, babies and the Runaway Scrape's own work, in a browser (docs/CHILDREN.md)",
-  "date": "2026-10-05",
+  "date": "2026-10-27",
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. Two real classes through the join flow: the invented country (seed children-proof-96) for the home, and the real land played in process into the spring (seed scrape-proof-1) for the Scrape. No LAN or district claim.",
   "checks": [
     "Calvin, with nothing to do, walked to Sarah and both are heard (\"When will the corn be as tall as me?\" / \"Go and play, and keep where I can see you.\"); the row says \"Stopped to talk with Calvin, who has nothing to do. Give Calvin something to do and Sarah goes back to the work about the place.\"",
-    "given tag, the parent went back to work at once; the icon glows and the child is drawn in 20 places in four seconds, as smallchild-walk-s",
-    "at tag in the yard the child runs the way they are drawn going: n as smallchild-walk-n, e as smallchild-walk, w as smallchild-walk mirrored, s as smallchild-walk-s",
-    "with a corn-husk doll the child is drawn sitting (smallchild-rest)",
-    "scattering corn for the hens the child is drawn in Astra's own young smallchild-idle-s, not a grown figure and not Claude's scatter",
+    "given tag, the parent went back to work at once; the icon glows and the child is drawn in 20 places in four seconds, as smallchild-rig-walk-s",
+    "at tag in the yard the child runs the way they are drawn going: n as smallchild-rig-walk-n, e as smallchild-rig-walk-e, w as smallchild-rig-walk-e mirrored, s as smallchild-rig-walk-s",
+    "with a corn-husk doll the child is drawn sitting (smallchild-rig-camp-rest)",
+    "scattering corn for the hens the child is drawn in Astra's own young smallchild-rig-idle-s, not a grown figure and not Claude's scatter",
     "the child's automation turned itself off, and the row says \"Auto went off: Calvin decided that was enough.\", with an \"!\" on it",
-    "the baby crawled (15 places in three seconds), cried and was picked up by Sarah, 29, who said \"Who is that crying? Who is it?\" and was drawn mother-loose-walk; the baby was put down to nap and she went back to where she stood, at \"work\"",
+    "the baby crawled (15 places in three seconds), cried and was picked up by Sarah, 29, who said \"Who is that crying? Who is it?\" and was drawn mother-loose-rig-carry; the baby was put down to nap and she went back to where she stood, at \"work\"",
     "on foot with the baby on her hip Sarah walks at three quarters of her pace (0.75 a tick): her row says \"On foot with Orpha on her hip: walking a quarter slower for it.\", the baby's \"Carried by Sarah.\"",
     "at 1024x768 the child's own bar is on the screen and nothing scrolls sideways",
     "told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (child-play, child-doll, child-cart, child-tag, child-hide, child-hoop, child-marbles, child-kindling, child-eggs, child-water, child-mind, flee-bundle, flee-cow)",
@@ -55,7 +55,7 @@
         "kind": "reconstructed",
         "text": "When will the corn be as tall as me?",
         "box": {
-          "x": 599.7204717255008,
+          "x": 600.0729708306367,
           "y": 2,
           "w": 216.724609375,
           "h": 27,
@@ -79,7 +79,7 @@
         "kind": "reconstructed",
         "text": "Go and play, and keep where I can see you.",
         "box": {
-          "x": 364.81812797550083,
+          "x": 365.1706270806367,
           "y": 2,
           "w": 229.90234375,
           "h": 42,
@@ -104,112 +104,113 @@
       "child-stick-horse",
       "child-doll",
       "child-tag",
-      "child-hens"
+      "child-hens",
+      "more"
     ],
     "play": {
       "places": 20,
       "clips": [
-        "smallchild-walk-s"
+        "smallchild-rig-walk-s"
       ],
       "turns": [
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ],
         [
           null,
-          "smallchild-walk-s",
+          "smallchild-rig-walk-s",
           false
         ]
       ]
@@ -217,253 +218,251 @@
     "tagTurns": [
       [
         "n",
-        "smallchild-walk-n",
+        "smallchild-rig-walk-n",
         false
       ],
       [
         "n",
-        "smallchild-walk-n",
+        "smallchild-rig-walk-n",
         false
       ],
       [
         "n",
-        "smallchild-walk-n",
+        "smallchild-rig-walk-n",
         false
       ],
       [
         "e",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         false
       ],
       [
         "e",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         false
       ],
       [
         "e",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         false
       ],
       [
         "e",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         false
       ],
       [
         "e",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
+        false
+      ],
+      [
+        "e",
+        "smallchild-rig-walk-e",
         false
       ],
       [
         "w",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         true
       ],
       [
         "w",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         true
       ],
       [
         "w",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         true
       ],
       [
         "w",
-        "smallchild-walk",
-        true
-      ],
-      [
-        "w",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         true
       ],
       [
         "e",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         false
       ],
       [
         "e",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         false
       ],
       [
         "e",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
+        false
+      ],
+      [
+        "e",
+        "smallchild-rig-walk-e",
+        false
+      ],
+      [
+        "e",
+        "smallchild-rig-walk-e",
         false
       ],
       [
         "s",
-        "smallchild-walk-s",
+        "smallchild-rig-walk-s",
         false
       ],
       [
         "s",
-        "smallchild-walk-s",
+        "smallchild-rig-walk-s",
         false
       ],
       [
         "s",
-        "smallchild-walk-s",
+        "smallchild-rig-walk-s",
         false
       ],
       [
         "s",
-        "smallchild-walk-s",
+        "smallchild-rig-walk-s",
         false
       ],
       [
         "s",
-        "smallchild-walk-s",
+        "smallchild-rig-walk-s",
         false
       ],
       [
         "w",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         true
       ],
       [
         "w",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         true
       ],
       [
         "w",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         true
       ],
       [
         "w",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         true
       ],
       [
         "e",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         false
       ],
       [
         "e",
-        "smallchild-walk",
+        "smallchild-rig-walk-e",
         false
       ],
       [
         "e",
-        "smallchild-walk",
-        false
-      ],
-      [
-        "e",
-        "smallchild-walk",
-        false
-      ],
-      [
-        "n",
-        "smallchild-walk-n",
+        "smallchild-rig-walk-e",
         false
       ]
     ],
-    "hens": "smallchild-idle-s",
+    "hens": "smallchild-rig-idle-s",
     "autoOff": "Auto went off: Calvin decided that was enough.",
     "autoOffNeed": "Number 2 to answer. Calvin Proofwright’s auto went off. Give Calvin Proofwright something to do, or put Auto on again. Go to Calvin Proofwright and answer.",
     "crawl": {
       "places": 15,
       "clips": [
-        "infant-idle-s"
+        "infant-rig-idle-s"
       ],
       "turns": [
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ],
         [
           null,
-          "infant-idle-s",
+          "infant-rig-idle-s",
           false
         ]
       ]
     },
     "cry": {
       "babyLife": "Crying for somebody.",
-      "said": [
-        "(crying)"
-      ]
+      "said": []
     },
     "held": {
       "carer": "Sarah Proofwright",
       "said": [
         "Who is that crying? Who is it?"
       ],
-      "clip": "mother-loose-walk",
+      "clip": "mother-loose-rig-carry",
       "babyLife": "Held by Sarah, who is singing to her.",
       "carerLife": "Seeing to Orpha: holding and singing, then back to the work about the place."
     },
@@ -499,17 +498,17 @@
       "row": "Driving the milk cow along behind the family.",
       "drawn": {
         "by": "hh-1-child-5",
-        "x": 1654,
-        "y": -578,
+        "x": 676,
+        "y": 329,
         "clip": "cattle-longhorn-red-idle",
         "child": {
-          "x": 1685,
-          "y": -580
+          "x": 707,
+          "y": 327
         }
       },
       "child": {
-        "x": 1685.2114058452896,
-        "y": -595.4684856437258,
+        "x": 706.78475,
+        "y": 311.49932999999993,
         "size": 34.650000000000006
       },
       "herdLeft": {

@@ -197,9 +197,8 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['child-play', { sprite: 'icon-child-play' }], ['child-kindling', { sprite: 'icon-child-kindling' }],
   ['child-birds', { sprite: 'icon-child-birds' }], ['child-eggs', { sprite: 'icon-child-eggs' }],
   ['child-water', { sprite: 'icon-child-water' }], ['child-mind', { sprite: 'icon-child-mind' }],
-  // Children's play and the Scrape's work: the local pipeline's `icon-<key>` frames (2026-10-26), but for the stick horse.
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children's play and the Scrape's work: `icon-child-stick-horse` is still
-  // Claude-drawn ("Claude-drawn stand-ins"). The stroked glyphs show while a sheet loads; Astra's replace them with no change here.
+  // Children's play and the Scrape's work: the local pipeline's `icon-<key>` frames (2026-10-26; the stick horse, the hoop and the
+  // ferry repainted 2026-10-27 from drawn guides). The stroked glyphs show while a sheet loads; Astra's replace them with no change here.
   ...['child-stick-horse', 'child-doll', 'child-tag', 'child-hide', 'child-cart', 'child-hoop', 'child-marbles', 'child-hens',
     'flee-hide', 'flee-bundle', 'flee-cow', 'road-lookout', 'road-sing', 'road-little-ones', 'camp-fire', 'ferry-help', 'share-food', 'ford-carry',
     // The oldest child going for help (sim/acting.mjs): `icon-child-help`, the local pipeline's.
@@ -1200,7 +1199,7 @@ function drawGlyph(ctx, glyph, size) {
     ctx.strokeStyle = '#6a5136'; ctx.lineWidth = 3; ctx.lineCap = 'round';
     ctx.beginPath(); ctx.moveTo(22, 26); ctx.lineTo(31, 30); ctx.stroke();
   } else if (LITTLE_GLYPHS[glyph]) {
-    // The children's play and the Scrape's work (stand-in: docs/ART_REQUESTS.md, request 2026-09-26).
+    // The children's play and the Scrape's work: drawn only while their painted sheets load (all painted, 2026-10-26 and 10-27).
     LITTLE_GLYPHS[glyph](ctx);
   } else {
     ctx.beginPath(); ctx.arc(24, 24, 6, 0, Math.PI * 2); ctx.fill();

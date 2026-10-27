@@ -1,12 +1,12 @@
 {
   "record": "Men's work, women's work and the wash, in a browser (sim/custom.mjs, sim/housework.mjs)",
-  "date": "2026-10-26",
+  "date": "2026-10-27",
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. One real class through the join flow on the invented country (seed custom-proof-38). No LAN or district claim.",
   "checks": [
-    "flies are drawn over Samuel Proofwright at home, his clothes unwashed for a week ({\"x\":744,\"y\":538,\"sprite\":false})",
+    "flies are drawn over Samuel Proofwright at home, his clothes unwashed for a week ({\"x\":745,\"y\":546,\"sprite\":false})",
     "with Samuel Proofwright at home, none of the men's work is on Almira Proofwright's bar (plant-field, visit-shop, buy-furniture, milk-cow, keep-house, work-garden, wash-clothes, travel-gonzales, visit, work, rest, more); an order for it anyway is refused: \"Work on the house is men's work, and Samuel is at home.\"",
-    "the cue: Almira Proofwright idle and the house not kept today - the pot pulsing on her portrait (23x23, cue-pulse) and Keep house glowing (cue-glow); on nobody else, no words",
+    "the cue: Almira Proofwright idle and the house not kept today - the pot pulsing on her portrait (21x21, cue-pulse) and Keep house glowing (cue-glow); on nobody else, no words",
     "sent to the garden, the cue leaves Almira Proofwright's portrait",
     "help, not lead: with Samuel Proofwright at the house it is on Almira Proofwright's bar with the helping-hands badge (\"Helps Samuel, and leaves off when they do.\"); pressed, she joins him: \"Almira Proofwright went to help Samuel: work on the house.\"",
     "the errand popup says \"Samuel's clothes want washing: the shops ask a quarter more and pay a fifth less.\", and 31 prices are dearer, seed \"2 reales or 3.75 food for 2 seed (1 real or 3 food to a clean customer)\"",
@@ -63,8 +63,8 @@
       }
     ],
     "fliesHome": {
-      "x": 744,
-      "y": 538,
+      "x": 745,
+      "y": 546,
       "sprite": false
     },
     "home": {
@@ -87,8 +87,8 @@
     "cue": {
       "mark": {
         "work": "keep-house",
-        "w": 23,
-        "h": 23,
+        "w": 21,
+        "h": 21,
         "animation": "cue-pulse"
       },
       "iconGlow": "cue-glow",
@@ -154,7 +154,7 @@
     ],
     "fliesTown": {
       "x": 687,
-      "y": 340,
+      "y": 339,
       "sprite": false
     },
     "where": "gonzales",
@@ -202,7 +202,7 @@
     ],
     "childSent": {
       "keep-house": 2,
-      "wash-clothes": 1
+      "wash-clothes": 2
     },
     "childIndoors": true,
     "keep-house": {
@@ -211,7 +211,7 @@
       "art": "stand-in",
       "clip": "blue-care",
       "frame": 0,
-      "since": 1456,
+      "since": 1630,
       "count": 43,
       "marks": 4,
       "prop": null,

@@ -6810,7 +6810,7 @@
       "generatedSourcePath": "docs/art-sources/scenes-local-2026-10-26/raw/",
       "runtimeFile": "public/assets/frontier-v1/atlases/scenes-local-1.png",
       "postProcessing": "Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract's 960x540; every one but the night yard moved toward Astra's oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B's lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.",
-      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
+      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four, then repainted 2026-10-27 from a drawn layout so its road crosses the water: docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
     },
     {
       "sheet": "scenes-local-2",
@@ -6820,7 +6820,7 @@
       "generatedSourcePath": "docs/art-sources/scenes-local-2026-10-26/raw/",
       "runtimeFile": "public/assets/frontier-v1/atlases/scenes-local-2.png",
       "postProcessing": "Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract's 960x540; every one but the night yard moved toward Astra's oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B's lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.",
-      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
+      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four, then repainted 2026-10-27 from a drawn layout so its road crosses the water: docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
     },
     {
       "sheet": "scenes-local-3",
@@ -6830,7 +6830,7 @@
       "generatedSourcePath": "docs/art-sources/scenes-local-2026-10-26/raw/",
       "runtimeFile": "public/assets/frontier-v1/atlases/scenes-local-3.png",
       "postProcessing": "Painted at 1360x768; cropped to 16:9 about the middle and Lanczos-scaled to the contract's 960x540; every one but the night yard moved toward Astra's oil landscape (creation-title-landscape.png) by colour (its spread at half strength, its mean at a sixth, so her sunset does not tint a noon street), as the bake-off recommended for klein 4B's lighter, more line-drawn backdrops; packed four to a sheet, each in a clear 1120x700 cell. scripts/local-art/batches_2026_10_26.py `finish b1`, CPU only.",
-      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
+      "review": "Eight candidates an item (the courtship morning and evening four each, edits of the chosen noon yard; the ford one repair round of four, then repainted 2026-10-27 from a drawn layout so its road crosses the water: docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md) on one contact sheet (contact.jpg, contact-edits.jpg); every candidate licence-checked from its own file; the picks looked at full size for people, text, signatures and anachronism; the rider scenes and the courtship seen in the game (docs/evidence/scenes-local-compare.png)."
     },
     {
       "sheet": "homestead-local-1",
@@ -6900,7 +6900,7 @@
       "generatedSourcePath": "docs/art-sources/icons-local-2026-10-26/raw/",
       "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-local-1.png",
       "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (or her three panel marks), the ground keyed out on the CPU (scripts/local-art/batches_2026_10_26.py `key_out`), cut to the sprite and fitted to her icon size (300 px; marks 320), packed one to a clear 384 cell.",
-      "review": "Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints). In the game: docs/evidence/icons-local-compare.png."
+      "review": "Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints), and the four marks of the second sheet unreadable at 20 px; all six repainted 2026-10-27 from drawn guide sketches (docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md): the hoe's blade across its handle, two cloven deer tracks, and the marks with a thin rim and the picture filling the badge, each tried at 20 px. In the game: docs/evidence/icons-local-compare.png, docs/evidence/fixes-local-compare.png."
     },
     {
       "sheet": "icons-family-local-2",
@@ -6910,7 +6910,7 @@
       "generatedSourcePath": "docs/art-sources/icons-local-2026-10-26/raw/",
       "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-local-2.png",
       "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (or her three panel marks), the ground keyed out on the CPU (scripts/local-art/batches_2026_10_26.py `key_out`), cut to the sprite and fitted to her icon size (300 px; marks 320), packed one to a clear 384 cell.",
-      "review": "Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints). In the game: docs/evidence/icons-local-compare.png."
+      "review": "Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints), and the four marks of the second sheet unreadable at 20 px; all six repainted 2026-10-27 from drawn guide sketches (docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md): the hoe's blade across its handle, two cloven deer tracks, and the marks with a thin rim and the picture filling the badge, each tried at 20 px. In the game: docs/evidence/icons-local-compare.png, docs/evidence/fixes-local-compare.png."
     },
     {
       "sheet": "marks-local-1",
@@ -6920,7 +6920,7 @@
       "generatedSourcePath": "docs/art-sources/icons-local-2026-10-26/raw/",
       "runtimeFile": "public/assets/frontier-v1/atlases/marks-local-1.png",
       "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (or her three panel marks), the ground keyed out on the CPU (scripts/local-art/batches_2026_10_26.py `key_out`), cut to the sprite and fitted to her icon size (300 px; marks 320), packed one to a clear 384 cell.",
-      "review": "Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints). In the game: docs/evidence/icons-local-compare.png."
+      "review": "Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints), and the four marks of the second sheet unreadable at 20 px; all six repainted 2026-10-27 from drawn guide sketches (docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md): the hoe's blade across its handle, two cloven deer tracks, and the marks with a thin rim and the picture filling the badge, each tried at 20 px. In the game: docs/evidence/icons-local-compare.png, docs/evidence/fixes-local-compare.png."
     },
     {
       "sheet": "icons-family-local-3",
@@ -6930,7 +6930,7 @@
       "generatedSourcePath": "docs/art-sources/icons-local-claude-2026-10-26/raw/",
       "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-local-3.png",
       "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (her panel marks for the sick mark; her cabin, porch and jacals for the farmsteads; her bucket, rail and table for the props), keyed out on the CPU, fitted to her icon size (300 px; the mark 320; the farmsteads 370) and packed one to a clear 384 cell. Claude's icon of each subject was the subject sketch: what it shows, never how.",
-      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time)."
+      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time); it, the ferry (hands on a rope) and the hoop (taller than the girl) repainted 2026-10-27 from drawn guide sketches (docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md): a pole with only a carved head, a man carrying a sack onto a flat ferry under its rope, a hoop no higher than her waist."
     },
     {
       "sheet": "icons-family-local-4",
@@ -6940,7 +6940,7 @@
       "generatedSourcePath": "docs/art-sources/icons-local-claude-2026-10-26/raw/",
       "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-local-4.png",
       "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (her panel marks for the sick mark; her cabin, porch and jacals for the farmsteads; her bucket, rail and table for the props), keyed out on the CPU, fitted to her icon size (300 px; the mark 320; the farmsteads 370) and packed one to a clear 384 cell. Claude's icon of each subject was the subject sketch: what it shows, never how.",
-      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time)."
+      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time); it, the ferry (hands on a rope) and the hoop (taller than the girl) repainted 2026-10-27 from drawn guide sketches (docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md): a pole with only a carved head, a man carrying a sack onto a flat ferry under its rope, a hoop no higher than her waist."
     },
     {
       "sheet": "marks-local-2",
@@ -6950,7 +6950,7 @@
       "generatedSourcePath": "docs/art-sources/icons-local-claude-2026-10-26/raw/",
       "runtimeFile": "public/assets/frontier-v1/atlases/marks-local-2.png",
       "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (her panel marks for the sick mark; her cabin, porch and jacals for the farmsteads; her bucket, rail and table for the props), keyed out on the CPU, fitted to her icon size (300 px; the mark 320; the farmsteads 370) and packed one to a clear 384 cell. Claude's icon of each subject was the subject sketch: what it shows, never how.",
-      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time)."
+      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time); it, the ferry (hands on a rope) and the hoop (taller than the girl) repainted 2026-10-27 from drawn guide sketches (docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md): a pole with only a carved head, a man carrying a sack onto a flat ferry under its rope, a hoop no higher than her waist."
     },
     {
       "sheet": "homecoming-local-1",
@@ -6960,7 +6960,7 @@
       "generatedSourcePath": "docs/art-sources/icons-local-claude-2026-10-26/raw/",
       "runtimeFile": "public/assets/frontier-v1/atlases/homecoming-local-1.png",
       "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (her panel marks for the sick mark; her cabin, porch and jacals for the farmsteads; her bucket, rail and table for the props), keyed out on the CPU, fitted to her icon size (300 px; the mark 320; the farmsteads 370) and packed one to a clear 384 cell. Claude's icon of each subject was the subject sketch: what it shows, never how.",
-      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time)."
+      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time); it, the ferry (hands on a rope) and the hoop (taller than the girl) repainted 2026-10-27 from drawn guide sketches (docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md): a pole with only a carved head, a man carrying a sack onto a flat ferry under its rope, a hoop no higher than her waist."
     },
     {
       "sheet": "tools-local-1",
@@ -6981,6 +6981,16 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/tools-local-2.png",
       "postProcessing": "Each painted at 1024x1024 on a flat pale grey ground from a board of two of Astra's icons showing the tool (or her bucket), lying along the picture's diagonal; keyed out on the CPU (the pails also inside their bails), cut to the sprite and fitted to 460 px in a clear 512 cell. Each haft tool's butt and head, as fractions of its frame, are read off its pixels (scripts/local-art/batches_2026_10_26.py `finish tools`) into public/work-art.js `TOOL_PARTS`.",
       "review": "Four candidates each on one keyed contact sheet (contact.jpg); every candidate licence-checked from its own file; the picks looked at full size: an axe with a spike on its poll refused. In the game: docs/evidence/tools-local-compare.png."
+    },
+    {
+      "sheet": "icons-family-local-5",
+      "promptId": "frontier-v1/icons-family-local-5",
+      "tool": "local ComfyUI, FLUX.2 klein 4B fp8 (Apache-2.0) with the Qwen3-4B fp8-mixed encoder and the FLUX.2 VAE (4 steps, CFG 1), built by scripts/local-art/tx_workflows.py, through E:/VN-Tools/asset-toolkit/comfy.py",
+      "mode": "generate: reference edits of Astra's own frames (style, palette, line) or of a chosen painting of the same batch",
+      "generatedSourcePath": "docs/art-sources/icons-local-claude-2026-10-26/raw/",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-local-5.png",
+      "postProcessing": "Each painted at 1024x1024 on a flat pale ground from a board of two of Astra's icons nearest in subject (her panel marks for the sick mark; her cabin, porch and jacals for the farmsteads; her bucket, rail and table for the props), keyed out on the CPU, fitted to her icon size (300 px; the mark 320; the farmsteads 370) and packed one to a clear 384 cell. Claude's icon of each subject was the subject sketch: what it shows, never how.",
+      "review": "Four candidates each (eight of each farmstead) on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: writing on the bill of sale and the coins refused (text), a railway under the lookout and a motor truck as the wagon refused (anachronism). The stick horse not shipped after its one repair (a real horse every time); it, the ferry (hands on a rope) and the hoop (taller than the girl) repainted 2026-10-27 from drawn guide sketches (docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md): a pole with only a carved head, a man carrying a sack onto a flat ferry under its rope, a hoop no higher than her waist."
     }
   ],
   "rejectedAttempts": [

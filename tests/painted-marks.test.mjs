@@ -39,10 +39,14 @@ test('a mark is handed over once its sheet has come and it drew, and never twice
   assert.equal(drawnCount - before, 1, 'a mark already handed over was drawn again (only the help, undrawn before, is)');
 });
 
-test('the marks that did not read at their size stay drawn: the food sack keeps its colour by level, the shelter and the cues their pictures', () => {
-  // Looked at in the game on 2026-10-26 at 18-20 CSS px: the painted food sack would hide the gauge's colour by level, and the shelter
-  // roof and the cues' pot are too small inside their rims to read. Their paintings stay in the library, unused.
-  for (const name of ['mark-food', 'mark-shelter-house', 'mark-shelter-tent', 'mark-cue-house', 'mark-cue-wash']) {
+test('the food sack stays drawn, keeping its colour by level; the repainted shelter and cue marks are shown', () => {
+  // The painted food sack would hide the gauge's colour by level. The shelter's house and tent and the house's two cues were repainted
+  // 2026-10-27 to read at 20 px, and are shown: the house and the tent each on their own place, the cues by the work.
+  assert.deepEqual({ ...CUE_MARKS }, { 'keep-house': 'mark-cue-house', 'wash-clothes': 'mark-cue-wash' });
+  assert.match(css, /:root\[data-painted-marks~="mark-shelter-house"\] \.panel-shelter-mark\[data-at=house\]::before\{[^}]*var\(--mark-shelter-house\)/);
+  assert.match(css, /:root\[data-painted-marks~="mark-shelter-tent"\] \.panel-shelter-mark\[data-at=tent\]::before\{[^}]*var\(--mark-shelter-tent\)/);
+  assert.match(css, /\.panel-cue-mark\[data-painted=true\]\{[^}]*border-color:transparent/, 'a painted cue keeps the drawn disc round it');
+  for (const name of ['mark-food']) {
     assert.ok(!PAINTED_MARKS.includes(name), `${name} is handed to the style sheet`);
     assert.ok(!Object.values(CUE_MARKS).includes(name), `${name} is drawn as the cue`);
     assert.ok(!css.includes(`var(--${name})`), `public/style.css shows ${name}`);

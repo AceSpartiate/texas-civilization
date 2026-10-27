@@ -333,6 +333,11 @@ layers replace them.)
 [ART_DELIVERY_2026-10-26-LOCAL-CLAUDE-ICONS.md](ART_DELIVERY_2026-10-26-LOCAL-CLAUDE-ICONS.md): 27 painted and wired, Claude's retired;
 the stick horse not shipped (flagged). 132 jobs.
 
+### The flags repainted (2026-10-27, branch `fixes-1027`, not released)
+
+[ART_DELIVERY_2026-10-27-LOCAL-FIXES.md](ART_DELIVERY_2026-10-27-LOCAL-FIXES.md): the hoe, the deer tracks, the ferry, the hoop,
+the stick horse, the cue and shelter marks and the ford, each painted over a drawn guide sketch. 68 jobs.
+
 ---
 
 ## Batch 6: pilot, editing Astra's own frames (go or no-go after 8 jobs)

@@ -16,9 +16,9 @@ const delivery = localDelivery({
   batch: 'b4',
   sheets: SHEETS,
   sources: 'docs/art-sources/icons-local-2026-10-26',
-  made: { 'icon-camp-hunt': 'icon-camp-hunt-repair' },
+  redone: ['icon-work-garden', 'icon-camp-hunt', 'mark-cue-house', 'mark-cue-wash', 'mark-shelter-house', 'mark-shelter-tent'],
   postProcessing: 'Each painted at 1024x1024 on a flat pale ground from a board of two of Astra\'s icons nearest in subject (or her three panel marks), the ground keyed out on the CPU (scripts/local-art/batches_2026_10_26.py `key_out`), cut to the sprite and fitted to her icon size (300 px; marks 320), packed one to a clear 384 cell.',
-  review: 'Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints). In the game: docs/evidence/icons-local-compare.png.',
+  review: 'Four candidates each on keyed contact sheets (contact-1.jpg, contact-2.jpg, contact-repair.jpg); every candidate licence-checked from its own file; picks looked at full size: coins with numerals refused (text), hands and the horse counted. Two items flagged after their one repair (the hoe painted as a spade; the deer tracks as paw prints), and the four marks of the second sheet unreadable at 20 px; all six repainted 2026-10-27 from drawn guide sketches (docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md): the hoe\'s blade across its handle, two cloven deer tracks, and the marks with a thin rim and the picture filling the badge, each tried at 20 px. In the game: docs/evidence/icons-local-compare.png, docs/evidence/fixes-local-compare.png.',
 });
 
 export const { promptEntries, provenanceEntries } = delivery;

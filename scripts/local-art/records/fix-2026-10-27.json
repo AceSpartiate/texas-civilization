@@ -1,0 +1,245 @@
+{
+ "batch": "fix",
+ "date": "2026-10-27",
+ "model": "FLUX.2 klein 4B fp8 (Apache-2.0)",
+ "rows": [
+  {
+   "name": "icon-work-garden",
+   "stage": "main",
+   "prompt": "Image 1 is a rough flat sketch that fixes the subject: keep exactly its objects, their shapes, where each one is and how big each one is, and add nothing else. Image 2 shows this game's action icons. Paint image 1 over as one finished icon in exactly their style: a small storybook illustration with a thick dark ink outline, soft painted shading and a muted warm palette, reading at a glance at a very small size, no frame, no border, no badge. Use image 2 only for the style, never for its subjects. The icon shows a garden hoe in a bed of dark tilled earth with rows of small green seedlings. A hoe: a long straight wooden handle, and at its foot a broad flat iron blade bent at a right angle to the handle, its sharp edge cutting into the earth. Not a shovel, not a spade. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-27/fix/sketches/icon-work-garden.png",
+    "output/local-2026-10-26/b4/refs/board-icon-work-garden.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 5
+  },
+  {
+   "name": "icon-camp-hunt",
+   "stage": "main",
+   "prompt": "Image 1 is a rough flat sketch that fixes the subject: keep exactly its objects, their shapes, where each one is and how big each one is, and add nothing else. Image 2 shows this game's action icons. Paint image 1 over as one finished icon in exactly their style: a small storybook illustration with a thick dark ink outline, soft painted shading and a muted warm palette, reading at a glance at a very small size, no frame, no border, no badge. Use image 2 only for the style, never for its subjects. The icon shows a long flintlock rifle lying across muddy ground above the tracks of a deer: two split-hoof prints, each two pointed halves side by side like a split heart. Hoofprints only: no claws, no toes, no pads. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-27/fix/sketches/icon-camp-hunt.png",
+    "output/local-2026-10-26/b4/refs/board-icon-camp-hunt.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "icon-ferry-help",
+   "stage": "main",
+   "prompt": "Image 1 is a rough flat sketch that fixes the subject: keep exactly its objects, their shapes, where each one is and how big each one is, and add nothing else. Image 2 shows this game's action icons. Paint image 1 over as one finished icon in exactly their style: a small storybook illustration with a thick dark ink outline, soft painted shading and a muted warm palette, reading at a glance at a very small size, no frame, no border, no badge. Use image 2 only for the style, never for its subjects. The icon shows helping the ferryman load at a river crossing: a man carrying a sack of corn on his shoulder steps onto a flat wooden ferry boat moored at the bank, and the ferry's rope is stretched high across the river. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-27/fix/sketches/icon-ferry-help.png",
+    "output/local-2026-10-26/b5/refs/board-icon-ferry-help.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "icon-child-stick-horse",
+   "stage": "main",
+   "prompt": "Image 1 is a rough flat sketch that fixes the subject: keep exactly its objects, their shapes, where each one is and how big each one is, and add nothing else. Image 2 shows this game's action icons. Paint image 1 over as one finished icon in exactly their style: a small storybook illustration with a thick dark ink outline, soft painted shading and a muted warm palette, reading at a glance at a very small size, no frame, no border, no badge. Use image 2 only for the style, never for its subjects. The icon shows a small boy at play running astride a toy stick horse: a plain straight wooden pole held between his legs, its back end trailing on the ground behind him, and on its front end only a small carved wooden horse's head at his chest. The toy has no horse body and no legs; there is no real horse and no rocking horse. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-27/fix/sketches/icon-child-stick-horse.png",
+    "output/local-2026-10-26/b5/refs/board-icon-child-stick-horse.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "icon-child-hoop",
+   "stage": "main",
+   "prompt": "Image 1 is a rough flat sketch that fixes the subject: keep exactly its objects, their shapes, where each one is and how big each one is, and add nothing else. Image 2 shows this game's action icons. Paint image 1 over as one finished icon in exactly their style: a small storybook illustration with a thick dark ink outline, soft painted shading and a muted warm palette, reading at a glance at a very small size, no frame, no border, no badge. Use image 2 only for the style, never for its subjects. The icon shows a small girl running behind a wooden hoop, rolling it along the ground with a short stick. The hoop is small: its top comes no higher than her waist. The icon stands alone in the middle of a plain flat pale cream background, with empty background all round it and well clear of the edges. Any child is drawn small, clearly a child. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-27/fix/sketches/icon-child-hoop.png",
+    "output/local-2026-10-26/b5/refs/board-icon-child-hoop.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "chosen": 2
+  },
+  {
+   "name": "mark-shelter-house",
+   "stage": "main",
+   "prompt": "Image 1 is a rough flat sketch that fixes the subject: keep exactly its objects, their shapes, where each one is and how big each one is, and add nothing else. Image 2 shows this game's small round marks. Paint image 1 over as one finished mark in exactly their style: a round badge with a thick dark ink outline and a thin cream rim, its disc filled with one flat colour. The pictogram is big and bold, filling nearly the whole disc, with few details, so it reads at a tiny size. The mark shows a log cabin under its roof with rain slanting down on both sides, on a slate blue disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-27/fix/sketches/mark-shelter-house.png",
+    "output/local-2026-10-26/b4/refs/board-mark-shelter-house.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "chosen": 4
+  },
+  {
+   "name": "mark-shelter-tent",
+   "stage": "main",
+   "prompt": "Image 1 is a rough flat sketch that fixes the subject: keep exactly its objects, their shapes, where each one is and how big each one is, and add nothing else. Image 2 shows this game's small round marks. Paint image 1 over as one finished mark in exactly their style: a round badge with a thick dark ink outline and a thin cream rim, its disc filled with one flat colour. The pictogram is big and bold, filling nearly the whole disc, with few details, so it reads at a tiny size. The mark shows a white canvas tent with rain slanting down on both sides, on a slate blue disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-27/fix/sketches/mark-shelter-tent.png",
+    "output/local-2026-10-26/b4/refs/board-mark-shelter-tent.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "mark-cue-house",
+   "stage": "main",
+   "prompt": "Image 1 is a rough flat sketch that fixes the subject: keep exactly its objects, their shapes, where each one is and how big each one is, and add nothing else. Image 2 shows this game's small round marks. Paint image 1 over as one finished mark in exactly their style: a round badge with a thick dark ink outline and a thin cream rim, its disc filled with one flat colour. The pictogram is big and bold, filling nearly the whole disc, with few details, so it reads at a tiny size. The mark shows an iron cooking pot over a little fire, on a blue disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-27/fix/sketches/mark-cue-house.png",
+    "output/local-2026-10-26/b4/refs/board-mark-cue-house.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "mark-cue-wash",
+   "stage": "main",
+   "prompt": "Image 1 is a rough flat sketch that fixes the subject: keep exactly its objects, their shapes, where each one is and how big each one is, and add nothing else. Image 2 shows this game's small round marks. Paint image 1 over as one finished mark in exactly their style: a round badge with a thick dark ink outline and a thin cream rim, its disc filled with one flat colour. The pictogram is big and bold, filling nearly the whole disc, with few details, so it reads at a tiny size. The mark shows a wooden washtub with a white shirt over its rim, on a blue disc. One badge alone in the middle of a plain flat pale grey background, with empty background all round it and well clear of the edges. No lettering anywhere, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-27/fix/sketches/mark-cue-wash.png",
+    "output/local-2026-10-26/b4/refs/board-mark-cue-wash.png"
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "chosen": 1
+  },
+  {
+   "name": "scene-ford",
+   "stage": "main",
+   "prompt": "Image 1 is a rough flat colour sketch of the layout: keep exactly its layout - the dirt road coming from the near foreground straight down the grassy bank, going INTO the creek, crossing through the shallow rippling water to the other side and climbing the far bank into the trees. Image 2 is the style reference: match its palette, its detailed hand-painted brushwork and the look of its oaks, grass and rutted road, but paint even midday light instead of its sunset. Paint a new wide landscape picture: a rutted dirt wagon road at a shallow ford across a slow clear Texas creek, the wheel ruts running into the water and out on the far bank, tall cottonwoods and bald cypress along the far side. Seen from eye level with the camera slightly raised. The horizon sits one third of the way down the picture, under a wide summer sky with soft white clouds. The middle of the picture and the near foreground are open, empty ground with nothing tall in them. Even, mild daylight with soft short shadows, no sunset. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: warm detailed gouache and oil brushwork, muted warm earth palette. No people, no animals, no wagons, no lettering on any building, no text, no signature, no watermark.",
+   "references": [
+    "output/local-2026-10-27/fix/sketches/scene-ford.png",
+    "output/local-2026-10-26/b1/refs/ref-astra-landscape.png"
+   ],
+   "size": [
+    1360,
+    768
+   ],
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "chosen": 3
+  }
+ ],
+ "flags": {
+  "scene-ford": "the crossing is a shallow rippled band straight across, a little like a paved low-water crossing; s4 and s8 kept the road dry through the creek (a causeway) and s1 drew a bridge",
+  "mark-food": "not repainted: a 14 px gauge whose colour is set by the level, which a painting would hide"
+ },
+ "jobs": 68,
+ "failedJobs": 0,
+ "gpuSeconds": 377.8,
+ "cards": [
+  "4080"
+ ]
+}

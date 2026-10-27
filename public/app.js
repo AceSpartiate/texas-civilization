@@ -6798,9 +6798,8 @@ function panelRow(id) {
   herdMark.hidden = true;
   // Prompt the student (owner, 2026-10-04, "Prompt the student"; sim/housework.mjs `houseCue`): the house's work wanting doing - the
   // pot over the fire, or the washtub - pulsing in the portrait's foot while this idle person may take it up, and the same icon glowing
-  // on the bar. No words. stand-in: docs/ART_REQUESTS.md, request 2026-10-04 "help and the house cue", item 2 (`mark-cue-house`,
-  // `mark-cue-wash`) - the work's own icon (`icon-keep-house`, `icon-wash-clothes`) in a small disc; the local pipeline's of
-  // 2026-10-26 did not read at 20 px (`CUE_MARKS` is empty).
+  // on the bar. No words. The painted cue (`mark-cue-house`, `mark-cue-wash`, 2026-10-27, `CUE_MARKS`); the work's own icon
+  // (`icon-keep-house`, `icon-wash-clothes`) in a small disc while its sheet has not come.
   const cueMark = element('span', '', 'panel-cue-mark');
   const cueCanvas = document.createElement('canvas');
   cueCanvas.width = cueCanvas.height = 48;

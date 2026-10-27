@@ -1,12 +1,12 @@
 {
   "proof": "npm run test:hunt-aim",
-  "when": "2026-10-26T20:36:45.135Z",
+  "when": "2026-10-27T05:42:24.011Z",
   "browser": "156.0.8078.47",
   "pass": [
     "the sighting is an alert: the \"!\" on the hunter's row and the card \"A deer!\" - \"Noah is downwind of a deer in the timber. Take the shot yourself, or Noah will.\" - About 15s left to answer. - [Take the shot]",
     "the card's button opens the first-person field, and the server notes the aim begun on its own clock",
     "the deer comes into the timber from the right, drawn from Astra's wildlife-deer sheet, and stops to look",
-    "clicked with the sights on it: the server judged a hit (aim {\"x\":8.335,\"y\":5.999} inside the body {\"cx\":8.398,\"cy\":5.934,\"rx\":0.685,\"ry\":0.408}), and the field says \"A clean shot!\"",
+    "clicked with the sights on it: the server judged a hit (aim {\"x\":8.345,\"y\":5.989} inside the body {\"cx\":8.398,\"cy\":5.934,\"rx\":0.685,\"ry\":0.408}), and the field says \"A clean shot!\"",
     "the kill came home as every hunt's does: one powder spent (8 -> 7), food 11.9 -> 16.8, a hide - \"Noah could carry 5 food home and left 5 behind.\"",
     "the \"!\" on the hunter's row opens the field as the card does",
     "the arrows raise the sights into the sky (0.30 units down the field) and Space fires: a miss, \"Missed!\" - \"The ball went wide, and the deer was away into the timber. One powder spent.\"",
