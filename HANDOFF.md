@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## Scaling pass (2026-10-27, not released)
+## Released as v2026.10.27.1 — 2026-10-27
+
+Main at bcf9488a, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.27.1>). Set of changes from v2026.10.26.1: 3.0 MB. Holds the two sections below: the scaling pass (the ox brought to an ox's size) and the flagged icons, marks and ford repainted from drawn guides (`mark-food` kept drawn on purpose). Evidence at bcf9488a: `npm test` 2539 tests, 2501 pass, 0 fail after rerunning `battle-floor` and `save-retry` alone (both timing flakes under load); the browser proofs two at a time, 117 of 120 passing, `relay`, `movement` and `volunteer-life` passing alone. Same computer only; no Chromebook, LAN or classroom.
+
+## Scaling pass (2026-10-27, released in v2026.10.27.1)
 
 Branch `scale-1027` from origin/main d6e7376e. The owner: *"check that everything appears to be the correct size relative to the players."* Same computer only: headless Chrome on this machine, no LAN or classroom claim.
 
@@ -28,7 +32,7 @@ Branch `scale-1027` from origin/main d6e7376e. The owner: *"check that everythin
 
 **Tests.** `npm test`: 2539 tests, 2503 pass, 0 fail, 36 skipped (2537 before; the two new ones watched failing alone with 1.45 put back). Browser proofs, same computer, headless Chrome: `npm run test:yard-layout` 7 PASS (every beast at its stand, nothing over anything), `npm run test:riding` 16 PASS (Astra's wagon and her ox drawn apart, the driver on the box); their evidence is refreshed. Not released; nothing merged into main.
 
-## The flagged icons, marks and ford repainted from drawn guides — 2026-10-27 (branch `fixes-1027`, not released)
+## The flagged icons, marks and ford repainted from drawn guides — 2026-10-27 (branch `fixes-1027`, released in v2026.10.27.1)
 
 Owner: "fix the flagged icons and the ford backdrop" ([delivery](docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md)). The flags below
 (batches 1, 4, 5) repainted with klein 4B as reference edits of **drawn guide sketches** (`scripts/local-art/fixes_2026_10_27.py`
