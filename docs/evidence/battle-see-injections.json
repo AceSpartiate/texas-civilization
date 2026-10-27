@@ -97,6 +97,26 @@
       ]
     },
     {
+      "name": "the body a family's man stands in left out of the frame when it is quiet",
+      "file": "public/battle-frame.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept",
+      "caught": true,
+      "failed": [
+        "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept"
+      ]
+    },
+    {
+      "name": "what the men are fighting left out of the frame when it stands beyond the reach",
+      "file": "public/battle-frame.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept",
+      "caught": true,
+      "failed": [
+        "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept"
+      ]
+    },
+    {
       "name": "the reach reckoned from a gun beside the men as from the men",
       "file": "public/battle-frame.js",
       "test": "tests/battle-see.test.mjs",
@@ -127,8 +147,50 @@
       ]
     }
   ],
-  "browser": [],
-  "at": "2026-10-27T12:51:51.704Z",
-  "caught": 12,
-  "of": 12
+  "browser": [
+    {
+      "name": "the class panel and the Rumor Mill left open over the film",
+      "file": "public/app.js",
+      "expect": "the class panel or the Rumor Mill stood open over the fight",
+      "caught": true,
+      "failure": "the class panel or the Rumor Mill stood open over the fight: {\"film\":\"host\",\"classOpen\":true,\"rumorOpen\":true,\"column\":[],\"controls\":true,\"spotlight\":{\"left\":12,\"right\":396},\"over\":[\"#host-live\"],\"folded\":\"false\",\"card\":false}",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the teacher's column left whole over the film",
+      "file": "public/style.css",
+      "expect": "the teacher's column stood over the fight",
+      "caught": true,
+      "failure": "the teacher's column stood over the fight: {\"film\":\"host\",\"classOpen\":false,\"rumorOpen\":false,\"column\":[\"#late\",\"#join-links\",\"#classes\",\"#recover\"],\"controls\":true,\"spotlight\":{\"left\":12,\"right\":396},\"over\":[],\"folded\":\"false\",\"card\":false}",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the panels not given back when the teacher takes the camera",
+      "file": "public/app.js",
+      "expect": "the page did not come back when the teacher took the camera",
+      "caught": true,
+      "failure": "the page did not come back when the teacher took the camera: {\"film\":null,\"classOpen\":false,\"rumorOpen\":false,\"column\":[\"#late\",\"#join-links\",\"#classes\",\"#recover\"],\"controls\":true,\"spotlight\":{\"left\":342,\"right\":1025},\"over\":[],\"folded\":\"false\",\"card\":false}",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "the student's column left open while watching",
+      "file": "public/app.js",
+      "expect": "the student's page stood over the fight while watching",
+      "caught": true,
+      "failure": "the student's page stood over the fight while watching: {\"film\":\"student\",\"classOpen\":true,\"rumorOpen\":true,\"column\":[],\"controls\":false,\"spotlight\":null,\"over\":[],\"folded\":\"false\",\"card\":false}",
+      "checksPassedFirst": 9
+    },
+    {
+      "name": "Watch pressed before the fight was drawn leaves a still frame",
+      "file": "public/app.js",
+      "expect": "Watch pressed before the fight was drawn",
+      "caught": true,
+      "failure": "Watch pressed before the fight was drawn (\"The fight is coming\", drawn then: false) left the student on a still frame when it was: {\"state\":\"off\",\"film\":null,\"classOpen\":true,\"rumorOpen\":true,\"column\":[],\"controls\":false,\"spotlight\":null,\"over\":[\"#military-notice\"],\"folded\":\"false\",\"card\":false}",
+      "checksPassedFirst": 10
+    }
+  ],
+  "cleanBrowserChecks": 18,
+  "at": "2026-10-27T15:36:41.423Z",
+  "caught": 19,
+  "of": 19
 }

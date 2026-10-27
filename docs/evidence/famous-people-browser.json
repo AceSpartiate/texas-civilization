@@ -1,12 +1,12 @@
 {
   "record": "famous-people-browser",
-  "date": "2026-10-04",
-  "browser": "154.0.8037.93",
+  "date": "2026-10-27",
+  "browser": "156.0.8078.47",
   "environment": "Same computer: local classroom servers and headless Chrome at 1366x768 and 1024x768, served at 500 ms (the Alamo) and 450 ms (San Jacinto) a tick. Two real classes on the colonies map with rolled families played in process: one to the edge of the Alamo siege with hh-1's father set in the garrison (in process), one to noon on April 19, 1836. Not physical LAN or district acceptance.",
   "checks": [
     "the Alamo class through the join flow: Silas of hh-1 in the garrison at Béxar (set in process), hh-2 far off",
-    "on the map before the siege (1836-02-17): Travis, Bowie, Crockett at Béxar, sent to the family with a man there (3 drawn on its screen) and the Host, and to nobody far off",
-    "the campaign map draws Travis, Bowie and Crockett from their own art from the first frame they are sent (travis: clip:travis-command-cycle, bowie: clip:bowie-story-command, crockett: crockett-idle); the whole map with them, steady, in 10.8 ms at the 95th percentile on the student's page (52 frames, slowest 14.4 ms) and 35.4 ms on the Host's (51 frames, slowest 39.4 ms); the slowest first draw after new art or a new view, apart: 31 ms on the student's page and 171.9 ms on the Host's (18 sheets drawn for the first time, the ground drawn again)",
+    "on the map before the siege (1836-02-18): Travis, Bowie, Crockett at Béxar, sent to the family with a man there (3 drawn on its screen) and the Host, and to nobody far off",
+    "the campaign map draws Travis, Bowie and Crockett from their own art from the first frame they are sent (travis: clip:travis-command-cycle, bowie: clip:bowie-story-command, crockett: crockett-idle); the whole map with them, steady, in 9.1 ms at the 95th percentile on the student's page (42 frames, slowest 14.8 ms) and 20.6 ms on the Host's (39 frames, slowest 26.4 ms); the slowest first draw after new art or a new view, apart: 90.4 ms on the student's page and 393.9 ms on the Host's (8 sheets drawn for the first time, the ground drawn again)",
     "the line in the sand spoken by Travis as tradition, from his own figure, glossed \"told later: Louis Rose’s story as W. P. Zuber printed it (18…\"",
     "at the alarm Travis, Bowie, Crockett and Joe are drawn with their names; Travis's documented words come out of his own figure",
     "Travis falls in the repulse at the north battery, not before, and lies there",
@@ -16,15 +16,15 @@
     "Joe fires from the house, comes out when the officers call (\"Yes, here is one.\"), is hurt and spared, and is brought to Santa Anna in Béxar",
     "the Esparza family named in the church through the assault (Ana Esparza, María de Jesús, Enrique, Manuel, Francisco), never hurt, seen after it; \"Gregorio, the soldiers have jumped the wall. The fight’s begun.\" out of Ana Esparza as tradition, glossed \"told later: remembered by her son Enrique, about e…\"",
     "the burial: Francisco Esparza named, carrying his brother's body drawn as burial-party-walk-e, to the Campo Santo; the caption names the one Christian burial",
-    "after the fall (1836-03-06) the Host's map draws the family at Béxar, named: Ana Esparza, María de Jesús, Enrique, Manuel, Francisco; steady in 5.2 ms at the 95th percentile (55 frames, slowest 6.8 ms), slowest first draw 14.8 ms",
-    "the student watched the assault with the camera on the compound (92 of 94 samples)",
-    "the assault with its famous people draws in 2.9 ms at its slowest 95th percentile (1366x768 and 1024x768)",
+    "after the fall (1836-03-07) the Host's map draws the family at Béxar, named: Ana Esparza, María de Jesús, Enrique, Manuel, Francisco; steady in 13.7 ms at the 95th percentile (53 frames, slowest 14.7 ms), slowest first draw 37.4 ms",
+    "the student watched the assault with the camera on the compound (62 of 65 samples)",
+    "the assault with its famous people draws in 13.9 ms at its slowest 95th percentile (1366x768 and 1024x768)",
     "the family far off was sent no battle and no famous person",
     "the Twin Sisters named and firing before the camp on April 20 (Neill hurt at them) and within two hundred yards on the 21st under Hockley: {\"twins-20-1\":{\"name\":\"Twin Sisters\",\"shots\":2,\"onScreen\":true},\"twins-20-2\":{\"shots\":2,\"onScreen\":true},\"mexican-gun\":{\"shots\":4,\"onScreen\":true},\"twin-sister-1\":{\"name\":\"Twin Sisters\",\"shots\":3,\"onScreen\":true},\"twin-sister-2\":{\"shots\":3,\"onScreen\":true}}",
     "Houston named with his army and riding with the line; \"Stop that firing, stop that firing… I say, stop the firing.\" out of him, as tradition",
     "Emily West and Santa Anna at the picnic under the dashed \"later story\" label; her words drawn with their stage direction: (sarcastically) Another plate, General? A great general must keep up his strength. / (dryly) Such a quiet afternoon for a war, General. / (with a forced smile) Stay a while, General. Your whole camp is resting. / (sarcastically) Of course, General. Whatever you say, General. / (quietly) Those are cannon, General.",
     "Castrillón falls walking away in the charge; at the capture Santa Anna's \"Napoleon of the West\" and Houston's answer are spoken as tradition, from their own figures",
-    "San Jacinto with its famous people draws in 26.7 ms at its slowest 95th percentile",
+    "San Jacinto with its famous people draws in 47.9 ms at its slowest 95th percentile",
     "a family far off was sent nothing of San Jacinto"
   ],
   "alamo": {
@@ -78,8 +78,8 @@
           "y": 221,
           "how": "clip:travis-command-cycle",
           "label": {
-            "x": 164.1271197462446,
-            "y": 224.25478190275533,
+            "x": 164.12734722671883,
+            "y": 224.4655343402342,
             "w": 32.82861328125,
             "h": 14
           }
@@ -91,8 +91,8 @@
           "y": 222,
           "how": "clip:bowie-story-command",
           "label": {
-            "x": 163.40922690334014,
-            "y": 238.7183911039762,
+            "x": 163.40907075031362,
+            "y": 238.92872618613794,
             "w": 35.11669921875,
             "h": 14
           }
@@ -104,8 +104,8 @@
           "y": 221,
           "how": "crockett-idle",
           "label": {
-            "x": 157.09079011784218,
-            "y": 266.273572044649,
+            "x": 157.09104678684275,
+            "y": 266.4843075666619,
             "w": 46.83642578125,
             "h": 14
           }
@@ -170,10 +170,10 @@
     "mapFrameMs": {
       "student": {
         "withFamous": {
-          "frames": 52,
-          "median": 2,
-          "p95": 10.8,
-          "max": 14.4
+          "frames": 42,
+          "median": 4.9,
+          "p95": 9.1,
+          "max": 14.8
         },
         "without": {
           "frames": 0,
@@ -183,12 +183,12 @@
         },
         "firstDraws": {
           "frames": 7,
-          "median": 23.6,
-          "p95": 31,
-          "max": 31,
+          "median": 67.5,
+          "p95": 90.4,
+          "max": 90.4,
           "withFamous": 7,
           "worst": {
-            "ms": 31,
+            "ms": 90.4,
             "ground": true,
             "firstSheets": 0,
             "famous": 3,
@@ -213,10 +213,10 @@
       },
       "host": {
         "withFamous": {
-          "frames": 51,
-          "median": 3.4,
-          "p95": 35.4,
-          "max": 39.4
+          "frames": 39,
+          "median": 9.8,
+          "p95": 20.6,
+          "max": 26.4
         },
         "without": {
           "frames": 0,
@@ -226,14 +226,14 @@
         },
         "firstDraws": {
           "frames": 11,
-          "median": 23.9,
-          "p95": 171.9,
-          "max": 171.9,
+          "median": 73.3,
+          "p95": 393.9,
+          "max": 393.9,
           "withFamous": 11,
           "worst": {
-            "ms": 171.9,
+            "ms": 393.9,
             "ground": true,
-            "firstSheets": 18,
+            "firstSheets": 8,
             "famous": 4,
             "camera": "region",
             "animation": false
@@ -261,4424 +261,3647 @@
     },
     "samples": [
       [
-        7495781,
-        null,
-        211140,
-        null,
-        "home"
-      ],
-      [
-        7495944,
-        null,
-        211140,
-        null,
-        "home"
-      ],
-      [
-        7496100,
-        null,
-        211140,
-        null,
-        "home"
-      ],
-      [
-        7496256,
+        9192713,
         null,
         211860,
         null,
         "home"
       ],
       [
-        7496411,
+        9192878,
         null,
         211860,
         null,
         "home"
       ],
       [
-        7496564,
-        null,
-        211860,
-        null,
-        "home"
-      ],
-      [
-        7496734,
+        9193092,
         null,
         212580,
         null,
         "home"
       ],
       [
-        7496890,
+        9193269,
         null,
         212580,
         null,
         "home"
       ],
       [
-        7497047,
+        9193437,
         null,
         212580,
         null,
         "home"
       ],
       [
-        7497259,
+        9193679,
         null,
         213300,
         null,
         "home"
       ],
       [
-        7497420,
+        9193843,
         null,
         213300,
         null,
         "home"
       ],
       [
-        7497575,
-        null,
-        213300,
+        9194350,
+        "arrival",
+        213630,
         null,
         "home"
       ],
       [
-        7498644,
-        "arrival",
-        213650,
-        "arrival",
-        "battle"
-      ],
-      [
-        7498797,
-        "arrival",
-        213670,
-        null,
-        "battle"
-      ],
-      [
-        7498970,
-        "arrival",
-        213670,
-        null,
-        "battle"
-      ],
-      [
-        7499137,
-        "arrival",
-        213670,
-        "arrival",
-        "battle"
-      ],
-      [
-        7499434,
+        9195856,
         "arrival",
         213690,
         null,
         "battle"
       ],
       [
-        7499598,
-        "arrival",
-        213690,
-        null,
-        "battle"
-      ],
-      [
-        7499827,
+        9196713,
         "red-flag",
         213710,
         "red-flag",
         "battle"
       ],
       [
-        7499995,
-        "red-flag",
-        213710,
-        null,
-        "battle"
-      ],
-      [
-        7500346,
+        9197974,
         "red-flag",
         213770,
         null,
         "battle"
       ],
       [
-        7500512,
-        "red-flag",
-        213770,
-        "red-flag",
-        "battle"
-      ],
-      [
-        7500675,
-        "red-flag",
-        213770,
-        null,
-        "battle"
-      ],
-      [
-        7500857,
-        "red-flag",
-        213830,
-        null,
-        "battle"
-      ],
-      [
-        7501139,
-        "red-flag",
-        213830,
-        "red-flag",
-        "battle"
-      ],
-      [
-        7501354,
-        "night-23",
-        213870,
-        null,
-        "battle"
-      ],
-      [
-        7501517,
-        "night-23",
-        213870,
-        null,
-        "battle"
-      ],
-      [
-        7501671,
-        "night-23",
-        213870,
-        "night-23",
-        "battle"
-      ],
-      [
-        7501914,
+        9198451,
         "day-24",
         214560,
         null,
         "battle"
       ],
       [
-        7502076,
+        9202893,
         "day-24",
-        214560,
-        null,
-        "battle"
+        214780,
+        "day-24",
+        "home"
       ],
       [
-        7502250,
+        9203054,
         "day-24",
-        214560,
-        "day-24",
-        "battle"
-      ],
-      [
-        7502402,
-        "day-24",
-        214580,
-        null,
-        "battle"
-      ],
-      [
-        7502916,
-        "day-24",
-        214640,
+        214780,
         null,
         "home"
       ],
       [
-        7503076,
+        9203231,
         "day-24",
-        214640,
-        "day-24",
-        "home"
-      ],
-      [
-        7503230,
-        "day-24",
-        214640,
+        214840,
         null,
         "home"
       ],
       [
-        7503386,
+        9203399,
         "day-24",
-        214700,
+        214840,
+        "day-24",
+        "home"
+      ],
+      [
+        9203570,
+        "day-24",
+        214840,
         null,
         "home"
       ],
       [
-        7503544,
+        9203730,
         "day-24",
-        214700,
-        "day-24",
-        "home"
-      ],
-      [
-        7503697,
-        "day-24",
-        214700,
+        214900,
         null,
         "home"
       ],
       [
-        7503859,
+        9203946,
         "day-24",
-        214760,
+        214900,
+        "day-24",
+        "home"
+      ],
+      [
+        9204242,
+        "day-24",
+        214960,
         null,
         "home"
       ],
       [
-        7504028,
+        9204436,
         "day-24",
-        214760,
-        "day-24",
-        "home"
-      ],
-      [
-        7504182,
-        "day-24",
-        214760,
+        214960,
         null,
         "home"
       ],
       [
-        7504376,
+        9204704,
         "day-24",
-        214820,
+        214960,
+        "day-24",
+        "home"
+      ],
+      [
+        9204868,
+        "day-24",
+        215020,
         null,
         "home"
       ],
       [
-        7504540,
+        9205040,
         "day-24",
-        214820,
-        "day-24",
-        "home"
-      ],
-      [
-        7504693,
-        "day-24",
-        214820,
+        215020,
         null,
         "home"
       ],
       [
-        7504875,
+        9205317,
         "day-24",
-        214880,
+        215080,
+        "day-24",
+        "home"
+      ],
+      [
+        9205488,
+        "day-24",
+        215080,
         null,
         "home"
       ],
       [
-        7505047,
+        9205750,
         "day-24",
-        214880,
-        "day-24",
-        "home"
-      ],
-      [
-        7505205,
-        "day-24",
-        214880,
+        215140,
         null,
         "home"
       ],
       [
-        7505382,
+        9205935,
         "day-24",
-        214940,
+        215140,
+        "day-24",
+        "home"
+      ],
+      [
+        9206103,
+        "day-24",
+        215140,
         null,
         "home"
       ],
       [
-        7505557,
-        "day-24",
-        214940,
-        "day-24",
-        "home"
-      ],
-      [
-        7505715,
-        "day-24",
-        214940,
-        null,
-        "home"
-      ],
-      [
-        7505903,
-        "day-24",
-        215000,
-        null,
-        "home"
-      ],
-      [
-        7506066,
-        "day-24",
-        215000,
-        "day-24",
-        "home"
-      ],
-      [
-        7506228,
-        "day-24",
-        215000,
-        null,
-        "home"
-      ],
-      [
-        7506406,
-        "day-24",
-        215060,
-        null,
-        "home"
-      ],
-      [
-        7506577,
-        "day-24",
-        215060,
-        "day-24",
-        "home"
-      ],
-      [
-        7506740,
-        "day-24",
-        215060,
-        null,
-        "home"
-      ],
-      [
-        7506920,
-        "day-24",
-        215120,
-        null,
-        "home"
-      ],
-      [
-        7507092,
-        "day-24",
-        215120,
-        "day-24",
-        "home"
-      ],
-      [
-        7507252,
-        "day-24",
-        215120,
-        null,
-        "home"
-      ],
-      [
-        7507424,
+        9206282,
         "day-24",
         215160,
         null,
         "home"
       ],
       [
-        7507588,
+        9206448,
         "day-24",
         215160,
         "day-24",
         "home"
       ],
       [
-        7507752,
+        9206612,
         "day-24",
         215160,
         null,
         "home"
       ],
       [
-        7507931,
+        9206797,
         "night-24",
         215280,
         null,
         "home"
       ],
       [
-        7508097,
+        9207019,
         "night-24",
         215280,
         "night-24",
         "home"
       ],
       [
-        7508251,
-        "night-24",
-        215280,
-        null,
-        "home"
-      ],
-      [
-        7508454,
+        9207316,
         "day-25-morning",
         216000,
         null,
         "home"
       ],
       [
-        7508622,
-        "day-25-morning",
-        216000,
-        "day-25-morning",
-        "home"
-      ],
-      [
-        7508788,
+        9207474,
         "day-25-morning",
         216000,
         null,
         "home"
       ],
       [
-        7509123,
+        9207753,
+        "day-25-morning",
+        216000,
+        "day-25-morning",
+        "home"
+      ],
+      [
+        9207915,
         "day-25-morning",
         216020,
         null,
         "home"
       ],
       [
-        7509284,
+        9208085,
         "day-25-morning",
         216020,
-        "day-25-morning",
-        "home"
-      ],
-      [
-        7509455,
-        "day-25-morning",
-        216080,
         null,
         "home"
       ],
       [
-        7509620,
+        9208295,
         "day-25-morning",
-        216080,
+        216040,
+        "day-25-morning",
+        "home"
+      ],
+      [
+        9210906,
+        "day-25-morning",
+        216180,
         null,
         "home"
       ],
       [
-        7509786,
+        9211084,
         "day-25-morning",
-        216080,
-        "day-25-morning",
-        "home"
-      ],
-      [
-        7509971,
-        "day-25-morning",
-        216140,
+        216180,
         null,
         "home"
       ],
       [
-        7510131,
-        "day-25-morning",
-        216140,
-        null,
-        "home"
-      ],
-      [
-        7510297,
-        "day-25-morning",
-        216140,
-        "day-25-morning",
-        "home"
-      ],
-      [
-        7510487,
-        "day-25-morning",
-        216200,
-        null,
-        "home"
-      ],
-      [
-        7510644,
-        "day-25-morning",
-        216200,
-        null,
-        "home"
-      ],
-      [
-        7510812,
-        "day-25-morning",
-        216200,
-        "day-25-morning",
-        "home"
-      ],
-      [
-        7510997,
-        "huts",
-        216240,
-        null,
-        "home"
-      ],
-      [
-        7511158,
-        "huts",
-        216240,
-        null,
-        "home"
-      ],
-      [
-        7511321,
+        9211354,
         "huts",
         216240,
         "huts",
         "home"
       ],
       [
-        7511509,
+        9211517,
+        "huts",
+        216240,
+        null,
+        "home"
+      ],
+      [
+        9211765,
         "huts",
         216260,
         null,
         "home"
       ],
       [
-        7511667,
-        "huts",
-        216260,
-        null,
-        "home"
-      ],
-      [
-        7511836,
+        9211983,
         "huts",
         216260,
         "huts",
         "home"
       ],
       [
-        7512035,
+        9212157,
+        "huts",
+        216260,
+        null,
+        "home"
+      ],
+      [
+        9212312,
         "huts",
         216280,
         null,
         "home"
       ],
       [
-        7512198,
-        "huts",
-        216280,
-        null,
-        "home"
-      ],
-      [
-        7512355,
+        9212549,
         "huts",
         216280,
         "huts",
         "home"
       ],
       [
-        7512527,
+        9212824,
         "huts",
         216300,
         null,
         "home"
       ],
       [
-        7512680,
+        9212993,
         "huts",
         216300,
         null,
         "home"
       ],
       [
-        7512838,
+        9213157,
         "huts",
         216300,
         "huts",
         "home"
       ],
       [
-        7513021,
+        9213336,
         "huts",
         216320,
         null,
         "home"
       ],
       [
-        7513185,
+        9213493,
         "huts",
         216320,
         null,
         "home"
       ],
       [
-        7513343,
+        9213677,
         "huts",
         216320,
         "huts",
         "home"
       ],
       [
-        7513539,
+        9213844,
         "huts",
         216340,
         null,
         "home"
       ],
       [
-        7513696,
+        9214015,
         "huts",
         216340,
         null,
         "home"
       ],
       [
-        7513852,
+        9214186,
         "huts",
         216340,
         "huts",
         "home"
       ],
       [
-        7514044,
+        9214364,
         "day-25-afternoon",
         216360,
         null,
         "home"
       ],
       [
-        7514207,
+        9214536,
         "day-25-afternoon",
         216360,
         null,
         "home"
       ],
       [
-        7514371,
+        9214799,
         "day-25-afternoon",
         216360,
         "day-25-afternoon",
         "home"
       ],
       [
-        7514558,
+        9214964,
         "day-25-afternoon",
         216420,
         null,
         "home"
       ],
       [
-        7514721,
+        9215137,
         "day-25-afternoon",
         216420,
         null,
         "home"
       ],
       [
-        7514877,
-        "day-25-afternoon",
-        216420,
-        "day-25-afternoon",
-        "home"
-      ],
-      [
-        7515078,
-        "day-25-afternoon",
-        216480,
-        null,
-        "home"
-      ],
-      [
-        7515235,
-        "day-25-afternoon",
-        216480,
-        null,
-        "home"
-      ],
-      [
-        7515390,
+        9215355,
         "day-25-afternoon",
         216480,
         "day-25-afternoon",
         "home"
       ],
       [
-        7515585,
+        9215526,
+        "day-25-afternoon",
+        216480,
+        null,
+        "home"
+      ],
+      [
+        9215690,
+        "day-25-afternoon",
+        216480,
+        null,
+        "home"
+      ],
+      [
+        9215875,
+        "day-25-afternoon",
+        216540,
+        "day-25-afternoon",
+        "home"
+      ],
+      [
+        9216039,
         "day-25-afternoon",
         216540,
         null,
         "home"
       ],
       [
-        7515745,
+        9216210,
         "day-25-afternoon",
         216540,
         null,
         "home"
       ],
       [
-        7515910,
-        "day-25-afternoon",
-        216540,
-        "day-25-afternoon",
-        "home"
-      ],
-      [
-        7516094,
-        "day-25-afternoon",
-        216600,
-        null,
-        "home"
-      ],
-      [
-        7516255,
-        "day-25-afternoon",
-        216600,
-        null,
-        "home"
-      ],
-      [
-        7516423,
+        9216378,
         "day-25-afternoon",
         216600,
         "day-25-afternoon",
         "home"
       ],
       [
-        7516613,
+        9216544,
+        "day-25-afternoon",
+        216600,
+        null,
+        "home"
+      ],
+      [
+        9216719,
+        "day-25-afternoon",
+        216600,
+        null,
+        "home"
+      ],
+      [
+        9216897,
+        "day-25-afternoon",
+        216660,
+        "day-25-afternoon",
+        "home"
+      ],
+      [
+        9217061,
         "day-25-afternoon",
         216660,
         null,
         "home"
       ],
       [
-        7516778,
+        9217228,
         "day-25-afternoon",
         216660,
         null,
         "home"
       ],
       [
-        7516935,
-        "day-25-afternoon",
-        216660,
-        "day-25-afternoon",
-        "home"
-      ],
-      [
-        7517117,
-        "night-25",
-        216720,
-        null,
-        "home"
-      ],
-      [
-        7517279,
-        "night-25",
-        216720,
-        null,
-        "home"
-      ],
-      [
-        7517434,
+        9217394,
         "night-25",
         216720,
         "night-25",
         "home"
       ],
       [
-        7517626,
+        9217561,
+        "night-25",
+        216720,
+        null,
+        "home"
+      ],
+      [
+        9217718,
+        "night-25",
+        216720,
+        null,
+        "home"
+      ],
+      [
+        9217907,
+        "night-25",
+        216780,
+        "night-25",
+        "home"
+      ],
+      [
+        9218069,
         "night-25",
         216780,
         null,
         "home"
       ],
       [
-        7517789,
+        9218234,
         "night-25",
         216780,
         null,
         "home"
       ],
       [
-        7517944,
-        "night-25",
-        216780,
-        "night-25",
-        "home"
-      ],
-      [
-        7518145,
-        "night-25",
-        216840,
-        null,
-        "home"
-      ],
-      [
-        7518300,
-        "night-25",
-        216840,
-        null,
-        "home"
-      ],
-      [
-        7518456,
+        9218395,
         "night-25",
         216840,
         "night-25",
         "home"
       ],
       [
-        7518655,
+        9218569,
+        "night-25",
+        216840,
+        null,
+        "home"
+      ],
+      [
+        9218728,
+        "night-25",
+        216840,
+        null,
+        "home"
+      ],
+      [
+        9218948,
+        "day-26",
+        217440,
+        "day-26",
+        "home"
+      ],
+      [
+        9219112,
         "day-26",
         217440,
         null,
         "home"
       ],
       [
-        7518814,
-        "day-26",
-        217440,
-        null,
-        "home"
-      ],
-      [
-        7518973,
-        "day-26",
-        217440,
-        "day-26",
-        "home"
-      ],
-      [
-        7519151,
+        9219413,
         "day-26",
         217680,
         null,
         "home"
       ],
       [
-        7519318,
-        "day-26",
-        217680,
-        null,
-        "home"
-      ],
-      [
-        7519474,
+        9219605,
         "day-26",
         217680,
         "day-26",
         "home"
       ],
       [
-        7519658,
+        9219925,
         "day-26",
         217800,
         null,
         "home"
       ],
       [
-        7519813,
+        9220096,
         "day-26",
         217800,
         null,
         "home"
       ],
       [
-        7519973,
+        9220392,
         "day-26",
         217800,
         "day-26",
         "home"
       ],
       [
-        7520165,
+        9220559,
         "day-26",
         218040,
         null,
         "home"
       ],
       [
-        7520327,
+        9220737,
         "day-26",
         218040,
         null,
         "home"
       ],
       [
-        7520485,
-        "day-26",
-        218040,
-        "day-26",
-        "home"
-      ],
-      [
-        7520676,
-        "night-26",
-        218160,
-        null,
-        "home"
-      ],
-      [
-        7520840,
-        "night-26",
-        218160,
-        null,
-        "home"
-      ],
-      [
-        7520995,
+        9220929,
         "night-26",
         218160,
         "night-26",
         "home"
       ],
       [
-        7521195,
+        9221090,
         "night-26",
-        218580,
+        218160,
         null,
         "home"
       ],
       [
-        7521353,
+        9221246,
         "night-26",
-        218580,
+        218160,
         null,
         "home"
       ],
       [
-        7521506,
+        9221416,
         "night-26",
         218580,
         "night",
         "home"
       ],
       [
-        7521726,
+        9221587,
+        "night-26",
+        218580,
+        null,
+        "home"
+      ],
+      [
+        9221768,
+        "night-26",
+        218580,
+        null,
+        "home"
+      ],
+      [
+        9221969,
+        "night-26",
+        218700,
+        "surprise",
+        "home"
+      ],
+      [
+        9222132,
         "night-26",
         218700,
         null,
         "home"
       ],
       [
-        7521879,
+        9222397,
         "night-26",
         218700,
         null,
         "home"
       ],
       [
-        7522036,
-        "night-26",
-        218700,
-        "surprise",
-        "home"
-      ],
-      [
-        7522226,
-        "night-26",
-        218701,
-        null,
-        "home"
-      ],
-      [
-        7522391,
-        "night-26",
-        218701,
-        null,
-        "home"
-      ],
-      [
-        7522550,
+        9222563,
         "night-26",
         218701,
         "surprise",
         "home"
       ],
       [
-        7522731,
+        9222728,
+        "night-26",
+        218701,
+        null,
+        "home"
+      ],
+      [
+        9222954,
         "night-26",
         218702,
         null,
         "home"
       ],
       [
-        7522894,
-        "night-26",
-        218702,
-        null,
-        "home"
-      ],
-      [
-        7523049,
+        9223134,
         "night-26",
         218702,
         "surprise",
         "home"
       ],
       [
-        7523235,
+        9223300,
+        "night-26",
+        218702,
+        null,
+        "home"
+      ],
+      [
+        9223472,
         "night-26",
         218703,
         null,
         "home"
       ],
       [
-        7523389,
-        "night-26",
-        218703,
-        null,
-        "home"
-      ],
-      [
-        7523554,
+        9223649,
         "night-26",
         218703,
         "surprise",
         "home"
       ],
       [
-        7523748,
+        9223815,
+        "night-26",
+        218703,
+        null,
+        "home"
+      ],
+      [
+        9223968,
         "night-26",
         218704,
         null,
         "home"
       ],
       [
-        7523902,
-        "night-26",
-        218704,
-        null,
-        "home"
-      ],
-      [
-        7524065,
+        9224135,
         "night-26",
         218704,
         "surprise",
         "home"
       ],
       [
-        7524255,
+        9224305,
+        "night-26",
+        218704,
+        null,
+        "home"
+      ],
+      [
+        9224460,
         "night-26",
         218705,
         null,
         "home"
       ],
       [
-        7524418,
-        "night-26",
-        218705,
-        null,
-        "home"
-      ],
-      [
-        7524576,
+        9224651,
         "night-26",
         218705,
         "houses",
         "home"
       ],
       [
-        7524763,
+        9224811,
+        "night-26",
+        218705,
+        null,
+        "home"
+      ],
+      [
+        9224988,
         "night-26",
         218706,
         null,
         "home"
       ],
       [
-        7524916,
-        "night-26",
-        218706,
-        null,
-        "home"
-      ],
-      [
-        7525073,
+        9225171,
         "night-26",
         218706,
         "houses",
         "home"
       ],
       [
-        7525275,
+        9225334,
+        "night-26",
+        218706,
+        null,
+        "home"
+      ],
+      [
+        9225503,
         "night-26",
         218707,
         null,
         "home"
       ],
       [
-        7525430,
-        "night-26",
-        218707,
-        null,
-        "home"
-      ],
-      [
-        7525585,
+        9225685,
         "night-26",
         218707,
         "houses",
         "home"
       ],
       [
-        7525792,
+        9225840,
+        "night-26",
+        218707,
+        null,
+        "home"
+      ],
+      [
+        9226008,
         "night-26",
         218708,
         null,
         "home"
       ],
       [
-        7525955,
-        "night-26",
-        218708,
-        null,
-        "home"
-      ],
-      [
-        7526114,
+        9226194,
         "night-26",
         218708,
         "houses",
         "home"
       ],
       [
-        7526284,
+        9226511,
         "night-26",
         218709,
         null,
         "home"
       ],
       [
-        7526442,
+        9226683,
         "night-26",
         218709,
         null,
         "home"
       ],
       [
-        7526597,
+        9226841,
         "night-26",
         218709,
         "houses",
         "home"
       ],
       [
-        7526800,
+        9227016,
         "night-26",
         218710,
         null,
         "home"
       ],
       [
-        7526953,
+        9227179,
         "night-26",
         218710,
         null,
         "home"
       ],
       [
-        7527108,
+        9227347,
         "night-26",
         218710,
         "yield",
         "home"
       ],
       [
-        7527317,
+        9227501,
         "night-26",
         218711,
         null,
         "home"
       ],
       [
-        7527480,
+        9227669,
         "night-26",
         218711,
         null,
         "home"
       ],
       [
-        7527637,
+        9227843,
         "night-26",
         218711,
         "yield",
         "home"
       ],
       [
-        7527825,
+        9228005,
         "night-26",
         218712,
         null,
         "home"
       ],
       [
-        7527979,
+        9228159,
         "night-26",
         218712,
         null,
         "home"
       ],
       [
-        7528148,
+        9228317,
         "night-26",
         218712,
         "yield",
         "home"
       ],
       [
-        7528339,
+        9228512,
         "night-26",
         218713,
         null,
         "home"
       ],
       [
-        7528490,
+        9228665,
         "night-26",
         218713,
         null,
         "home"
       ],
       [
-        7528657,
+        9228839,
         "night-26",
         218713,
         "yield",
         "home"
       ],
       [
-        7528856,
+        9229031,
         "night-26",
         218714,
         null,
         "home"
       ],
       [
-        7529021,
+        9229192,
         "night-26",
         218714,
         null,
         "home"
       ],
       [
-        7529184,
+        9229357,
         "night-26",
         218714,
         "yield",
         "home"
       ],
       [
-        7529362,
+        9229554,
         "night-26",
         218715,
         null,
         "home"
       ],
       [
-        7529515,
+        9229731,
         "night-26",
         218715,
         null,
         "home"
       ],
       [
-        7529678,
+        9229895,
         "night-26",
         218715,
         "gathered",
         "home"
       ],
       [
-        7529877,
+        9230060,
         "night-26",
         218717,
         null,
         "home"
       ],
       [
-        7530044,
+        9230217,
         "night-26",
         218717,
         null,
         "home"
       ],
       [
-        7530205,
+        9230376,
         "night-26",
         218717,
         "gathered",
         "home"
       ],
       [
-        7530400,
+        9230544,
         "night-26",
         218719,
         null,
         "home"
       ],
       [
-        7530554,
+        9230706,
         "night-26",
         218719,
         null,
         "home"
       ],
       [
-        7530708,
+        9230861,
         "night-26",
         218719,
         "gathered",
         "home"
       ],
       [
-        7530892,
+        9231059,
         "night-26",
         218721,
         null,
         "home"
       ],
       [
-        7531057,
+        9231271,
         "night-26",
         218721,
         null,
         "home"
       ],
       [
-        7531212,
-        "night-26",
-        218721,
-        "gathered",
-        "home"
-      ],
-      [
-        7531391,
-        "night-26",
-        218723,
-        null,
-        "home"
-      ],
-      [
-        7531546,
-        "night-26",
-        218723,
-        null,
-        "home"
-      ],
-      [
-        7531712,
+        9231522,
         "night-26",
         218723,
         "gathered",
         "home"
       ],
       [
-        7531911,
+        9231681,
+        "night-26",
+        218723,
+        null,
+        "home"
+      ],
+      [
+        9231832,
+        "night-26",
+        218723,
+        null,
+        "home"
+      ],
+      [
+        9232107,
+        "night-26",
+        218725,
+        "gathered",
+        "home"
+      ],
+      [
+        9232280,
         "night-26",
         218725,
         null,
         "home"
       ],
       [
-        7532074,
-        "night-26",
-        218725,
-        null,
-        "home"
-      ],
-      [
-        7532230,
-        "night-26",
-        218725,
-        "gathered",
-        "home"
-      ],
-      [
-        7532425,
+        9232596,
         "night-26",
         218727,
         null,
         "home"
       ],
       [
-        7532577,
-        "night-26",
-        218727,
-        null,
-        "home"
-      ],
-      [
-        7532728,
+        9232769,
         "night-26",
         218727,
         "gathered",
         "home"
       ],
       [
-        7532919,
+        9233090,
         "night-26",
         218729,
         null,
         "home"
       ],
       [
-        7533080,
+        9233246,
         "night-26",
         218729,
         null,
         "home"
       ],
       [
-        7533232,
+        9233424,
         "night-26",
         218729,
         "gathered",
         "home"
       ],
       [
-        7533426,
+        9233586,
         "night-26",
         218731,
         null,
         "home"
       ],
       [
-        7533593,
+        9233759,
         "night-26",
         218731,
         null,
         "home"
       ],
       [
-        7533756,
+        9233922,
         "night-26",
         218731,
         "gathered",
         "home"
       ],
       [
-        7533940,
+        9234089,
         "night-26",
         218733,
         null,
         "home"
       ],
       [
-        7534105,
+        9234241,
         "night-26",
         218733,
         null,
         "home"
       ],
       [
-        7534262,
+        9234421,
         "night-26",
         218733,
         "gathered",
         "home"
       ],
       [
-        7534448,
+        9234593,
         "night-26",
         218735,
         null,
         "home"
       ],
       [
-        7534604,
+        9234760,
         "night-26",
         218735,
         null,
         "home"
       ],
       [
-        7534766,
+        9234914,
         "night-26",
         218735,
         "after",
         "home"
       ],
       [
-        7534974,
+        9235093,
         "night-26",
         218755,
         null,
         "home"
       ],
       [
-        7535136,
+        9235249,
         "night-26",
         218755,
         null,
         "home"
       ],
       [
-        7535295,
+        9235404,
         "night-26",
         218755,
         "after",
         "home"
       ],
       [
-        7535464,
+        9235602,
         "night-26",
         218775,
         null,
         "home"
       ],
       [
-        7535620,
+        9235759,
         "night-26",
         218775,
         null,
         "home"
       ],
       [
-        7535775,
+        9235927,
         "night-26",
         218775,
         "night-26",
         "home"
       ],
       [
-        7535981,
+        9236122,
         "day-27",
         218880,
         null,
         "home"
       ],
       [
-        7536135,
+        9236279,
         "day-27",
         218880,
         null,
         "home"
       ],
       [
-        7536300,
+        9236467,
         "day-27",
         218880,
         "day-27",
         "home"
       ],
       [
-        7536501,
+        9236630,
         "day-27",
         219120,
         null,
         "home"
       ],
       [
-        7536663,
+        9236803,
         "day-27",
         219120,
         null,
         "home"
       ],
       [
-        7536821,
+        9237053,
         "day-27",
         219120,
         "day-27",
         "home"
       ],
       [
-        7536994,
+        9237223,
         "day-27",
         219360,
         null,
         "home"
       ],
       [
-        7537146,
+        9237384,
         "day-27",
         219360,
         null,
         "home"
       ],
       [
-        7537309,
-        "day-27",
-        219360,
-        "day-27",
-        "home"
-      ],
-      [
-        7537503,
-        "night-27",
-        219600,
-        null,
-        "home"
-      ],
-      [
-        7537659,
-        "night-27",
-        219600,
-        null,
-        "home"
-      ],
-      [
-        7537818,
+        9237571,
         "night-27",
         219600,
         "night-27",
         "home"
       ],
       [
-        7538012,
+        9237733,
+        "night-27",
+        219600,
+        null,
+        "home"
+      ],
+      [
+        9237905,
+        "night-27",
+        219600,
+        null,
+        "home"
+      ],
+      [
+        9238111,
+        "day-28",
+        220320,
+        "day-28",
+        "home"
+      ],
+      [
+        9238274,
         "day-28",
         220320,
         null,
         "home"
       ],
       [
-        7538171,
+        9238441,
         "day-28",
         220320,
         null,
         "home"
       ],
       [
-        7538330,
-        "day-28",
-        220320,
-        "day-28",
-        "home"
-      ],
-      [
-        7538512,
-        "day-28",
-        220560,
-        null,
-        "home"
-      ],
-      [
-        7538680,
-        "day-28",
-        220560,
-        null,
-        "home"
-      ],
-      [
-        7538836,
+        9238621,
         "day-28",
         220560,
         "day-28",
         "home"
       ],
       [
-        7539022,
+        9238782,
+        "day-28",
+        220560,
+        null,
+        "home"
+      ],
+      [
+        9238948,
+        "day-28",
+        220560,
+        null,
+        "home"
+      ],
+      [
+        9239120,
+        "day-28",
+        220800,
+        "day-28",
+        "home"
+      ],
+      [
+        9239293,
         "day-28",
         220800,
         null,
         "home"
       ],
       [
-        7539176,
+        9239453,
         "day-28",
         220800,
         null,
         "home"
       ],
       [
-        7539333,
-        "day-28",
-        220800,
-        "day-28",
+        9239638,
+        "night-28",
+        221040,
+        "night-28",
         "home"
       ],
       [
-        7539485,
-        "day-28",
-        220800,
-        null,
-        "home"
-      ],
-      [
-        7539643,
+        9239803,
         "night-28",
         221040,
         null,
         "home"
       ],
       [
-        7539796,
-        "night-28",
-        221040,
-        "night-28",
-        "home"
-      ],
-      [
-        7539952,
+        9239988,
         "night-28",
         221040,
         null,
         "home"
       ],
       [
-        7540109,
-        "day-29",
-        221760,
-        null,
-        "home"
-      ],
-      [
-        7540267,
+        9240163,
         "day-29",
         221760,
         "day-29",
         "home"
       ],
       [
-        7540420,
+        9240326,
         "day-29",
         221760,
         null,
         "home"
       ],
       [
-        7540575,
+        9240482,
+        "day-29",
+        221760,
+        null,
+        "home"
+      ],
+      [
+        9240653,
+        "day-29",
+        221880,
+        "day-29",
+        "home"
+      ],
+      [
+        9240818,
         "day-29",
         221880,
         null,
         "home"
       ],
       [
-        7540731,
-        "day-29",
-        221880,
-        "day-29",
-        "home"
-      ],
-      [
-        7540889,
+        9240990,
         "day-29",
         221880,
         null,
         "home"
       ],
       [
-        7541080,
-        "day-29",
-        222120,
-        null,
-        "home"
-      ],
-      [
-        7541254,
+        9241171,
         "day-29",
         222120,
         "day-29",
         "home"
       ],
       [
-        7541416,
+        9241346,
         "day-29",
         222120,
         null,
         "home"
       ],
       [
-        7541592,
+        9241510,
+        "day-29",
+        222120,
+        null,
+        "home"
+      ],
+      [
+        9241711,
+        "day-29",
+        222360,
+        "day-29",
+        "home"
+      ],
+      [
+        9241879,
         "day-29",
         222360,
         null,
         "home"
       ],
       [
-        7541747,
-        "day-29",
-        222360,
-        "day-29",
-        "home"
-      ],
-      [
-        7541913,
-        "day-29",
-        222360,
-        null,
-        "home"
-      ],
-      [
-        7542099,
+        9242174,
         "night-29",
         222480,
         null,
         "home"
       ],
       [
-        7542256,
+        9242340,
         "night-29",
         222480,
         "night-29",
         "home"
       ],
       [
-        7542408,
-        "night-29",
-        222480,
-        null,
-        "home"
-      ],
-      [
-        7542565,
+        9242502,
         "night-29",
         222480,
         null,
         "home"
       ],
       [
-        7542729,
-        "relief",
-        223020,
-        "relief",
-        "home"
-      ],
-      [
-        7542896,
+        9242675,
         "relief",
         223020,
         null,
         "home"
       ],
       [
-        7543050,
+        9242937,
         "relief",
         223020,
-        null,
-        "home"
-      ],
-      [
-        7543205,
-        "relief",
-        223040,
         "relief",
         "home"
       ],
       [
-        7543360,
+        9243270,
         "relief",
         223040,
         null,
         "home"
       ],
       [
-        7543515,
+        9243434,
         "relief",
         223040,
         null,
         "home"
       ],
       [
-        7543669,
+        9243679,
         "relief",
         223060,
         "relief",
         "home"
       ],
       [
-        7543825,
+        9243851,
         "relief",
         223060,
         null,
         "home"
       ],
       [
-        7543979,
+        9244019,
         "relief",
         223060,
         null,
         "home"
       ],
       [
-        7544162,
+        9244189,
         "relief",
         223080,
         "relief",
         "home"
       ],
       [
-        7544321,
+        9244353,
         "relief",
         223080,
         null,
         "home"
       ],
       [
-        7544476,
+        9244525,
         "relief",
         223080,
         null,
         "home"
       ],
       [
-        7544664,
+        9244702,
         "relief",
         223100,
         "relief",
         "home"
       ],
       [
-        7544818,
-        "relief",
-        223100,
-        null,
-        "home"
-      ],
-      [
-        7544974,
+        9244861,
         "relief",
         223100,
         null,
         "home"
       ],
       [
-        7545163,
+        9245017,
         "relief",
         223100,
+        null,
+        "home"
+      ],
+      [
+        9245190,
+        "relief",
+        223120,
         "relief",
         "home"
       ],
       [
-        7545329,
+        9245352,
         "relief",
         223120,
         null,
         "home"
       ],
       [
-        7545487,
+        9245522,
         "relief",
         223120,
         null,
         "home"
       ],
       [
-        7545691,
+        9245678,
         "night-relief",
         223140,
         "night-relief",
         "home"
       ],
       [
-        7545845,
+        9245852,
         "night-relief",
         223140,
         null,
         "home"
       ],
       [
-        7546001,
+        9246015,
         "night-relief",
         223140,
         null,
         "home"
       ],
       [
-        7546198,
+        9246212,
         "day-1",
         223200,
         "day-1",
         "home"
       ],
       [
-        7546358,
+        9246367,
         "day-1",
         223200,
         null,
         "home"
       ],
       [
-        7546512,
+        9246544,
         "day-1",
         223200,
         null,
         "home"
       ],
       [
-        7546713,
+        9246724,
         "day-1",
         223440,
         "day-1",
         "home"
       ],
       [
-        7546876,
+        9246891,
         "day-1",
         223440,
         null,
         "home"
       ],
       [
-        7547037,
+        9247074,
         "day-1",
         223440,
         null,
         "home"
       ],
       [
-        7547227,
+        9247253,
         "day-1",
         223680,
         "day-1",
         "home"
       ],
       [
-        7547392,
+        9247424,
         "day-1",
         223680,
         null,
         "home"
       ],
       [
-        7547548,
+        9247589,
         "day-1",
         223680,
         null,
         "home"
       ],
       [
-        7547730,
+        9247753,
         "night-1",
         223920,
         "night-1",
         "home"
       ],
       [
-        7547889,
+        9247916,
         "night-1",
         223920,
         null,
         "home"
       ],
       [
-        7548046,
+        9248079,
         "night-1",
         223920,
         null,
         "home"
       ],
       [
-        7548231,
+        9248261,
         "day-2",
         224640,
         "day-2",
         "home"
       ],
       [
-        7548391,
+        9248421,
         "day-2",
         224640,
         null,
         "home"
       ],
       [
-        7548546,
+        9248599,
         "day-2",
         224640,
         null,
         "home"
       ],
       [
-        7548763,
+        9248787,
         "day-2",
         224690,
         "drive",
         "home"
       ],
       [
-        7548930,
+        9248973,
         "day-2",
         224690,
         null,
         "home"
       ],
       [
-        7549084,
+        9249195,
         "day-2",
-        224690,
+        224810,
         null,
         "home"
       ],
       [
-        7549247,
+        9249508,
         "day-2",
         224810,
         "drive",
         "home"
       ],
       [
-        7549410,
+        9249686,
         "day-2",
-        224810,
+        224830,
         null,
         "home"
       ],
       [
-        7549566,
+        9249861,
         "day-2",
-        224810,
+        224830,
         null,
         "home"
       ],
       [
-        7549757,
+        9250026,
         "day-2",
         224830,
         "drive",
         "home"
       ],
       [
-        7549923,
+        9250194,
         "day-2",
-        224830,
+        224850,
         null,
         "home"
       ],
       [
-        7550077,
+        9250358,
         "day-2",
-        224830,
+        224850,
         null,
         "home"
       ],
       [
-        7550272,
+        9250515,
         "day-2",
         224850,
         "herd",
         "home"
       ],
       [
-        7550434,
-        "day-2",
-        224850,
-        null,
-        "home"
-      ],
-      [
-        7550588,
-        "day-2",
-        224850,
-        null,
-        "home"
-      ],
-      [
-        7550792,
-        "day-2",
-        224910,
-        "ambush",
-        "home"
-      ],
-      [
-        7550948,
+        9250722,
         "day-2",
         224910,
         null,
         "home"
       ],
       [
-        7551103,
+        9250885,
         "day-2",
         224910,
         null,
         "home"
       ],
       [
-        7551299,
+        9251054,
         "day-2",
-        224911,
+        224910,
         "ambush",
         "home"
       ],
       [
-        7551461,
-        "day-2",
-        224911,
-        null,
-        "home"
-      ],
-      [
-        7551618,
+        9251232,
         "day-2",
         224911,
         null,
         "home"
       ],
       [
-        7551820,
+        9251405,
+        "day-2",
+        224911,
+        null,
+        "home"
+      ],
+      [
+        9251581,
+        "day-2",
+        224911,
+        "ambush",
+        "home"
+      ],
+      [
+        9251739,
+        "day-2",
+        224912,
+        null,
+        "home"
+      ],
+      [
+        9251915,
+        "day-2",
+        224912,
+        null,
+        "home"
+      ],
+      [
+        9252084,
         "day-2",
         224912,
         "ambush",
         "home"
       ],
       [
-        7551975,
-        "day-2",
-        224912,
-        null,
-        "home"
-      ],
-      [
-        7552130,
-        "day-2",
-        224912,
-        null,
-        "home"
-      ],
-      [
-        7552319,
-        "day-2",
-        224913,
-        "ambush",
-        "home"
-      ],
-      [
-        7552471,
+        9252247,
         "day-2",
         224913,
         null,
         "home"
       ],
       [
-        7552627,
+        9252414,
         "day-2",
         224913,
         null,
         "home"
       ],
       [
-        7552817,
+        9252572,
         "day-2",
-        224914,
+        224913,
         "ambush",
         "home"
       ],
       [
-        7552970,
+        9252739,
         "day-2",
         224914,
         null,
         "home"
       ],
       [
-        7553125,
+        9252925,
         "day-2",
         224914,
         null,
         "home"
       ],
       [
-        7553320,
+        9253095,
         "day-2",
         224914,
         "ambush",
         "home"
       ],
       [
-        7553482,
+        9253253,
         "day-2",
         224915,
         null,
         "home"
       ],
       [
-        7553638,
+        9253414,
         "day-2",
         224915,
         null,
         "home"
       ],
       [
-        7553828,
+        9253580,
         "day-2",
-        224916,
+        224915,
         "ambush",
         "home"
       ],
       [
-        7553995,
-        "day-2",
-        224916,
-        null,
-        "home"
-      ],
-      [
-        7554149,
+        9253776,
         "day-2",
         224916,
         null,
         "home"
       ],
       [
-        7554340,
+        9253950,
+        "day-2",
+        224916,
+        null,
+        "home"
+      ],
+      [
+        9254113,
+        "day-2",
+        224916,
+        "ambush",
+        "home"
+      ],
+      [
+        9254284,
+        "day-2",
+        224917,
+        null,
+        "home"
+      ],
+      [
+        9254447,
+        "day-2",
+        224917,
+        null,
+        "home"
+      ],
+      [
+        9254621,
         "day-2",
         224917,
         "ambush",
         "home"
       ],
       [
-        7554505,
-        "day-2",
-        224917,
-        null,
-        "home"
-      ],
-      [
-        7554659,
-        "day-2",
-        224917,
-        null,
-        "home"
-      ],
-      [
-        7554855,
-        "day-2",
-        224918,
-        "ambush",
-        "home"
-      ],
-      [
-        7555019,
+        9254786,
         "day-2",
         224918,
         null,
         "home"
       ],
       [
-        7555173,
+        9254959,
         "day-2",
         224918,
         null,
         "home"
       ],
       [
-        7555364,
+        9255133,
         "day-2",
-        224919,
+        224918,
         "ambush",
         "home"
       ],
       [
-        7555531,
-        "day-2",
-        224919,
-        null,
-        "home"
-      ],
-      [
-        7555685,
+        9255298,
         "day-2",
         224919,
         null,
         "home"
       ],
       [
-        7555873,
+        9255458,
         "day-2",
-        224920,
+        224919,
+        null,
+        "home"
+      ],
+      [
+        9255638,
+        "day-2",
+        224919,
         "ambush",
         "home"
       ],
       [
-        7556025,
+        9255795,
         "day-2",
         224920,
         null,
         "home"
       ],
       [
-        7556179,
+        9255962,
         "day-2",
         224920,
         null,
         "home"
       ],
       [
-        7556366,
+        9256135,
         "day-2",
         224920,
         "ambush",
         "home"
       ],
       [
-        7556522,
+        9256298,
         "day-2",
         224921,
         null,
         "home"
       ],
       [
-        7556677,
+        9256459,
         "day-2",
         224921,
         null,
         "home"
       ],
       [
-        7556833,
+        9256638,
         "day-2",
         224921,
         "ambush",
         "home"
       ],
       [
-        7556990,
+        9256799,
         "day-2",
         224922,
         null,
         "home"
       ],
       [
-        7557143,
+        9256977,
         "day-2",
         224922,
         null,
         "home"
       ],
       [
-        7557305,
+        9257143,
         "day-2",
         224922,
         "ambush",
         "home"
       ],
       [
-        7557471,
+        9257307,
         "day-2",
         224923,
         null,
         "home"
       ],
       [
-        7557628,
+        9257461,
         "day-2",
         224923,
         null,
         "home"
       ],
       [
-        7557782,
+        9257646,
         "day-2",
         224923,
         "ambush",
         "home"
       ],
       [
-        7557936,
+        9257826,
         "day-2",
         224924,
         null,
         "home"
       ],
       [
-        7558090,
+        9257993,
         "day-2",
         224924,
         null,
         "home"
       ],
       [
-        7558246,
+        9258148,
         "day-2",
         224924,
         "ambush",
         "home"
       ],
       [
-        7558419,
+        9258334,
         "day-2",
         224925,
         null,
         "home"
       ],
       [
-        7558572,
+        9258509,
         "day-2",
         224925,
         null,
         "home"
       ],
       [
-        7558726,
+        9258670,
         "day-2",
         224925,
         "ambush",
         "home"
       ],
       [
-        7558884,
-        "day-2",
-        224925,
-        null,
-        "home"
-      ],
-      [
-        7559036,
+        9258827,
         "day-2",
         224926,
         null,
         "home"
       ],
       [
-        7559197,
-        "day-2",
-        224926,
-        "ambush",
-        "home"
-      ],
-      [
-        7559355,
+        9258998,
         "day-2",
         224926,
         null,
         "home"
       ],
       [
-        7559517,
+        9259173,
+        "day-2",
+        224926,
+        "ambush",
+        "home"
+      ],
+      [
+        9259335,
         "day-2",
         224927,
         null,
         "home"
       ],
       [
-        7559674,
-        "day-2",
-        224927,
-        "ambush",
-        "home"
-      ],
-      [
-        7559835,
+        9259515,
         "day-2",
         224927,
         null,
         "home"
       ],
       [
-        7559992,
+        9259700,
+        "day-2",
+        224927,
+        "ambush",
+        "home"
+      ],
+      [
+        9259872,
         "day-2",
         224928,
         null,
         "home"
       ],
       [
-        7560149,
+        9260064,
+        "day-2",
+        224928,
+        null,
+        "home"
+      ],
+      [
+        9260315,
         "day-2",
         224928,
         "ambush",
         "home"
       ],
       [
-        7560305,
-        "day-2",
-        224928,
-        null,
-        "home"
-      ],
-      [
-        7560457,
+        9260480,
         "day-2",
         224929,
         null,
         "home"
       ],
       [
-        7560613,
-        "day-2",
-        224929,
-        "ambush",
-        "home"
-      ],
-      [
-        7560785,
+        9260639,
         "day-2",
         224929,
         null,
         "home"
       ],
       [
-        7560939,
-        "day-2",
-        224930,
-        null,
-        "home"
-      ],
-      [
-        7561104,
+        9260899,
         "day-2",
         224930,
         "after",
         "home"
       ],
       [
-        7561260,
+        9261060,
         "day-2",
         224930,
         null,
         "home"
       ],
       [
-        7561450,
+        9261221,
+        "day-2",
+        224930,
+        null,
+        "home"
+      ],
+      [
+        9261391,
+        "day-2",
+        224990,
+        "day-2",
+        "home"
+      ],
+      [
+        9261556,
         "day-2",
         224990,
         null,
         "home"
       ],
       [
-        7561604,
-        "day-2",
-        224990,
-        "day-2",
-        "home"
-      ],
-      [
-        7561758,
+        9261714,
         "day-2",
         224990,
         null,
         "home"
       ],
       [
-        7561913,
-        "day-2",
-        224990,
-        null,
-        "home"
-      ],
-      [
-        7562071,
+        9261889,
         "day-2",
         225230,
         "day-2",
         "home"
       ],
       [
-        7562232,
+        9262058,
         "day-2",
         225230,
         null,
         "home"
       ],
       [
-        7562392,
+        9262221,
         "day-2",
         225230,
         null,
         "home"
       ],
       [
-        7562550,
+        9262387,
         "night-2",
         225360,
         "night-2",
         "home"
       ],
       [
-        7562707,
+        9262545,
         "night-2",
         225360,
         null,
         "home"
       ],
       [
-        7562872,
+        9262709,
         "night-2",
         225360,
         null,
         "home"
       ],
       [
-        7563029,
+        9262909,
         "day-3",
         226080,
         "day-3",
         "home"
       ],
       [
-        7563182,
+        9263070,
         "day-3",
         226080,
         null,
         "home"
       ],
       [
-        7563343,
+        9263242,
         "day-3",
         226080,
         null,
         "home"
       ],
       [
-        7563513,
+        9263438,
         "day-3",
         226100,
         "day-3",
         "home"
       ],
       [
-        7563666,
+        9263605,
         "day-3",
         226100,
         null,
         "home"
       ],
       [
-        7563820,
+        9263774,
         "day-3",
         226100,
         null,
         "home"
       ],
       [
-        7564173,
+        9266314,
         "day-3",
-        226120,
+        226200,
         "day-3",
         "home"
       ],
       [
-        7564333,
+        9266472,
         "day-3",
-        226120,
+        226260,
         null,
         "home"
       ],
       [
-        7564522,
+        9266639,
         "day-3",
-        226180,
+        226260,
         null,
         "home"
       ],
       [
-        7564687,
+        9266826,
         "day-3",
-        226180,
+        226260,
         "day-3",
         "home"
       ],
       [
-        7564855,
+        9266996,
         "day-3",
-        226180,
+        226320,
         null,
         "home"
       ],
       [
-        7565025,
+        9267161,
         "day-3",
-        226240,
+        226320,
         null,
         "home"
       ],
       [
-        7565181,
+        9267341,
         "day-3",
-        226240,
+        226320,
         "day-3",
         "home"
       ],
       [
-        7565347,
+        9267512,
         "day-3",
-        226240,
+        226380,
         null,
         "home"
       ],
       [
-        7565543,
+        9267699,
         "day-3",
-        226300,
+        226380,
         null,
         "home"
       ],
       [
-        7565705,
-        "day-3",
-        226300,
-        "day-3",
-        "home"
-      ],
-      [
-        7565859,
-        "day-3",
-        226300,
-        null,
-        "home"
-      ],
-      [
-        7566044,
-        "day-3",
-        226360,
-        null,
-        "home"
-      ],
-      [
-        7566199,
-        "day-3",
-        226360,
-        "day-3",
-        "home"
-      ],
-      [
-        7566352,
-        "day-3",
-        226360,
-        null,
-        "home"
-      ],
-      [
-        7566505,
-        "day-3",
-        226360,
-        null,
-        "home"
-      ],
-      [
-        7566661,
-        "day-3",
-        226420,
-        "day-3",
-        "home"
-      ],
-      [
-        7566814,
-        "day-3",
-        226420,
-        null,
-        "home"
-      ],
-      [
-        7566969,
-        "day-3",
-        226420,
-        null,
-        "home"
-      ],
-      [
-        7567135,
+        9267984,
         "day-3",
         226440,
         "day-3",
         "home"
       ],
       [
-        7567298,
+        9268142,
         "day-3",
         226440,
         null,
         "home"
       ],
       [
-        7567454,
+        9268307,
         "day-3",
         226440,
         null,
         "home"
       ],
       [
-        7567610,
+        9268484,
         "day-3",
         226500,
         "day-3",
         "home"
       ],
       [
-        7567765,
+        9268644,
         "day-3",
         226500,
         null,
         "home"
       ],
       [
-        7567919,
+        9268812,
         "day-3",
         226500,
         null,
         "home"
       ],
       [
-        7568101,
+        9268991,
         "day-3",
         226560,
         "day-3",
         "home"
       ],
       [
-        7568259,
+        9269153,
         "day-3",
         226560,
         null,
         "home"
       ],
       [
-        7568414,
+        9269319,
         "day-3",
         226560,
         null,
         "home"
       ],
       [
-        7568623,
+        9269488,
         "day-3",
         226620,
         "day-3",
         "home"
       ],
       [
-        7568793,
+        9269664,
         "day-3",
         226620,
         null,
         "home"
       ],
       [
-        7568958,
+        9269826,
         "day-3",
         226620,
         null,
         "home"
       ],
       [
-        7569130,
+        9269994,
         "day-3",
         226680,
         "day-3",
         "home"
       ],
       [
-        7569283,
+        9270161,
         "day-3",
         226680,
         null,
         "home"
       ],
       [
-        7569440,
+        9270315,
         "day-3",
         226680,
         null,
         "home"
       ],
       [
-        7569639,
+        9270501,
         "day-3",
         226740,
         "day-3",
         "home"
       ],
       [
-        7569797,
+        9270664,
         "day-3",
         226740,
         null,
         "home"
       ],
       [
-        7569953,
+        9270823,
         "day-3",
         226740,
         null,
         "home"
       ],
       [
-        7570167,
+        9271024,
         "the-line",
         226800,
         "the-line",
         "home"
       ],
       [
-        7570325,
+        9271191,
         "the-line",
         226800,
         null,
         "home"
       ],
       [
-        7570479,
+        9271356,
         "the-line",
         226800,
         null,
         "home"
       ],
       [
-        7570663,
+        9271536,
         "the-line",
         226820,
         "the-line",
         "home"
       ],
       [
-        7570817,
+        9271695,
         "the-line",
         226820,
         null,
         "home"
       ],
       [
-        7570972,
+        9271873,
         "the-line",
         226820,
         null,
         "home"
       ],
       [
-        7571315,
+        9272279,
         "the-line",
         226840,
         "the-line",
         "home"
       ],
       [
-        7571468,
-        "the-line",
-        226840,
-        null,
-        "home"
-      ],
-      [
-        7571624,
-        "the-line",
-        226840,
-        null,
-        "home"
-      ],
-      [
-        7571779,
-        "night-3",
-        226860,
-        "night-3",
-        "home"
-      ],
-      [
-        7571931,
+        9272480,
         "night-3",
         226860,
         null,
         "home"
       ],
       [
-        7572088,
+        9272649,
         "night-3",
         226860,
         null,
         "home"
       ],
       [
-        7572247,
+        9272829,
         "night-3",
-        226920,
+        226860,
         "night-3",
         "home"
       ],
       [
-        7572414,
-        "night-3",
-        226920,
-        null,
-        "home"
-      ],
-      [
-        7572567,
+        9273012,
         "night-3",
         226920,
         null,
         "home"
       ],
       [
-        7572757,
-        "day-4",
-        227520,
-        "day-4",
+        9273186,
+        "night-3",
+        226920,
+        null,
         "home"
       ],
       [
-        7572914,
+        9273348,
+        "night-3",
+        226920,
+        "night-3",
+        "home"
+      ],
+      [
+        9273650,
         "day-4",
         227520,
         null,
         "home"
       ],
       [
-        7573067,
+        9273820,
         "day-4",
         227520,
         null,
         "home"
       ],
       [
-        7573223,
+        9274003,
         "day-4",
         227760,
         "day-4",
         "home"
       ],
       [
-        7573378,
+        9274180,
         "day-4",
         227760,
         null,
         "home"
       ],
       [
-        7573534,
+        9274343,
         "day-4",
         227760,
         null,
         "home"
       ],
       [
-        7573746,
+        9274534,
         "day-4",
         227880,
         "day-4",
         "home"
       ],
       [
-        7573909,
+        9274693,
         "day-4",
         227880,
         null,
         "home"
       ],
       [
-        7574063,
+        9274850,
         "day-4",
         227880,
         null,
         "home"
       ],
       [
-        7574255,
+        9275117,
         "day-4",
         228120,
         "day-4",
         "home"
       ],
       [
-        7574422,
+        9275280,
         "day-4",
         228120,
         null,
         "home"
       ],
       [
-        7574589,
-        "day-4",
-        228120,
-        null,
-        "home"
-      ],
-      [
-        7574768,
-        "night-4",
-        228240,
-        "night-4",
-        "home"
-      ],
-      [
-        7574928,
+        9275541,
         "night-4",
         228240,
         null,
         "home"
       ],
       [
-        7575080,
+        9275721,
+        "night-4",
+        228240,
+        "night-4",
+        "home"
+      ],
+      [
+        9275894,
         "night-4",
         228240,
         null,
         "home"
       ],
       [
-        7575278,
-        "day-5",
-        228960,
-        "day-5",
-        "home"
-      ],
-      [
-        7575439,
+        9276115,
         "day-5",
         228960,
         null,
         "home"
       ],
       [
-        7575595,
+        9276286,
         "day-5",
         228960,
-        null,
-        "home"
-      ],
-      [
-        7575770,
-        "day-5",
-        229200,
         "day-5",
         "home"
       ],
       [
-        7575935,
+        9276571,
         "day-5",
         229200,
         null,
         "home"
       ],
       [
-        7576092,
+        9276758,
         "day-5",
         229200,
         null,
         "home"
       ],
       [
-        7576305,
+        9276926,
         "day-5",
-        229320,
+        229200,
         "day-5",
         "home"
       ],
       [
-        7576463,
-        "day-5",
-        229320,
-        null,
-        "home"
-      ],
-      [
-        7576619,
+        9277099,
         "day-5",
         229320,
         null,
         "home"
       ],
       [
-        7576807,
+        9277268,
         "day-5",
-        229340,
+        229320,
+        null,
+        "home"
+      ],
+      [
+        9277528,
+        "day-5",
+        229320,
         "day-5",
         "home"
       ],
       [
-        7577162,
+        9277686,
         "day-5",
         229340,
         null,
         "home"
       ],
       [
-        7577315,
+        9277856,
         "day-5",
-        229400,
+        229340,
         null,
         "home"
       ],
       [
-        7577476,
+        9278105,
         "day-5",
-        229400,
-        "day-5",
-        "home"
-      ],
-      [
-        7577641,
-        "day-5",
-        229400,
-        null,
-        "home"
-      ],
-      [
-        7577811,
-        "day-5",
-        229460,
-        null,
-        "home"
-      ],
-      [
-        7577974,
-        "day-5",
-        229460,
+        229360,
         "day-5",
         "home"
       ],
       [
-        7578126,
-        "day-5",
-        229460,
-        null,
-        "home"
-      ],
-      [
-        7578317,
+        9281133,
         "day-5",
         229520,
         null,
         "home"
       ],
       [
-        7578484,
-        "day-5",
-        229520,
-        "day-5",
-        "home"
-      ],
-      [
-        7578640,
+        9281297,
         "day-5",
         229520,
         null,
         "home"
       ],
       [
-        7578831,
+        9281471,
+        "day-5",
+        229520,
+        "day-5",
+        "home"
+      ],
+      [
+        9281633,
         "day-5",
         229580,
         null,
         "home"
       ],
       [
-        7578993,
-        "day-5",
-        229580,
-        "day-5",
-        "home"
-      ],
-      [
-        7579155,
+        9281808,
         "day-5",
         229580,
         null,
         "home"
       ],
       [
-        7579350,
+        9281985,
+        "day-5",
+        229580,
+        "day-5",
+        "home"
+      ],
+      [
+        9282144,
         "day-5",
         229640,
         null,
         "home"
       ],
       [
-        7579520,
-        "day-5",
-        229640,
-        "day-5",
-        "home"
-      ],
-      [
-        7579678,
+        9282299,
         "day-5",
         229640,
         null,
         "home"
       ],
       [
-        7579856,
+        9282489,
+        "day-5",
+        229640,
+        "day-5",
+        "home"
+      ],
+      [
+        9282671,
         "last-evening",
         229680,
         null,
         "home"
       ],
       [
-        7580015,
-        "last-evening",
-        229680,
-        "last-evening",
-        "home"
-      ],
-      [
-        7580181,
+        9282841,
         "last-evening",
         229680,
         null,
         "home"
       ],
       [
-        7580355,
+        9283008,
+        "last-evening",
+        229680,
+        "last-evening",
+        "home"
+      ],
+      [
+        9283173,
         "last-evening",
         229740,
         null,
         "home"
       ],
       [
-        7580523,
-        "last-evening",
-        229740,
-        "last-evening",
-        "home"
-      ],
-      [
-        7580689,
+        9283351,
         "last-evening",
         229740,
         null,
         "home"
       ],
       [
-        7580869,
+        9283513,
+        "last-evening",
+        229740,
+        "last-evening",
+        "home"
+      ],
+      [
+        9283676,
         "last-evening",
         229800,
         null,
         "home"
       ],
       [
-        7581032,
-        "last-evening",
-        229800,
-        "last-evening",
-        "home"
-      ],
-      [
-        7581190,
+        9283856,
         "last-evening",
         229800,
         null,
         "home"
       ],
       [
-        7581378,
+        9284020,
+        "last-evening",
+        229800,
+        "last-evening",
+        "home"
+      ],
+      [
+        9284188,
         "last-evening",
         229860,
         null,
         "home"
       ],
       [
-        7581545,
-        "last-evening",
-        229860,
-        "last-evening",
-        "home"
-      ],
-      [
-        7581701,
+        9284365,
         "last-evening",
         229860,
         null,
         "home"
       ],
       [
-        7581947,
+        9284527,
+        "last-evening",
+        229860,
+        "last-evening",
+        "home"
+      ],
+      [
+        9284702,
         "quiet",
         229920,
         null,
         "home"
       ],
       [
-        7582109,
-        "quiet",
-        229920,
-        "quiet",
-        "home"
-      ],
-      [
-        7582265,
+        9284968,
         "quiet",
         229920,
         null,
         "home"
       ],
       [
-        7582451,
-        "quiet",
-        229980,
-        null,
-        "home"
-      ],
-      [
-        7582610,
+        9285158,
         "quiet",
         229980,
         "quiet",
         "home"
       ],
       [
-        7582777,
+        9285332,
         "quiet",
         229980,
         null,
         "home"
       ],
       [
-        7582932,
+        9285502,
+        "quiet",
+        229980,
+        null,
+        "home"
+      ],
+      [
+        9285707,
+        "quiet",
+        230040,
+        "quiet",
+        "home"
+      ],
+      [
+        9285870,
         "quiet",
         230040,
         null,
         "home"
       ],
       [
-        7583090,
-        "quiet",
-        230040,
-        "quiet",
-        "home"
-      ],
-      [
-        7583247,
+        9286051,
         "quiet",
         230040,
         null,
         "home"
       ],
       [
-        7583421,
-        "quiet",
-        230100,
-        null,
-        "home"
-      ],
-      [
-        7583588,
+        9286212,
         "quiet",
         230100,
         "quiet",
         "home"
       ],
       [
-        7583741,
+        9286380,
         "quiet",
         230100,
         null,
         "home"
       ],
       [
-        7583938,
+        9286549,
+        "quiet",
+        230100,
+        null,
+        "home"
+      ],
+      [
+        9286724,
+        "quiet",
+        230160,
+        "quiet",
+        "home"
+      ],
+      [
+        9286897,
         "quiet",
         230160,
         null,
         "home"
       ],
       [
-        7584102,
-        "quiet",
-        230160,
-        "quiet",
-        "home"
-      ],
-      [
-        7584269,
+        9287061,
         "quiet",
         230160,
         null,
         "home"
       ],
       [
-        7584444,
-        "advance",
-        230340,
-        null,
-        "home"
-      ],
-      [
-        7584614,
+        9287226,
         "advance",
         230340,
         "advance",
         "home"
       ],
       [
-        7584781,
+        9287394,
         "advance",
         230340,
         null,
         "home"
       ],
       [
-        7584955,
+        9287566,
+        "advance",
+        230340,
+        null,
+        "home"
+      ],
+      [
+        9287726,
+        "advance",
+        230345,
+        "advance",
+        "home"
+      ],
+      [
+        9287884,
         "advance",
         230345,
         null,
         "home"
       ],
       [
-        7585110,
-        "advance",
-        230345,
-        "advance",
-        "home"
-      ],
-      [
-        7585266,
+        9288059,
         "advance",
         230345,
         null,
         "home"
       ],
       [
-        7585418,
-        "advance",
-        230345,
-        null,
-        "home"
-      ],
-      [
-        7585576,
+        9288226,
         "advance",
         230350,
         "advance",
         "home"
       ],
       [
-        7585730,
+        9288393,
         "advance",
         230350,
         null,
         "home"
       ],
       [
-        7585889,
+        9288554,
         "advance",
         230350,
         null,
         "home"
       ],
       [
-        7586046,
+        9288725,
         "advance",
         230355,
         "advance",
         "home"
       ],
       [
-        7586202,
+        9288896,
         "advance",
         230355,
         null,
         "home"
       ],
       [
-        7586357,
+        9289069,
         "advance",
         230355,
         null,
         "home"
       ],
       [
-        7586513,
+        9289253,
         "advance",
         230360,
         "advance",
         "home"
       ],
       [
-        7586678,
+        9289420,
         "advance",
         230360,
         null,
         "home"
       ],
       [
-        7586835,
+        9289581,
         "advance",
         230360,
         null,
         "home"
       ],
       [
-        7587001,
+        9289747,
         "advance",
         230365,
         "advance",
         "home"
       ],
       [
-        7587168,
+        9289914,
         "advance",
         230365,
         null,
         "home"
       ],
       [
-        7587332,
+        9290077,
         "advance",
         230365,
         null,
         "home"
       ],
       [
-        7587513,
+        9290267,
         "alarm",
         230370,
         "alarm",
         "home"
       ],
       [
-        7587672,
+        9290427,
         "alarm",
         230370,
         null,
         "home"
       ],
       [
-        7587878,
+        9290594,
         "alarm",
         230370,
         null,
-        "battle"
+        "home"
       ],
       [
-        7588048,
+        9290862,
         "alarm",
         230372,
         "alarm",
         "battle"
       ],
       [
-        7588199,
+        9291028,
         "alarm",
         230372,
         null,
         "battle"
       ],
       [
-        7588358,
-        "alarm",
-        230372,
-        null,
-        "battle"
-      ],
-      [
-        7588664,
-        "alarm",
-        230374,
-        "alarm",
-        "battle"
-      ],
-      [
-        7588824,
+        9291290,
         "alarm",
         230374,
         null,
         "battle"
       ],
       [
-        7588984,
+        9291485,
         "alarm",
         230374,
-        null,
+        "alarm",
         "battle"
       ],
       [
-        7589164,
+        9291935,
         "repulse",
         230376,
-        "repulse",
+        null,
         "battle"
       ],
       [
-        7589637,
+        9292457,
         "repulse",
         230378,
         null,
         "battle"
       ],
       [
-        7589800,
-        "repulse",
-        230378,
-        null,
-        "battle"
-      ],
-      [
-        7589957,
+        9292636,
         "repulse",
         230378,
         "repulse",
         "battle"
       ],
       [
-        7590121,
+        9292793,
         "repulse",
         230380,
         null,
         "battle"
       ],
       [
-        7590392,
-        "repulse",
-        230380,
-        null,
-        "battle"
-      ],
-      [
-        7590588,
-        "repulse",
-        230382,
-        "repulse",
-        "battle"
-      ],
-      [
-        7590754,
+        9293390,
         "repulse",
         230382,
         null,
         "battle"
       ],
       [
-        7590909,
+        9293594,
         "repulse",
         230382,
-        null,
-        "battle"
-      ],
-      [
-        7591210,
-        "repulse",
-        230384,
         "repulse",
         "battle"
       ],
       [
-        7591375,
+        9293778,
         "repulse",
         230384,
         null,
         "battle"
       ],
       [
-        7591529,
+        9293945,
         "repulse",
         230384,
         null,
         "battle"
       ],
       [
-        7591685,
+        9294481,
         "repulse",
         230386,
         "repulse",
         "battle"
       ],
       [
-        7591932,
+        9294654,
         "repulse",
         230386,
         null,
         "battle"
       ],
       [
-        7592116,
+        9294820,
         "repulse",
         230388,
         null,
         "battle"
       ],
       [
-        7592279,
+        9295059,
         "repulse",
         230388,
         "repulse",
         "battle"
       ],
       [
-        7592432,
-        "repulse",
-        230388,
-        null,
-        "battle"
-      ],
-      [
-        7592744,
+        9295612,
         "repulse",
         230390,
         null,
         "battle"
       ],
       [
-        7592904,
-        "repulse",
-        230390,
-        "repulse",
-        "battle"
-      ],
-      [
-        7593068,
-        "repulse",
-        230390,
-        null,
-        "battle"
-      ],
-      [
-        7593227,
+        9295804,
         "north-wall",
         230392,
         null,
         "battle"
       ],
       [
-        7593510,
+        9296003,
         "north-wall",
         230392,
         "north-wall",
         "battle"
       ],
       [
-        7593677,
+        9296166,
+        "north-wall",
+        230392,
+        null,
+        "battle"
+      ],
+      [
+        9296607,
         "north-wall",
         230394,
         null,
         "battle"
       ],
       [
-        7593833,
-        "north-wall",
-        230394,
-        null,
-        "battle"
-      ],
-      [
-        7593990,
-        "north-wall",
-        230394,
-        "north-wall",
-        "battle"
-      ],
-      [
-        7594309,
-        "north-wall",
-        230396,
-        null,
-        "battle"
-      ],
-      [
-        7594470,
-        "north-wall",
-        230396,
-        null,
-        "battle"
-      ],
-      [
-        7594677,
+        9296821,
         "north-wall",
         230396,
         "north-wall",
         "battle"
       ],
       [
-        7594842,
+        9296986,
+        "north-wall",
+        230396,
+        null,
+        "battle"
+      ],
+      [
+        9297174,
+        "north-wall",
+        230396,
+        null,
+        "battle"
+      ],
+      [
+        9297512,
+        "north-wall",
+        230398,
+        "north-wall",
+        "battle"
+      ],
+      [
+        9297814,
         "north-wall",
         230398,
         null,
         "battle"
       ],
       [
-        7595153,
-        "north-wall",
-        230398,
-        null,
-        "battle"
-      ],
-      [
-        7595322,
-        "north-wall",
-        230400,
-        "north-wall",
-        "battle"
-      ],
-      [
-        7595482,
+        9297995,
         "north-wall",
         230400,
         null,
         "battle"
       ],
       [
-        7595679,
+        9298189,
+        "north-wall",
+        230400,
+        "north-wall",
+        "battle"
+      ],
+      [
+        9298681,
         "north-wall",
         230402,
         null,
         "battle"
       ],
       [
-        7595957,
-        "north-wall",
-        230402,
-        "north-wall",
-        "battle"
-      ],
-      [
-        7596115,
-        "north-wall",
-        230402,
-        null,
-        "battle"
-      ],
-      [
-        7596272,
+        9298867,
         "fallback",
         230404,
         null,
         "battle"
       ],
       [
-        7596469,
+        9299074,
         "fallback",
         230404,
         "fallback",
         "battle"
       ],
       [
-        7596775,
+        9299399,
         "fallback",
         230406,
         null,
         "battle"
       ],
       [
-        7596938,
-        "fallback",
-        230406,
-        null,
-        "battle"
-      ],
-      [
-        7597095,
-        "fallback",
-        230406,
-        "fallback",
-        "battle"
-      ],
-      [
-        7597257,
+        9299942,
         "fallback",
         230408,
         null,
         "battle"
       ],
       [
-        7597519,
+        9300117,
         "fallback",
         230408,
-        null,
-        "battle"
-      ],
-      [
-        7597729,
-        "fallback",
-        230410,
         "fallback",
         "battle"
       ],
       [
-        7597888,
+        9300464,
         "fallback",
         230410,
         null,
         "battle"
       ],
       [
-        7598043,
+        9300629,
         "fallback",
         230410,
         null,
         "battle"
       ],
       [
-        7598345,
+        9301239,
         "fallback",
         230412,
         "fallback",
         "battle"
       ],
       [
-        7598510,
-        "fallback",
-        230412,
-        null,
-        "battle"
-      ],
-      [
-        7598667,
-        "fallback",
-        230412,
-        null,
-        "battle"
-      ],
-      [
-        7598825,
-        "fallback",
-        230414,
-        "fallback",
-        "battle"
-      ],
-      [
-        7599072,
+        9301440,
         "fallback",
         230414,
         null,
         "battle"
       ],
       [
-        7599264,
-        "rooms",
-        230416,
+        9301649,
+        "fallback",
+        230414,
         null,
         "battle"
       ],
       [
-        7599432,
+        9301917,
         "rooms",
         230416,
         "rooms",
         "battle"
       ],
       [
-        7599599,
-        "rooms",
-        230416,
-        null,
-        "battle"
-      ],
-      [
-        7599838,
+        9302431,
         "rooms",
         230418,
         null,
         "battle"
       ],
       [
-        7600002,
-        "rooms",
-        230418,
-        "rooms",
-        "battle"
-      ],
-      [
-        7600162,
+        9302601,
         "rooms",
         230418,
         null,
         "battle"
       ],
       [
-        7600329,
-        "rooms",
-        230420,
-        null,
-        "battle"
-      ],
-      [
-        7600594,
+        9302928,
         "rooms",
         230420,
         "rooms",
         "battle"
       ],
       [
-        7600790,
+        9303090,
+        "rooms",
+        230420,
+        null,
+        "battle"
+      ],
+      [
+        9303735,
         "rooms",
         230422,
         null,
         "battle"
       ],
       [
-        7600953,
-        "rooms",
-        230422,
-        null,
-        "battle"
-      ],
-      [
-        7601112,
-        "rooms",
-        230422,
-        "rooms",
-        "battle"
-      ],
-      [
-        7601409,
-        "rooms",
-        230424,
-        null,
-        "battle"
-      ],
-      [
-        7601564,
-        "rooms",
-        230424,
-        null,
-        "battle"
-      ],
-      [
-        7601725,
+        9303924,
         "rooms",
         230424,
         "rooms",
         "battle"
       ],
       [
-        7601899,
+        9304081,
+        "rooms",
+        230424,
+        null,
+        "battle"
+      ],
+      [
+        9304249,
+        "rooms",
+        230424,
+        null,
+        "battle"
+      ],
+      [
+        9304719,
         "rooms",
         230426,
-        null,
-        "battle"
-      ],
-      [
-        7602183,
-        "rooms",
-        230426,
-        null,
-        "battle"
-      ],
-      [
-        7602357,
-        "rooms",
-        230428,
         "rooms",
         "battle"
       ],
       [
-        7602513,
+        9304905,
         "rooms",
         230428,
         null,
         "battle"
       ],
       [
-        7602672,
+        9305123,
         "rooms",
         230428,
         null,
         "battle"
       ],
       [
-        7602843,
+        9305491,
         "end",
         230430,
         "end",
         "battle"
       ],
       [
-        7603027,
+        9305690,
         "end",
         230430,
         null,
         "battle"
       ],
       [
-        7603179,
-        "end",
-        230430,
-        null,
-        "battle"
-      ],
-      [
-        7603348,
-        "end",
-        230435,
-        "end",
-        "battle"
-      ],
-      [
-        7603504,
+        9305975,
         "end",
         230435,
         null,
         "battle"
       ],
       [
-        7603658,
+        9306167,
         "end",
         230435,
-        null,
+        "end",
         "battle"
       ],
       [
-        7603859,
+        9306465,
         "end",
         230440,
-        "end",
+        null,
         "battle"
       ],
       [
-        7604350,
+        9307129,
         "end",
         230445,
         null,
         "battle"
       ],
       [
-        7604515,
-        "end",
-        230445,
-        null,
-        "battle"
-      ],
-      [
-        7604671,
+        9307381,
         "end",
         230445,
         "end",
         "battle"
       ],
       [
-        7604858,
+        9307574,
         "end",
         230450,
         null,
         "battle"
       ],
       [
-        7605018,
+        9307736,
         "end",
         230450,
         null,
         "battle"
       ],
       [
-        7605181,
+        9308000,
         "end",
-        230450,
+        230455,
         "end",
         "battle"
       ],
       [
-        7605377,
+        9308208,
         "end",
         230455,
         null,
         "battle"
       ],
       [
-        7605543,
-        "end",
-        230455,
-        null,
-        "battle"
-      ],
-      [
-        7605701,
-        "end",
-        230455,
-        "end",
-        "battle"
-      ],
-      [
-        7605891,
+        9308489,
         "after",
         230460,
         "after",
         "battle"
       ],
       [
-        7606058,
+        9308724,
         "after",
         230460,
         "after",
         "battle"
       ],
       [
-        7606212,
-        "after",
-        230460,
-        "after",
-        "battle"
-      ],
-      [
-        7606414,
+        9308989,
         "burial",
         230760,
         "burial",
@@ -4691,33 +3914,6 @@
     "shotBurial": true,
     "seen": {
       "arrival": {
-        "sutherland": {
-          "name": "Sutherland",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "mounted-courier-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "mounted-courier-e"
-        },
-        "jw-smith": {
-          "name": "J. W. Smith",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true
-        },
         "travis": {
           "name": "Travis",
           "poses": [
@@ -4772,7 +3968,6 @@
         "santa-anna": {
           "name": "Santa Anna",
           "poses": [
-            "ride",
             "walk"
           ],
           "drawnAs": [
@@ -4829,100 +4024,6 @@
           "tag": null,
           "labelled": true,
           "first": "crockett-idle"
-        },
-        "esparza": {
-          "name": "Esparza",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "volunteer-march",
-            "esparza-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "ana-esparza": {
-          "name": "Ana Esparza",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "volunteer-march",
-            "ana-esparza-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "maria-de-jesus": {
-          "name": "María de Jesús",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "volunteer-march",
-            "maria-de-jesus-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "enrique-esparza": {
-          "name": "Enrique",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "volunteer-march",
-            "enrique-esparza-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "manuel-esparza": {
-          "name": "Manuel",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "smallchild-walk"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "smallchild-walk"
-        },
-        "francisco-child": {
-          "name": "Francisco",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "smallchild-walk"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "smallchild-walk"
         }
       },
       "day-24": {
@@ -5020,6 +4121,7 @@
             "seated"
           ],
           "drawnAs": [
+            "indigo-rest",
             "ana-esparza-seated"
           ],
           "fell": false,
@@ -5035,6 +4137,7 @@
             "seated"
           ],
           "drawnAs": [
+            "girl-rest",
             "maria-de-jesus-seated-huddled"
           ],
           "fell": false,
@@ -5050,6 +4153,7 @@
             "seated"
           ],
           "drawnAs": [
+            "boy-rest",
             "enrique-esparza-seated-huddled"
           ],
           "fell": false,
@@ -6149,7 +5253,8 @@
             "ride"
           ],
           "drawnAs": [
-            "kimbell-mounted-walk-e"
+            "kimbell-mounted-walk-e",
+            "kimbell-mounted-rest-e"
           ],
           "fell": false,
           "hurt": false,
@@ -6164,7 +5269,8 @@
             "ride"
           ],
           "drawnAs": [
-            "martin-mounted-walk-e"
+            "martin-mounted-walk-e",
+            "martin-mounted-rest-e"
           ],
           "fell": false,
           "hurt": false,
@@ -7567,7 +6673,8 @@
           ],
           "drawnAs": [
             "travis-walk-e",
-            "travis-ready"
+            "travis-ready",
+            "travis-battery-fire-n"
           ],
           "fell": false,
           "hurt": false,
@@ -7731,8 +6838,6 @@
             "fire"
           ],
           "drawnAs": [
-            "bonham-aim",
-            "bonham-fire",
             "bonham-reload"
           ],
           "fell": false,
@@ -7797,7 +6902,7 @@
             "still"
           ],
           "drawnAs": [
-            "travis-ready",
+            "travis-battery-fire-n",
             "travis-still-ramp"
           ],
           "fell": true,
@@ -7831,8 +6936,9 @@
             "fire"
           ],
           "drawnAs": [
-            "crockett-reload",
-            "crockett-aim"
+            "crockett-aim",
+            "crockett-fire",
+            "crockett-reload"
           ],
           "fell": false,
           "hurt": false,
@@ -8029,8 +7135,8 @@
             "walk"
           ],
           "drawnAs": [
-            "castrillon-idle",
-            "castrillon-walk-e"
+            "castrillon-walk-e",
+            "castrillon-idle"
           ],
           "fell": false,
           "hurt": false,
@@ -8060,8 +7166,6 @@
             "fire"
           ],
           "drawnAs": [
-            "crockett-aim",
-            "crockett-fire",
             "crockett-reload"
           ],
           "fell": false,
@@ -8210,7 +7314,8 @@
             "fire"
           ],
           "drawnAs": [
-            "esparza-aim"
+            "esparza-aim",
+            "esparza-fire"
           ],
           "fell": false,
           "hurt": false,
@@ -8409,7 +7514,8 @@
             "fire"
           ],
           "drawnAs": [
-            "almeron-dickinson-ram"
+            "almeron-dickinson-ram",
+            "almeron-dickinson-fire"
           ],
           "fell": false,
           "hurt": false,
@@ -8423,7 +7529,8 @@
             "fire"
           ],
           "drawnAs": [
-            "bonham-reload"
+            "bonham-reload",
+            "bonham-aim"
           ],
           "fell": false,
           "hurt": false,
@@ -8438,8 +7545,7 @@
             "fire"
           ],
           "drawnAs": [
-            "esparza-aim",
-            "esparza-fire"
+            "esparza-aim"
           ],
           "fell": false,
           "hurt": false,
@@ -8499,7 +7605,8 @@
             "fire"
           ],
           "drawnAs": [
-            "crockett-reload"
+            "crockett-reload",
+            "crockett-aim"
           ],
           "fell": false,
           "hurt": false,
@@ -8603,8 +7710,7 @@
             "fire"
           ],
           "drawnAs": [
-            "almeron-dickinson-ram",
-            "almeron-dickinson-fire"
+            "almeron-dickinson-ram"
           ],
           "fell": false,
           "hurt": false,
@@ -8618,8 +7724,6 @@
             "fire"
           ],
           "drawnAs": [
-            "bonham-aim",
-            "bonham-fire",
             "bonham-reload"
           ],
           "fell": false,
@@ -9207,103 +8311,6 @@
       }
     },
     "seenHost": {
-      "arrival": {
-        "sutherland": {
-          "name": "Sutherland",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "sutherland-ride-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "mounted-courier-e"
-        },
-        "jw-smith": {
-          "name": "J. W. Smith",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "jw-smith-mounted-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true
-        },
-        "travis": {
-          "name": "Travis",
-          "poses": [
-            "stand",
-            "walk"
-          ],
-          "drawnAs": [
-            "travis-idle",
-            "travis-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "travis-idle"
-        },
-        "bowie": {
-          "name": "Bowie",
-          "poses": [
-            "stand",
-            "walk"
-          ],
-          "drawnAs": [
-            "bowie-idle",
-            "bowie-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "bowie-idle"
-        },
-        "crockett": {
-          "name": "Crockett",
-          "poses": [
-            "stand",
-            "walk"
-          ],
-          "drawnAs": [
-            "crockett-idle",
-            "crockett-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "crockett-idle"
-        },
-        "santa-anna": {
-          "name": "Santa Anna",
-          "poses": [
-            "ride",
-            "walk"
-          ],
-          "drawnAs": [
-            "santa-anna-mounted-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true
-        }
-      },
       "red-flag": {
         "travis": {
           "name": "Travis",
@@ -9348,96 +8355,6 @@
           "tag": null,
           "labelled": true,
           "first": "crockett-idle"
-        },
-        "esparza": {
-          "name": "Esparza",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "esparza-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "ana-esparza": {
-          "name": "Ana Esparza",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "ana-esparza-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "maria-de-jesus": {
-          "name": "María de Jesús",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "maria-de-jesus-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "enrique-esparza": {
-          "name": "Enrique",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "enrique-esparza-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "manuel-esparza": {
-          "name": "Manuel",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "smallchild-walk"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "smallchild-walk"
-        },
-        "francisco-child": {
-          "name": "Francisco",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "smallchild-walk"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "smallchild-walk"
         }
       },
       "day-24": {
@@ -10167,9 +9084,7 @@
           "poses": [
             "stand"
           ],
-          "drawnAs": [
-            "johnson-idle"
-          ],
+          "drawnAs": [],
           "fell": false,
           "hurt": false,
           "onScreen": false,
@@ -10199,6 +9114,7 @@
             "command"
           ],
           "drawnAs": [
+            "regular-march",
             "urrea-walk-e",
             "urrea-command-cycle"
           ],
@@ -10916,7 +9832,8 @@
             "ride"
           ],
           "drawnAs": [
-            "kimbell-mounted-walk-e"
+            "kimbell-mounted-walk-e",
+            "kimbell-mounted-rest-e"
           ],
           "fell": false,
           "hurt": false,
@@ -10931,7 +9848,8 @@
             "ride"
           ],
           "drawnAs": [
-            "martin-mounted-walk-e"
+            "martin-mounted-walk-e",
+            "martin-mounted-rest-e"
           ],
           "fell": false,
           "hurt": false,
@@ -11516,7 +10434,6 @@
         "bonham": {
           "name": "Bonham",
           "poses": [
-            "walk",
             "ride"
           ],
           "drawnAs": [
@@ -12383,7 +11300,7 @@
           ],
           "fell": false,
           "hurt": false,
-          "onScreen": false,
+          "onScreen": true,
           "tag": null,
           "labelled": true
         },
@@ -12412,7 +11329,7 @@
           ],
           "drawnAs": [
             "travis-walk-e",
-            "travis-ready"
+            "travis-battery-fire-n"
           ],
           "fell": false,
           "hurt": false,
@@ -12430,6 +11347,239 @@
           "drawnAs": [
             "joe-walk",
             "volunteer-fire-reload"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire"
+          ],
+          "drawnAs": [
+            "crockett-aim",
+            "crockett-fire",
+            "crockett-reload"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "crockett-idle"
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "drawnAs": [
+            "bowie-story-sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "bowie-idle"
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "drawnAs": [
+            "susanna-dickinson-shelter-with-angelina"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "ana-esparza": {
+          "name": "Ana Esparza",
+          "poses": [
+            "seated"
+          ],
+          "drawnAs": [
+            "ana-esparza-seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "volunteer-march"
+        },
+        "maria-de-jesus": {
+          "name": "María de Jesús",
+          "poses": [
+            "seated"
+          ],
+          "drawnAs": [
+            "maria-de-jesus-seated-huddled"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "volunteer-march"
+        },
+        "enrique-esparza": {
+          "name": "Enrique",
+          "poses": [
+            "seated"
+          ],
+          "drawnAs": [
+            "enrique-esparza-seated-huddled"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "volunteer-march"
+        },
+        "manuel-esparza": {
+          "name": "Manuel",
+          "poses": [
+            "seated"
+          ],
+          "drawnAs": [
+            "smallchild-rest"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "smallchild-walk"
+        },
+        "francisco-child": {
+          "name": "Francisco",
+          "poses": [
+            "seated"
+          ],
+          "drawnAs": [
+            "smallchild-rest"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "smallchild-walk"
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "drawnAs": [
+            "almeron-dickinson-ram"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "drawnAs": [
+            "bonham-reload"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "mounted-courier-e"
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "walk",
+            "fire"
+          ],
+          "drawnAs": [
+            "esparza-walk-e",
+            "esparza-aim"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "volunteer-march"
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "drawnAs": [
+            "santa-anna-idle"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "cos": {
+          "name": "Cos",
+          "poses": [
+            "walk"
+          ],
+          "drawnAs": [
+            "cos-walk-e"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "regular-march"
+        }
+      },
+      "repulse": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "fire",
+            "still"
+          ],
+          "drawnAs": [
+            "travis-battery-fire-n",
+            "travis-still-ramp"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true,
+          "first": "travis-idle"
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "fire",
+            "walk",
+            "fire-hidden"
+          ],
+          "drawnAs": [
+            "volunteer-fire-reload",
+            "joe-walk",
+            "joe-fire-door"
           ],
           "fell": false,
           "hurt": false,
@@ -12576,240 +11726,6 @@
             "fire"
           ],
           "drawnAs": [
-            "bonham-aim",
-            "bonham-fire"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "mounted-courier-e"
-        },
-        "esparza": {
-          "name": "Esparza",
-          "poses": [
-            "walk",
-            "fire"
-          ],
-          "drawnAs": [
-            "esparza-walk-e",
-            "esparza-aim"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "santa-anna": {
-          "name": "Santa Anna",
-          "poses": [
-            "stand"
-          ],
-          "drawnAs": [
-            "santa-anna-idle"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": false,
-          "tag": null,
-          "labelled": true
-        },
-        "cos": {
-          "name": "Cos",
-          "poses": [
-            "walk"
-          ],
-          "drawnAs": [
-            "cos-walk-e"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "regular-march"
-        }
-      },
-      "repulse": {
-        "travis": {
-          "name": "Travis",
-          "poses": [
-            "fire",
-            "still"
-          ],
-          "drawnAs": [
-            "travis-ready",
-            "travis-still-ramp"
-          ],
-          "fell": true,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "travis-idle"
-        },
-        "joe": {
-          "name": "Joe",
-          "poses": [
-            "fire",
-            "walk",
-            "fire-hidden"
-          ],
-          "drawnAs": [
-            "volunteer-fire-reload",
-            "joe-walk",
-            "joe-fire-door"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true
-        },
-        "crockett": {
-          "name": "Crockett",
-          "poses": [
-            "fire"
-          ],
-          "drawnAs": [
-            "crockett-reload",
-            "crockett-aim"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "crockett-idle"
-        },
-        "bowie": {
-          "name": "Bowie",
-          "poses": [
-            "sick"
-          ],
-          "drawnAs": [
-            "bowie-story-sick"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "bowie-idle"
-        },
-        "susanna-dickinson": {
-          "name": "Mrs. Dickinson",
-          "poses": [
-            "sick"
-          ],
-          "drawnAs": [
-            "susanna-dickinson-shelter-with-angelina"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true
-        },
-        "ana-esparza": {
-          "name": "Ana Esparza",
-          "poses": [
-            "seated"
-          ],
-          "drawnAs": [
-            "ana-esparza-seated"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "maria-de-jesus": {
-          "name": "María de Jesús",
-          "poses": [
-            "seated"
-          ],
-          "drawnAs": [
-            "maria-de-jesus-seated-huddled"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "enrique-esparza": {
-          "name": "Enrique",
-          "poses": [
-            "seated"
-          ],
-          "drawnAs": [
-            "enrique-esparza-seated-huddled"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "volunteer-march"
-        },
-        "manuel-esparza": {
-          "name": "Manuel",
-          "poses": [
-            "seated"
-          ],
-          "drawnAs": [
-            "smallchild-rest"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "smallchild-walk"
-        },
-        "francisco-child": {
-          "name": "Francisco",
-          "poses": [
-            "seated"
-          ],
-          "drawnAs": [
-            "smallchild-rest"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true,
-          "first": "smallchild-walk"
-        },
-        "almeron-dickinson": {
-          "name": "Dickinson",
-          "poses": [
-            "fire"
-          ],
-          "drawnAs": [
-            "almeron-dickinson-fire",
-            "almeron-dickinson-ram"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true
-        },
-        "bonham": {
-          "name": "Bonham",
-          "poses": [
-            "fire"
-          ],
-          "drawnAs": [
             "bonham-reload"
           ],
           "fell": false,
@@ -12825,7 +11741,8 @@
             "fire"
           ],
           "drawnAs": [
-            "esparza-aim"
+            "esparza-aim",
+            "esparza-fire"
           ],
           "fell": false,
           "hurt": false,
@@ -12846,7 +11763,7 @@
           ],
           "fell": false,
           "hurt": false,
-          "onScreen": true,
+          "onScreen": false,
           "tag": null,
           "labelled": true
         },
@@ -12870,12 +11787,10 @@
         "castrillon": {
           "name": "Castrillón",
           "poses": [
-            "walk",
-            "stand"
+            "walk"
           ],
           "drawnAs": [
-            "castrillon-walk-e",
-            "castrillon-idle"
+            "castrillon-walk-e"
           ],
           "fell": false,
           "hurt": false,
@@ -13038,7 +11953,9 @@
             "fire"
           ],
           "drawnAs": [
-            "bonham-reload"
+            "bonham-reload",
+            "bonham-aim",
+            "bonham-fire"
           ],
           "fell": false,
           "hurt": false,
@@ -13112,14 +12029,12 @@
         "bowie": {
           "name": "Bowie",
           "poses": [
-            "sick",
-            "still-bed"
+            "sick"
           ],
           "drawnAs": [
-            "bowie-story-sick",
-            "bowie-still-bed"
+            "bowie-story-sick"
           ],
-          "fell": true,
+          "fell": false,
           "hurt": false,
           "onScreen": true,
           "tag": null,
@@ -13252,6 +12167,7 @@
             "fire"
           ],
           "drawnAs": [
+            "almeron-dickinson-fire",
             "almeron-dickinson-ram"
           ],
           "fell": false,
@@ -13341,6 +12257,8 @@
             "fire"
           ],
           "drawnAs": [
+            "crockett-aim",
+            "crockett-fire",
             "crockett-reload"
           ],
           "fell": false,
@@ -13459,8 +12377,6 @@
             "fire"
           ],
           "drawnAs": [
-            "bonham-aim",
-            "bonham-fire",
             "bonham-reload"
           ],
           "fell": false,
@@ -13535,12 +12451,10 @@
           "name": "Joe",
           "poses": [
             "hide",
-            "emerge",
             "wounded"
           ],
           "drawnAs": [
             "joe-hide",
-            "joe-emerge",
             "joe-hurt-e"
           ],
           "fell": false,
@@ -13552,12 +12466,10 @@
         "barragan": {
           "name": "Barragán",
           "poses": [
-            "command",
-            "walk"
+            "command"
           ],
           "drawnAs": [
-            "barragan-intervene",
-            "barragan-walk-e"
+            "barragan-intervene"
           ],
           "fell": false,
           "hurt": false,
@@ -13939,8 +12851,8 @@
         "person": "travis",
         "name": "Travis",
         "at": {
-          "x": 665,
-          "y": 280
+          "x": 667,
+          "y": 281
         },
         "named": true
       },
@@ -13954,8 +12866,8 @@
         "person": "ana-esparza",
         "name": "Ana Esparza",
         "at": {
-          "x": 744,
-          "y": 444
+          "x": 745,
+          "y": 443
         },
         "named": true
       },
@@ -13969,8 +12881,8 @@
         "person": "travis",
         "name": "Travis",
         "at": {
-          "x": 669,
-          "y": 257
+          "x": 665,
+          "y": 321
         },
         "named": true
       },
@@ -13984,7 +12896,7 @@
         "person": "enrique-esparza",
         "name": "Enrique",
         "at": {
-          "x": 299,
+          "x": 307,
           "y": 442
         },
         "named": true
@@ -13999,14 +12911,14 @@
         "person": "joe",
         "name": "Joe",
         "at": {
-          "x": 300,
+          "x": 308,
           "y": 441
         },
         "named": true
       }
     ],
     "mapAfter": {
-      "date": "1836-03-06",
+      "date": "1836-03-07",
       "drawn": [
         {
           "id": "ana-esparza",
@@ -14077,10 +12989,10 @@
     },
     "mapAfterFrameMs": {
       "withFamous": {
-        "frames": 55,
-        "median": 3.9,
-        "p95": 5.2,
-        "max": 6.8
+        "frames": 53,
+        "median": 10.3,
+        "p95": 13.7,
+        "max": 14.7
       },
       "without": {
         "frames": 0,
@@ -14089,16 +13001,16 @@
         "max": null
       },
       "firstDraws": {
-        "frames": 5,
-        "median": 12.3,
-        "p95": 14.8,
-        "max": 14.8,
-        "withFamous": 5,
+        "frames": 4,
+        "median": 34.9,
+        "p95": 37.4,
+        "max": 37.4,
+        "withFamous": 4,
         "worst": {
-          "ms": 14.8,
+          "ms": 37.4,
           "ground": true,
           "firstSheets": 0,
-          "famous": 8,
+          "famous": 6,
           "camera": "region",
           "animation": false
         }
@@ -14143,102 +13055,73 @@
       ]
     },
     "frameMs": {
-      "p95Max": 2.9,
+      "p95Max": 13.9,
       "medians": [
-        1.5,
-        1.5,
-        1.5,
-        1.5,
-        1.5,
-        1.5,
-        1.5,
-        1.5,
-        1.5,
-        1.5,
-        1.5,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.6,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.7,
-        1.8,
-        1.8,
-        1.8,
-        1.8,
-        1.8,
-        1.8,
-        1.8,
-        1.8,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9,
-        1.9
+        2.9,
+        2.9,
+        2.9,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.2,
+        3.2,
+        3.2,
+        3.3,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.5,
+        3.5,
+        3.5,
+        3.5,
+        3.6,
+        3.6,
+        3.6,
+        3.6,
+        3.6,
+        3.6,
+        3.6,
+        3.6,
+        3.7,
+        3.7,
+        3.7,
+        3.7,
+        3.8,
+        3.9,
+        3.9,
+        3.9,
+        4,
+        4.1,
+        4.2,
+        4.2,
+        4.3,
+        4.4,
+        4.4,
+        4.4,
+        4.4,
+        4.6,
+        4.6,
+        4.7,
+        4.8,
+        4.8,
+        4.8,
+        4.8,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
       ]
     }
   },
@@ -14246,1484 +13129,1015 @@
     "soldierFamily": "hh-1",
     "samples": [
       [
-        7644144,
-        "1836-04-20",
-        295620,
-        "camped",
-        "region"
-      ],
-      [
-        7644448,
-        "1836-04-20",
-        295800,
-        "skirmish",
-        "battle"
-      ],
-      [
-        7644613,
-        "1836-04-20",
-        295800,
-        "skirmish",
-        "battle"
-      ],
-      [
-        7644863,
-        "1836-04-20",
-        295810,
-        "skirmish",
-        "battle"
-      ],
-      [
-        7645020,
-        "1836-04-20",
-        295810,
-        "skirmish",
-        "battle"
-      ],
-      [
-        7645282,
+        9384198,
         "1836-04-20",
         295820,
         "skirmish",
         "battle"
       ],
       [
-        7645439,
-        "1836-04-20",
-        295820,
-        "skirmish",
-        "battle"
-      ],
-      [
-        7645595,
-        "1836-04-20",
-        295820,
-        "skirmish",
-        "battle"
-      ],
-      [
-        7645750,
+        9384575,
         "1836-04-20",
         295830,
         "skirmish",
         "battle"
       ],
       [
-        7645907,
+        9384763,
         "1836-04-20",
         295830,
         "skirmish",
         "battle"
       ],
       [
-        7646062,
-        "1836-04-20",
-        295830,
-        "skirmish",
-        "battle"
-      ],
-      [
-        7646217,
+        9385018,
         "1836-04-20",
         295840,
         "skirmish",
         "battle"
       ],
       [
-        7646372,
+        9385184,
         "1836-04-20",
         295840,
         "skirmish",
         "battle"
       ],
       [
-        7646615,
+        9385473,
         "1836-04-20",
         295850,
         "skirmish",
         "battle"
       ],
       [
-        7646778,
+        9385635,
         "1836-04-20",
         295850,
         "skirmish",
         "battle"
       ],
       [
-        7646933,
-        "1836-04-20",
-        295850,
-        "skirmish",
-        "battle"
-      ],
-      [
-        7647087,
+        9385931,
         "1836-04-20",
         295860,
         "night",
         "battle"
       ],
       [
-        7647242,
+        9386092,
         "1836-04-20",
         295860,
         "night",
         "battle"
       ],
       [
-        7647398,
-        "1836-04-20",
-        295860,
-        "night",
-        "battle"
-      ],
-      [
-        7647553,
+        9386410,
         "1836-04-20",
         296100,
         "night",
         "battle"
       ],
       [
-        7647709,
+        9386577,
         "1836-04-20",
         296100,
         "night",
         "battle"
       ],
       [
-        7647865,
-        "1836-04-20",
-        296100,
-        "night",
-        "battle"
-      ],
-      [
-        7648019,
+        9386867,
         "1836-04-21",
         296340,
         "night",
         "battle"
       ],
       [
-        7648173,
+        9387054,
         "1836-04-21",
         296340,
         "night",
         "battle"
       ],
       [
-        7648330,
-        "1836-04-21",
-        296340,
-        "night",
-        "battle"
-      ],
-      [
-        7648486,
+        9387238,
         "1836-04-21",
         296580,
         "night",
         "battle"
       ],
       [
-        7648641,
+        9387424,
         "1836-04-21",
         296580,
         "night",
         "battle"
       ],
       [
-        7648802,
-        "1836-04-21",
-        296580,
-        "night",
-        "battle"
-      ],
-      [
-        7648968,
+        9387734,
         "1836-04-21",
         296820,
         "morning",
         "battle"
       ],
       [
-        7649121,
+        9387901,
         "1836-04-21",
         296820,
         "morning",
         "battle"
       ],
       [
-        7649335,
+        9388289,
         "1836-04-21",
         296840,
         "morning",
         "battle"
       ],
       [
-        7649496,
+        9388447,
         "1836-04-21",
         296840,
         "morning",
         "battle"
       ],
       [
-        7649664,
-        "1836-04-21",
-        296840,
-        "morning",
-        "battle"
-      ],
-      [
-        7649818,
+        9388615,
         "1836-04-21",
         296860,
         "morning",
         "battle"
       ],
       [
-        7649973,
+        9388785,
         "1836-04-21",
         296860,
         "morning",
         "battle"
       ],
       [
-        7650131,
-        "1836-04-21",
-        296860,
-        "morning",
-        "battle"
-      ],
-      [
-        7650285,
+        9389076,
         "1836-04-21",
         296880,
         "morning",
         "battle"
       ],
       [
-        7650439,
+        9389272,
         "1836-04-21",
         296880,
         "morning",
         "battle"
       ],
       [
-        7650593,
-        "1836-04-21",
-        296880,
-        "morning",
-        "battle"
-      ],
-      [
-        7650748,
+        9389538,
         "1836-04-21",
         296900,
         "morning",
         "battle"
       ],
       [
-        7650905,
+        9389693,
         "1836-04-21",
         296900,
         "morning",
         "battle"
       ],
       [
-        7651059,
-        "1836-04-21",
-        296900,
-        "morning",
-        "battle"
-      ],
-      [
-        7651215,
+        9389985,
         "1836-04-21",
         296920,
         "morning",
         "battle"
       ],
       [
-        7651370,
+        9390155,
         "1836-04-21",
         296920,
         "morning",
         "battle"
       ],
       [
-        7651527,
-        "1836-04-21",
-        296920,
-        "morning",
-        "battle"
-      ],
-      [
-        7651683,
+        9390498,
         "1836-04-21",
         296940,
         "waiting",
         "battle"
       ],
       [
-        7651842,
+        9390658,
         "1836-04-21",
         296940,
         "waiting",
         "battle"
       ],
       [
-        7652074,
+        9390980,
         "1836-04-21",
         297180,
         "waiting",
         "battle"
       ],
       [
-        7652241,
+        9391190,
         "1836-04-21",
         297180,
         "waiting",
         "battle"
       ],
       [
-        7652404,
-        "1836-04-21",
-        297180,
-        "waiting",
-        "battle"
-      ],
-      [
-        7652588,
+        9391518,
         "1836-04-21",
         297210,
         "parade",
         "battle"
       ],
       [
-        7652756,
-        "1836-04-21",
-        297210,
-        "parade",
-        "battle"
-      ],
-      [
-        7652962,
+        9391935,
         "1836-04-21",
         297215,
         "parade",
         "battle"
       ],
       [
-        7653128,
+        9392103,
         "1836-04-21",
         297215,
         "parade",
         "battle"
       ],
       [
-        7653286,
-        "1836-04-21",
-        297215,
-        "parade",
-        "battle"
-      ],
-      [
-        7653452,
+        9392334,
         "1836-04-21",
         297220,
         "parade",
         "battle"
       ],
       [
-        7653609,
+        9392504,
         "1836-04-21",
         297220,
         "parade",
         "battle"
       ],
       [
-        7653765,
-        "1836-04-21",
-        297220,
-        "parade",
-        "battle"
-      ],
-      [
-        7653928,
+        9392776,
         "1836-04-21",
         297225,
         "parade",
         "battle"
       ],
       [
-        7654097,
+        9392946,
         "1836-04-21",
         297225,
         "parade",
         "battle"
       ],
       [
-        7654341,
+        9393302,
         "1836-04-21",
         297230,
         "parade",
         "battle"
       ],
       [
-        7654497,
+        9393462,
         "1836-04-21",
         297230,
         "parade",
         "battle"
       ],
       [
-        7654651,
-        "1836-04-21",
-        297230,
-        "parade",
-        "battle"
-      ],
-      [
-        7654805,
+        9393690,
         "1836-04-21",
         297235,
         "parade",
         "battle"
       ],
       [
-        7654961,
+        9393850,
         "1836-04-21",
         297235,
         "parade",
         "battle"
       ],
       [
-        7655117,
-        "1836-04-21",
-        297235,
-        "parade",
-        "battle"
-      ],
-      [
-        7655270,
+        9394150,
         "1836-04-21",
         297240,
         "advance",
         "battle"
       ],
       [
-        7655569,
-        "1836-04-21",
-        297240,
-        "advance",
-        "battle"
-      ],
-      [
-        7655733,
+        9394765,
         "1836-04-21",
         297242,
         "advance",
         "battle"
       ],
       [
-        7655891,
-        "1836-04-21",
-        297242,
-        "advance",
-        "battle"
-      ],
-      [
-        7656047,
-        "1836-04-21",
-        297242,
-        "advance",
-        "battle"
-      ],
-      [
-        7656208,
+        9395048,
         "1836-04-21",
         297244,
         "advance",
         "battle"
       ],
       [
-        7656371,
+        9395223,
         "1836-04-21",
         297244,
         "advance",
         "battle"
       ],
       [
-        7656528,
-        "1836-04-21",
-        297244,
-        "advance",
-        "battle"
-      ],
-      [
-        7656684,
+        9395483,
         "1836-04-21",
         297246,
         "advance",
         "battle"
       ],
       [
-        7656839,
+        9395643,
         "1836-04-21",
         297246,
         "advance",
         "battle"
       ],
       [
-        7657057,
+        9395993,
         "1836-04-21",
         297248,
         "advance",
         "battle"
       ],
       [
-        7657213,
+        9396150,
         "1836-04-21",
         297248,
         "advance",
         "battle"
       ],
       [
-        7657368,
-        "1836-04-21",
-        297248,
-        "advance",
-        "battle"
-      ],
-      [
-        7657524,
+        9396412,
         "1836-04-21",
         297250,
         "advance",
         "battle"
       ],
       [
-        7657678,
+        9396598,
         "1836-04-21",
         297250,
         "advance",
         "battle"
       ],
       [
-        7657835,
-        "1836-04-21",
-        297250,
-        "advance",
-        "battle"
-      ],
-      [
-        7657991,
+        9396891,
         "1836-04-21",
         297252,
         "advance",
         "battle"
       ],
       [
-        7658147,
+        9397055,
         "1836-04-21",
         297252,
         "advance",
         "battle"
       ],
       [
-        7658301,
-        "1836-04-21",
-        297252,
-        "advance",
-        "battle"
-      ],
-      [
-        7658458,
+        9397358,
         "1836-04-21",
         297254,
         "advance",
         "battle"
       ],
       [
-        7658613,
+        9397514,
         "1836-04-21",
         297254,
         "advance",
         "battle"
       ],
       [
-        7658769,
-        "1836-04-21",
-        297254,
-        "advance",
-        "battle"
-      ],
-      [
-        7658925,
+        9397808,
         "1836-04-21",
         297256,
         "advance",
         "battle"
       ],
       [
-        7659082,
+        9397976,
         "1836-04-21",
         297256,
         "advance",
         "battle"
       ],
       [
-        7659236,
-        "1836-04-21",
-        297256,
-        "advance",
-        "battle"
-      ],
-      [
-        7659390,
+        9398277,
         "1836-04-21",
         297258,
         "advance",
         "battle"
       ],
       [
-        7659549,
+        9398438,
         "1836-04-21",
         297258,
         "advance",
         "battle"
       ],
       [
-        7659704,
-        "1836-04-21",
-        297258,
-        "advance",
-        "battle"
-      ],
-      [
-        7659860,
+        9398705,
         "1836-04-21",
         297260,
         "advance",
         "battle"
       ],
       [
-        7660018,
+        9398864,
         "1836-04-21",
         297260,
         "advance",
         "battle"
       ],
       [
-        7660227,
+        9399128,
+        "1836-04-21",
+        297260,
+        "advance",
+        "battle"
+      ],
+      [
+        9399293,
         "1836-04-21",
         297262,
         "advance",
         "battle"
       ],
       [
-        7660389,
+        9399449,
         "1836-04-21",
         297262,
         "advance",
         "battle"
       ],
       [
-        7660548,
-        "1836-04-21",
-        297262,
-        "advance",
-        "battle"
-      ],
-      [
-        7660717,
+        9399654,
         "1836-04-21",
         297264,
         "guns",
         "battle"
       ],
       [
-        7660887,
+        9399835,
         "1836-04-21",
         297264,
         "guns",
         "battle"
       ],
       [
-        7661043,
-        "1836-04-21",
-        297264,
-        "guns",
-        "battle"
-      ],
-      [
-        7661199,
+        9400075,
         "1836-04-21",
         297266,
         "guns",
         "battle"
       ],
       [
-        7661357,
+        9400232,
         "1836-04-21",
         297266,
         "guns",
         "battle"
       ],
       [
-        7661511,
-        "1836-04-21",
-        297266,
-        "guns",
-        "battle"
-      ],
-      [
-        7661667,
+        9400555,
         "1836-04-21",
         297268,
         "guns",
         "battle"
       ],
       [
-        7661824,
+        9400718,
         "1836-04-21",
         297268,
         "guns",
         "battle"
       ],
       [
-        7661982,
-        "1836-04-21",
-        297268,
-        "guns",
-        "battle"
-      ],
-      [
-        7662136,
+        9400995,
         "1836-04-21",
         297270,
         "volley",
         "battle"
       ],
       [
-        7662291,
+        9401174,
         "1836-04-21",
         297270,
         "volley",
         "battle"
       ],
       [
-        7662509,
+        9401445,
         "1836-04-21",
         297271,
         "volley",
         "battle"
       ],
       [
-        7662663,
+        9401613,
         "1836-04-21",
         297271,
         "volley",
         "battle"
       ],
       [
-        7662817,
-        "1836-04-21",
-        297271,
-        "volley",
-        "battle"
-      ],
-      [
-        7662982,
+        9401939,
         "1836-04-21",
         297272,
         "charge",
         "battle"
       ],
       [
-        7663285,
-        "1836-04-21",
-        297272,
-        "charge",
-        "battle"
-      ],
-      [
-        7663437,
+        9402489,
         "1836-04-21",
         297273,
         "charge",
         "battle"
       ],
       [
-        7663594,
+        9402663,
         "1836-04-21",
         297273,
         "charge",
         "battle"
       ],
       [
-        7663751,
-        "1836-04-21",
-        297273,
-        "charge",
-        "battle"
-      ],
-      [
-        7663907,
+        9402858,
         "1836-04-21",
         297274,
         "charge",
         "battle"
       ],
       [
-        7664063,
+        9403038,
         "1836-04-21",
         297274,
         "charge",
         "battle"
       ],
       [
-        7664221,
-        "1836-04-21",
-        297274,
-        "charge",
-        "battle"
-      ],
-      [
-        7664376,
+        9403285,
         "1836-04-21",
         297275,
         "charge",
         "battle"
       ],
       [
-        7664530,
+        9403449,
         "1836-04-21",
         297275,
         "charge",
         "battle"
       ],
       [
-        7664686,
-        "1836-04-21",
-        297275,
-        "charge",
-        "battle"
-      ],
-      [
-        7664841,
+        9403751,
         "1836-04-21",
         297276,
         "charge",
         "battle"
       ],
       [
-        7664997,
+        9403922,
         "1836-04-21",
         297276,
         "charge",
         "battle"
       ],
       [
-        7665153,
-        "1836-04-21",
-        297276,
-        "charge",
-        "battle"
-      ],
-      [
-        7665309,
+        9404217,
         "1836-04-21",
         297277,
         "charge",
         "battle"
       ],
       [
-        7665463,
+        9404387,
         "1836-04-21",
         297277,
         "charge",
         "battle"
       ],
       [
-        7665693,
+        9404692,
         "1836-04-21",
         297278,
         "rout",
         "battle"
       ],
       [
-        7665852,
+        9404861,
         "1836-04-21",
         297278,
         "rout",
         "battle"
       ],
       [
-        7666008,
-        "1836-04-21",
-        297278,
-        "rout",
-        "battle"
-      ],
-      [
-        7666163,
+        9405123,
         "1836-04-21",
         297279,
         "rout",
         "battle"
       ],
       [
-        7666318,
+        9405292,
         "1836-04-21",
         297279,
         "rout",
         "battle"
       ],
       [
-        7666472,
-        "1836-04-21",
-        297279,
-        "rout",
-        "battle"
-      ],
-      [
-        7666627,
+        9405592,
         "1836-04-21",
         297280,
         "rout",
         "battle"
       ],
       [
-        7666784,
+        9405771,
         "1836-04-21",
         297280,
         "rout",
         "battle"
       ],
       [
-        7666938,
-        "1836-04-21",
-        297280,
-        "rout",
-        "battle"
-      ],
-      [
-        7667102,
+        9406068,
         "1836-04-21",
         297281,
         "rout",
         "battle"
       ],
       [
-        7667267,
+        9406241,
         "1836-04-21",
         297281,
         "rout",
         "battle"
       ],
       [
-        7667420,
-        "1836-04-21",
-        297281,
-        "rout",
-        "battle"
-      ],
-      [
-        7667574,
+        9406534,
         "1836-04-21",
         297282,
         "rout",
         "battle"
       ],
       [
-        7667728,
+        9406702,
         "1836-04-21",
         297282,
         "rout",
         "battle"
       ],
       [
-        7667932,
-        "1836-04-21",
-        297282,
-        "rout",
-        "battle"
-      ],
-      [
-        7668096,
+        9407012,
         "1836-04-21",
         297283,
         "rout",
         "battle"
       ],
       [
-        7668259,
+        9407191,
         "1836-04-21",
         297283,
         "rout",
         "battle"
       ],
       [
-        7668411,
+        9407445,
         "1836-04-21",
         297284,
         "rout",
         "battle"
       ],
       [
-        7668571,
+        9407620,
         "1836-04-21",
         297284,
         "rout",
         "battle"
       ],
       [
-        7668727,
-        "1836-04-21",
-        297284,
-        "rout",
-        "battle"
-      ],
-      [
-        7668882,
+        9407908,
         "1836-04-21",
         297285,
         "rout",
         "battle"
       ],
       [
-        7669037,
+        9408071,
         "1836-04-21",
         297285,
         "rout",
         "battle"
       ],
       [
-        7669193,
-        "1836-04-21",
-        297285,
-        "rout",
-        "battle"
-      ],
-      [
-        7669358,
+        9408407,
         "1836-04-21",
         297286,
         "rout",
         "battle"
       ],
       [
-        7669520,
+        9408580,
         "1836-04-21",
         297286,
         "rout",
         "battle"
       ],
       [
-        7669673,
-        "1836-04-21",
-        297286,
-        "rout",
-        "battle"
-      ],
-      [
-        7669830,
+        9408855,
         "1836-04-21",
         297287,
         "rout",
         "battle"
       ],
       [
-        7669987,
+        9409020,
         "1836-04-21",
         297287,
         "rout",
         "battle"
       ],
       [
-        7670147,
-        "1836-04-21",
-        297287,
-        "rout",
-        "battle"
-      ],
-      [
-        7670313,
+        9409303,
         "1836-04-21",
         297288,
         "killing",
         "battle"
       ],
       [
-        7670466,
+        9409463,
         "1836-04-21",
         297288,
         "killing",
         "battle"
       ],
       [
-        7670670,
+        9409725,
         "1836-04-21",
         297308,
         "killing",
         "battle"
       ],
       [
-        7670825,
+        9409897,
         "1836-04-21",
         297308,
         "killing",
         "battle"
       ],
       [
-        7670980,
-        "1836-04-21",
-        297308,
-        "killing",
-        "battle"
-      ],
-      [
-        7671136,
+        9410199,
         "1836-04-21",
         297328,
         "killing",
         "battle"
       ],
       [
-        7671293,
+        9410369,
         "1836-04-21",
         297328,
         "killing",
         "battle"
       ],
       [
-        7671451,
-        "1836-04-21",
-        297328,
-        "killing",
-        "battle"
-      ],
-      [
-        7671604,
+        9410650,
         "1836-04-21",
         297348,
         "killing",
         "battle"
       ],
       [
-        7671760,
+        9410834,
         "1836-04-21",
         297348,
         "killing",
         "battle"
       ],
       [
-        7671915,
-        "1836-04-21",
-        297348,
-        "killing",
-        "battle"
-      ],
-      [
-        7672070,
+        9411153,
         "1836-04-21",
         297368,
         "killing",
         "battle"
       ],
       [
-        7672227,
+        9411307,
         "1836-04-21",
         297368,
         "killing",
         "battle"
       ],
       [
-        7672381,
-        "1836-04-21",
-        297368,
-        "killing",
-        "battle"
-      ],
-      [
-        7672535,
+        9411600,
         "1836-04-21",
         297388,
         "prisoners",
         "battle"
       ],
       [
-        7672688,
+        9411758,
         "1836-04-21",
         297388,
         "prisoners",
         "battle"
       ],
       [
-        7672847,
-        "1836-04-21",
-        297388,
-        "prisoners",
-        "battle"
-      ],
-      [
-        7673014,
+        9412047,
         "1836-04-21",
         297408,
         "prisoners",
         "battle"
       ],
       [
-        7673170,
+        9412227,
         "1836-04-21",
         297408,
         "prisoners",
         "battle"
       ],
       [
-        7673388,
+        9412494,
         "1836-04-21",
         297428,
         "prisoners",
         "battle"
       ],
       [
-        7673542,
+        9412694,
         "1836-04-21",
         297428,
         "prisoners",
         "battle"
       ],
       [
-        7673699,
-        "1836-04-21",
-        297428,
-        "prisoners",
-        "battle"
-      ],
-      [
-        7673860,
+        9412973,
         "1836-04-21",
         297448,
         "search",
         "battle"
       ],
       [
-        7674042,
+        9413166,
         "1836-04-21",
         297448,
         "search",
         "battle"
       ],
       [
-        7674200,
-        "1836-04-21",
-        297448,
-        "search",
-        "battle"
-      ],
-      [
-        7674357,
+        9413398,
         "1836-04-21",
         297568,
         "search",
         "battle"
       ],
       [
-        7674511,
+        9413577,
         "1836-04-21",
         297568,
         "search",
         "battle"
       ],
       [
-        7674666,
-        "1836-04-21",
-        297568,
-        "search",
-        "battle"
-      ],
-      [
-        7674823,
+        9413900,
         "1836-04-21",
         297688,
         "search",
         "battle"
       ],
       [
-        7674977,
+        9414077,
         "1836-04-21",
         297688,
         "search",
         "battle"
       ],
       [
-        7675133,
-        "1836-04-21",
-        297688,
-        "search",
-        "battle"
-      ],
-      [
-        7675289,
+        9414347,
         "1836-04-22",
         297808,
         "search",
         "battle"
       ],
       [
-        7675445,
+        9414526,
         "1836-04-22",
         297808,
         "search",
         "battle"
       ],
       [
-        7675654,
+        9414786,
         "1836-04-22",
         297928,
         "search",
         "battle"
       ],
       [
-        7675818,
+        9414983,
         "1836-04-22",
         297928,
         "search",
         "battle"
       ],
       [
-        7675973,
-        "1836-04-22",
-        297928,
-        "search",
-        "battle"
-      ],
-      [
-        7676126,
+        9415266,
         "1836-04-22",
         298048,
         "search",
         "battle"
       ],
       [
-        7676281,
+        9415433,
         "1836-04-22",
         298048,
         "search",
         "battle"
       ],
       [
-        7676438,
-        "1836-04-22",
-        298048,
-        "search",
-        "battle"
-      ],
-      [
-        7676593,
+        9415720,
         "1836-04-22",
         298168,
         "search",
         "battle"
       ],
       [
-        7676753,
+        9415878,
         "1836-04-22",
         298168,
         "search",
         "battle"
       ],
       [
-        7676914,
-        "1836-04-22",
-        298168,
-        "search",
-        "battle"
-      ],
-      [
-        7677077,
+        9416148,
         "1836-04-22",
         298408,
         "search",
         "battle"
       ],
       [
-        7677233,
+        9416308,
         "1836-04-22",
         298408,
         "search",
         "battle"
       ],
       [
-        7677391,
+        9416464,
         "1836-04-22",
         298408,
         "search",
         "battle"
       ],
       [
-        7677555,
+        9416627,
         "1836-04-22",
         298440,
         "taken",
         "battle"
       ],
       [
-        7677711,
+        9416787,
         "1836-04-22",
         298440,
         "taken",
         "battle"
       ],
       [
-        7677950,
+        9417137,
         "1836-04-22",
         298460,
         "taken",
         "battle"
       ],
       [
-        7678116,
+        9417558,
         "1836-04-22",
         298460,
         "taken",
         "battle"
       ],
       [
-        7678273,
-        "1836-04-22",
-        298460,
-        "taken",
-        "battle"
-      ],
-      [
-        7678430,
+        9417724,
         "1836-04-22",
         298480,
         "taken",
         "battle"
       ],
       [
-        7678584,
-        "1836-04-22",
-        298480,
-        "taken",
-        "battle"
-      ],
-      [
-        7678740,
-        "1836-04-22",
-        298480,
-        "taken",
-        "battle"
-      ],
-      [
-        7678914,
+        9418059,
         "1836-04-22",
         298500,
         "held",
@@ -15733,64 +14147,6 @@
     "shotPicnic": true,
     "shotCharge": true,
     "seen": {
-      "camped": {
-        "houston": {
-          "name": "Houston",
-          "poses": [
-            "command"
-          ],
-          "drawnAs": [
-            "houston-command-cycle"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true
-        },
-        "neill": {
-          "name": "Neill",
-          "poses": [
-            "command"
-          ],
-          "drawnAs": [
-            "neill-field-command"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true
-        },
-        "santa-anna": {
-          "name": "Santa Anna",
-          "poses": [
-            "command"
-          ],
-          "drawnAs": [
-            "santa-anna-command-cycle"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true
-        },
-        "emily-west": {
-          "name": "Emily West",
-          "poses": [
-            "carry"
-          ],
-          "drawnAs": [
-            "emily-west-carry-bundle"
-          ],
-          "fell": false,
-          "hurt": false,
-          "onScreen": true,
-          "tag": null,
-          "labelled": true
-        }
-      },
       "skirmish": {
         "houston": {
           "name": "Houston",
@@ -15809,11 +14165,9 @@
         "neill": {
           "name": "Neill",
           "poses": [
-            "command",
             "wounded"
           ],
           "drawnAs": [
-            "neill-field-command",
             "neill-wounded-seated"
           ],
           "fell": false,
@@ -15870,12 +14224,12 @@
         "santa-anna": {
           "name": "Santa Anna",
           "poses": [
-            "walk",
-            "command"
+            "command",
+            "walk"
           ],
           "drawnAs": [
-            "santa-anna-walk-e",
-            "santa-anna-command-cycle"
+            "santa-anna-command-cycle",
+            "santa-anna-walk-e"
           ],
           "fell": false,
           "hurt": false,
@@ -16070,6 +14424,7 @@
             "command"
           ],
           "drawnAs": [
+            "volunteer-march",
             "burleson-walk-e",
             "burleson-command-cycle"
           ],
@@ -16103,6 +14458,7 @@
             "command"
           ],
           "drawnAs": [
+            "volunteer-march",
             "seguin-walk-e",
             "seguin-command"
           ],
@@ -16894,7 +15250,7 @@
           ],
           "fell": false,
           "hurt": false,
-          "onScreen": true,
+          "onScreen": false,
           "tag": null,
           "labelled": true
         }
@@ -16910,7 +15266,7 @@
           ],
           "fell": false,
           "hurt": false,
-          "onScreen": true,
+          "onScreen": false,
           "tag": null,
           "labelled": true
         },
@@ -16924,7 +15280,7 @@
           ],
           "fell": false,
           "hurt": false,
-          "onScreen": true,
+          "onScreen": false,
           "tag": null,
           "labelled": true
         }
@@ -16941,8 +15297,8 @@
         "person": "houston",
         "name": "Houston",
         "at": {
-          "x": 597,
-          "y": 273
+          "x": 595,
+          "y": 271
         },
         "named": true
       },
@@ -16956,7 +15312,7 @@
         "person": "emily-west",
         "name": "Emily West",
         "at": {
-          "x": 982,
+          "x": 983,
           "y": 476
         },
         "named": true,
@@ -16988,8 +15344,8 @@
         "person": "emily-west",
         "name": "Emily West",
         "at": {
-          "x": 984,
-          "y": 473
+          "x": 985,
+          "y": 472
         },
         "named": true,
         "manner": "with a forced smile"
@@ -17004,8 +15360,8 @@
         "person": "emily-west",
         "name": "Emily West",
         "at": {
-          "x": 802,
-          "y": 397
+          "x": 759,
+          "y": 433
         },
         "named": true,
         "manner": "sarcastically"
@@ -17020,8 +15376,8 @@
         "person": "emily-west",
         "name": "Emily West",
         "at": {
-          "x": 819,
-          "y": 417
+          "x": 759,
+          "y": 433
         },
         "named": true,
         "manner": "quietly"
@@ -17036,8 +15392,8 @@
         "person": "santa-anna",
         "name": "Santa Anna",
         "at": {
-          "x": 235,
-          "y": 70
+          "x": 189,
+          "y": -16
         },
         "named": true
       },
@@ -17051,8 +15407,8 @@
         "person": "houston",
         "name": "Houston",
         "at": {
-          "x": 241,
-          "y": 58
+          "x": 197,
+          "y": -32
         },
         "named": true
       }
@@ -17088,15 +15444,6 @@
         "kind": "tradition",
         "claimId": "HIST-TEX-560",
         "moment": "converse",
-        "x": 869,
-        "y": 515
-      },
-      {
-        "phase": "waiting",
-        "id": "emily-west-picnic",
-        "kind": "tradition",
-        "claimId": "HIST-TEX-560",
-        "moment": "converse",
         "x": 871,
         "y": 516
       },
@@ -17108,34 +15455,42 @@
         "moment": "converse",
         "x": 873,
         "y": 517
+      },
+      {
+        "phase": "parade",
+        "id": "emily-west-picnic",
+        "kind": "tradition",
+        "claimId": "HIST-TEX-560",
+        "moment": "converse",
+        "x": 874,
+        "y": 518
       }
     ],
     "frameMs": {
-      "p95Max": 26.7,
+      "p95Max": 47.9,
       "byPhase": {
-        "camped": 26.7,
-        "skirmish": 26.7,
-        "night": 9.5,
-        "morning": 8.2,
-        "waiting": 7.5,
-        "parade": 8.1,
-        "advance": 7.5,
-        "guns": 4.9,
-        "volley": 4.9,
-        "charge": 5.9,
-        "rout": 5.2,
-        "killing": 4.9,
-        "prisoners": 4.9,
-        "search": 4.6,
-        "taken": 2.1,
-        "held": 2.2
+        "skirmish": 47.9,
+        "night": 32.9,
+        "morning": 23.5,
+        "waiting": 23.5,
+        "parade": 30.3,
+        "advance": 23.5,
+        "guns": 18.9,
+        "volley": 18.9,
+        "charge": 18.9,
+        "rout": 16.6,
+        "killing": 16.6,
+        "prisoners": 15.2,
+        "search": 15.2,
+        "taken": 14.3,
+        "held": 12.6
       }
     },
     "pageDrawMs": {
-      "samples": 212,
-      "median": 9.599999994039536,
-      "p95": 220.80000001192093,
-      "max": 220.80000001192093
+      "samples": 145,
+      "median": 25.099999994039536,
+      "p95": 40.29999999701977,
+      "max": 235.20000000298023
     }
   },
   "screens": [

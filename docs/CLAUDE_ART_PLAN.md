@@ -10,11 +10,11 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 32 | 7 | 17 | 1 |
 | B — Children, babies and sickness | 15 | 5 | 7 | 7 |
-| C — Soldiers, battles and famous people | 11 | 1 | 7 | 13 |
+| C — Soldiers, battles and famous people | 12 | 1 | 7 | 13 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 25 | 2 | 9 | 6 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 9 | 1 | 7 | 20 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 0 | 7 | 30 |
-| **Total** | **102** | **16** | **54** | **77** |
+| **Total** | **103** | **16** | **54** | **77** |
 
 ## How a builder works
 
@@ -292,7 +292,7 @@ Skipped:
 
 ## C — Soldiers, battles and famous people
 
-Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 11 to make, 13 skipped.
+Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 12 to make, 13 skipped.
 
 - [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`)
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
@@ -336,6 +336,11 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `WORK['camp-cook']`, `WORK['camp-bullets']`, `WORK['camp-guard']` in `public/work-art.js`
   - **Stands in now:** the hearth’s tend-fire (`fire`), the mending pose (`mend`) and the guard (`guard`) strokes (Astra's library art reused)
+- [ ] **C24** (priority 2) — [Request 2026-10-27 — infantry firing north and south](ART_REQUESTS.md#request-2026-10-27--infantry-firing-north-and-south), items 1 to 3
+  - **Deliver:** `volunteer-fire-reload-n`, `-s` and `regular-fire-reload-n`, `-s` (aim, fire, load, ramrod, as the east-facing cycle), seen from behind firing up the page and from the front firing down it, the muzzle at the top or the foot of the figure; and the standing and kneeling-load frames `volunteer-n`, `-s`, `volunteer-load-n`, `-s` and the regular’s
+  - **Frames:** 4 frames each, north and south. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
+  - **Plugs into:** `aimOf` and the firing figures in `draw`, `public/battle-view.js`
+  - **Stands in now:** the side-on `volunteer-fire-reload` / `regular-fire-reload`, turned east or west by the sign of the aim, while the smoke goes north or south (Astra's library art reused)
 - [ ] **C15** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), Castrillón and the rest — **Claude stand-in held back: Astra has drawn the subject** (crate), so the page draws hers (`ammunition-crate`)
   - **Deliver:** the remaining Tejano cast, and an `ammunition-crate` prop at the people's scale (Castrillón's north and south walks, his crate rally with the crate in his own frames, and Travis firing at the north battery are delivered, 2026-10-03)
   - **Frames:** as the famous sheets. **Size:** Famous sheets

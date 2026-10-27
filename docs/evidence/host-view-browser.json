@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-04",
+  "date": "2026-10-27",
   "command": "npm run test:host-view",
   "scope": "Same computer only: headless Chrome 1440x950, a server on 127.0.0.1. Not a physical LAN, a phone or a classroom.",
   "class": {
@@ -10,11 +10,11 @@
   },
   "pass": [
     "the student's page, 158.5 miles away, has none of hh-9's people and no overview",
-    "the Host zoomed to Wiley's family's farm (house, round-log) and drew 3 of its people, 3 plot(s) and its line",
+    "the Host zoomed to Wiley's family's farm (house, round-log) and drew 4 of its people, 2 plot(s) and its line",
     "the Host zooms in as far as a student does (4737 pixels a mile)",
-    "the Host looks at Jane: \"of Wiley's family · rest · at home · well\", with no order offered",
+    "the Host looks at Wiley: \"of Wiley's family · rest · at home · well\", with no order offered",
     "the Host went to San Felipe de Austin: 11 shops and 11 people drawn, keepers among them",
-    "Whole class: The whole class: 98 people, 136 figures in view, 12 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
+    "Whole class: The whole class: 100 people, 138 figures in view, 15 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
     "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
     "no page error on either page"
   ],
@@ -25,19 +25,20 @@
       "homeSiteId": "home-9",
       "milesFromStudent": 158.5,
       "atHome": [
+        "hh-9-thomas",
         "hh-9-elena",
         "hh-9-rosa",
         "hh-9-mateo"
       ]
     },
-    "studentOthers": 12,
+    "studentOthers": 0,
     "farm": {
       "camera": {
         "kind": "region",
         "scale": 2131.5789473684213,
         "named": true,
-        "cx": 156.54100000000003,
-        "cy": -40.736333333333334,
+        "cx": 156.792275,
+        "cy": -40.640575,
         "following": false,
         "watching": null,
         "figure": 40.5,
@@ -53,9 +54,10 @@
           "layout": "round-log"
         },
         "plots": 3,
-        "logs": 793
+        "logs": 1096
       },
       "drawnPeople": [
+        "hh-9-thomas",
         "hh-9-elena",
         "hh-9-rosa",
         "hh-9-mateo"
@@ -66,10 +68,10 @@
         "layout": "round-log",
         "pieces": 2
       },
-      "plotsDrawn": 3,
+      "plotsDrawn": 2,
       "holdings": 1,
-      "snapshotBytes": 66491,
-      "description": "The whole class: 97 people, 5 figures in view, 11 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations."
+      "snapshotBytes": 65662,
+      "description": "The whole class: 98 people, 7 figures in view, 11 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations."
     },
     "closestScale": {
       "host": 4736.842105263158,
@@ -77,15 +79,15 @@
     },
     "foldedPanels": false,
     "clicked": {
-      "person": "hh-9-elena",
+      "person": "hh-9-thomas",
       "at": {
-        "x": 1302,
-        "y": 502
+        "x": 130,
+        "y": 10
       }
     },
     "card": {
-      "id": "hh-9-elena",
-      "name": "Jane",
+      "id": "hh-9-thomas",
+      "name": "Wiley",
       "state": "of Wiley's family · rest · at home · well",
       "subject": "The teacher watches; only the family gives orders.",
       "orders": []
@@ -196,7 +198,7 @@
         }
       },
       "follow": "Whole class",
-      "description": "The whole class: 98 people, 136 figures in view, 12 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
+      "description": "The whole class: 100 people, 138 figures in view, 15 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
       "land": true
     },
     "phone": {

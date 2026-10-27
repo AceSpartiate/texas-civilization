@@ -1,5 +1,62 @@
 # Claude handoff — Astra foundation
 
+## Battle smoke direction and battles easier to see — 2026-10-27 (branch `battlesee-1027`, not released)
+
+Branch `battlesee-1027` from origin/main fcdfd17c. The owner, 2026-10-27: *"smoke plumes from gunfire: do they go in the right
+direction? always?"* and *"also, it was kind of hard to see the battles."* Presentation only: nothing changes what happens in a fight,
+who is hit or when; no `saveVersion` move. Same computer only: headless Chrome on this machine; no Chromebook, projector, LAN or
+classroom claim. Full account: docs/BATTLES.md §17 (also HOST_PAGE.md §2.18, FAMILY_PANEL.md §12.14, ART_REQUESTS.md request
+2026-10-27, HISTORY.md `FIC-GONZ-1051`/`-1052` amended).
+
+**The smoke's direction - the plain answer.** Before: right for east and west shots (most of every fight), **wrong for every shot up
+or down the page**: each plume was thrown east or west by the sign of its facing's x alone, so a man or line firing north or south
+(Coleto's square's north and south faces, the Alamo's men over its north and south walls, riders and dragoons headed so) threw its
+smoke sideways, a gun laid north or south threw its puffs east or west, a volley's wall was always laid east to west (across a rank
+facing east or west), the smoke's rising was counted as ground going north so on a light wind from the north it crept north against
+the wind, Joe's door shots went nowhere and ignored the wind, and a named man drawn firing (Travis at the north battery, Crockett)
+made no smoke. After: **every shot's smoke goes the way the shot goes, and drifts only with the wind** (`aimOf`, `puff`, `feedBank`,
+`drawBank` in public/battle-view.js); a flash on a piece drawn pointing north or south is turned along it. One thing still reads
+oddly: a man on foot firing north or south is drawn side-on (the library has no north/south firing frames), so his musket points east
+or west while his smoke goes north or south - art request 2026-10-27, stand-in listed. Picture:
+docs/evidence/battle-see/smoke-direction-before.png and smoke-direction-after.png.
+
+**What made the battles hard to see, and what changed** (screenshots: docs/evidence/battle-see/before/ and after/, Gonzales, Coleto
+and the Alamo at the same phases, the Host at 1366x768 and the student at 1366x768 and 1024x600; `<fight>.json` has the figure size,
+the smoke's cover and the men thinned at each; made by `scripts/battle-see-shots.mjs <fight> <before|after>`, the before ones from
+the unchanged tree; the after ones were taken before the framing rule gained its last two parts (below), which add nothing at those
+moments of Gonzales and Coleto, and the Alamo is framed by its own compound):
+
+1. **The page stood over the fight.** Host: the class panel and the Rumor Mill (the left 36% of the projector), the teacher's column
+   (the right 16%) and the day's banner (bottom middle). Student: the card beside the man in the fight with its bar and line in a thin
+   column down the middle, the family column, a tip, the land chooser. Now, while the film has the camera, the Host's panels fold to
+   their headings, its column keeps pause, bell and pace only, the banner goes small to the bottom left; a student's column folds to
+   its faces and the card, bar, tip and chooser go; all of it comes back when the film lets go (`screenForFilm`, `body[data-film]`).
+2. **The student's Watch card was folded away** - by a person's card that had folded an earlier message, or by a Watch pressed at the
+   gathering before the fight was drawn, which then left a still frame and a tip saying "Press Watch" (every before-shot student page
+   at Gonzales: no film). Now the fight's card is never folded away, and a Watch pressed early starts the follow when the fight is drawn.
+3. **The smoke whited the fight out** (88% banks ten figures across; only the class's men had clearings). Now the banks are thinned
+   round every man drawn (about 60% at his middle, a figure across), a fresh plume over a man is drawn at 0.55, and every soldier has a
+   ground shadow. The build-up to 0.88, the drift and the linger are as they were.
+4. **The frame took in bodies standing idle far off** (Coleto at dawn: 10 px men on the projector). Now the field is framed on the
+   fighting and what stands within a third of a mile of it (public/battle-frame.js, new): 17 px there. Elsewhere unchanged.
+
+**Tests.** `npm test`: 2546 tests, 2510 pass, 0 fail, 36 skipped (2539 on main; the run before it had one failure, tests/claude-standins.test.mjs refusing the new `stand-in:` until its item C24 was written into scripts/claude-art/plan.mjs and the plan regenerated). New: tests/battle-smoke-direction.test.mjs (5), tests/battle-see.test.mjs (2), each seen failing
+under its regression - `node scripts/battle-see-injections.mjs` 19 of 19: 14 unit, 5 browser (docs/evidence/battle-see-injections.json); the old
+injections whose text moved (battle-cinema-injections ×3, panels-injections ×2) brought to the new text. `npm run test:battle-cinema`
+gained checks: the Host's page out of the fight's way with nothing over the middle of the screen, back when the teacher takes the
+camera; the student's Watch card open, their page folded while watching and given back by Esc; a Watch pressed at the gathering
+following the fight when it comes - 18 checks, each new one seen failing under its own injection. The battle's drawing measured 2.5 ms at its 95th percentile at 1366x768 and 2.4 at 1024x600 (1.7 in §16.3 before the shadows and the thinning; budget 25). Browser proofs, one at a time, all passing: battle-cinema 18, battle-gonzales 12, battle-concepcion 13, battle-grass 14, battle-bexar 15, battle-alamo 13, battle-coleto 17, battle-san-jacinto 15, battle-south 16, alamo, alamo-siege 9, alamo-pyres, bexar-alarm 9, concepcion 7, gonzales-town 11, famous-people 22, watching 8, family-panel 23, host-view 8, host-live 11, host-bell 11, host-lobby 9, panels 14, overlap, military-notice, tips 16. Two were refused first and taught the framing rule its last two parts: battle-grass (the family's man stood in the Texian main body, holding a mile and more off, and was framed out) and battle-san-jacinto (the camp the line walked on stood beyond the reach and the picnic left the frame) - a family's man's body and what the fighting men are fighting are now always framed, and both pass, with gonzales, concepcion and coleto run again after. battle-south failed once on a sampled moment with no words and passed run alone (both sides were framed at every phase of San Patricio, so not the frame).
+
+**Left for the owner.** (1) The men at the film's field shot are still small: 17-22 px on the projector at the field shots of Gonzales
+and Coleto, 15-20 px at 1024x600 (the close shots of a family's man 31-75 px); a closer field would cut off the ends of a long line. (2) The
+class panel folding during the film: built because it covered a third of the projector; it could narrow to names and colours
+instead. (3) The parting of the smoke round each man shows close up as a soft halo; a silhouette pass in the smoke's grey is the way
+out if it bothers. (4) A Watch pressed before the fight is drawn now becomes the follow when it is: still only after the student's own
+press (§15.5.5 (a)), but say if it should wait for a second press. (5) Infantry firing north/south frames (art request). (6) The
+Alamo by night is still dark under Astra's grade at the alarm.
+
+Commits on `battlesee-1027` only; not merged, not pushed, not released.
+
 ## Released as v2026.10.27.1 — 2026-10-27
 
 Main at bcf9488a, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.27.1>). Set of changes from v2026.10.26.1: 3.0 MB. Holds the two sections below: the scaling pass (the ox brought to an ox's size) and the flagged icons, marks and ford repainted from drawn guides (`mark-food` kept drawn on purpose). Evidence at bcf9488a: `npm test` 2539 tests, 2501 pass, 0 fail after rerunning `battle-floor` and `save-retry` alone (both timing flakes under load); the browser proofs two at a time, 117 of 120 passing, `relay`, `movement` and `volunteer-life` passing alone. Same computer only; no Chromebook, LAN or classroom.

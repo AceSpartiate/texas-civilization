@@ -26,9 +26,19 @@ test('the camera frames where the fighting is: a body standing silent far off is
   assert.ok(!has(0.02, 0.36) && !has(-0.42, 0), `the silent ring a third of a mile out is framed with them: ${JSON.stringify(points)}`);
   const all = span([square, ...fight.sides.slice(1), ...fight.groups, ...fight.guns]), now = span(points);
   assert.ok(now.w * now.h < all.w * all.h * 0.6, `the frame is hardly closer: ${now.w.toFixed(2)}x${now.h.toFixed(2)} against ${all.w.toFixed(2)}x${all.h.toFixed(2)} miles`);
-  // Gonzales: the Texians firing, the dragoons they fire on standing a fifth of a mile off - both framed.
-  const gonzales = fightingPoints({ minute: 10, sides: [side('texian', 0, 0, { style: 'loose', fire: 'scattered' }), side('mexican', 0.2, -0.05, { style: 'mounted' })] });
-  assert.equal(gonzales.length, 2, 'the men being fired on are left out of the frame');
+  // Gonzales: the Texians firing, the dragoons they fire on standing a fifth of a mile off, and the dragoons' second troop beside
+  // them a quarter mile off - all framed.
+  const gonzales = fightingPoints({ minute: 10, sides: [side('texian', 0, 0, { style: 'loose', fire: 'scattered' }), side('mexican', 0.2, -0.05, { style: 'mounted' })], groups: [{ ...side('mexican', 0.15, 0.2, { style: 'mounted' }), id: 'second-troop' }] });
+  assert.equal(gonzales.length, 3, 'the men being fired on are left out of the frame');
+  // What the men fighting are fighting is framed however far: San Jacinto's line walking on the camp at rest across the prairie.
+  const advance = fightingPoints({ minute: 10, sides: [side('texian', 0, 0, { moving: true }), side('mexican', 0.62, 0.05, { style: 'camp' })], groups: [{ ...side('mexican', -0.9, 0.8), id: 'far-picket' }] });
+  assert.ok(advance.some(point => point.x === 0.62) && !advance.some(point => point.x === -0.9), `the camp the line advances on was left out, or the far picket kept: ${JSON.stringify(advance)}`);
+  // The body a family's own man stands in is always framed, however quiet and far (the Grass Fight: the Texian main body holding
+  // well off from the fight over the pack train): in one of the ring's companies, or loose in the Texian side.
+  const withOwn = fightingPoints({ ...fight, members: ['hh-1-man'], memberUnits: { 'hh-1-man': 'left' } });
+  assert.ok(withOwn.some(point => Math.abs(point.x - 0.02) < 1e-9 && Math.abs(point.y - 0.36) < 1e-9), "the company a family's man stands in was left out of the frame");
+  const grass = fightingPoints({ minute: 10, members: ['hh-1-man'], sides: [side('texian', 1.7, 0, { action: 'hold' }), side('mexican', 0, 0, { moving: true })], groups: [{ ...side('texian', 0.1, 0.05, { style: 'mounted', fire: 'scattered' }), id: 'bowie' }] });
+  assert.ok(grass.some(point => point.x === 1.7), "the Texian side a family's man stands in, holding off from the fight, was left out of the frame");
   // In a lull - nobody firing, nobody moving, no gun lately - everybody, as before.
   assert.equal(fightingPoints({ ...fight, minute: 900, sides: [{ ...square, fire: 'none' }, fight.sides[1]] }).length, 8, 'a lull is not framed whole');
   // A frame the engagement names is taken as it is.

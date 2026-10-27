@@ -27,10 +27,10 @@ const nearTheSides = (sides, body) => !sides.length || Math.hypot(body.x - sides
  * frames already hold the room round it) is taken as it is.
  *
  * **Where the fighting is** (2026-10-27, §17.2): while some of it is firing or on the move (a gun that fired in the last quarter
- * hour), the frame is that and whatever else stands within a third of a mile of any of it - the men being fired at, the guns
- * beside them. A body standing silent further off is left out: at Coleto's dawn the cavalry ringing the square a third of a mile
- * out and more, idle while the Mexican guns fired from the timber, framed the field with every man ten pixels tall on the
- * projector. In a lull, everybody, as before.
+ * hour), the frame is that, what each body fighting is fighting, whatever stands within a third of a mile of the men fighting, the
+ * men at a firing gun, and the body a family's own man stands in. A body standing silent further off is left out: at Coleto's dawn
+ * the cavalry ringing the square a third of a mile out and more, idle while the Mexican guns fired from the timber, framed the field
+ * with every man ten pixels tall on the projector. In a lull, everybody, as before.
  * ceiling: the frame is of bodies' middles; a body spread a third of a mile wide is framed from its middle, as before.
  */
 export function fightingPoints(fight) {
@@ -49,7 +49,16 @@ export function fightingPoints(fight) {
     // reckoned from them the silent ring came back into the frame.
     const reach = (one, other, miles) => Math.hypot(one.x - other.x, one.y - other.y) < miles;
     const anchors = bodiesActive.length ? bodiesActive : active;
-    const near = one => active.includes(one) || anchors.some(other => reach(one, other, FIGHT_REACH)) || active.some(other => reach(one, other, GUN_SIDE));
+    // And always the body a family's own man stands in, however quiet (the Grass Fight: the Texian main body holding a mile and
+    // more from the fight over the pack train, with a family's man in it): Watch is for seeing him (§2.7).
+    const units = new Set(Object.values(fight?.memberUnits || {}));
+    const loose = (fight?.members || []).some(id => !fight.memberUnits?.[id]);
+    const own = one => one.id ? units.has(one.id) : (units.has(one.side) || (loose && one.side === 'texian'));
+    // And what each body fighting is fighting: the nearest of the other side's, however far (San Jacinto: the line walking half a
+    // mile and more across the prairie on the camp at rest, which stood beyond the reach and was left out of the frame).
+    const targets = new Set(bodiesActive.map(body => here.filter(other => other.side && other.side !== body.side)
+      .reduce((best, other) => (!best || Math.hypot(other.x - body.x, other.y - body.y) < Math.hypot(best.x - body.x, best.y - body.y) ? other : best), null)).filter(Boolean));
+    const near = one => active.includes(one) || own(one) || targets.has(one) || anchors.some(other => reach(one, other, FIGHT_REACH)) || active.some(other => reach(one, other, GUN_SIDE));
     const kept = [...here.filter(near), ...guns.filter(near)];
     if (kept.length) return kept.map(point => ({ x: point.x, y: point.y }));
   }

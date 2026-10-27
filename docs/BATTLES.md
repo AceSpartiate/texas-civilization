@@ -1431,17 +1431,23 @@ and 1024x600, `scripts/battle-see-shots.mjs`, before: `docs/evidence/battle-see/
   Every soldier stands on a soft shadow, as everybody else on the map does. ceiling: the men are seen as if the smoke were thinner where
   they stand (a figure-sized parting shows close up); a silhouette pass in the smoke's own grey is the way out if the owner minds it.
 - **The camera frames where the fighting is** (public/battle-frame.js `fightingPoints`, moved out of public/app.js): while some of it is
-  firing or moving (a gun that fired in the last quarter hour), the frame is that, whatever stands within a third of a mile of the
-  men fighting, and the men standing at a firing gun; a body standing silent further off is left out. In a lull, everybody; a frame the
-  engagement names (the Alamo's, Béxar's) is taken as it is.
+  firing or moving (a gun that fired in the last quarter hour), the frame is that; what each body fighting is fighting (the nearest of
+  the other side's, however far: San Jacinto's camp at rest as the line walks on it); whatever stands within a third of a mile of the
+  men fighting; the men standing at a firing gun; and always the body a family's own man stands in (the Grass Fight's Texian main body,
+  holding well off from the fight over the pack train). A body standing silent further off is left out. In a lull, everybody; a frame
+  the engagement names (the Alamo's, Béxar's) is taken as it is. The first cut of this rule, without the last two, left those two out
+  and `test:battle-grass` and `test:battle-san-jacinto` refused it; both pass with it.
 
-Proof: `tests/battle-see.test.mjs` (2: the frame at Coleto's dawn and Gonzales, a lull and a named frame; every man thinned and plumes
-thinner over men), `npm run test:battle-cinema` (its checks of the Host's page out of the fight's way and back when the teacher takes
-the camera, the student's Watch card open, their page folded and given back by Esc, and a Watch pressed at the gathering following the
-fight when it comes). Injections: `node scripts/battle-see-injections.mjs` (`docs/evidence/battle-see-injections.json`, unit) and the
-browser ones added to `scripts/battle-cinema-injections.mjs`. Before and after: `docs/evidence/battle-see/before/` and `after/`
+Proof: `tests/battle-see.test.mjs` (2: the frame at Coleto's dawn, Gonzales, San Jacinto's advance, a family's man in a quiet body, a
+lull and a named frame; every man thinned and plumes thinner over men), `npm run test:battle-cinema` (its checks of the Host's page out
+of the fight's way and back when the teacher takes the camera, the student's Watch card open, their page folded and given back by Esc,
+and a Watch pressed at the gathering following the fight when it comes). Injections: `node scripts/battle-see-injections.mjs unit` and
+`browser` (`docs/evidence/battle-see-injections.json`). Before and after: `docs/evidence/battle-see/before/` and `after/`
 (`<fight>-<phase>-host.png`, `-student-1366.png`, `-student-1024.png`, and `<fight>.json` with the figure size, the smoke's cover and
 the men thinned at each).
+
+**Within budget**: the battle's drawing at most 2.5 ms at its 95th percentile at 1366x768 and 2.4 at 1024x600 (1.7 before the shadows and
+the thinning), measured by `npm run test:battle-cinema` on this computer in headless Chrome. ceiling: not a Chromebook.
 
 **Left for the owner** (not built):
 
