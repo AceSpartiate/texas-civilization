@@ -2096,7 +2096,12 @@ const SIZE = {
   cabin: CABIN_PEOPLE, settlementCabin: 2.5, camp: 2.1,
   timberTree: 1.95, loneTree: 2.05, sapling: 1.15, scrub: 1.0, stump: 1.0, logPile: 1.2,
   tuft: .6, rock: .5, crop: .95,
-  ox: 1.45, horse: 1.5, wagon: 1.55,
+  // The ox 1.1 (scaling pass, 2026-10-27; tests/beast-scale.test.mjs): at 1.45 the yard's ox stood 1.46 times a grown man, its
+  // hump 2.6 m and its back over his head, and 1.27 times the family's longhorn cows (`HERD_SIZE`); now about 1.95 m to the hump
+  // standing and 1.8 at the withers walking - a big ox, a little over the horse - and still as tall as the family leading it.
+  // ceiling: one number for every ox frame; Astra's standing ox is a little bulkier in its frame than her walking one, and the ox
+  // inside Claude's wagon rig is drawn by the wagon's height, not this (docs/ART_REQUESTS.md S1).
+  ox: 1.1, horse: 1.5, wagon: 1.55,
   // The Yellow Stone: a hundred and thirty feet of steamboat, drawn taller than the cabins on the bank she lies against.
   steamboat: 4.2,
   // The quarry's own sizes are `QUARRY_SIZE`, which is by species: a turkey is not a deer's height.

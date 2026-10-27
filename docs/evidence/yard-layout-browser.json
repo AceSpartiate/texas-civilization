@@ -1,21 +1,21 @@
 {
   "record": "yard-layout-browser",
-  "date": "2026-10-26",
+  "date": "2026-10-27",
   "browser": "156.0.8078.47",
   "checks": [
-    "yard-layout-1 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-1-camp.png)",
-    "yard-layout-1 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-1-house.png)",
-    "yard-layout-4 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-4-camp.png)",
-    "yard-layout-4 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-4-house.png)",
-    "yard-layout-7 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-7-camp.png)",
-    "yard-layout-7 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-7-house.png)",
+    "yard-layout-1 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (test-results\\yard-yard-layout-1-camp.png)",
+    "yard-layout-1 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (test-results\\yard-yard-layout-1-house.png)",
+    "yard-layout-4 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (test-results\\yard-yard-layout-4-camp.png)",
+    "yard-layout-4 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (test-results\\yard-yard-layout-4-house.png)",
+    "yard-layout-7 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (test-results\\yard-yard-layout-7-camp.png)",
+    "yard-layout-7 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (test-results\\yard-yard-layout-7-house.png)",
     "no page errors"
   ],
   "observed": [
     {
       "seed": "yard-layout-1",
       "state": "camp",
-      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-1-camp.png",
+      "shot": "test-results\\yard-yard-layout-1-camp.png",
       "site": {
         "x": 76.21,
         "y": -20.11
@@ -108,8 +108,8 @@
           },
           "hh-1-animal": {
             "x": 560.8689229543804,
-            "y": 652.9811508403579,
-            "size": 82.215
+            "y": 661.9114008403579,
+            "size": 62.37000000000001
           },
           "hh-1-horse": {
             "x": 429.5636597964948,
@@ -136,7 +136,7 @@
     {
       "seed": "yard-layout-1",
       "state": "house",
-      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-1-house.png",
+      "shot": "test-results\\yard-yard-layout-1-house.png",
       "site": {
         "x": 76.21,
         "y": -20.11
@@ -406,8 +406,8 @@
           },
           "hh-1-animal": {
             "x": 692.1741861122659,
-            "y": 569.4232561035092,
-            "size": 82.215
+            "y": 578.3535061035092,
+            "size": 62.37000000000001
           },
           "hh-1-horse": {
             "x": 560.8689229543804,
@@ -434,7 +434,7 @@
     {
       "seed": "yard-layout-4",
       "state": "camp",
-      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-4-camp.png",
+      "shot": "test-results\\yard-yard-layout-4-camp.png",
       "site": {
         "x": 1.96,
         "y": -12.33
@@ -532,8 +532,8 @@
           },
           "hh-1-animal": {
             "x": 465.37418611225314,
-            "y": 652.9811508403579,
-            "size": 82.215
+            "y": 661.9114008403579,
+            "size": 62.37000000000001
           }
         }
       },
@@ -555,7 +555,7 @@
     {
       "seed": "yard-layout-4",
       "state": "house",
-      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-4-house.png",
+      "shot": "test-results\\yard-yard-layout-4-house.png",
       "site": {
         "x": 1.96,
         "y": -12.33
@@ -863,8 +863,8 @@
           },
           "hh-1-animal": {
             "x": 381.81629137541097,
-            "y": 485.8653613666762,
-            "size": 82.215
+            "y": 494.7956113666762,
+            "size": 62.37000000000001
           },
           "hh-1-wagon": {
             "x": 532.5189229543583,
@@ -896,7 +896,7 @@
     {
       "seed": "yard-layout-7",
       "state": "camp",
-      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-7-camp.png",
+      "shot": "test-results\\yard-yard-layout-7-camp.png",
       "site": {
         "x": 88.09,
         "y": -25.03
@@ -969,8 +969,8 @@
           },
           "hh-1-animal": {
             "x": 548.9320808491026,
-            "y": 44.20220347193499,
-            "size": 82.215
+            "y": 53.132453471934994,
+            "size": 62.37000000000001
           },
           "hh-1-wagon": {
             "x": 520.5820808490945,
@@ -1017,7 +1017,7 @@
     {
       "seed": "yard-layout-7",
       "state": "house",
-      "shot": "output\\local-2026-10-26\\b2\\yard-after\\yard-yard-layout-7-house.png",
+      "shot": "test-results\\yard-yard-layout-7-house.png",
       "site": {
         "x": 88.09,
         "y": -25.03
@@ -1463,8 +1463,8 @@
           },
           "hh-1-animal": {
             "x": 548.9320808491026,
-            "y": 44.20220347193499,
-            "size": 82.215
+            "y": 53.132453471934994,
+            "size": 62.37000000000001
           },
           "hh-1-wagon": {
             "x": 520.5820808490945,

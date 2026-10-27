@@ -13,7 +13,7 @@ import { decodeRgba } from '../scripts/build-atlas-manifest.mjs';
 const root = new URL('../public/assets/frontier-v1/', import.meta.url);
 const atlas = JSON.parse(readFileSync(new URL('atlas.json', root), 'utf8'));
 const clips = JSON.parse(readFileSync(new URL('animation.json', root), 'utf8'));
-const SIZES = { horse: 1.5, ox: 1.45, wagon: 1.55 };
+const SIZES = { horse: 1.5, ox: 1.1, wagon: 1.55 };
 
 test('the open wagon is drawn only while somebody rides in a sound wagon, laden or not', () => {
   assert.equal(openCoverClip({ id: 'w' }, 0), null);
@@ -72,6 +72,6 @@ test('the page draws the open wagon while somebody rides, the riders before it, 
   assert.match(app, /if \(entity\.openCover && animated\(ctx, entity\.openCover, x, y, size, entity\.id, \{ flip: !flip, gait: entity\.gait \}\)\) return;/);
   // The next team behind a wagon with riders in its bed is drawn a whole ox and wagon back, so its ox does not stand over them.
   assert.match(app, /const gap = rigSpan \? \(rigSpan\.ahead \+ rigSpan\.behind \+ 0\.25\) \* 26 : openAhead \? OPEN_TRAIN_GAP : 82;/);
-  const gap = Number(new Function('SIZE', `${app.match(/const OPEN_TRAIN_GAP = [^;]+;/)[0]} return OPEN_TRAIN_GAP;`)({ ox: 1.45, wagon: 1.55 }));
+  const gap = Number(new Function('SIZE', `${app.match(/const OPEN_TRAIN_GAP = [^;]+;/)[0]} return OPEN_TRAIN_GAP;`)({ ox: 1.1, wagon: 1.55 }));
   assert.ok(gap > 82 && gap / 26 >= (0.95 + 0.7) * SIZES.ox + (0.55 + 0.6) * SIZES.wagon, `the gap behind an open wagon (${gap}) is shorter than its ox and its wagon`);
 });
