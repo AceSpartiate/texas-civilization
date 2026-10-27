@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## Town lots drawn wider than surveyed — 2026-10-27 (branch `towns-1027`, not released)
+## Released as v2026.10.27.2 — 2026-10-27
+
+From main 5c868fd8: https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.27.2 (changes from v2026.10.27.1: 1.0 MB). `npm test` 2554: 2518 pass, 0 fail, 36 skipped. Browser proofs 119/119 on the clean verify tree (28 rerun after two proof workers were killed mid-run; `looks` failed once on blank swatches and passed rerun). Same computer only: no Chromebook, projector, LAN or classroom.
+
+## Town lots drawn wider than surveyed — 2026-10-27 (branch `towns-1027`, released in v2026.10.27.2)
 
 Branch `towns-1027` from origin/main fcdfd17c. The owner's decision on the scaling pass's item 1 (below): *"draw the town lots wider than surveyed."* Same computer only: headless Chrome on this machine, no LAN, Chromebook or classroom claim.
 
@@ -19,7 +23,7 @@ Branch `towns-1027` from origin/main fcdfd17c. The owner's decision on the scali
 
 **Not changed, and why.** `DRAWN_HEIGHT`, Béxar, the Alamo's walls and Goliad (battle ground). People's size and the map's symbol scale. A keeper's visit to a neighbour's door is drawn, not lived (sim/ambient.mjs), and each keeper pairs with whoever is nearest: with the doors three times as far from the town's point, a keeper's nearest is now another keeper, so **in a spread town a keeper no longer walks over to talk to a family's person standing at the town's point** (in San Felipe, 0 such visits in 400 ticks where there were some). Nothing a student does depends on it, and trading is untouched (an errand is done at the town, not at a door); it is flavour the owner may want back - the way out is ambient pairing preferring a family's person within `VISIT_MILES`, not changed here. tests/ambient.test.mjs's visit test now stands its two families in the street before San Felipe's store, among the doors, as its own words say they stand (it failed with them at the town's point). The map's roads are not rerouted along the spread streets: they come to the town's point as before, crossing a few lots on the way (fewer than before). Trees inside a town (Washington's pecan, the Masonic Oak) are drawn at the town's height, true to its buildings and taller than the map's own trees. The stockman's pen's animals are still small against the people.
 
-## Battle smoke direction and battles easier to see — 2026-10-27 (branch `battlesee-1027`, not released)
+## Battle smoke direction and battles easier to see — 2026-10-27 (branch `battlesee-1027`, released in v2026.10.27.2)
 
 Branch `battlesee-1027` from origin/main fcdfd17c. The owner, 2026-10-27: *"smoke plumes from gunfire: do they go in the right
 direction? always?"* and *"also, it was kind of hard to see the battles."* Presentation only: nothing changes what happens in a fight,
@@ -74,7 +78,7 @@ out if it bothers. (4) A Watch pressed before the fight is drawn now becomes the
 press (§15.5.5 (a)), but say if it should wait for a second press. (5) Infantry firing north/south frames (art request). (6) The
 Alamo by night is still dark under Astra's grade at the alarm.
 
-Commits on `battlesee-1027` only; not merged, not pushed, not released.
+Merged to main and released in v2026.10.27.2.
 
 ## Released as v2026.10.27.1 — 2026-10-27
 
