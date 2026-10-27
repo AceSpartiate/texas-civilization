@@ -1,0 +1,159 @@
+{
+  "fight": "alamo",
+  "label": "before",
+  "shots": [
+    {
+      "phase": "alarm",
+      "host": {
+        "phase": "alarm",
+        "figurePx": 75,
+        "scale": 4131,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.439,
+        "banksInView": 5,
+        "smokeInView": 10,
+        "readable": null,
+        "quiet": null
+      },
+      "student1366": {
+        "phase": "alarm",
+        "figurePx": 33,
+        "scale": 1855,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.444,
+        "banksInView": 6,
+        "smokeInView": 12,
+        "readable": null,
+        "quiet": null
+      },
+      "student1024": {
+        "phase": "alarm",
+        "figurePx": 29,
+        "scale": 1598,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.426,
+        "banksInView": 6,
+        "smokeInView": 12,
+        "readable": null,
+        "quiet": null
+      }
+    },
+    {
+      "phase": "repulse",
+      "host": {
+        "phase": "repulse",
+        "figurePx": 33,
+        "scale": 1822,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 41,
+        "smokeInView": 155,
+        "readable": null,
+        "quiet": null
+      },
+      "student1366": {
+        "phase": "repulse",
+        "figurePx": 75,
+        "scale": 4157,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 35,
+        "smokeInView": 138,
+        "readable": null,
+        "quiet": null
+      },
+      "student1024": {
+        "phase": "repulse",
+        "figurePx": 66,
+        "scale": 3640,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 37,
+        "smokeInView": 143,
+        "readable": null,
+        "quiet": null
+      }
+    },
+    {
+      "phase": "north-wall",
+      "host": {
+        "phase": "north-wall",
+        "figurePx": 72,
+        "scale": 3994,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 50,
+        "smokeInView": 196,
+        "readable": null,
+        "quiet": null
+      },
+      "student1366": {
+        "phase": "north-wall",
+        "figurePx": 33,
+        "scale": 1821,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 56,
+        "smokeInView": 201,
+        "readable": null,
+        "quiet": null
+      },
+      "student1024": {
+        "phase": "north-wall",
+        "figurePx": 29,
+        "scale": 1583,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 56,
+        "smokeInView": 199,
+        "readable": null,
+        "quiet": null
+      }
+    }
+  ]
+}

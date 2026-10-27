@@ -841,6 +841,15 @@ as the placement panel covering them. It now counts by what is on top.
 set. The meeting over the family's column — the whole column on a phone — is still open and nobody has chosen it. (On a
 desktop it is closed since 2026-09-28: the meeting stands down the right, §21.)
 
+### 12.14 The column folds to faces while a fight is watched (2026-10-27)
+
+The owner, 2026-10-27: *"it was kind of hard to see the battles."* While a student's Watch has the camera (docs/BATTLES.md §17.2) the
+column folds to its faces with the same function as Hide names and §12.13's placing, and the card beside the man in the fight, his
+bar, a tip and a land chooser are put away (`body[data-film=student]`, public/app.js `screenForFilm`). The student's own Hide names
+choice is put back when the film lets go (a pan, a zoom, Follow, Esc, or the fight over). The fight's Watch card is never folded away
+under *Open messages* by a person's card (`cardCrowding`), which had left a tip saying *Press "Watch"* with no Watch to press. Proof:
+`npm run test:battle-cinema`.
+
 ## 13. The family-creation wizard as a thing on a screen — 2026-09-21
 
 §12.11 asked what was drawn over what on the screen a student plays the *game* on. It stopped at the curtain. This is the

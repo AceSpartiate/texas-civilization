@@ -132,6 +132,13 @@ const SMOKE_CAP = 160, SMOKE_LIFE_MS = 15000, CANNON_SMOKE_LIFE_MS = 30000;
 const BANK_CAP = 96, BANK_MERGE_MILES = 0.03, BANK_FADE_MS = 15000, CANNON_BANK_FADE_MS = 24000, BANK_MAX = 9, BANK_GONE = 0.035;
 /** How thick a bank looks: 0 none to most of the way opaque (a line inside its own smoke is all but hidden). */
 const bankAlpha = density => Math.min(0.88, 1 - Math.exp(-0.7 * density));
+/**
+ * The fight read through its smoke (2026-10-27, §17.2): how much of the banks is taken away at a man's middle (a bank at its thickest,
+ * 0.88, is seen at about 0.4 over him and as thick as ever a figure away), and how thick a fresh plume is drawn over a man, of what it
+ * would be. ceiling: the men are seen through the smoke as if it were thinner where they stand, not lit; a figure drawn in the
+ * smoke's own grey (a silhouette pass) would keep the smoke whole and is the way out if the owner finds the parting showing.
+ */
+const MEN_THIN = 0.62, PLUME_OVER_MAN = 0.55;
 
 const hash = key => {
   let h = 2166136261;
@@ -210,6 +217,34 @@ export function personArt(key) {
   return hers && claude ? { ...claude, ...hers } : hers || claude || null;
 }
 const lerp = (a, b, t) => a + (b - a) * t;
+/** A unit vector along `v`, or `fallback` when it has no length. */
+export const unitOf = (v, fallback = { x: 1, y: 0 }) => {
+  const length = Math.hypot(v?.x || 0, v?.y || 0);
+  return length > 1e-9 ? { x: v.x / length, y: v.y / length } : fallback;
+};
+/**
+ * **Which way a shot goes, on the ground** (owner, 2026-10-27: "smoke plumes from gunfire: do they go in the right direction?
+ * always?"; docs/BATTLES.md §17.1). Out of a man's own face of a square (`slot.out`, in his side's frame: `onGround`'s turn), else
+ * the way his body of men faces - north and south as well as east and west. Until 2026-10-27 every plume was thrown east or west by
+ * the sign of the facing's x alone, so a man firing north or south threw his smoke sideways. The library's men are drawn side-on
+ * (they fire east or west), so the flash stays at the musket as drawn; the smoke is thrown the way the shot goes.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-10-27 "infantry firing north and south" - a man on foot firing up or down the page
+ * is drawn in the library's side-on `volunteer-fire-reload` / `regular-fire-reload`, turned east or west by the sign of his aim.
+ */
+export function aimOf(facing, slot = null) {
+  const f = unitOf(facing);
+  if (!slot?.out) return f;
+  return unitOf({ x: f.x * slot.out.along - f.y * slot.out.across, y: f.y * slot.out.along + f.x * slot.out.across }, f);
+}
+/** The aim a family's man in a square has: out of the face he stands in, from where he stands against its middle. */
+export function squareAim(facing, centre, spot) {
+  const f = unitOf(facing), dx = spot.x - centre.x, dy = spot.y - centre.y;
+  const along = dx * f.x + dy * f.y, across = -dx * f.y + dy * f.x;
+  return aimOf(f, { out: Math.abs(along) >= Math.abs(across) ? { along: Math.sign(along) || 1, across: 0 } : { along: 0, across: Math.sign(across) } });
+}
+/** Which way a named person firing aims: the heading the server gives (`aimHeading`, sim/battle-stage.mjs), else the way he faces. */
+const HEADINGS = Object.freeze({ north: { x: 0, y: -1 }, south: { x: 0, y: 1 }, east: { x: 1, y: 0 }, west: { x: -1, y: 0 } });
+export const personAim = person => HEADINGS[person?.aimHeading] || { x: person?.right === false ? -1 : 1, y: 0 };
 
 /**
  * Where each figure of a side stands, in miles relative to the side's centre: `along` toward the enemy, `across` to his
@@ -517,27 +552,39 @@ export function createBattleView(art) {
    */
   function puff(x, y, now, { big = false, wind, dir = 0, wall = false, plume = false } = {}) {
     const w = wind || { x: 0, y: 0 };
+    // The way the shot goes on the ground (`aimOf`): a direction, north and south as well as east and west. A bare number is
+    // the old east (1) or west (-1); none (0) is smoke with no muzzle behind it, which is not thrown.
+    const aim = typeof dir === 'number' ? (dir ? { x: Math.sign(dir), y: 0 } : null) : unitOf(dir, null);
+    const thrown = (big ? 0.05 : 0.024) * (0.8 + 0.4 * Math.random());
     view.smoke.push({
       x, y, born: now, life: big ? CANNON_SMOKE_LIFE_MS : SMOKE_LIFE_MS * (0.75 + 0.5 * Math.random()),
-      // Miles a real millisecond: the wind's screen vector (public/weather-art.js `windVector`, y down the page as the
-      // ground's y is), and the hot smoke rising up the page. A still fog morning barely moves it; a norther carries it off.
-      vx: w.x * 2.2e-6 + (Math.random() - 0.5) * 2e-7, vy: w.y * 2.2e-6 - (big ? 3.2e-7 : 2.2e-7) - Math.random() * 1e-7,
-      // The jet: how far out of the muzzle the plume is thrown (miles), spent in its first second.
-      jet: dir * (big ? 0.05 : 0.024) * (0.8 + 0.4 * Math.random()), jetUp: (big ? 0.012 : 0.006) * (0.6 + 0.8 * Math.random()),
+      // Miles a real millisecond on the ground: the wind's screen vector (public/weather-art.js `windVector`, y down the page as
+      // the ground's y is) and nothing else, so the smoke never drifts against the wind. A still fog morning barely moves it; a
+      // norther carries it off.
+      vx: w.x * 2.2e-6 + (Math.random() - 0.5) * 2e-7, vy: w.y * 2.2e-6,
+      // And the hot smoke rising (`rise`, miles of height a millisecond): drawn up the page, the way height is drawn on this map,
+      // never counted as ground it has travelled (until 2026-10-27 it was added to the ground's y, so a bank on a light southerly
+      // wind crept north against it).
+      rise: (big ? 3.2e-7 : 2.2e-7) + Math.random() * 1e-7,
+      // The jet: how far out of the muzzle the plume is thrown along the shot (miles, on the ground), spent in its first second.
+      jetX: aim ? aim.x * thrown : 0, jetY: aim ? aim.y * thrown : 0, jetUp: (big ? 0.012 : 0.006) * (0.6 + 0.8 * Math.random()),
       size0: big ? 2.6 : 1.1, size1: big ? 11 : 5 + Math.random() * 2.4, alpha: big ? 0.62 : 0.64, scale: view.smokeScale ?? 1,
       seed: Math.random(),
     });
     if (view.smoke.length > SMOKE_CAP) view.smoke.splice(0, view.smoke.length - SMOKE_CAP);
     // A gun's discharge is four big puffs into one bank: a whole bank of smoke a shot. A volley's men's into a wall along the rank.
-    feedBank(x + dir * (big ? 0.03 : 0.014), y, big ? 1.3 : wall ? 1.0 : 0.85, now, w, big, wall);
+    const ahead = big ? 0.03 : 0.014;
+    feedBank(x + (aim?.x || 0) * ahead, y + (aim?.y || 0) * ahead, big ? 1.3 : wall ? 1.0 : 0.85, now, w, big, wall, aim);
   }
   /**
    * Feed the bank of smoke lying where a shot was fired: the nearest bank within reach thickens (its middle drawn a little toward
-   * the new shot), or a new one begins there. Ground miles, so it stays put when the camera moves.
+   * the new shot), or a new one begins there. Ground miles, so it stays put when the camera moves. A volley's wall lies across the
+   * line of fire (`across`), which is along the rank whichever way the rank faces.
    */
-  function feedBank(x, y, amount, now, w, big, wall = false) {
+  function feedBank(x, y, amount, now, w, big, wall = false, aim = null) {
     settleBanks(now);
     const reach = BANK_MERGE_MILES * (view.smokeScale ?? 1) * (big ? 1.6 : 1);
+    const across = aim ? { x: -aim.y, y: aim.x } : null;
     let near = null, best = Infinity;
     for (const bank of view.banks) { const d = Math.hypot(bank.x - x, bank.y - y); if (d < reach && d < best) { best = d; near = bank; } }
     if (!near && view.banks.length >= BANK_CAP) for (const bank of view.banks) { const d = Math.hypot(bank.x - x, bank.y - y); if (d < best) { best = d; near = bank; } }
@@ -545,25 +592,33 @@ export function createBattleView(art) {
       const share = amount / (near.d + amount);
       near.x += (x - near.x) * share * 0.5; near.y += (y - near.y) * share * 0.5;
       near.d = Math.min(BANK_MAX, near.d + amount); near.fed = now; near.shots++; near.big ||= big; near.wall ||= wall;
+      if (wall && across && !near.across) near.across = across;
       return;
     }
     view.banks.push({
-      x, y, d: amount, born: now, fed: now, at: now, shots: 1, big, wall, seed: Math.random(), scale: view.smokeScale ?? 1,
-      // Heavier than a fresh puff and hugging the ground: carried by the wind a little slower, hardly rising.
-      vx: w.x * 1.7e-6 + (Math.random() - 0.5) * 1.2e-7, vy: w.y * 1.7e-6 - 0.5e-7,
+      x, y, d: amount, born: now, fed: now, at: now, shots: 1, big, wall, seed: Math.random(), scale: view.smokeScale ?? 1, ...(wall && across && { across }),
+      // Heavier than a fresh puff and hugging the ground: carried by the wind a little slower, hardly rising (`h`, miles of height).
+      vx: w.x * 1.7e-6 + (Math.random() - 0.5) * 1.2e-7, vy: w.y * 1.7e-6, rise: 0.5e-7, h: 0,
     });
   }
-  /** Every bank drifts on the wind and thins by the time since it was last settled; one too thin to see is gone. */
+  /** Every bank drifts on the wind, rises a little, and thins by the time since it was last settled; one too thin to see is gone. */
   function settleBanks(now) {
     for (const bank of view.banks) {
       const dt = now - bank.at;
       if (!(dt > 0)) continue;
-      bank.at = now; bank.x += bank.vx * dt; bank.y += bank.vy * dt;
+      bank.at = now; bank.x += bank.vx * dt; bank.y += bank.vy * dt; bank.h = (bank.h || 0) + (bank.rise || 0) * dt;
       bank.d *= Math.exp(-dt / (bank.big ? CANNON_BANK_FADE_MS : BANK_FADE_MS));
     }
     if (view.banks.some(bank => bank.d <= BANK_GONE)) view.banks = view.banks.filter(bank => bank.d > BANK_GONE);
   }
-  function flash(x, y, facingRight, now, size) { view.flashes.push({ x, y, right: facingRight, born: now, size }); }
+  /**
+   * A muzzle's flash. The library's flash points east or west, as the side-on figure's musket does; `turn` is the aim of a piece
+   * drawn pointing north or south (a man over the Alamo's north or south wall, a rider or dragoon headed north or south, a gun laid
+   * up or down the page), and that flash is turned to point along it.
+   */
+  function flash(x, y, facingRight, now, size, turn = null) { view.flashes.push({ x, y, right: facingRight, born: now, size, ...(turn && { turn }) }); }
+  /** The turn a flash is given: the aim, when it points more up or down the page than across it. */
+  const turned = aim => aim && Math.abs(aim.y) > Math.abs(aim.x) ? aim : null;
 
   /**
    * The pose a family's person in the force is drawn in this frame, or null for anybody not in it: the same own-pace cycle
@@ -651,6 +706,8 @@ export function createBattleView(art) {
     // The same, under a name the figure loop below does not shadow with its own `still` (a figure held in one frame): until
     // 2026-09-30 the loop's shots read the figure's and a man fired, flash and smoke, on a page that had asked for less motion.
     const holding = still;
+    // For the named people's shots, drawn deeper down (`drawPerson`): the day's wind, and whether anything may fire.
+    view.wind = wind; view.holding = holding;
     if (!battle) {
       view.key = null; view.members.clear(); view.evidence = null;
       // The fight over and gone from the map, its smoke is not: it lies on the empty field and thins away (§16.3), so the class
@@ -686,7 +743,9 @@ export function createBattleView(art) {
         moving: body ? Boolean(body.moving) : ['advance', 'withdraw', 'follow'].includes(texianSide?.action),
         wait: WAIT_MIN_MS + hash(`${id}:w`) * WAIT_SPAN_MS, offset: hash(`${id}:o`) * 20000, kneel: hash(`${id}:k`) < 0.3,
         // In a square, out of his own face: east of its middle faces east (where app.js drew him last frame).
-        ...(force?.style === 'square' && view.memberSpots.get(id) && view.sides.get(body?.key || 'texian') && { right: view.memberSpots.get(id).x >= placeAt(view.sides.get(body?.key || 'texian'), now).x }),
+        ...(force?.style === 'square' && view.memberSpots.get(id) && view.sides.get(body?.key || 'texian') && { right: view.memberSpots.get(id).x >= placeAt(view.sides.get(body?.key || 'texian'), now).x,
+          // ...and his shot goes out of that face, north or south as well as east or west (`squareAim`).
+          aim: squareAim(force.facing, placeAt(view.sides.get(body?.key || 'texian'), now), view.memberSpots.get(id)) }),
       });
     }
     // Members fire on their own cycle; their shot is spawned from where app.js drew them. A member who has fallen does not.
@@ -703,8 +762,10 @@ export function createBattleView(art) {
       const key = `${id}:${Math.floor((time + member.offset) / cycle)}`;
       if (t >= shotAt && t < shotAt + 400 && !view.shotsSeen.has(key)) {
         view.shotsSeen.add(key);
-        const right = member.right ?? (((member.unit ? view.sides.get(member.unit) : texianSide)?.facing?.x ?? 1) >= 0);
-        puff(spot.x + (right ? 1 : -1) * 0.012, spot.y - 0.006, now, { wind, dir: right ? 1 : -1 });
+        const facing = (member.unit ? view.sides.get(member.unit) : texianSide)?.facing;
+        const right = member.right ?? ((facing?.x ?? 1) >= 0);
+        // From the musket as drawn (side-on, east or west), thrown the way the shot goes (`aimOf`).
+        puff(spot.x + (right ? 1 : -1) * 0.012, spot.y - 0.006, now, { wind, dir: member.aim || aimOf(facing) });
         flash(spot.x + (right ? 1 : -1) * 0.012, spot.y, right, now, 1); shots++;
       }
     }
@@ -810,7 +871,7 @@ export function createBattleView(art) {
           if (inRound >= wait + SHOT_AT && inRound < wait + SHOT_AT + 400 && !view.shotsSeen.has(houseKey)) {
             view.shotsSeen.add(houseKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1; view.shotsBy.houses = (view.shotsBy.houses || 0) + 1;
             const door = { x: centre.x + facing.x * 0.012 + (slot.across || 0) * 0.35, y: centre.y + facing.y * 0.012 + (slot.along || 0) * 0.2 };
-            puff(door.x + (right ? 1 : -1) * 0.004, door.y - 0.008, now, { wind, dir: right ? 1 : -1 }); flash(door.x, door.y - 0.004, right, now, 0.8);
+            puff(door.x + (right ? 1 : -1) * 0.004, door.y - 0.008, now, { wind, dir: aimOf(facing, slot) }); flash(door.x, door.y - 0.004, right, now, 0.8);
           }
           continue;
         }
@@ -857,8 +918,10 @@ export function createBattleView(art) {
             }
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
-              const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
-              puff(muzzle.x, muzzle.y, now, { wind, dir: right ? 1 : -1 }); flash(muzzle.x, muzzle.y, right, now, 1);
+              // Headed north or south he is drawn so (Astra's `-n`/`-s`), his carbine out ahead of the horse, and the flash turned.
+              const aim = aimOf(facing), endOn = dir !== 'e';
+              const muzzle = endOn ? { x: ground.x + aim.x * 0.008, y: ground.y - 0.012 + aim.y * 0.008 } : { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
+              puff(muzzle.x, muzzle.y, now, { wind, dir: aim }); flash(muzzle.x, muzzle.y, right, now, 1, endOn ? aim : null);
             }
             // Astra's east/west firing transition (idle 300ms, fire 400ms, idle 300ms): raised the moment before the shot, the
             // discharge frame for the 400ms the flash is drawn, then lowered.
@@ -955,7 +1018,7 @@ export function createBattleView(art) {
           if (inRound >= pause + SHOT_AT && inRound < pause + SHOT_AT + 400 && !view.shotsSeen.has(loopKey)) {
             view.shotsSeen.add(loopKey); shots++; view.loopholeShots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
             const hole = { x: ground.x + facing.x * 0.01, y: ground.y + facing.y * 0.01 - 0.006 };
-            puff(hole.x, hole.y, now, { wind, dir: right ? 1 : -1 }); flash(hole.x, hole.y, right, now, 0.8);
+            puff(hole.x, hole.y, now, { wind, dir: aimOf(facing, slot) }); flash(hole.x, hole.y, right, now, 0.8);
           }
           continue;
         }
@@ -992,8 +1055,9 @@ export function createBattleView(art) {
             }
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
-              const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
-              puff(muzzle.x, muzzle.y, now, { wind, dir: right ? 1 : -1 }); flash(muzzle.x, muzzle.y, right, now, 1);
+              const aim = aimOf(facing), endOn = ['n', 's'].includes(heading);
+              const muzzle = endOn ? { x: ground.x + aim.x * 0.008, y: ground.y - 0.012 + aim.y * 0.008 } : { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
+              puff(muzzle.x, muzzle.y, now, { wind, dir: aim }); flash(muzzle.x, muzzle.y, right, now, 1, endOn ? aim : null);
             }
             // The carbine at the shoulder as the shot goes, then the recoil (the clip's beat is its second frame).
             if (!moving && !lancers && (t < 500 || wait - t < 700)) prefer = { clip: 'dragoon-fire', timeMs: t < 500 ? t + 700 : 700 - (wait - t), flip: !right };
@@ -1036,7 +1100,9 @@ export function createBattleView(art) {
               // `figurePx * 0.55` above the point they are given, as every other shot's are.
               const [aside, up] = PARAPET_MUZZLE[heading] || [0, 0.6];
               const muzzle = { x: post.x + aside * ownSize / camera.scale, y: post.y + (figurePx * 0.55 - lift - up * ownSize) / camera.scale };
-              puff(muzzle.x, muzzle.y, now, { wind, dir: heading === 'w' ? -1 : 1 }); flash(muzzle.x, muzzle.y, heading !== 'w', now, 1);
+              // Out over his own wall: the north wall's men fire north, the south's south (until 2026-10-27 both threw their smoke east).
+              const aim = aimOf(side.facing);
+              puff(muzzle.x, muzzle.y, now, { wind, dir: aim }); flash(muzzle.x, muzzle.y, heading !== 'w', now, 1, turned(aim));
             }
           }
         } else if (side.fire === 'scattered' || (side.fire === 'picket' && slot.along > -0.03 && slot.index % 5 === 0)) {
@@ -1074,7 +1140,7 @@ export function createBattleView(art) {
             if (t - wait >= SHOT_AT && t - wait < SHOT_AT + 400 && !view.shotsSeen.has(shotKey) && !holding) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.012, y: ground.y - 0.004 };
-              puff(muzzle.x, muzzle.y, now, { wind, dir: right ? 1 : -1 }); flash(muzzle.x, muzzle.y, right, now, 1);
+              puff(muzzle.x, muzzle.y, now, { wind, dir: aimOf(facing, slot) }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
           }
         } else if (volley && (slot.face === undefined ? slot.rank === firingRank : slot.rank === faceCycle(slot).rank) && (kind !== 'dragoon')) {
@@ -1086,7 +1152,7 @@ export function createBattleView(art) {
             if (into >= VOLLEY_AIM_MS && into < VOLLEY_AIM_MS + 400 && !view.shotsSeen.has(shotKey) && !holding) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.012, y: ground.y - 0.004 };
-              puff(muzzle.x, muzzle.y, now, { wind, dir: right ? 1 : -1, wall: true }); flash(muzzle.x, muzzle.y, right, now, 1);
+              puff(muzzle.x, muzzle.y, now, { wind, dir: aimOf(facing, slot), wall: true }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
           }
         } else if (side.action === 'work') {
@@ -1138,6 +1204,14 @@ export function createBattleView(art) {
     }
     // Back to front, so a man nearer the camera stands in front of the one behind him.
     figures.sort((a, b) => a.y - b.y);
+    // Where each man stands on the screen this frame (his middle), for the smoke to be thinned round (`drawSmoke`, §17.2).
+    const menAt = [];
+    for (const f of figures) {
+      if (f.kind !== 'cover' && f.kind !== 'packhorse') menAt.push({ x: f.point.x, y: f.point.y - f.size * (f.kind === 'fallen' ? 0.15 : 0.5), r: f.size });
+      // His own shadow on the ground under him (§17.2): a man fifteen pixels tall in a summer field or a fog stands out from it, as
+      // public/app.js `groundShadow` stands everybody else on the map. Not the fallen, the cover or a man over the parapet (his own).
+      if (f.kind !== 'fallen' && f.kind !== 'cover' && !f.shade && f.size >= 6) { ctx.fillStyle = 'rgba(40,34,22,.3)'; ctx.beginPath(); ctx.ellipse(f.point.x, f.point.y, f.size * 0.26, f.size * 0.075, 0, 0, Math.PI * 2); ctx.fill(); }
+    }
     for (const f of figures) {
       if (f.kind === 'fallen') { drawFallen(ctx, f, now); continue; }
       if (f.kind === 'packhorse') {
@@ -1189,6 +1263,10 @@ export function createBattleView(art) {
     for (const flag of battle.flags || []) drawWhiteFlag(ctx, flag, camera, figurePx, time, wind);
     // Named people where the record puts them (the Alamo's Travis and Joe), and smoke going up far off.
     const peopleShown = drawPeople(ctx, battle, camera, figurePx, time, now, bounds);
+    // The named people are seen through the smoke as every other man is (Travis at the north battery, Crockett at the palisade), and
+    // so are the class's own men, drawn by public/app.js where it says (`clear`, their feet), over and above their own clearings.
+    for (const one of peopleShown) if (one.onScreen) menAt.push({ x: one.x, y: one.y - figurePx * (one.fell ? 0.15 : 0.5), r: figurePx });
+    for (const one of clear || []) menAt.push({ x: one.x, y: one.y - figurePx * 0.5, r: figurePx });
     for (const plume of battle.plumes || []) drawPlume(ctx, plume, camera, figurePx, time, reducedMotion);
     // Night (§6.13): the field dark but for lit windows, the fire and the flashes, which are drawn over it.
     // Béxar's storming by the hour of its clock (`bexarDarkness`, sim/battle-stage.mjs): Astra's eased moonlit grade (2026-10-11,
@@ -1218,14 +1296,22 @@ export function createBattleView(art) {
       const p = camera.toScreen(f), s = figurePx * 0.34 * f.size;
       if (!f.heard) { f.heard = true; heard.push({ x: Math.round(p.x), y: Math.round(p.y), size: f.size }); }
       if (night) glow(ctx, p.x, p.y - figurePx * 0.55, figurePx * 1.6, 'rgba(255,200,120,.45)');
-      if (!art.drawSprite(ctx, f.right ? 'muzzle-flash-e' : 'muzzle-flash-w', p.x, p.y - figurePx * 0.55, s)) {
+      // A piece drawn pointing north or south: the library's eastward flash turned along it, from its root at the muzzle.
+      let turnedDrawn = 0;
+      if (f.turn && typeof ctx.rotate === 'function') {
+        ctx.save(); ctx.translate(p.x, p.y - figurePx * 0.55); ctx.rotate(Math.atan2(f.turn.y, f.turn.x));
+        turnedDrawn = art.drawSprite(ctx, 'muzzle-flash-e', 0, 0, s, { anchor: [0.2652, 0.5] });
+        ctx.restore();
+        if (turnedDrawn) view.flashesTurned = (view.flashesTurned || 0) + 1;
+      }
+      if (!turnedDrawn && !art.drawSprite(ctx, f.right ? 'muzzle-flash-e' : 'muzzle-flash-w', p.x, p.y - figurePx * 0.55, s)) {
         ctx.fillStyle = 'rgba(255,214,120,.9)'; ctx.beginPath(); ctx.arc(p.x, p.y - figurePx * 0.55, s * 0.35, 0, Math.PI * 2); ctx.fill();
       }
       flashes++;
     }
     // Fog lying over the field (the phase's `fog`, 0 to 1): Concepción's morning, thinning as it lifts about eight.
     const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds, time, reducedMotion) : 0;
-    const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle, clear);
+    const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle, clear, menAt);
     const bubbles = drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn, drawnBy);
     view.civiliansSeen = Math.max(view.civiliansSeen, civilians);
     view.shotsTotal += shots;
@@ -1243,6 +1329,9 @@ export function createBattleView(art) {
       banks: smokeDrawn.banks, banksInView: smokeDrawn.banksInView, bankDensity: smokeDrawn.density, cover: smokeDrawn.cover, lingerMs: smokeDrawn.lingerMs, haze: smokeDrawn.haze,
       // §16.3: a gun's banks going up as plumes, a volley's lying as walls, and the clearings thinned round the class's own men.
       smokePlumes: smokeDrawn.plumes, smokeWalls: smokeDrawn.walls, clearings: smokeDrawn.clearings,
+      // §17.2: the men the smoke was thinned round this frame, and the fresh plumes drawn thinner over a man; the flashes turned along a
+      // piece drawn pointing north or south, all told (§17.1).
+      menThinned: smokeDrawn.menThinned || 0, puffsThinned: smokeDrawn.puffsThinned || 0, flashesTurned: view.flashesTurned || 0,
       // A gun's shot, the moments the page drew it (the class view's film gives the camera a jolt for it: public/battle-cinema.js).
       thumps: view.thumps.filter(t => now - t < 1000),
       members: [...view.members.keys()], memberClips: [...view.memberClips],
@@ -1548,9 +1637,10 @@ export function createBattleView(art) {
       view.shotsSeen.add(`cannon:${t}`);
       if (reducedMotion) continue;
       view.shotsTotal++;
-      const muzzle = { x: at.x + (right ? 1 : -1) * 0.02, y: at.y - 0.004 };
+      const muzzle = { x: at.x + (right ? 1 : -1) * 0.02, y: at.y - 0.004 }, aim = aimOf(side?.facing);
       flash(muzzle.x, muzzle.y, right, now, 2.4); view.thumps.push(now);
-      for (let i = 0; i < 4; i++) puff(muzzle.x + (right ? 1 : -1) * i * 0.008, muzzle.y + (Math.random() - 0.5) * 0.01, now, { big: true, wind, dir: right ? 1 : -1 });
+      // The four puffs strung out along the shot from the muzzle as drawn, each thrown the way the gun is laid.
+      for (let i = 0; i < 4; i++) puff(muzzle.x + aim.x * i * 0.008, muzzle.y + aim.y * i * 0.008 + (Math.random() - 0.5) * 0.01, now, { big: true, wind, dir: aim });
     }
     return { x: Math.round(p.x), y: Math.round(p.y), firing, ready, shots: view.cannonFiredAt.filter(t => t <= now).length };
   }
@@ -1634,10 +1724,13 @@ export function createBattleView(art) {
       view.shotsTotal++; view.gunShotsTotal++;
       const reach = 0.02 * (view.smokeScale ?? 1), fx = gun.facing?.x ?? (right ? 1 : -1), fy = gun.facing?.y ?? 0;
       const muzzle = { x: gun.x + fx * reach, y: gun.y + fy * reach - 0.004 * (view.smokeScale ?? 1) };
-      flash(muzzle.x, muzzle.y, right, now, 2.4); view.thumps.push(now);
-      for (let i = 0; i < 4; i++) puff(muzzle.x + fx * i * reach * 0.4, muzzle.y + fy * i * reach * 0.4 + (Math.random() - 0.5) * reach * 0.5, now, { big: true, wind, dir: fx >= 0 ? 1 : -1 });
-      // A few live puffs keep the shot legible while the authored canister cloud loads.
-      if (gun.canister) for (let i = 0; i < 5; i++) { const spread = (i - 2) * 0.12, d = reach * (1 + i * 0.3); puff(muzzle.x + (fx - fy * spread) * d, muzzle.y + (fy + fx * spread) * d, now, { wind }); }
+      // Laid up or down the page (a gun at Coleto's corner, the Alamo's at its north wall) the shot and its flash go that way; until
+      // 2026-10-27 the four puffs were strung along the facing but each thrown east or west.
+      const aim = unitOf({ x: fx, y: fy });
+      flash(muzzle.x, muzzle.y, right, now, 2.4, turned(aim)); view.thumps.push(now);
+      for (let i = 0; i < 4; i++) puff(muzzle.x + fx * i * reach * 0.4, muzzle.y + fy * i * reach * 0.4 + (Math.random() - 0.5) * reach * 0.5, now, { big: true, wind, dir: aim });
+      // A few live puffs keep the shot legible while the authored canister cloud loads: fanned out along the shot.
+      if (gun.canister) for (let i = 0; i < 5; i++) { const spread = (i - 2) * 0.12, d = reach * (1 + i * 0.3); puff(muzzle.x + (fx - fy * spread) * d, muzzle.y + (fy + fx * spread) * d, now, { wind, dir: { x: fx - fy * spread, y: fy + fx * spread } }); }
       view.gunShotsBy[gun.id] = (view.gunShotsBy[gun.id] || 0) + 1;
     }
     if (bounds && (p.x < -90 || p.y < -90 || p.x > bounds.width + 90 || p.y > bounds.height + 140)) return { id: gun.id, shots: fired.length, onScreen: false };
@@ -1857,11 +1950,24 @@ export function createBattleView(art) {
       return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });
     }
     if (pose === 'fire') {
-      // Astra's Milam at the battery and Travis at his gun (2026-10-12), by the heading he aims (`aimHeading`), each on its own clock.
-      if (person.art === 'milam') { const painted = clip(milamFireClip(person.aimHeading, person.right), (time + hash(key) * 4000) % 3600, { flip: false }); if (painted) return painted; }
-      if (person.art === 'travis') { const painted = clip(travisFireClip(person.aimHeading, person.right), (time + hash(key) * 4000) % 3600, { flip: false }); if (painted) return painted; }
-      if (Array.isArray(named)) { const t = (time + hash(key) * 12000) % 12000; return sprite(named[t < 1500 ? 0 : t < 1800 ? 1 : 2]); }
-      if (named) return clip(named, musketClip(time % MUSKET_MS));
+      // Each of his shots, once, as the drawing reaches its shot: the flash and the smoke, thrown the way he aims (§17.1: until
+      // 2026-10-27 a named man drawn firing - Travis at the north battery, Crockett at the palisade - made no smoke at all).
+      const shoot = (shifted, cycle, at, directional) => {
+        const t = shifted % cycle, shotKey = `${person.id}:shot:${Math.floor(shifted / cycle)}`;
+        if (view.holding || t < at || t >= at + 400 || view.hiddenShots.has(shotKey)) return;
+        view.hiddenShots.add(shotKey);
+        const aim = personAim(person), side = person.right ? 1 : -1;
+        const muzzle = directional && aim.y && Math.abs(aim.y) > Math.abs(aim.x) ? { x: person.x + aim.x * 0.004, y: person.y + aim.y * 0.004 - 0.003 } : { x: person.x + side * 0.006, y: person.y - 0.003 };
+        flash(muzzle.x, muzzle.y, person.right, now, 0.8, directional ? turned(aim) : null);
+        puff(muzzle.x, muzzle.y, now, { wind: view.wind, dir: aim });
+      };
+      // Astra's Milam at the battery and Travis at his gun (2026-10-12), by the heading he aims (`aimHeading`), each on its own clock:
+      // aim 1.5 s, the shot 0.3 s, load and ramrod (public/assets/frontier-v1/animation.json).
+      if (person.art === 'milam') { const painted = clip(milamFireClip(person.aimHeading, person.right), (time + hash(key) * 4000) % 3600, { flip: false }); if (painted) { shoot(time + hash(key) * 4000, 3600, 1500, true); return painted; } }
+      if (person.art === 'travis') { const painted = clip(travisFireClip(person.aimHeading, person.right), (time + hash(key) * 4000) % 3600, { flip: false }); if (painted) { shoot(time + hash(key) * 4000, 3600, 1500, true); return painted; } }
+      if (Array.isArray(named)) { const t = (time + hash(key) * 12000) % 12000; shoot(time + hash(key) * 12000, 12000, 1500, false); return sprite(named[t < 1500 ? 0 : t < 1800 ? 1 : 2]); }
+      if (named) { shoot(time, MUSKET_MS, SHOT_AT, false); return clip(named, musketClip(time % MUSKET_MS)); }
+      shoot(time + hash(key) * MUSKET_MS, MUSKET_MS, SHOT_AT, false);
       return clip(`${kind}-fire-reload`, musketClip((time + hash(key) * MUSKET_MS) % MUSKET_MS));
     }
     // Joe, firing from the house he took cover in (his own account): hidden, with the flash and the smoke at its door.
@@ -1869,8 +1975,12 @@ export function createBattleView(art) {
       const t = (time + hash(key) * 6000) % 5200;
       if (t < 120 && !view.hiddenShots.has(`${person.id}:${Math.floor((time + hash(key) * 6000) / 5200)}`)) {
         view.hiddenShots.add(`${person.id}:${Math.floor((time + hash(key) * 6000) / 5200)}`);
-        flash(person.x, person.y, person.right, now, 0.8);
-        puff(person.x + (person.right ? 0.002 : -0.002), person.y, now, { wind: null });
+        // Out of the door the way he faces, and carried on the day's wind (until 2026-10-27 his smoke went nowhere: thrown no way and
+        // given no wind), and not on a page held still.
+        if (!view.holding) {
+          flash(person.x, person.y, person.right, now, 0.8);
+          puff(person.x + (person.right ? 0.002 : -0.002), person.y, now, { wind: view.wind, dir: personAim(person) });
+        }
       }
       const firing = own?.fireHidden || 'joe-hide';
       return art.animated(ctx, firing, p.x, p.y, size, 0, { timeMs: t, flip }) ? firing : clip(own?.hide ? own.hide.slice(5) : `${kind}-idle-e`);
@@ -2129,16 +2239,19 @@ export function createBattleView(art) {
   /**
    * A bank's smoke this frame, in the colour of powder smoke, thicker at the core. Into the low-resolution layer when there is one
    * (`ratio` under 1), straight onto the map when there is not (the tests' canvas). Its shape (§16.3): a heap of three soft lobes;
-   * a volley's `wall`, five strung out along the line; a gun's `plume`, a column going up and spreading as it climbs (`rise` 0 to 1).
+   * a volley's `wall`, five strung out along the line (`across`, the rank's own direction on the page: until 2026-10-27 always east to
+   * west, so a rank facing east or west - most of them - had its wall laid across the line of fire instead of along the rank); a gun's
+   * `plume`, a column going up and spreading as it climbs (`rise` 0 to 1).
    */
-  function drawBank(target, at, radius, alpha, seed, ratio, dark, shape = 'heap', rise = 0) {
+  function drawBank(target, at, radius, alpha, seed, ratio, dark, shape = 'heap', rise = 0, across = null) {
     const tone = dark ? '150,150,158' : '238,236,228', core = dark ? '118,118,126' : '214,212,203';
     const lobes = shape === 'wall' ? [[-1.25, 0, 0.62], [-0.62, -0.08, 0.7], [0, 0, 0.78], [0.62, -0.06, 0.7], [1.25, 0, 0.62]]
       : shape === 'plume' ? [[0, 0, 0.8], [0.1, -0.9 * rise, 0.85 + 0.2 * rise], [-0.15, -1.8 * rise, 0.9 + 0.45 * rise], [0.2, -2.6 * rise, 0.95 + 0.7 * rise]]
       : [[0, 0, 0.9], [Math.cos(seed * 6.283) * 0.48, Math.sin(seed * 6.283) * 0.22, 0.72], [Math.cos(seed * 6.283 + 2.1) * 0.48, Math.sin(seed * 6.283 + 2.1) * 0.22, 0.72], [Math.cos(seed * 6.283 + 4.2) * 0.48, Math.sin(seed * 6.283 + 4.2) * 0.22, 0.72]];
+    const line = shape === 'wall' && across ? unitOf(across) : { x: 1, y: 0 };
     lobes.forEach(([dx, dy, size], i) => {
-      const wobble = (hash(`${seed}:${i}`) - 0.5) * 0.18;
-      const x = (at.x + (dx + wobble) * radius) * ratio, y = (at.y - radius * 0.35 + dy * radius) * ratio, r = radius * size * ratio;
+      const wobble = (hash(`${seed}:${i}`) - 0.5) * 0.18, along = dx + wobble;
+      const x = (at.x + along * line.x * radius) * ratio, y = (at.y - radius * 0.35 + (along * line.y + dy) * radius) * ratio, r = radius * size * ratio;
       const a = alpha * (i ? 0.78 : 0.95);
       const g = target.createRadialGradient(x, y, 0, x, y, r);
       g.addColorStop(0, `rgba(${core},${a.toFixed(3)})`);
@@ -2166,7 +2279,30 @@ export function createBattleView(art) {
     for (const id of view.members.keys()) { const spot = view.memberSpots.get(id); if (spot) { const p = camera.toScreen(spot); out.push({ x: p.x, y: p.y - figurePx * 0.5 }); } }
     return out;
   }
-  function drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle = null, clearAt = null) {
+  /** A soft round hole, drawn once and stamped out of the smoke layer wherever a man stands (`drawSmoke`'s `thin`). */
+  function holeSprite() {
+    if (view.hole !== undefined) return view.hole;
+    view.hole = null;
+    if (typeof document === 'undefined' || typeof document.createElement !== 'function') return null;
+    const hole = document.createElement('canvas');
+    hole.width = hole.height = 64;
+    const c = hole.getContext?.('2d');
+    if (!c) return null;
+    const g = c.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(0.45, 'rgba(0,0,0,0.8)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    c.fillStyle = g; c.fillRect(0, 0, 64, 64);
+    return (view.hole = hole);
+  }
+  /**
+   * Draw the smoke. `menAt` is every man of the fight drawn this frame (his middle on the screen and his height): **the fight read
+   * through its smoke** (owner, 2026-09-30, "keep the figures and name tags readable through it"; 2026-10-27, "it was kind of hard
+   * to see the battles"; §17.2). Until 2026-10-27 only the class's own men had the smoke thinned round them, and a long fight's
+   * banks (88% at the thickest, ten figures across) laid a white sheet over everybody else - Coleto's square, the dragoons at
+   * Gonzales, the columns at the Alamo's walls were gone in it. Now the bank layer is thinned round every man (`MEN_THIN` at his
+   * middle, a figure across), and a fresh plume drawn over a man is drawn thinner (`PLUME_OVER_MAN`): the banks keep their size,
+   * their build-up and their drift, and are as thick as ever where nobody stands, and the men are seen in them as dark shapes.
+   */
+  function drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle = null, clearAt = null, menAt = []) {
     view.smoke = view.smoke.filter(s => now - s.born < s.life);
     settleBanks(now);
     const dark = Boolean(battle && (battle.light === 'night' || battle.light === 'dawn' || (typeof battle.light === 'number' && battle.light > 0.5)));
@@ -2178,9 +2314,22 @@ export function createBattleView(art) {
     // Where the page drew the class's men this frame (screen, their middles), or where this view last had them on the ground.
     const clear = clearAt || clearings(camera, figurePx);
     // Thin the layer round each of the class's men before it is laid over the map (only where there is a layer to thin).
+    let menThinned = 0;
     const thin = () => {
-      if (!layer || !clear.length) return;
+      if (!layer || (!clear.length && !menAt.length)) return;
       target.globalCompositeOperation = 'destination-out';
+      // Every man in the fight: the smoke parted a little round him, so he reads through it (`MEN_THIN`).
+      const hole = menAt.length ? holeSprite() : null;
+      if (hole) {
+        target.globalAlpha = MEN_THIN;
+        for (const man of menAt) {
+          if (bounds && (man.x < -40 || man.y < -40 || man.x > bounds.width + 40 || man.y > bounds.height + 40)) continue;
+          const r = man.r * 0.75 * ratio;
+          target.drawImage(hole, man.x * ratio - r, man.y * ratio - r * 1.2, r * 2, r * 2.4);
+          menThinned++;
+        }
+        target.globalAlpha = 1;
+      }
       for (const at of clear) {
         const r = figurePx * 1.5 * ratio, g = target.createRadialGradient(at.x * ratio, at.y * ratio, 0, at.x * ratio, at.y * ratio, r);
         g.addColorStop(0, 'rgba(0,0,0,0.72)'); g.addColorStop(1, 'rgba(0,0,0,0)');
@@ -2198,7 +2347,7 @@ export function createBattleView(art) {
         const at = camera.toScreen({ x: centre.x + facing.x * 0.02, y: centre.y + facing.y * 0.02 });
         if (!inside(at)) continue;
         const alpha = bankAlpha(body.fire === 'picket' ? 1 : 3) * 0.85;
-        drawBank(target, at, figurePx * 4.6 * (view.smokeScale ?? 1), alpha, hash(body.key), ratio, dark, body.fire === 'volley' ? 'wall' : 'heap');
+        drawBank(target, at, figurePx * 4.6 * (view.smokeScale ?? 1), alpha, hash(body.key), ratio, dark, body.fire === 'volley' ? 'wall' : 'heap', 0, { x: -unitOf(facing).y, y: unitOf(facing).x });
         haze++; cover = Math.max(cover, alpha);
       }
       for (const gun of [...(battle?.guns || []), ...(battle?.cannon ? [battle.cannon] : [])]) {
@@ -2210,38 +2359,56 @@ export function createBattleView(art) {
       }
       thin();
       if (layer && haze) ctx.drawImage(layer.layer, 0, 0, bounds.width, bounds.height);
-      return { alive: view.smoke.length + view.banks.length, inView: haze, banks: view.banks.length, banksInView: 0, density, cover: +cover.toFixed(3), lingerMs, haze, plumes: 0, walls: 0, clearings: layer ? clear.length : 0 };
+      return { alive: view.smoke.length + view.banks.length, inView: haze, banks: view.banks.length, banksInView: 0, density, cover: +cover.toFixed(3), lingerMs, haze, plumes: 0, walls: 0, clearings: layer ? clear.length : 0, menThinned, puffsThinned: 0 };
     }
     // The banks first, under the fresh plumes: each grows as it ages and as it thickens, lying where the wind has taken it; a gun's
     // goes up in a column for its first half minute, a volley's lies along the line.
     for (const bank of view.banks) {
-      const at = camera.toScreen(bank);
+      // Where it lies on the ground, drawn up the page by the little it has risen (`h`).
+      const at = camera.toScreen({ x: bank.x, y: bank.y - (bank.h || 0) });
       if (!inside(at)) continue;
       banksInView++;
       const age = now - bank.born, alpha = bankAlpha(bank.d);
       const radius = figurePx * (bank.scale ?? 1) * ((bank.big ? 4.4 : 3) + 1.1 * Math.sqrt(bank.d) + 4 * (1 - Math.exp(-age / 25000)));
       const shape = bank.big && age < 40000 ? 'plume' : bank.wall ? 'wall' : 'heap';
       if (shape === 'plume') plumes++; if (shape === 'wall') walls++;
-      drawBank(target, at, radius, alpha, bank.seed, ratio, dark, shape, shape === 'plume' ? 1 - Math.exp(-age / 7000) : 0);
+      drawBank(target, at, radius, alpha, bank.seed, ratio, dark, shape, shape === 'plume' ? 1 - Math.exp(-age / 7000) : 0, bank.across);
       cover = Math.max(cover, alpha);
     }
     thin();
     if (layer && banksInView) ctx.drawImage(layer.layer, 0, 0, bounds.width, bounds.height);
-    let inView = banksInView;
+    let inView = banksInView, puffsThinned = 0;
+    // The men by where they stand, in cells two figures across, so a plume finds whoever is under it without looking at everybody.
+    const cell = Math.max(8, figurePx * 2), grid = new Map();
+    for (const man of menAt) { const key = `${Math.floor(man.x / cell)}:${Math.floor(man.y / cell)}`; if (!grid.has(key)) grid.set(key, []); grid.get(key).push(man); }
+    const manUnder = (x, top, bottom, half) => {
+      for (let i = Math.floor((x - half) / cell); i <= Math.floor((x + half) / cell); i++) for (let j = Math.floor(top / cell); j <= Math.floor(bottom / cell); j++)
+        for (const man of grid.get(`${i}:${j}`) || []) if (Math.abs(man.x - x) < half && man.y > top && man.y < bottom) return true;
+      return false;
+    };
     for (const s of view.smoke) {
       const age = now - s.born, t = age / s.life;
       // Thrown out of the muzzle and up in its first second, then carried by the wind with the rest.
+      // Along the ground the way the shot went (`jetX`, `jetY`) and on the wind; up the page by its height (`jetUp`, `rise`).
       const thrown = 1 - Math.exp(-age / 450), lifted = 1 - Math.exp(-age / 900);
-      const at = camera.toScreen({ x: s.x + (s.jet || 0) * thrown + s.vx * age, y: s.y - (s.jetUp || 0) * lifted + s.vy * age });
+      const at = camera.toScreen({ x: s.x + (s.jetX || 0) * thrown + s.vx * age, y: s.y + (s.jetY || 0) * thrown + s.vy * age - (s.jetUp || 0) * lifted - (s.rise || 0) * age });
       if (bounds && at.x >= 0 && at.y >= 0 && at.x <= bounds.width && at.y <= bounds.height) inView++;
       const size = figurePx * lerp(s.size0, s.size1, Math.sqrt(t)) * (s.scale ?? 1);
       let alpha = s.alpha * (t < 0.04 ? t / 0.04 : Math.pow(1 - t, 1.3));
       // Thinner over one of the class's own men, so he is seen through it.
       if (clear.some(c => Math.abs(c.x - at.x) < figurePx * 1.6 && Math.abs(c.y - (at.y - size * 0.4)) < figurePx * 1.8)) alpha *= 0.4;
+      // And thinner over any man in the fight, so he is not lost under a fresh billow (§17.2). The billow stands up from its foot.
+      else if (grid.size && manUnder(at.x, at.y - figurePx * 0.4 - size * 0.85, at.y - figurePx * 0.4 + figurePx * 0.2, size * 0.32)) { alpha *= PLUME_OVER_MAN; puffsThinned++; }
       // The fresh billow white out of the muzzle, then grey and breaking up into the bank (since 2026-09-30 never the library's
       // dark-outlined `smoke-dense`, which read as a thundercloud over a line of muskets, not powder smoke).
       const sprite = t < 0.22 ? 'smoke-growing' : 'smoke-dispersing';
-      if (!art.drawSprite(ctx, sprite, at.x, at.y - figurePx * 0.4, size, { alpha, flip: (s.jet || 0) < 0 || (!s.jet && s.seed > 0.7) })) {
+      // The billow leans the way it was thrown across the page; thrown up or down it, either way by its seed, stood on its middle and a
+      // little narrower, so a library billow drawn for a side-on shot (its foot at the muzzle, its body trailing one way) does not carry
+      // a north or south shot's smoke off to the east; and a shot south hangs its billow down the page from where it was thrown, as a
+      // shot north stands it up the page (§17.1).
+      const across = Math.abs(s.jetX || 0) > Math.abs(s.jetY || 0) * 0.5;
+      const upright = !across && Boolean(s.jetY);
+      if (!art.drawSprite(ctx, sprite, at.x, at.y - figurePx * 0.4, size, { alpha, flip: across ? s.jetX < 0 : s.seed > 0.6, ...(upright && { anchor: [0.5, s.jetY > 0 ? 0.35 : 0.93], widthScale: 0.82 }) })) {
         const g = ctx.createRadialGradient(at.x, at.y - size * 0.4, 0, at.x, at.y - size * 0.4, size * 0.5);
         g.addColorStop(0, `rgba(226,224,216,${alpha})`); g.addColorStop(1, 'rgba(226,224,216,0)');
         ctx.fillStyle = g; ctx.beginPath(); ctx.arc(at.x, at.y - size * 0.4, size * 0.5, 0, Math.PI * 2); ctx.fill();
@@ -2253,7 +2420,7 @@ export function createBattleView(art) {
     // And the banks alone, each by how thick it is: where the lying smoke has drifted (evidence only).
     const weight = view.banks.reduce((sum, bank) => sum + bank.d, 0);
     const bankCentre = weight ? { x: view.banks.reduce((sum, bank) => sum + bank.x * bank.d, 0) / weight, y: view.banks.reduce((sum, bank) => sum + bank.y * bank.d, 0) / weight } : null;
-    return { alive: view.smoke.length + view.banks.length, inView, centre: centre && { x: centre.x / all.length, y: centre.y / all.length }, bankCentre, banks: view.banks.length, banksInView, density, cover: +cover.toFixed(3), lingerMs, haze, plumes, walls, clearings: layer ? clear.length : 0 };
+    return { alive: view.smoke.length + view.banks.length, inView, centre: centre && { x: centre.x / all.length, y: centre.y / all.length }, bankCentre, banks: view.banks.length, banksInView, density, cover: +cover.toFixed(3), lingerMs, haze, plumes, walls, clearings: layer ? clear.length : 0, menThinned, puffsThinned };
   }
 
   /** Every line said this tick or lately, over whoever said it; the Mexican officer's words as each volley comes. */

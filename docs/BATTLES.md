@@ -1349,3 +1349,113 @@ student's own Watch is held the same way. A man hit while the film is on the who
 `npm test`; `npm run test:battle-cinema` (15 checks); `node scripts/battle-cinema-injections.mjs`: every check of §15 and §16 seen
 failing under the regression it guards, unit and browser (`docs/evidence/battle-cinema-injections.json`). The battle proofs rerun:
 see HANDOFF.
+
+## 17. Smoke the way the shot goes, and the fight seen (2026-10-27; branch `battlesee-1027`, not released)
+
+The owner, 2026-10-27: *"smoke plumes from gunfire: do they go in the right direction? always?"* and *"also, it was kind of hard to
+see the battles."* Presentation only: nothing here changes what happens in a fight, who is hit or when (the server's
+`projectBattle` is untouched). Same computer only: headless Chrome on this machine; no Chromebook, projector, LAN or classroom.
+
+### 17.1 Which way the smoke goes (`FIC-GONZ-1051`, amended)
+
+**Before: no, not always.** East and west shots - most of every fight, two lines facing each other across the page - were right. Every
+shot was thrown by the sign of its facing's x alone (`puff`'s `dir` was +1 or -1, added to x only), so:
+
+- **a man or a line firing north or south threw its smoke sideways**, east (a facing straight up or down has x = 0, which counted as
+  east): Coleto's square's north and south faces, any line facing up or down the page, the men inside a house or at a loophole facing
+  so, a family's own man in the square;
+- **the Alamo's men over the north and south walls** threw theirs east (their figure is drawn facing north or south, Astra's
+  `volunteer-parapet-n/s-*`); riders and dragoons headed north or south likewise;
+- **a gun laid north or south** (Coleto's corner guns, the Alamo's battery guns) strung its four puffs the right way and threw each of
+  them east or west; its canister puffs were not thrown at all;
+- **a volley's wall** was always laid east to west - across a rank facing east or west instead of along it;
+- **the smoke's rising was counted as ground travelled north**: on a light wind from the north (blowing south, under about a tenth of
+  full strength for a plume and a thirtieth for a bank) the smoke crept north, against the wind;
+- **Joe's shots from his door** were thrown nowhere and given no wind (and were fired on a page held still); **a named man drawn
+  firing** - Travis at the north battery, Crockett at the palisade - made no smoke.
+
+**After: the way the shot goes, always.** `aimOf` (public/battle-view.js) gives every shot its direction on the ground: out of a man's
+own face of a square (`slot.out`; a family's man there by `squareAim`), else the way his body of men faces - north and south as well
+as east and west. `puff` throws the plume along it (`jetX`, `jetY`), feeds the bank ahead of the muzzle along it, and lays a volley's
+wall across it, along the rank (`across`, `drawBank`). The wind alone moves smoke over the ground; its rising is drawn as height up
+the page (`rise`, a bank's `h`), never counted as ground. Every caller passes the aim: a man at will, a volley, the house and its
+loopholes, the rider and the dragoon, the parapet, the cannon (`drawCannon`), the guns and their canister (`drawGun`), Joe's door
+(now on the day's wind, and not on a still page), and the named men drawn firing (`drawPerson`'s `shoot`, at each painted shot:
+Travis's and Milam's 1.5 s into their 3.6 s clip, a musket's at its aim). A billow thrown up or down the page is stood on its middle
+and a little narrower (the library's billow trails one way), hung down the page for a shot south.
+
+**The flash** follows the figure: the library's men are drawn side-on, so a man firing north keeps his flash at his musket as drawn.
+A piece drawn pointing north or south - a man over the north or south wall, a rider or dragoon headed so, a gun laid so, Travis at
+the north battery - has the library's eastward flash turned along the shot (`flash`'s `turn`). stand-in: docs/ART_REQUESTS.md,
+request 2026-10-27 "infantry firing north and south": a man on foot firing up or down the page is still drawn side-on.
+
+Proof: `tests/battle-smoke-direction.test.mjs` (5): a line firing north throws north and one firing south south, not sideways (east
+still right); a gun laid north throws its puffs north, and a square's faces fire out of themselves; Travis firing north makes smoke and
+it goes north; on a breath of wind from the north the banks go south; a volley's wall lies along the rank facing east and facing north.
+Picture: `docs/evidence/battle-see/smoke-direction-before.png` and `-after.png` (`scripts/battle-smoke-direction-picture.mjs`, the
+page's own renderer and sheets in a real browser).
+
+### 17.2 The fight seen (`FIC-GONZ-1052`, amended)
+
+**What made it hard to see** (screenshots of Gonzales, Coleto and the Alamo on the Host's page at 1366x768 and a student's at 1366x768
+and 1024x600, `scripts/battle-see-shots.mjs`, before: `docs/evidence/battle-see/before/`):
+
+1. **The page stood over the fight.** On the Host the class panel and the Rumor Mill covered the left 490 px (36%) of the projector,
+   the teacher's column down the right (Recover, the join card, the class days, late students, Classes) another 220 px, and the day's
+   banner the bottom middle; the film framed the fight in the middle of the whole screen, so the Alamo's north-wall assault went on
+   under the class panel. On a student's page the card beside the man in the fight - with its bar (*House*) and his line ("Nathan is
+   with the men facing the Mexican camp...") squeezed into a column down the middle - stood on the fight, with the family column, a
+   tip, the land chooser and the wagon card.
+2. **The Watch card was folded away.** A card that had folded the messages (`cardCrowding`) kept them folded when the fight's card came,
+   and a Watch pressed at the gathering ("The fight is coming"), before the fight was drawn, framed bare ground: when the fighting came
+   the student was on a still frame, the card folded under *Open messages*, a tip saying *Press "Watch"*.
+3. **The smoke whited the fight out.** Banks up to 88% opaque and ten figures across laid a white sheet over the field; only the class's
+   own men had the smoke thinned round them. Coleto's square, the dragoons at Gonzales and the columns at the Alamo's walls were gone.
+4. **The camera framed bodies standing idle far off**: at Coleto's dawn the cavalry and two companies ringing the square a third of a
+   mile out put every man at 10 px on the projector (17 px after).
+
+**What changed:**
+
+- **The page steps out of the way while the film has the camera** (public/app.js `screenForFilm`, public/style.css `body[data-film]`):
+  on the Host *The class* and *The Rumor Mill* fold to their headings (the teacher can open either again), the teacher's column keeps
+  its pause, bell and pace and puts away the rest, and the day's banner goes small into the bottom left above the map's buttons. On a
+  student's page (Watch) the family column folds to its faces - the owner's own fold for choosing a place (docs/FAMILY_PANEL.md
+  §12.13) - and the man's card, his bar, a tip and a land chooser are put away. All of it comes back the moment the film lets go: the
+  fight over and faded back, Esc, *Take the camera*, a student's pan, zoom or Follow.
+- **The Watch card is not folded away**: a fresh fight's card releases a fold another card made, and no card folds it. **Watch pressed
+  before the fight is drawn** starts the follow when it is, if the student has left the camera where Watch put it (the follow Watch
+  asks for; a student's page is still never filmed without the press).
+- **The men read through their smoke** (`drawSmoke`'s `menAt`, `MEN_THIN`, `PLUME_OVER_MAN`): the bank layer is thinned round every man
+  drawn - soldiers, named people, the class's own - by about 60% at his middle, a figure across; a fresh plume over a man is drawn at
+  0.55 of its strength. The banks keep their size, build-up (to 0.88), drift and linger; where nobody stands they are as thick as before.
+  Every soldier stands on a soft shadow, as everybody else on the map does. ceiling: the men are seen as if the smoke were thinner where
+  they stand (a figure-sized parting shows close up); a silhouette pass in the smoke's own grey is the way out if the owner minds it.
+- **The camera frames where the fighting is** (public/battle-frame.js `fightingPoints`, moved out of public/app.js): while some of it is
+  firing or moving (a gun that fired in the last quarter hour), the frame is that; what each body fighting is fighting (the nearest of
+  the other side's, however far: San Jacinto's camp at rest as the line walks on it); whatever stands within a third of a mile of the
+  men fighting; the men standing at a firing gun; and always the body a family's own man stands in (the Grass Fight's Texian main body,
+  holding well off from the fight over the pack train). A body standing silent further off is left out. In a lull, everybody; a frame
+  the engagement names (the Alamo's, Béxar's) is taken as it is. The first cut of this rule, without the last two, left those two out
+  and `test:battle-grass` and `test:battle-san-jacinto` refused it; both pass with it.
+
+Proof: `tests/battle-see.test.mjs` (2: the frame at Coleto's dawn, Gonzales, San Jacinto's advance, a family's man in a quiet body, a
+lull and a named frame; every man thinned and plumes thinner over men), `npm run test:battle-cinema` (its checks of the Host's page out
+of the fight's way and back when the teacher takes the camera, the student's Watch card open, their page folded and given back by Esc,
+and a Watch pressed at the gathering following the fight when it comes). Injections: `node scripts/battle-see-injections.mjs unit` and
+`browser` (`docs/evidence/battle-see-injections.json`). Before and after: `docs/evidence/battle-see/before/` and `after/`
+(`<fight>-<phase>-host.png`, `-student-1366.png`, `-student-1024.png`, and `<fight>.json` with the figure size, the smoke's cover and
+the men thinned at each).
+
+**Within budget**: the battle's drawing at most 2.5 ms at its 95th percentile at 1366x768 and 2.4 at 1024x600 (1.7 before the shadows and
+the thinning), measured by `npm run test:battle-cinema` on this computer in headless Chrome. ceiling: not a Chromebook.
+
+**Left for the owner** (not built):
+
+1. **How big the men are at the film's field shot.** Unchanged except where the frame was wrong (Coleto at dawn, 10 px to 17): 17-22 px
+   a man on the projector at the field shots of Gonzales and Coleto, 15-20 px on a 1024x600 Chromebook. The close shots of each
+   family's man (31-75 px) are unchanged.
+   A closer field (say a third closer) would cut off the ends of a long line; the owner's to choose.
+2. **The class panel folding while the film runs.** Built because it covered a third of the projector; if the owner wants the families'
+   words in view during a fight, the panel could instead narrow to names and colours.
+3. **A man firing north drawn side-on** (the art request above) and **the parting in the smoke** (the ceiling above).
+4. **The Alamo by night** is still dark under Astra's grade at the alarm; the figures read once the dawn comes up. Not changed.

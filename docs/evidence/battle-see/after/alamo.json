@@ -1,0 +1,258 @@
+{
+  "fight": "alamo",
+  "label": "after",
+  "shots": [
+    {
+      "phase": "alarm",
+      "host": {
+        "phase": "alarm",
+        "figurePx": 33,
+        "scale": 1817,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.641,
+        "banksInView": 7,
+        "smokeInView": 15,
+        "menThinned": 84,
+        "puffsThinned": 2,
+        "film": "host",
+        "messages": {
+          "accent": null,
+          "open": true,
+          "title": null,
+          "go": null,
+          "toggle": "Messages"
+        },
+        "alert": null
+      },
+      "student1366": {
+        "phase": "alarm",
+        "figurePx": 33,
+        "scale": 1840,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.653,
+        "banksInView": 8,
+        "smokeInView": 17,
+        "menThinned": 86,
+        "puffsThinned": 2,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The walls are stormed",
+          "go": "Watch",
+          "toggle": "Open messages · 2"
+        },
+        "alert": {
+          "id": "battle:alamo:assault:hh-1",
+          "field": true
+        }
+      },
+      "student1024": {
+        "phase": "repulse",
+        "figurePx": 27,
+        "scale": 1519,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 12,
+        "smokeInView": 48,
+        "menThinned": 86,
+        "puffsThinned": 5,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The walls are stormed",
+          "go": "Watch",
+          "toggle": "Open messages · 2"
+        },
+        "alert": {
+          "id": "battle:alamo:assault:hh-1",
+          "field": true
+        }
+      }
+    },
+    {
+      "phase": "repulse",
+      "host": {
+        "phase": "repulse",
+        "figurePx": 71,
+        "scale": 3918,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 42,
+        "smokeInView": 177,
+        "menThinned": 70,
+        "puffsThinned": 70,
+        "film": "host",
+        "messages": {
+          "accent": null,
+          "open": true,
+          "title": null,
+          "go": null,
+          "toggle": "Messages"
+        },
+        "alert": null
+      },
+      "student1366": {
+        "phase": "repulse",
+        "figurePx": 54,
+        "scale": 2996,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 42,
+        "smokeInView": 178,
+        "menThinned": 76,
+        "puffsThinned": 88,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The walls are stormed",
+          "go": "Watch",
+          "toggle": "Open messages · 2"
+        },
+        "alert": {
+          "id": "battle:alamo:assault:hh-1",
+          "field": true
+        }
+      },
+      "student1024": {
+        "phase": "repulse",
+        "figurePx": 33,
+        "scale": 1830,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 46,
+        "smokeInView": 200,
+        "menThinned": 79,
+        "puffsThinned": 95,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The walls are stormed",
+          "go": "Watch",
+          "toggle": "Open messages · 2"
+        },
+        "alert": {
+          "id": "battle:alamo:assault:hh-1",
+          "field": true
+        }
+      }
+    },
+    {
+      "phase": "north-wall",
+      "host": {
+        "phase": "north-wall",
+        "figurePx": 33,
+        "scale": 1823,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 58,
+        "smokeInView": 205,
+        "menThinned": 98,
+        "puffsThinned": 69,
+        "film": "host",
+        "messages": {
+          "accent": null,
+          "open": true,
+          "title": null,
+          "go": null,
+          "toggle": "Messages"
+        },
+        "alert": null
+      },
+      "student1366": {
+        "phase": "north-wall",
+        "figurePx": 33,
+        "scale": 1821,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 58,
+        "smokeInView": 201,
+        "menThinned": 96,
+        "puffsThinned": 65,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The walls are stormed",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:alamo:assault:hh-1",
+          "field": true
+        }
+      },
+      "student1024": {
+        "phase": "north-wall",
+        "figurePx": 28,
+        "scale": 1552,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 0,
+          "mexican": 0
+        },
+        "cover": 0.88,
+        "banksInView": 58,
+        "smokeInView": 206,
+        "menThinned": 95,
+        "puffsThinned": 62,
+        "film": "student",
+        "messages": {
+          "accent": "battle",
+          "open": false,
+          "title": "The walls are stormed",
+          "go": "Watch",
+          "toggle": "Open messages · 1"
+        },
+        "alert": {
+          "id": "battle:alamo:assault:hh-1",
+          "field": true
+        }
+      }
+    }
+  ]
+}

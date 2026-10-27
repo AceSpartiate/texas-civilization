@@ -13,11 +13,11 @@
     "hovering an icon shows a small popup with one sentence: \"Rest\" - \"Sit still at home, which is the only thing that mends tiredness.\"",
     "focusing an icon from the keyboard shows the same popup, and Escape puts it away",
     "pressing \"Practise at the mark\" sets hh-1-child-3 to it on the server, and its icon glows",
-    "it glowed through the practice (9 samples) and went out when the server said it was done (powder 5 to 3)",
+    "it glowed through the practice (6 samples) and went out when the server said it was done (powder 5 to 3)",
     "the house card: \"Choose your house\", moss green and glowing (card-glow), under Hide names and over the rows; its button opens the houses and it comes back when they close",
     "one press on an adult's portrait makes hh-1-parent-1 the main person on the server (one set-main, the star's), gives them the bar and the map, and opens no card",
     "the main person's portrait sends nothing, the star makes hh-1-child-3 main again; a child's star is refused (\"Adela Proofwright is too young to be sent.\") and her portrait only chooses her, with her bar, saying nothing",
-    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.003 miles off)",
+    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.002 miles off)",
     "all 14 names changed in place and saved themselves - left by Tab, and the last by a pause in typing: Asa, Keziah, Hiram, Delia, Obed, Minerva, Levi, Soledad, Jonas, Effie, Silas, Orpha, Enos, Tomasa",
     "a name with no letters is refused in the server’s words, and the box goes back to the name the world holds",
     "after a reload every new name is in its box on the panel and in the family book",
@@ -59,7 +59,7 @@
     },
     "glow": {
       "worker": "hh-1-child-3",
-      "samplesGlowingWhileBusy": 9,
+      "samplesGlowingWhileBusy": 6,
       "powderBefore": 5,
       "powderAfter": 3
     },
@@ -88,11 +88,11 @@
         "scale": 678.1713759617705
       },
       "after": {
-        "cx": 2.6439749600000084,
-        "cy": -10.774106880000055,
+        "cx": 2.6427012,
+        "cy": -10.774810200000001,
         "scale": 2605.263157894737
       },
-      "milesFromPerson": 0.0028
+      "milesFromPerson": 0.0017
     },
     "touch": {
       "icon": "hunt-timber",
@@ -113,7 +113,7 @@
         "x": 12,
         "y": 131.484375,
         "width": 376,
-        "height": 395
+        "height": 420
       },
       "openRows": 1,
       "columnRight": 56,
@@ -123,7 +123,7 @@
       },
       "stripBottom": 0,
       "sampled": 288,
-      "mapShare": 0.53125,
+      "mapShare": 0.5347222222222222,
       "strays": [],
       "bar": {
         "points": 36,
@@ -137,7 +137,7 @@
         "BUTTON#house-open",
         "DIV.story-card-buttons"
       ],
-      "covered": 0.07802654113769532,
+      "covered": 0.0809140411376953,
       "pageScrolls": false
     }
   },

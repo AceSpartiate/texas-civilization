@@ -14,7 +14,7 @@
     "the Host zooms in as far as a student does (4737 pixels a mile)",
     "the Host looks at Wiley: \"of Wiley's family · rest · at home · well\", with no order offered",
     "the Host went to San Felipe de Austin: 11 shops and 11 people drawn, keepers among them",
-    "Whole class: The whole class: 98 people, 136 figures in view, 11 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
+    "Whole class: The whole class: 100 people, 138 figures in view, 15 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
     "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
     "no page error on either page"
   ],
@@ -70,8 +70,8 @@
       },
       "plotsDrawn": 2,
       "holdings": 1,
-      "snapshotBytes": 64633,
-      "description": "The whole class: 98 people, 7 figures in view, 9 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations."
+      "snapshotBytes": 65662,
+      "description": "The whole class: 98 people, 7 figures in view, 11 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations."
     },
     "closestScale": {
       "host": 4736.842105263158,
@@ -99,8 +99,8 @@
         "kind": "region",
         "scale": 1357.1428571428573,
         "named": true,
-        "cx": 82.8141,
-        "cy": -20.7545,
+        "cx": 82.6443,
+        "cy": -20.7848,
         "following": false,
         "watching": null,
         "figure": 25.78571428571429,
@@ -198,7 +198,7 @@
         }
       },
       "follow": "Whole class",
-      "description": "The whole class: 98 people, 136 figures in view, 11 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
+      "description": "The whole class: 100 people, 138 figures in view, 15 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
       "land": true
     },
     "phone": {

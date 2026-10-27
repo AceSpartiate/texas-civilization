@@ -97,6 +97,8 @@ const files = new Map([
   // Astra's marsh-wading choice for the battle renderer (2026-10-08), imported by battle-view.js.
   ['/wading-art.js', ['../public/wading-art.js', 'text/javascript']],
   ['/battle-cinema.js', ['../public/battle-cinema.js', 'text/javascript']],
+  // Where a fight is framed (docs/BATTLES.md §17.2), imported by app.js.
+  ['/battle-frame.js', ['../public/battle-frame.js', 'text/javascript']],
   // The famous people's poses on Claude's temporary sheets, behind Astra's (public/claude-person-art.js).
   ['/claude-person-art.js', ['../public/claude-person-art.js', 'text/javascript']],
   ['/chase-view.js', ['../public/chase-view.js', 'text/javascript']],

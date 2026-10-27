@@ -1,0 +1,159 @@
+{
+  "fight": "coleto",
+  "label": "before",
+  "shots": [
+    {
+      "phase": "assault-1",
+      "host": {
+        "phase": "assault-1",
+        "figurePx": 16,
+        "scale": 913,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 51,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 39,
+        "smokeInView": 108,
+        "readable": null,
+        "quiet": null
+      },
+      "student1366": {
+        "phase": "assault-1",
+        "figurePx": 26,
+        "scale": 1441,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 51,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 37,
+        "smokeInView": 101,
+        "readable": null,
+        "quiet": null
+      },
+      "student1024": {
+        "phase": "assault-1",
+        "figurePx": 17,
+        "scale": 958,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 51,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 40,
+        "smokeInView": 107,
+        "readable": null,
+        "quiet": null
+      }
+    },
+    {
+      "phase": "assault-2",
+      "host": {
+        "phase": "assault-2",
+        "figurePx": 35,
+        "scale": 1927,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 48,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 48,
+        "smokeInView": 116,
+        "readable": null,
+        "quiet": null
+      },
+      "student1366": {
+        "phase": "assault-2",
+        "figurePx": 33,
+        "scale": 1819,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 48,
+          "mexican": 16
+        },
+        "cover": 0.88,
+        "banksInView": 49,
+        "smokeInView": 115,
+        "readable": null,
+        "quiet": null
+      },
+      "student1024": {
+        "phase": "assault-2",
+        "figurePx": 29,
+        "scale": 1584,
+        "cinema": "follow",
+        "followed": "hh-1-parent-1",
+        "figures": {
+          "texian": 48,
+          "mexican": 14
+        },
+        "cover": 0.88,
+        "banksInView": 46,
+        "smokeInView": 102,
+        "readable": null,
+        "quiet": null
+      }
+    },
+    {
+      "phase": "guns",
+      "host": {
+        "phase": "guns",
+        "figurePx": 10,
+        "scale": 543,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 46,
+          "mexican": 17
+        },
+        "cover": 0.88,
+        "banksInView": 69,
+        "smokeInView": 118,
+        "readable": null,
+        "quiet": null
+      },
+      "student1366": {
+        "phase": "guns",
+        "figurePx": 10,
+        "scale": 559,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 46,
+          "mexican": 17
+        },
+        "cover": 0.88,
+        "banksInView": 70,
+        "smokeInView": 118,
+        "readable": null,
+        "quiet": null
+      },
+      "student1024": {
+        "phase": "guns",
+        "figurePx": 9,
+        "scale": 485,
+        "cinema": "follow",
+        "followed": null,
+        "figures": {
+          "texian": 46,
+          "mexican": 17
+        },
+        "cover": 0.88,
+        "banksInView": 70,
+        "smokeInView": 117,
+        "readable": null,
+        "quiet": null
+      }
+    }
+  ]
+}

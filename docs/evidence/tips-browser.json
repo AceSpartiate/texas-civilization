@@ -1,24 +1,24 @@
 {
   "record": "tips-browser",
-  "date": "2026-10-06",
+  "date": "2026-10-27",
   "environment": "Same computer: a local classroom server and headless Chrome, 1366x768 with a keyboard and 1024x768 with a touch screen.",
   "pass": [
-    "no guided start and no walk-through: the first thing said is the arrival's tip (\"Your family is on its way to its own land. When they get there, choose a house and set your family to work.\")",
-    "on the land, how to give an order: \"Tap one of your family on the left, then tap a job along the bottom to set them to it. A faded picture means nothing to do.\"",
-    "the house: \"Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.\" - and with the plan open, the tip waited behind it and came back when it closed",
-    "the field: \"To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.\"; going to town: \"“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score.\"",
-    "the call's tip is on the screen: \"Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.\" - above the bar, clear of the column and the guided start, 14px, and a click on its words reaches the map",
+    "no guided start and no walk-through: the first thing said is the arrival's tip (\"Your family is on its way to its own land. When it gets there, choose where the house stands, then choose a house.\")",
+    "on the land, how to give an order: \"Tap one of your family on the left, then tap a job along the bottom; “More” shows the rest. A faded face with a ringed mark has nothing to do.\"",
+    "the house: \"Press “Choose a house”, then set people to “Work on the house”: they fell the logs it needs and raise it. Until it stands, the family camps.\" - and with the plan open, the tip waited behind it and came back when it closed",
+    "the field: \"Press “Plant the field” or tap a bare plot on the map: corn feeds the family and cotton sells. Planting uses seed, and the crop takes time to ripen.\"; going to town: \"“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score.\"",
+    "the call's tip is on the screen: \"Your settlement is calling for men: press the “!”, tick who goes and press “Send them”. Each takes the rifle and powder, and with no answer in about 5 minutes the call closes.\" - above the bar, clear of the column and the guided start, 14px, and a click on its words reaches the map",
     "the Host's page shows no tip",
     "Escape put the tip away, and the server keeps it as seen",
     "after a reload, with the call still open, its tip is not shown again",
     "the Tips button by keyboard: 7 tips put away, \"call\" first, none of the guided start's; clear of the bar, the column and the map's buttons; nothing sent, no tip shown again; closed by Escape, the keyboard back on the button",
     "the Host's page has no Tips button",
     "in the first hour, nothing says \"Not yet\": nursing the sick goes through, food is refused only for its own reason (\"Hunting small game is men's work, and Henry is at home.\"), enlisting only for its own reason (\"That is not a choice this winter.\"), the well only for its own reason (\"Digging the well is men's work, and Henry is at home.\")",
-    "the order to leave: its tip (\"Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
-    "on the road: the route's tip (\"On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
-    "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.\"), the \"!\" with \"30s\" on it, put away with a tap",
-    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, field, rest, route, road, star, alto)",
-    "the Tips button by touch: 10 tips put away, \"alto\" first, none of the guided start's; clear of the bar, the column and the map's buttons; nothing sent, no tip shown again; closed by a tap on ×"
+    "the order to leave: its tip (\"Your family is told to leave: press the “!”, load the wagon and press “Leave for the east”, or stay. No answer in time, and it leaves in a rush and the house is lost.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
+    "on the road: the route's tip (\"On the road east, the road is quicker but soldiers see you from farther off, and across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
+    "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, running risks their shots, and no answer means you halt.\"), the \"!\" with \"25s\" on it, put away with a tap",
+    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, flight, road, rest, route, order, house, alto)",
+    "the Tips button by touch: 8 tips put away, \"alto\" first, none of the guided start's; clear of the bar, the column and the map's buttons; nothing sent, no tip shown again; closed by a tap on ×"
   ],
   "observed": {
     "start": {
@@ -27,35 +27,35 @@
       "walkThrough": false,
       "resume": false
     },
+    "putAwayOnTheWay": [
+      "child",
+      "star",
+      "enlist",
+      "road",
+      "rest",
+      "order",
+      "house"
+    ],
     "houseHeld": {
-      "tipHidden": false,
-      "standing": "house",
+      "tipHidden": true,
+      "standing": null,
       "seen": false,
       "over": false
     },
     "farm": {
-      "house": "Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.",
-      "field": "To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.",
+      "house": "Press “Choose a house”, then set people to “Work on the house”: they fell the logs it needs and raise it. Until it stands, the family camps.",
+      "field": "Press “Plant the field” or tap a bare plot on the map: corn feeds the family and cotton sells. Planting uses seed, and the crop takes time to ripen.",
       "town": "“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score."
     },
-    "putAwayOnTheWay": [
-      "star",
-      "enlist",
-      "order",
-      "house",
-      "rest",
-      "road",
-      "star"
-    ],
     "call": {
       "id": "call",
       "shown": true,
-      "text": "Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.",
+      "text": "Your settlement is calling for men: press the “!”, tick who goes and press “Send them”. Each takes the rifle and powder, and with no answer in about 5 minutes the call closes.",
       "box": {
         "left": 324,
-        "top": 428,
+        "top": 442,
         "right": 747,
-        "bottom": 522
+        "bottom": 536
       },
       "fontPx": 14,
       "onScreen": true,
@@ -69,21 +69,21 @@
     "tipsList-keyboard": {
       "ids": [
         "call",
-        "star",
         "town",
         "field",
         "house",
         "order",
+        "child",
         "arrive"
       ],
       "words": [
-        "Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.",
-        "The ★ is your main person: the family’s big choices, like leaving, come to them. Tap ☆ on another row to change who. A “!” means someone needs an answer.",
+        "Your settlement is calling for men: press the “!”, tick who goes and press “Send them”. Each takes the rifle and powder, and with no answer in about 5 minutes the call closes.",
         "“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score.",
-        "To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.",
-        "Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.",
-        "Tap one of your family on the left, then tap a job along the bottom to set them to it. A faded picture means nothing to do.",
-        "Your family is on its way to its own land. When they get there, choose a house and set your family to work."
+        "Press “Plant the field” or tap a bare plot on the map: corn feeds the family and cotton sells. Planting uses seed, and the crop takes time to ripen.",
+        "Press “Choose a house”, then set people to “Work on the house”: they fell the logs it needs and raise it. Until it stands, the family camps.",
+        "Tap one of your family on the left, then tap a job along the bottom; “More” shows the rest. A faded face with a ringed mark has nothing to do.",
+        "A child with nothing to do has come to talk, and the grown-up has stopped work. Tap the child’s picture and give them a job or a game.",
+        "Your family is on its way to its own land. When it gets there, choose where the house stands, then choose a house."
       ],
       "covers": [],
       "inView": true,
@@ -112,12 +112,12 @@
     "sick": {
       "id": "sick",
       "shown": true,
-      "text": "Someone is sick, and resting helps them mend. Have another grown-up choose “Nurse the sick”: nobody dies while being nursed. A very sick person can die within a day.",
+      "text": "Someone is sick, and resting helps them mend. Have another grown-up press “Nurse the sick”: nobody dies while nursed, but a very sick person can die within a day.",
       "box": {
         "left": 324,
-        "top": 428,
+        "top": 442,
         "right": 747,
-        "bottom": 522
+        "bottom": 536
       },
       "fontPx": 14,
       "onScreen": true,
@@ -132,12 +132,12 @@
       "tip": {
         "id": "flight",
         "shown": true,
-        "text": "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.",
+        "text": "Your family is told to leave: press the “!”, load the wagon and press “Leave for the east”, or stay. No answer in time, and it leaves in a rush and the house is lost.",
         "box": {
           "left": 380,
-          "top": 435,
+          "top": 461,
           "right": 956,
-          "bottom": 510
+          "bottom": 536
         },
         "fontPx": 14,
         "onScreen": true,
@@ -154,7 +154,7 @@
     "route": {
       "id": "route",
       "shown": true,
-      "text": "On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.",
+      "text": "On the road east, the road is quicker but soldiers see you from farther off, and across country is slower and harder to see. “Change where we go” changes it.",
       "box": {
         "left": 681,
         "top": 383,
@@ -174,7 +174,7 @@
       "tip": {
         "id": "alto",
         "shown": true,
-        "text": "Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.",
+        "text": "Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, running risks their shots, and no answer means you halt.",
         "box": {
           "left": 614,
           "top": 403,
@@ -190,48 +190,44 @@
         "overStrip": false,
         "closeReached": true
       },
-      "badge": "30s"
+      "badge": "25s"
     },
     "reload": {
       "stillAsked": true,
       "shownBefore": [
         "enlist",
-        "order",
         "flight",
-        "house",
-        "field",
+        "road",
         "rest",
         "route",
-        "road",
-        "star",
+        "order",
+        "house",
         "alto"
       ],
-      "shownAfter": []
+      "shownAfter": [
+        "star"
+      ]
     },
     "tipsList-touch": {
       "ids": [
         "alto",
-        "star",
-        "road",
+        "house",
+        "order",
         "route",
         "rest",
-        "field",
-        "house",
+        "road",
         "flight",
-        "order",
         "enlist"
       ],
       "words": [
-        "Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.",
-        "The ★ is your main person: the family’s big choices, like leaving, come to them. Tap ☆ on another row to change who. A “!” means someone needs an answer.",
-        "The road is asking your family something. Press the “!” to answer - each answer says what it costs. No answer in time, and nothing is done.",
-        "On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.",
+        "Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, running risks their shots, and no answer means you halt.",
+        "Press “Choose a house”, then set people to “Work on the house”: they fell the logs it needs and raise it. Until it stands, the family camps.",
+        "Tap one of your family on the left, then tap a job along the bottom; “More” shows the rest. A faded face with a ringed mark has nothing to do.",
+        "On the road east, the road is quicker but soldiers see you from farther off, and across country is slower and harder to see. “Change where we go” changes it.",
         "“Stop and rest a day”: the sick mend twice as fast, but the family makes no miles and the Mexican army keeps coming.",
-        "To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.",
-        "Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.",
-        "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.",
-        "Tap one of your family on the left, then tap a job along the bottom to set them to it. A faded picture means nothing to do.",
-        "A grown man can enlist, join a fight or go vote from his actions. He is gone from the farm until you “Send for” him, and a soldier takes the family’s rifle."
+        "The road is asking your family something. Press the “!” to answer: each answer says what it costs, and with no answer in time nothing is done.",
+        "Your family is told to leave: press the “!”, load the wagon and press “Leave for the east”, or stay. No answer in time, and it leaves in a rush and the house is lost.",
+        "A grown man can enlist, join a fight or go to vote from the jobs along the bottom. He is gone, with the family’s rifle, until you press “Send for them to come home”."
       ],
       "covers": [],
       "inView": true,

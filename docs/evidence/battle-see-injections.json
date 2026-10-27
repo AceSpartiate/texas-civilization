@@ -1,0 +1,196 @@
+{
+  "unit": [
+    {
+      "name": "every plume thrown east or west by the sign of the aim, as before 2026-10-27",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": [
+        "a line firing north throws its smoke north, and one firing south throws it south - not east or west",
+        "a gun laid north throws its four puffs north, and a man in a square fires out of his own face",
+        "a named man drawn firing north - Travis at the north battery - makes smoke, and it goes north"
+      ],
+      "caught": true,
+      "failed": [
+        "a line firing north throws its smoke north, and one firing south throws it south - not east or west",
+        "a gun laid north throws its four puffs north, and a man in a square fires out of his own face",
+        "a named man drawn firing north - Travis at the north battery - makes smoke, and it goes north"
+      ]
+    },
+    {
+      "name": "a man firing at will throws his smoke the way his figure is drawn",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "a line firing north throws its smoke north, and one firing south throws it south - not east or west",
+      "caught": true,
+      "failed": [
+        "a line firing north throws its smoke north, and one firing south throws it south - not east or west"
+      ]
+    },
+    {
+      "name": "a gun throws its puffs east or west",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "a gun laid north throws its four puffs north, and a man in a square fires out of his own face",
+      "caught": true,
+      "failed": [
+        "a gun laid north throws its four puffs north, and a man in a square fires out of his own face"
+      ]
+    },
+    {
+      "name": "a square's faces all fire the way the square faces",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "a gun laid north throws its four puffs north, and a man in a square fires out of his own face",
+      "caught": true,
+      "failed": [
+        "a gun laid north throws its four puffs north, and a man in a square fires out of his own face"
+      ]
+    },
+    {
+      "name": "a named man drawn firing makes no smoke",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "a named man drawn firing north - Travis at the north battery - makes smoke, and it goes north",
+      "caught": true,
+      "failed": [
+        "a named man drawn firing north - Travis at the north battery - makes smoke, and it goes north"
+      ]
+    },
+    {
+      "name": "the smoke's rising counted as ground going north",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "the smoke drifts with the wind and never against it, however light: rising is height, not ground",
+      "caught": true,
+      "failed": [
+        "the smoke drifts with the wind and never against it, however light: rising is height, not ground"
+      ]
+    },
+    {
+      "name": "a volley's wall always laid east to west",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke-direction.test.mjs",
+      "expect": "a volley's wall of smoke lies along the rank, whichever way the rank faces",
+      "caught": true,
+      "failed": [
+        "a volley's wall of smoke lies along the rank, whichever way the rank faces"
+      ]
+    },
+    {
+      "name": "the whole field framed, the silent ring and all, as before 2026-10-27",
+      "file": "public/battle-frame.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept",
+      "caught": true,
+      "failed": [
+        "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept"
+      ]
+    },
+    {
+      "name": "the men being fired on left out of the frame",
+      "file": "public/battle-frame.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept",
+      "caught": true,
+      "failed": [
+        "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept"
+      ]
+    },
+    {
+      "name": "the body a family's man stands in left out of the frame when it is quiet",
+      "file": "public/battle-frame.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept",
+      "caught": true,
+      "failed": [
+        "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept"
+      ]
+    },
+    {
+      "name": "what the men are fighting left out of the frame when it stands beyond the reach",
+      "file": "public/battle-frame.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept",
+      "caught": true,
+      "failed": [
+        "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept"
+      ]
+    },
+    {
+      "name": "the reach reckoned from a gun beside the men as from the men",
+      "file": "public/battle-frame.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept",
+      "caught": true,
+      "failed": [
+        "the camera frames where the fighting is: a body standing silent far off is left out, the men being fired at are kept"
+      ]
+    },
+    {
+      "name": "the smoke thinned round the class's own men only, as before 2026-10-27",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "every man in the fight is seen through its smoke: the banks thinned round each of them, a fresh plume over a man drawn thinner",
+      "caught": true,
+      "failed": [
+        "every man in the fight is seen through its smoke: the banks thinned round each of them, a fresh plume over a man drawn thinner"
+      ]
+    },
+    {
+      "name": "a fresh plume over a man drawn at full strength",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-see.test.mjs",
+      "expect": "every man in the fight is seen through its smoke: the banks thinned round each of them, a fresh plume over a man drawn thinner",
+      "caught": true,
+      "failed": [
+        "every man in the fight is seen through its smoke: the banks thinned round each of them, a fresh plume over a man drawn thinner"
+      ]
+    }
+  ],
+  "browser": [
+    {
+      "name": "the class panel and the Rumor Mill left open over the film",
+      "file": "public/app.js",
+      "expect": "the class panel or the Rumor Mill stood open over the fight",
+      "caught": true,
+      "failure": "the class panel or the Rumor Mill stood open over the fight: {\"film\":\"host\",\"classOpen\":true,\"rumorOpen\":true,\"column\":[],\"controls\":true,\"spotlight\":{\"left\":12,\"right\":396},\"over\":[\"#host-live\"],\"folded\":\"false\",\"card\":false}",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the teacher's column left whole over the film",
+      "file": "public/style.css",
+      "expect": "the teacher's column stood over the fight",
+      "caught": true,
+      "failure": "the teacher's column stood over the fight: {\"film\":\"host\",\"classOpen\":false,\"rumorOpen\":false,\"column\":[\"#late\",\"#join-links\",\"#classes\",\"#recover\"],\"controls\":true,\"spotlight\":{\"left\":12,\"right\":396},\"over\":[],\"folded\":\"false\",\"card\":false}",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the panels not given back when the teacher takes the camera",
+      "file": "public/app.js",
+      "expect": "the page did not come back when the teacher took the camera",
+      "caught": true,
+      "failure": "the page did not come back when the teacher took the camera: {\"film\":null,\"classOpen\":false,\"rumorOpen\":false,\"column\":[\"#late\",\"#join-links\",\"#classes\",\"#recover\"],\"controls\":true,\"spotlight\":{\"left\":342,\"right\":1025},\"over\":[],\"folded\":\"false\",\"card\":false}",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "the student's column left open while watching",
+      "file": "public/app.js",
+      "expect": "the student's page stood over the fight while watching",
+      "caught": true,
+      "failure": "the student's page stood over the fight while watching: {\"film\":\"student\",\"classOpen\":true,\"rumorOpen\":true,\"column\":[],\"controls\":false,\"spotlight\":null,\"over\":[],\"folded\":\"false\",\"card\":false}",
+      "checksPassedFirst": 9
+    },
+    {
+      "name": "Watch pressed before the fight was drawn leaves a still frame",
+      "file": "public/app.js",
+      "expect": "Watch pressed before the fight was drawn",
+      "caught": true,
+      "failure": "Watch pressed before the fight was drawn (\"The fight is coming\", drawn then: false) left the student on a still frame when it was: {\"state\":\"off\",\"film\":null,\"classOpen\":true,\"rumorOpen\":true,\"column\":[],\"controls\":false,\"spotlight\":null,\"over\":[\"#military-notice\"],\"folded\":\"false\",\"card\":false}",
+      "checksPassedFirst": 10
+    }
+  ],
+  "cleanBrowserChecks": 18,
+  "at": "2026-10-27T15:36:41.423Z",
+  "caught": 19,
+  "of": 19
+}
