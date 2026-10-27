@@ -28,10 +28,6 @@ Branch `scale-1027` from origin/main d6e7376e. The owner: *"check that everythin
 
 **Tests.** `npm test`: 2539 tests, 2503 pass, 0 fail, 36 skipped (2537 before; the two new ones watched failing alone with 1.45 put back). Browser proofs, same computer, headless Chrome: `npm run test:yard-layout` 7 PASS (every beast at its stand, nothing over anything), `npm run test:riding` 16 PASS (Astra's wagon and her ox drawn apart, the driver on the box); their evidence is refreshed. Not released; nothing merged into main.
 
-## Released as v2026.10.26.1 — 2026-10-26
-
-Main at 20c8ba6a, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.26.1>). Set of changes from v2026.10.13.1: 7.9 MB. Holds the sections below down to the v2026.10.13.1 line: batch W (Astra's library drawings wired), the klein 4B batches 0-5, the tool parts and the batch 6 pilot (nothing wired from it), and the Alamo parapet fix. Every painted file is FLUX.2 klein 4B (Apache 2.0); the klein 9B road tiles of v2026.10.13.1 are replaced. Evidence at 20c8ba6a: `npm test` 2501 pass, 0 fail; the browser proofs two at a time, 118 of 119 passing, shelter passing alone. Same computer only; no Chromebook, LAN or classroom.
-
 ## The flagged icons, marks and ford repainted from drawn guides — 2026-10-27 (branch `fixes-1027`, not released)
 
 Owner: "fix the flagged icons and the ford backdrop" ([delivery](docs/ART_DELIVERY_2026-10-27-LOCAL-FIXES.md)). The flags below
@@ -47,6 +43,10 @@ the wagon and the open keep the drawn tent). `mark-food` left as drawn: a gauge 
 `tests/painted-marks.test.mjs` now holds the shelter and cue marks shown (proved: with the cue rule taken out, that test alone
 fails). **Flagged:** the ford's crossing is a hard-edged band, a little like a paved low-water crossing.
 [fixes-local-compare.png](docs/evidence/fixes-local-compare.png), [fixes-local-ford.png](docs/evidence/fixes-local-ford.png).
+
+## Released as v2026.10.26.1 — 2026-10-26
+
+Main at 20c8ba6a, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.26.1>). Set of changes from v2026.10.13.1: 7.9 MB. Holds the sections below down to the v2026.10.13.1 line: batch W (Astra's library drawings wired), the klein 4B batches 0-5, the tool parts and the batch 6 pilot (nothing wired from it), and the Alamo parapet fix. Every painted file is FLUX.2 klein 4B (Apache 2.0); the klein 9B road tiles of v2026.10.13.1 are replaced. Evidence at 20c8ba6a: `npm test` 2501 pass, 0 fail; the browser proofs two at a time, 118 of 119 passing, shelter passing alone. Same computer only; no Chromebook, LAN or classroom.
 
 ## Stand-ins replaced with the local pipeline on FLUX.2 klein 4B, batches 0-6 — 2026-10-26 (branch `standins-1025`, released in v2026.10.26.1)
 
